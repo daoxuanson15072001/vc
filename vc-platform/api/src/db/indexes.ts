@@ -14,6 +14,14 @@ export const INDEXES: Partial<Record<CollectionName, IndexDescription[]>> = {
     { key: { expires_at: 1 }, name: 'expires_at_ttl', expireAfterSeconds: 0 },
     { key: { 'seal.day_on': 1 }, name: 'seal_day', unique: true, partialFilterExpression: { action: 'audit.daily_seal' } },
   ],
+  // 05 mục 3.6; conflict_keys finds pending changes on the same object and field (kế hoạch GĐ B mục 3.3 điểm 1).
+  [C.scheduledChanges]: [
+    { key: { status: 1, effective_at: 1 }, name: 'status_effective_at' },
+    { key: { 'target.type': 1, 'target.id': 1, status: 1 }, name: 'target_status' },
+    { key: { group_id: 1 }, name: 'group_id' },
+    { key: { 'source.import_batch_id': 1 }, name: 'import_batch', sparse: true },
+    { key: { conflict_keys: 1, status: 1 }, name: 'conflict_keys_status' },
+  ],
 };
 
 export async function ensureIndexes(db: Db): Promise<void> {

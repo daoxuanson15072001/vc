@@ -16,10 +16,10 @@ afterAll(async () => {
 test('Migration chạy hai lần không lỗi, mỗi migration ghi một lần (B-01 xong khi)', async () => {
   const name = dbName();
   const clock = new FakeClock(new Date('2026-11-02T01:00:00Z'));
-  expect(await runMigrations(a.db(name), clock, quietLog, 'p1')).toEqual(['B0001_indexes', 'B0002_audit_role']);
+  expect(await runMigrations(a.db(name), clock, quietLog, 'p1')).toEqual(['B0001_indexes', 'B0002_audit_role', 'B0003_settings']);
   expect(await runMigrations(a.db(name), clock, quietLog, 'p1')).toEqual([]);
   const done = await a.db(name).collection(C.migrations).find().toArray();
-  expect(done.map((d) => d._id)).toEqual(['B0001_indexes', 'B0002_audit_role']);
+  expect(done.map((d) => d._id)).toEqual(['B0001_indexes', 'B0002_audit_role', 'B0003_settings']);
   const idx = await a.db(name).collection(C.jobLocks).indexes();
   expect(idx.map((i) => i.name)).toContain('lease_until');
 });

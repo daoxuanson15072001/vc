@@ -9,6 +9,7 @@ import { JobLocks } from '../../jobs/job-locks';
 import { C } from '../collections';
 import { ensureIndexes } from '../indexes';
 import { ensureAccessRoles } from '../roles';
+import { seedSettings } from '../../settings/settings.service';
 
 export interface Migration {
   id: string;
@@ -33,6 +34,11 @@ export const MIGRATIONS: Migration[] = [
     id: 'B0002_audit_role',
     description: 'Vai trò MongoDB của API: chỉ thêm và đọc audit_log',
     up: ensureAccessRoles,
+  },
+  {
+    id: 'B0003_settings',
+    description: 'Cài đặt hệ thống với giá trị mặc định (04 VH-ADM-05)',
+    up: seedSettings,
   },
 ];
 

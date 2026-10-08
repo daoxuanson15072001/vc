@@ -16,6 +16,13 @@ export const ERRORS = {
   forbidden: { status: 403, message: 'Bạn không có quyền thực hiện thao tác này.' },
   not_found: { status: 404, message: 'Không tìm thấy dữ liệu. Có thể đã bị xoá hoặc bạn không còn quyền xem.' },
   conflict_rev: { status: 409, message: 'Dữ liệu vừa được người khác thay đổi. Tải lại để xem bản mới nhất.' },
+  /** 06 mục 1.5: `{ngay}`, `{mo_ta}` are filled by the API. */
+  hen_xung_dot: {
+    status: 409,
+    message: 'Đã có thay đổi hẹn ngày {ngay}: {mo_ta}. Thay đổi mới mâu thuẫn với thay đổi này. Huỷ thay đổi cũ và lưu thay đổi mới?',
+  },
+  /** A business rule refused the change; the API always gives the rule's own sentence (khung chung mục 6). */
+  rule_violation: { status: 422, message: 'Thao tác vi phạm quy tắc nghiệp vụ.' },
   payload_too_large: { status: 413, message: 'Tệp hoặc dữ liệu gửi lên quá lớn.' },
   rate_limited: { status: 429, message: 'Bạn thao tác quá nhanh. Vui lòng thử lại sau ít phút.' },
   feature_off: { status: 503, message: 'Chức năng này chưa bật.' },
@@ -46,6 +53,8 @@ export const APP_CODE: Record<ErrorCode, AppErrorCode> = {
   forbidden: 'insufficient_scope',
   not_found: 'not_found',
   conflict_rev: 'bad_request',
+  hen_xung_dot: 'bad_request',
+  rule_violation: 'bad_request',
   payload_too_large: 'bad_request',
   rate_limited: 'rate_limited',
   feature_off: 'service_unavailable',
