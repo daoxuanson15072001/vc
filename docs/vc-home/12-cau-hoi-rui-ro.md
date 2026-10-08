@@ -16,7 +16,8 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
   - RR-01: dữ liệu nhân sự đầu vào không đủ hoặc không sạch.
   - RR-02: thiếu dev làm VC Home toàn thời gian.
   - RR-03: hai app phải đổi mô hình tổ chức đang chạy.
-- **Người duyệt xem kỹ:** bảng câu hỏi ở mục 1 và các rủi ro mức Cao ở mục 3.
+- **Sổ quyết định soát chéo** (mục 5): 29 điểm lệch giữa các tài liệu đã được BA trưởng chốt; khi tài liệu còn ghi khác thì theo mục 5.
+- **Người duyệt xem kỹ:** bảng câu hỏi ở mục 1, các rủi ro mức Cao ở mục 3, và mục 5.
 
 ## Mục lục
 
@@ -24,6 +25,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 - [2. Giả định](#2-giả-định)
 - [3. Rủi ro](#3-rủi-ro)
 - [4. Quyết định đã chốt](#4-quyết-định-đã-chốt)
+- [5. Quyết định soát chéo của BA trưởng](#5-quyết-định-soát-chéo-của-ba-trưởng)
 - [Lịch sử cập nhật](#lịch-sử-cập-nhật)
 
 ---
@@ -91,6 +93,42 @@ Chưa có. Khi chủ dự án trả lời, chuyển câu từ mục 1 xuống đ
 
 | Mã | Chốt | Ngày | Người chốt | Tài liệu phải sửa |
 |---|---|---|---|---|
+
+## 5. Quyết định soát chéo của BA trưởng
+
+Bộ tài liệu do nhiều người viết song song. Khi soát chéo ngày 08/10/2026, BA trưởng chốt các điểm lệch dưới đây. **Đoạn nào trong 01–11 hoặc thiết kế SSO còn ghi khác thì theo bảng này.** Chủ dự án có thể đổi bất kỳ dòng nào; khi đổi thì sửa tài liệu theo cột cuối.
+
+| Mã | Điểm lệch | Chốt | Đã sửa ở |
+|---|---|---|---|
+| D-BA-01 | Loại đơn vị | `tap_doan` · `phap_nhan` (tuỳ chọn) · `division` · `phong` (khối/phòng, lồng được) · `to_nhom` (lồng một cấp như tổ bán hàng VClinks). Pháp nhân còn là danh mục `legal_entities` | 02 VH-BR-06, 05 mục 3.4, 04 VH-ORG-01 |
+| D-BA-02 | Trạng thái app | `status`: `live` · `beta` · `coming_soon` · `paused` · `retired`; `kind`: `sso` · `lien_ket_ngoai` | 04 VH-APP-01, 05 mục 3.7 |
+| D-BA-03 | Khoá tài khoản | Một tài khoản có thể có **nhiều khoá** cùng lúc (khẩn cấp, Google, HC-NS tạm khoá, nghỉ việc); chỉ mở khi hết mọi khoá | 05 mục 3.2, 04 VH-AUT-06 |
+| D-BA-04 | Email | `work_email` (chính, C0) + `secondary_email` (email phụ ở domain kia, C1) + `previous_emails` (lịch sử, C0); cả ba dùng để gắn tài khoản | 05 mục 3.1, 04 VH-NSU-01 |
+| D-BA-05 | Quản lý trực tiếp | Là quản lý trên **vị trí chính**; quản lý của vị trí kiêm nhiệm chỉ xem C1, không duyệt, không vào cây quản lý | 02 VH-BR-05 |
+| D-BA-06 | Ai xem hồ sơ C1 | Thêm quản trị hệ thống (chỉ đọc, ghi nhật ký) vào ngoại lệ của VH-BR-23 | 02 VH-BR-23 |
+| D-BA-07 | Duyệt luật lớn | Người thứ hai là quản trị hệ thống khác **hoặc** chủ app; "lớn" là từ 21 người trở lên; luật cấp vai trò nhạy cảm **luôn** cần người thứ hai | README, 02 VH-BR-25, 05 mục 3.9 |
+| D-BA-08 | Ưu tiên xem trước luật | VH-ACC-03 nâng từ S lên M | README mục 5, 04 |
+| D-BA-09 | Job hẹn giờ quyền | Có từ GĐ C (khẩn cấp, chuyển tiếp cần); VH-ACC-05 ở GĐ D chỉ thêm phần hạn của quyền theo yêu cầu | 04 mục 6 |
+| D-BA-10 | HC-NS ở GĐ B | Quản trị hệ thống gán theo danh sách khởi đầu trên VC ID; GĐ C qua luật, GĐ D thêm qua yêu cầu | 02 mục 2 |
+| D-BA-11 | Người duyệt bước 1 | Chỉ quản lý trực tiếp (theo vị trí chính), không phải cả cây trên | 02 ghi chú mục 3 |
+| D-BA-12 | Người rà soát | Trưởng đơn vị của vị trí chính của người giữ quyền; trưởng đơn vị cấp trên xem tiến độ | 02 mục 1.1 |
+| D-BA-13 | Sự kiện và API thiếu thuộc tính luật | `vh.person.updated` thêm tên gọi, SĐT công việc, pháp nhân, nơi làm việc; `vh.org.unit_changed` thêm đổi trưởng đơn vị; thêm `vh.person.locked` / `unlocked`; VH-API-05 thêm nơi làm việc | README mục 10, 07 mục 5.7, 6 |
+| D-BA-14 | Thông báo ở GĐ C | Gửi bằng email Gmail công ty; thông báo trong VC Home từ GĐ D | README mục 9 |
+| D-BA-15 | Màn thiếu | VH-MH-17 mở cho BGĐ và trưởng đơn vị (báo cáo trong phạm vi); ngăn Uỷ quyền trong VH-MH-08; ngăn Tài khoản (khoá, mở khoá) trong VH-MH-11 chỉ cho quản trị hệ thống | README mục 8 |
+| D-BA-16 | Nơi lưu thiếu | Thêm `profile_change_requests`, `system_settings`, `directory_exclusions`, `sod_exceptions` | README mục 9, 05 mục 3.21 |
+| D-BA-17 | Toán tử luật | Có "không thuộc" (danh sách loại trừ) | 05 mục 3.9 |
+| D-BA-18 | Thứ tự sự kiện | Giữ thứ tự theo luồng (người; người + app; đơn vị) như 05; app nhận quyền của người chưa biết thì gọi VH-API-01 | 07 |
+| D-BA-19 | Hồ sơ người không đến làm | Không xoá; chuyển Đã nghỉ với cờ `khong_vao_lam`, lý do bắt buộc | 04 VH-NSU-01 |
+| D-BA-20 | Mã app của VC Home | `vchome` cho khoá app, vai trò và client trên VC ID (bỏ `vc-home`) | Thiết kế SSO, 04 |
+| D-BA-21 | Câu xác nhận đăng xuất | "Đăng xuất khỏi mọi ứng dụng VC Phồn Vinh?" | Thiết kế SSO mục 3.3 |
+| D-BA-22 | Làm mới phiên ở VC Home | Chỉ làm mới khi người dùng có thao tác trong 30 phút gần nhất, để giới hạn 12 giờ không dùng còn tác dụng | Thiết kế SSO mục 5.3, 04 VH-AUT-05 |
+| D-BA-23 | Phiên của app | Mọi app: hết hạn sau 12 giờ không dùng **và** tối đa 7 ngày (VCwiki phải thêm giới hạn 12 giờ) | Thiết kế SSO mục 5.2, 07 |
+| D-BA-24 | Đường khẩn cấp VClinks | Production phải đặt rõ `AUTH_TOKEN_LOGIN=0` (code đang mặc định bật) | Thiết kế SSO mục 5.4 |
+| D-BA-25 | HC-NS đặt "Tạm khoá" | Khoá đăng nhập với nguồn `hcns`; khác khoá khẩn cấp của quản trị hệ thống | 02 ghi chú mục 3 |
+| D-BA-26 | Khoá tài khoản và token máy | Khi nhận `vh.person.locked`, app tạm ngưng token máy cá nhân của người đó (VClinks token MCP cá nhân, VCwiki `vcmcp_`) | 07 mục 8.6, 9.5 |
+| D-BA-27 | Tạo sẵn tài khoản VC ID | Từ GĐ C, VC Home tạo sẵn user trên VC ID khi hồ sơ có hiệu lực, để có `sub` trong `vh.person.joined` và đẩy vai trò trước lần đăng nhập đầu | Thiết kế SSO mục 5.1.2 |
+| D-BA-28 | Nghỉ dài ngày | Không ghi lý do nghỉ (có thể là dữ liệu sức khoẻ) | 02 VH-BR-15, 05 |
+| D-BA-29 | Token chứa gì | C0, mã đơn vị và vai trò của chính app nhận token | 08 VH-NFR-07 |
 
 ## Lịch sử cập nhật
 

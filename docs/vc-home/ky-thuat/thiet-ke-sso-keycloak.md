@@ -157,7 +157,7 @@ Lần mở app thứ hai: bước "chưa có phiên chung" được bỏ qua, Ke
 Người dùng bấm Đăng xuất ở app X
   1. App X thu hồi phiên riêng của mình
   2. App X chuyển trình duyệt tới VC ID /logout?client_id=X&post_logout_redirect_uri=home/da-dang-xuat
-  3. VC ID hiện trang xác nhận tiếng Việt "Đăng xuất khỏi mọi ứng dụng VC?" (chỉ khi không có id_token_hint;
+  3. VC ID hiện trang xác nhận tiếng Việt "Đăng xuất khỏi mọi ứng dụng VC Phồn Vinh?" (chỉ khi không có id_token_hint;
      từ VC Home thì không hỏi vì SPA có id_token trong bộ nhớ)
   4. VC ID xoá phiên chung, gửi POST logout_token (JWT có chữ ký, có sid) tới endpoint back-channel của
      mọi app đang có phiên của người này
@@ -237,7 +237,7 @@ Bàn giao khách khi nghỉ việc (VClinks M1b-11) vẫn là quy trình riêng 
 - Identity provider `google` (loại Google có sẵn), "Trust email" bật, "Sync mode" `FORCE` (đổi tên, ảnh trên Google thì VC ID cập nhật ở lần đăng nhập sau). Áp dụng ở GĐ A. Từ GĐ B, VC People là nguồn sự thật (VH-BR-03): đổi sang chế độ chỉ nhập lần đầu (`IMPORT`) và để VC Home đẩy tên, email, ảnh sang VC ID.
 - **Giới hạn domain:** khai cả hai domain ở mục "Hosted domain". Phiên SSO-00 phải kiểm bản Keycloak đã ghim có nhận nhiều domain không. Nếu không nhận: để trống mục này và chặn bằng luồng "first broker login" có bước kiểm domain (cấu hình điều kiện trên thuộc tính `hd`); app vẫn kiểm lại domain như hiện nay, nên luôn có ít nhất hai lớp chặn.
 - Mapper của Google: lấy claim `hd` thành thuộc tính user `hd`.
-- Luồng "first broker login": bỏ bước "Review profile", tạo user nếu chưa có, không cho gắn với user cục bộ (realm không có user cục bộ).
+- Luồng "first broker login": bỏ bước "Review profile", tạo user nếu chưa có, không cho gắn với user cục bộ (realm không có user cục bộ). **Từ GĐ C** (quyết định BA khi soát chéo 08/10/2026): VC Home tạo sẵn user trên VC ID ngay khi hồ sơ có hiệu lực (để có `sub` trong `vh.person.joined` và đẩy vai trò trước lần đăng nhập đầu); luồng này đổi sang tự gắn tài khoản Google vào user có sẵn khi trùng email đã xác minh.
 - Mọi app gửi `kc_idp_hint=google` để Keycloak chuyển thẳng sang Google, người dùng không thấy trang đăng nhập của Keycloak.
 
 #### 5.1.3 Nhóm
@@ -268,7 +268,7 @@ Gắn mặc định cho mọi client. Claim trong `id_token`:
 
 | Client | Loại | Redirect URI | Back-channel logout URL | Ghi chú |
 |---|---|---|---|---|
-| `vc-home` | Public, PKCE S256 bắt buộc | `https://home.vcprosperous.com/callback`, `/silent` | — | Post-logout redirect `https://home.vcprosperous.com/da-dang-xuat` |
+| `vchome` | Public, PKCE S256 bắt buộc | `https://home.vcprosperous.com/callback`, `/silent` | — | Post-logout redirect `https://home.vcprosperous.com/da-dang-xuat` |
 | `vclinks` | Confidential (client secret), PKCE S256 bắt buộc | `https://vclink.tramaphutung.com/api/auth/oidc/callback` | `https://vclink.tramaphutung.com/api/auth/backchannel-logout` (yêu cầu `sid`) | Tắt direct access grants, implicit, service account |
 | `vcwiki` | Confidential, PKCE S256 bắt buộc | `https://vcwiki.tramaphutung.com/api/auth/oidc/callback` | `https://vcwiki.tramaphutung.com/api/auth/backchannel-logout` (yêu cầu `sid`) | Như trên |
 | `vc-provisioner` | Confidential, chỉ service account | — | — | Vai trò `realm-management`: `view-users`, `manage-users`, `query-groups`, `view-events` |
@@ -349,7 +349,7 @@ clients:
       post.logout.redirect.uris: $(env:HOME_BASE)/da-dang-xuat
       backchannel.logout.url: $(env:VCLINKS_BASE)/api/auth/backchannel-logout
       backchannel.logout.session.required: "true"
-  # vcwiki, vc-home, vc-provisioner: tương tự
+  # vcwiki, vchome, vc-provisioner: tương tự
 ```
 
 ### 5.2 Hợp đồng tích hợp app
@@ -361,7 +361,7 @@ Mọi app (cả app sau này) phải đạt 8 điều sau mới được thêm v
 3. **Kiểm domain lần nữa:** đuôi email thuộc `COMPANY_DOMAINS`, và `hd` (nếu có) thuộc `COMPANY_DOMAINS`.
 4. **Khoá người dùng theo `sub`:** tìm theo `idp_sub`; không thấy thì tìm theo email và gắn `idp_sub` **một lần** (ghi nhật ký `user.idp_linked`); user đã có `idp_sub` khác thì từ chối mã `identity_conflict` và báo admin. Mỗi lần đăng nhập cập nhật tên, email, nhóm từ claim.
 5. **Kiểm nhóm app:** khi bật `OIDC_REQUIRE_APP_GROUP=1`, thiếu nhóm `app-<key>` trong `groups` thì từ chối mã `app_not_granted`.
-6. **Phiên riêng của app** lưu kèm `sid` và `idp_sub`; thời hạn tối đa không vượt 7 ngày.
+6. **Phiên riêng của app** lưu kèm `sid` và `idp_sub`; hết hạn sau 12 giờ không dùng và tối đa 7 ngày (VH-AUT-05).
 7. **Endpoint back-channel** `POST /api/auth/backchannel-logout`, body `application/x-www-form-urlencoded` với `logout_token`. Kiểm: chữ ký JWKS, `iss`, `aud`, `iat` trong 5 phút, có claim `events` chứa `http://schemas.openid.net/event/backchannel-logout`, **không có** `nonce`, có `sid` hoặc `sub`, `jti` chưa dùng (lưu 10 phút để chống gửi lại). Đạt → thu hồi phiên theo `sid` (không có `sid` thì theo `sub`), trả `200` với `Cache-Control: no-store`; không đạt → `400`.
 8. **Đăng xuất:** thu hồi phiên riêng rồi chuyển trình duyệt tới `{issuer}/protocol/openid-connect/logout?client_id=<app>&post_logout_redirect_uri=<home>/da-dang-xuat`.
 
@@ -411,7 +411,7 @@ Không bắt buộc ở đợt này: endpoint `GET /api/vc-app/status` (trạng 
 
 Header: logo VC Phồn Vinh · menu ảnh đại diện (Hồ sơ, Đăng xuất). Trạng thái rỗng: "Bạn chưa được cấp ứng dụng nào. Liên hệ quản trị viên." Giao diện dùng token màu và component antd giống VClinks; chạy tốt trên điện thoại (lưới 1 cột dưới 600 px).
 
-Cấu hình `oidc-client-ts`: `authority = https://id.vcprosperous.com/realms/vc`, `client_id = vc-home`, `response_type = code`, `scope = openid profile email`, `extraQueryParams = { kc_idp_hint: 'google' }`, `userStore = InMemoryWebStorage`, `automaticSilentRenew = true`. Đăng xuất gọi `signoutRedirect()` (có `id_token_hint` nên không hiện trang xác nhận).
+Cấu hình `oidc-client-ts`: `authority = https://id.vcprosperous.com/realms/vc`, `client_id = vchome`, `response_type = code`, `scope = openid profile email`, `extraQueryParams = { kc_idp_hint: 'google' }`, `userStore = InMemoryWebStorage`, `automaticSilentRenew` chỉ làm mới khi người dùng có thao tác trong 30 phút gần nhất (VH-AUT-05; để tab mở không giữ phiên chung sống mãi). Đăng xuất gọi `signoutRedirect()` (có `id_token_hint` nên không hiện trang xác nhận).
 
 Header bảo mật của nginx: `Content-Security-Policy` chỉ cho `self` và `id.vcprosperous.com`, `Strict-Transport-Security`, `X-Frame-Options: DENY`, `Referrer-Policy: same-origin`.
 
@@ -436,7 +436,7 @@ Làm **sau 26/10**, sau cờ `AUTH_PROVIDER=google|oidc` (mặc định `google`
 | `apps/web/src/components/AppSwitcher.tsx` (mới) | Nút 9 chấm ở header (antd `Dropdown`), đọc `/api/platform/apps`, mục đầu "VC Home" |
 | `.env.example` | `AUTH_PROVIDER`, `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`, `OIDC_IDP_HINT=google`, `OIDC_REQUIRE_APP_GROUP=0`, `VC_HOME_URL` |
 
-Không đổi: token `vcz_`, `/mcp`, `/mcp/dev`, ingest, webhook, outbox, agent máy Zalo, `AUTH_TOKEN_LOGIN` (đăng nhập bằng token nội bộ, giữ làm đường khẩn cấp, mặc định tắt ở production).
+Không đổi: token `vcz_`, `/mcp`, `/mcp/dev`, ingest, webhook, outbox, agent máy Zalo, `AUTH_TOKEN_LOGIN` (đăng nhập bằng token nội bộ, giữ làm đường khẩn cấp; **phải đặt rõ `AUTH_TOKEN_LOGIN=0` ở production**, vì trong code giá trị mặc định đang bật và `.env.example` đặt `1`).
 
 Phác thảo kiểm `logout_token`:
 

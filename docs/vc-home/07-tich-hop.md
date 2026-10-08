@@ -226,7 +226,7 @@ Phiên của app sống tới 12 giờ không dùng, tối đa 7 ngày. Trong th
 | Đạt | Thu hồi phiên theo `sid`; không có `sid` thì thu hồi mọi phiên theo `sub`. Trả `200`, header `Cache-Control: no-store` |
 | Không đạt | Trả `400`, ghi log lý do, không thu hồi gì |
 | Thời gian | Phiên mất hiệu lực ≤ 10 giây sau khi người dùng bấm đăng xuất ở bất kỳ app nào (UAT-SSO-07) |
-| Phiên của app | Lưu kèm `sid` và `sub` (`idp_sub`); thời hạn tối đa 7 ngày |
+| Phiên của app | Lưu kèm `sid` và `sub` (`idp_sub`); hết hạn sau 12 giờ không dùng và tối đa 7 ngày (VH-AUT-05) |
 | Đăng xuất từ app | Thu hồi phiên riêng, rồi chuyển trình duyệt tới `{issuer}/protocol/openid-connect/logout?client_id=<app>&post_logout_redirect_uri=https://home.vcprosperous.com/da-dang-xuat` |
 
 Ví dụ nội dung `logout_token`:
@@ -501,7 +501,7 @@ Nội dung access token nhận được:
 
 | | |
 |---|---|
-| Gọi | `GET /api/v1/catalogs/job-titles` · `GET /api/v1/catalogs/job-functions` · `GET /api/v1/catalogs/legal-entities` |
+| Gọi | `GET /api/v1/catalogs/job-titles` · `GET /api/v1/catalogs/job-functions` · `GET /api/v1/catalogs/legal-entities` · `GET /api/v1/catalogs/work-locations` |
 | Tham số | `status` (mặc định `dang_dung`; `all` để lấy cả mục đã ngừng) |
 | GĐ | B |
 
@@ -635,7 +635,7 @@ Theo README mục 10. **Luồng** là đơn vị giữ thứ tự (mục 6.5).
 | Sự kiện | Khi nào | Luồng | GĐ | Gửi cho |
 |---|---|---|---|---|
 | `vh.person.joined` | Nhân viên mới có hiệu lực (00:00 ngày vào làm) | `person` | C | Mọi app đăng ký |
-| `vh.person.updated` | Đổi tên, email, ảnh, loại nhân viên | `person` | C | Mọi app đăng ký |
+| `vh.person.updated` | Đổi tên, tên gọi, email, ảnh, SĐT công việc, loại nhân viên, pháp nhân, nơi làm việc | `person` | C | Mọi app đăng ký |
 | `vh.person.moved` | Đổi vị trí chính, thêm hoặc bỏ kiêm nhiệm, đổi quản lý | `person` | C | Mọi app đăng ký |
 | `vh.person.leave_started` | Bắt đầu nghỉ dài ngày | `person` | D | Mọi app đăng ký |
 | `vh.person.returned` | Kết thúc nghỉ dài ngày | `person` | D | Mọi app đăng ký |
@@ -1068,7 +1068,7 @@ Mỗi dòng `vh_roles.vclinks` (hoặc dòng VH-API-06) thành một **gán vai 
 | `vh.grant.removed` | Gỡ gán vai trò. Nếu bàn giao `doi_don_vi` chưa xong: khách còn lại về "Chưa phân công" của tổ cũ, báo GS và GĐ (giống PQ-34; đề xuất, chủ VClinks chốt). `roles` rỗng: thu hồi mọi phiên |
 | `vh.person.left` | Chạy tự động bước ① "Khóa ngay" của PQ-33 với người làm là `vchome`: trạng thái `nghi_viec`, huỷ phiên, thu hồi token MCP cá nhân, quyền tạm thời, trực thay; thu hồi token thiết bị gắn nick người đó giữ (trừ máy "dùng chung"); lệnh gửi đã duyệt chuyển `Cần duyệt lại`. Mở **bàn giao** MH-PQ-04 cho GS / GĐ (người nhận gợi ý từ `last_manager`). **Không tự chia khách**; đồng hồ nhắc 4 giờ, 20 giờ, 24 giờ của PQ-34 chạy như cũ |
 | `vh.person.leave_started` | Đặt cờ vắng; nhắc GS tạo trực thay (PQ-32); "Chia đều" khi bàn giao bỏ người này |
-| `vh.person.locked` | Đặt trạng thái tạm khoá, huỷ phiên; lệnh gửi đã duyệt của người đó chuyển `Cần duyệt lại` (PQ-51); không chia lại khách |
+| `vh.person.locked` | Đặt trạng thái tạm khoá, huỷ phiên, tạm ngưng token MCP cá nhân; lệnh gửi đã duyệt của người đó chuyển `Cần duyệt lại` (PQ-51); không chia lại khách |
 | `vh.person.unlocked` | Bỏ tạm khoá; lệnh `Cần duyệt lại` giữ nguyên chờ người duyệt |
 | `vh.person.returned` | Bỏ cờ vắng; nhắc GS kết thúc trực thay |
 | `vh.org.unit_changed` | Cập nhật `org_units` theo mục 8.2; gộp, ngừng thì liệt kê gán kênh cần chuyển cho Admin |

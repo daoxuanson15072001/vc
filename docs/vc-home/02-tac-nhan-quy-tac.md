@@ -34,7 +34,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 |---|---|---|
 | Nhân viên | Mọi người có hồ sơ đang làm | Đăng nhập, mở app, xem hồ sơ của mình, danh bạ, xin quyền |
 | Quản lý trực tiếp | Nhân viên có ít nhất 1 người báo cáo trực tiếp | Duyệt yêu cầu của người dưới quyền, xem đội, xin quyền thay |
-| Trưởng đơn vị | Người được đặt làm trưởng của một đơn vị | Rà soát quyền của cả đơn vị (gồm đơn vị con), xem đội |
+| Trưởng đơn vị | Người được đặt làm trưởng của một đơn vị | Rà soát quyền của người có vị trí chính trong đơn vị mình (VH-BR-16); xem đội và tiến độ rà soát của các đơn vị con |
 | HC-NS | Nhân sự phụ trách hồ sơ (mỗi pháp nhân / division có thể có người riêng) | Tạo, sửa hồ sơ, vị trí, cơ cấu tổ chức, danh mục; nhập Excel; đặt ngày nghỉ việc |
 | Quản trị hệ thống | IT phụ trách VC Home, VC ID | Danh mục app, luật cấp quyền, cấp khẩn cấp, khoá khẩn cấp, cài đặt, đối chiếu Google |
 | Chủ app | Người chịu trách nhiệm một app (VClinks: dev002 hoặc người được chỉ định…) | Khai vai trò app, duyệt yêu cầu vai trò nhạy cảm của app mình, cùng duyệt luật của app mình |
@@ -60,7 +60,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 | Nhân viên | `nhan_vien` | Có hồ sơ trạng thái đang làm hoặc nghỉ dài ngày, và đã gắn tài khoản | Bản thân |
 | Quản lý trực tiếp | (suy ra) | Có ít nhất 1 vị trí còn hiệu lực ghi mình là quản lý trực tiếp | Người báo cáo trực tiếp và cả cây dưới (VH-BR-23) |
 | Trưởng đơn vị | (suy ra) | Được đặt làm trưởng của đơn vị (VH-ORG-04) | Đơn vị đó và các đơn vị con |
-| HC-NS | `vchome:hcns` | Vai trò app của VC Home, gán qua luật hoặc yêu cầu; có thể giới hạn theo pháp nhân / division | Pháp nhân / division được gán (mặc định: toàn tập đoàn) |
+| HC-NS | `vchome:hcns` | Vai trò app của VC Home. GĐ B: quản trị hệ thống gán theo danh sách khởi đầu trên VC ID (Q-07). Từ GĐ C: qua luật; từ GĐ D: thêm qua yêu cầu. Có thể giới hạn theo pháp nhân / division | Pháp nhân / division được gán (mặc định: toàn tập đoàn) |
 | Quản trị hệ thống | `vchome:qtht` | Vai trò app nhạy cảm của VC Home | Toàn hệ thống |
 | Chủ app | (trong danh mục app) | Quản trị hệ thống ghi tên vào trường "Chủ app" của app (VH-APP-03); một app có thể có 1–3 chủ | App được ghi tên |
 | Kiểm soát | `vchome:kiem_soat` | Vai trò app nhạy cảm của VC Home | Toàn hệ thống, chỉ đọc |
@@ -109,6 +109,8 @@ Ký hiệu:
 Ghi chú:
 - "Quản lý" và "Trưởng đơn vị" là vai trò suy ra. Khi người đó đổi vị trí, phạm vi đổi theo ngay lúc thay đổi có hiệu lực.
 - Quản trị hệ thống thấy hồ sơ ở chế độ chỉ đọc để xử lý sự cố; mỗi lần xem hồ sơ người khác đều ghi nhật ký.
+- "Duyệt bước 1" chỉ dành cho **quản lý trực tiếp** theo vị trí chính (VH-BR-12), không phải cả cây trên.
+- "Khoá tài khoản khẩn cấp" chỉ quản trị hệ thống làm. Riêng HC-NS đặt trạng thái hồ sơ "Tạm khoá" (ví dụ đình chỉ công việc) thì đăng nhập cũng bị khoá, với nguồn khoá `hcns` (VH-NSU-04); đây là thay đổi hồ sơ, không phải khoá khẩn cấp.
 
 ## 4. Quy tắc nghiệp vụ
 
@@ -136,6 +138,8 @@ Ghi chú:
 
 ### VH-BR-05 — Quản lý trực tiếp
 - Mỗi vị trí ghi 1 quản lý trực tiếp. Người đứng đầu tập đoàn không có quản lý.
+- **Quản lý trực tiếp của một nhân viên** là quản lý ghi trên **vị trí chính**. Chỉ người này duyệt yêu cầu bước 1 và nằm trong cây quản lý.
+- Quản lý ghi trên vị trí **kiêm nhiệm** chỉ được xem hồ sơ C1 của người đó; không duyệt, không nằm trong cây quản lý.
 - **Không cho tạo vòng:** A quản lý B, B quản lý A là không hợp lệ.
 - Quản lý trực tiếp nghỉ việc thì các vị trí đang trỏ tới người đó hiện cảnh báo "thiếu quản lý" cho HC-NS. Trong lúc chờ, **trưởng đơn vị** tạm làm quản lý cho việc duyệt.
 
@@ -248,7 +252,7 @@ Mọi ngày giờ lưu theo UTC, hiển thị và tính hiệu lực theo `Asia/
 ### VH-BR-23 — Phạm vi của quản lý
 - Quản lý trực tiếp xem được hồ sơ công việc (C1) và quyền của người báo cáo trực tiếp **và cả cây dưới**.
 - Trưởng đơn vị xem được của mọi người có vị trí trong đơn vị mình và đơn vị con.
-- Không ai xem được hồ sơ C1 của cấp trên hay đồng cấp, trừ HC-NS và kiểm soát.
+- Không ai xem được hồ sơ C1 của cấp trên hay đồng cấp, trừ HC-NS, kiểm soát và quản trị hệ thống (chỉ đọc, mỗi lần xem ghi nhật ký).
 
 ### VH-BR-24 — Kiêm nhiệm sinh quyền
 - Luật được đánh giá trên **mọi vị trí còn hiệu lực** (chính và kiêm nhiệm).

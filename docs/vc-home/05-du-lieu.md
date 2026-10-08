@@ -199,6 +199,7 @@ Mỗi collection có: mục đích, giai đoạn, bảng trường, chỉ mục,
 | `full_name` | string | Có | C0 | Họ tên đầy đủ, 2–80 ký tự |
 | `name_folded` | string | Có | C0 | Họ tên viết thường, bỏ dấu; hệ thống tự tính để tìm danh bạ |
 | `work_email` | string | Có | C0 | Email công ty chính, chữ thường, đuôi `vcprosperous.com` hoặc `vcpart.vn` (VH-BR-02) |
+| `secondary_email` | string | Không | C1 | Email phụ: địa chỉ công ty thứ hai của cùng người ở domain kia (VH-NSU-01); duy nhất trên mọi hồ sơ kể cả `work_email`; dùng để gắn tài khoản |
 | `previous_emails` | array<string> | Không | C0 | Email cũ khi đổi tên hoặc đổi domain; dùng để gắn tài khoản đúng người (VH-BR-01) |
 | `photo` | object | Không | C0 | `{url, source: google\|hcns, updated_at}`. Mặc định lấy ảnh Google; HC-NS thay được bằng ảnh thẻ |
 | `work_phone` | string | Không | C0 | SĐT công việc (máy bàn, SIM công ty), 10 số. Không nhận SĐT cá nhân (VH-BR-19) |
@@ -278,7 +279,7 @@ Mỗi collection có: mục đích, giai đoạn, bảng trường, chỉ mục,
 | `hd` | string | Có | — | Domain Google Workspace của tài khoản |
 | `link` | object | Không | C1 | `{method: theo_email\|quan_tri, linked_at, linked_by}` |
 | `idp_enabled` | bool | Có | C1 | Bản sao trạng thái bật / khoá trên VC ID |
-| `lock` | object | Không | C1 | Khi bị khoá: `{kind: khan_cap\|google\|nghi_viec\|tam_khoa\|nghi_dai_ngay, at, by, reason}`. Lý do bắt buộc với `khan_cap` |
+| `locks` | array<object> | Có (có thể rỗng) | C1 | Các khoá đang có, mỗi phần tử `{kind: khan_cap\|google\|nghi_viec\|tam_khoa\|nghi_dai_ngay, at, by, reason}`. Tài khoản chỉ mở khi **không còn khoá nào** (khoá do Google gỡ thì khoá khẩn cấp vẫn giữ). Lý do bắt buộc với `khan_cap` |
 | `google_status` | object | Không | C1 | `{value: active\|suspended\|archived\|deleted, checked_at}` do `vc-provisioner` ghi |
 | `last_login_at` | Date | Không | C1 | Lần đăng nhập cuối (lấy từ sự kiện đăng nhập của Keycloak) |
 | `last_login_app` | string | Không | C1 | Khoá app của lần đăng nhập cuối |
@@ -286,7 +287,7 @@ Mỗi collection có: mục đích, giai đoạn, bảng trường, chỉ mục,
 
 **Chỉ mục:**
 - `person_id`: duy nhất, một phần (chỉ khi `person_id` là ObjectId).
-- `email`; `lock.kind`.
+- `email`; `locks.kind`.
 
 **Ví dụ:**
 
@@ -298,7 +299,7 @@ Mỗi collection có: mục đích, giai đoạn, bảng trường, chỉ mục,
   "hd": "vcpart.vn",
   "link": { "method": "theo_email", "linked_at": "2026-11-20T01:05:00Z", "linked_by": "he_thong" },
   "idp_enabled": true,
-  "lock": null,
+  "locks": [],
   "google_status": { "value": "active", "checked_at": "2026-11-21T00:00:00Z" },
   "last_login_at": "2026-11-21T01:12:00Z",
   "last_login_app": "vclinks",
@@ -382,7 +383,7 @@ Mỗi collection có: mục đích, giai đoạn, bảng trường, chỉ mục,
 | `name` | string | Có | C0 | 2–80 ký tự, không trùng với đơn vị khác cùng cha đang hoạt động |
 | `name_folded` | string | Có | C0 | Tên bỏ dấu, viết thường; để kiểm trùng và tìm |
 | `short_name` | string | Không | C0 | Tên ngắn trên sơ đồ |
-| `type` | enum | Có | C0 | `tap_doan` · `division` · `phong` · `to_nhom` (xem luật đặt cha dưới bảng) |
+| `type` | enum | Có | C0 | `tap_doan` · `phap_nhan` · `division` · `phong` · `to_nhom` (xem luật đặt cha dưới bảng). `phap_nhan` là tuỳ chọn: dùng khi muốn hiện công ty con thành một nút trên cây; luôn gắn 1–1 với một dòng `legal_entities` |
 | `parent_code` | string | Không | C0 | → `org_units`. Trống chỉ với gốc |
 | `ancestors` | array<string> | Có | C0 | Mã các tổ tiên từ gốc xuống; hệ thống tự tính để lọc cây con nhanh |
 | `division_code` | string | Không | C0 | Division chứa đơn vị này (hoặc chính nó). Trống với đơn vị cấp tập đoàn |
@@ -401,9 +402,10 @@ Mỗi collection có: mục đích, giai đoạn, bảng trường, chỉ mục,
 | Loại | Đặt dưới | Có đơn vị con |
 |---|---|---|
 | `tap_doan` | Không có cha; chỉ 1 gốc | Có |
-| `division` | `tap_doan` | Có |
-| `phong` | `tap_doan` (khối chức năng tập đoàn) hoặc `division` | Có (`to_nhom`) |
-| `to_nhom` | `division` hoặc `phong` | **Không** (VH-BR-06) |
+| `phap_nhan` | `tap_doan` | Có |
+| `division` | `tap_doan` hoặc `phap_nhan` | Có |
+| `phong` | `tap_doan` (khối chức năng tập đoàn), `phap_nhan`, `division` hoặc `phong` (khối chứa phòng) | Có |
+| `to_nhom` | `division`, `phong` hoặc `to_nhom` (lồng **một cấp**, như tổ bán hàng lồng của VClinks) | Chỉ một cấp `to_nhom` con (VH-BR-06) |
 
 Đơn vị còn vị trí đang hiệu lực hoặc còn đơn vị con đang hoạt động thì không chuyển sang `ngung` được. Không có thao tác xoá.
 
@@ -581,7 +583,7 @@ Chỉ mục: `{legal_entity_code, status}`; `kind`.
 | `url` | string | Không | — | Địa chỉ mở app. Trống với app `coming_soon` |
 | `icon` | string | Có | — | Đường dẫn biểu tượng |
 | `kind` | enum | Có | — | `sso` (đăng nhập qua VC ID) · `lien_ket_ngoai` (Gmail, Drive, MISA…, VH-BR-21) |
-| `status` | enum | Có | — | `live` · `coming_soon` · `paused` · `retired` (giữ giá trị của `catalog.json`) |
+| `status` | enum | Có | — | `live` · `beta` (thử nghiệm, ô có nhãn "Thử nghiệm") · `coming_soon` · `paused` · `retired` (giữ giá trị của `catalog.json`). Liên kết ngoài phân biệt bằng `kind = lien_ket_ngoai`, không bằng `status` |
 | `order` | int | Có | — | Thứ tự ô |
 | `owner_person_ids` | array<ObjectId> | Có với `sso` | C0 | Chủ app, 1–3 người (VH-APP-03) |
 | `oidc_client_id` | string | Có với `sso` | — | Client đăng nhập trên VC ID |
@@ -692,12 +694,12 @@ Chỉ mục: `{legal_entity_code, status}`; `kind`.
 | `_id` | ObjectId | Có | — | Khoá |
 | `app_key`, `role_key` | string | Có | — | → `app_roles` |
 | `name` | string | Có | — | Tên dễ hiểu, ví dụ "NVKD các tổ bán hàng VCparts" |
-| `conditions` | object | Có | — | Các nhóm điều kiện: `legal_entity_codes`, `division_codes`, `units: [{code, include_sub_units}]`, `job_title_codes`, `job_function_codes`, `employee_types`, `work_location_codes`, `is_manager`, `is_unit_head`. **Và** giữa các nhóm, **hoặc** trong cùng nhóm. Nhóm trống = không giới hạn. Phải có ít nhất 1 nhóm |
+| `conditions` | object | Có | — | Các nhóm điều kiện: `legal_entity_codes`, `division_codes`, `units: [{code, include_sub_units}]`, `job_title_codes`, `job_function_codes`, `employee_types`, `work_location_codes`, `is_manager`, `is_unit_head`. **Và** giữa các nhóm, **hoặc** trong cùng nhóm. Nhóm trống = không giới hạn. Phải có ít nhất 1 nhóm Mỗi nhóm có thể kèm danh sách **loại trừ** cùng loại (`exclude_unit_codes`, `exclude_job_title_codes`…) cho toán tử "không thuộc" (quyết định BA 08/10/2026) |
 | `unit_binding` | object | Có khi vai trò `unit_scoped` | — | Đơn vị ghi vào quyền: `{mode: theo_vi_tri\|division_cua_vi_tri\|co_dinh, unit_code}`. `theo_vi_tri`: đơn vị của vị trí thoả luật; `co_dinh`: một đơn vị cố định (ví dụ gốc cho vai trò toàn tập đoàn) |
 | `status` | enum | Có | — | `nhap` · `cho_duyet` · `hieu_luc` · `tat` |
 | `version` | int | Có | — | Tăng mỗi lần sửa điều kiện |
 | `preview` | object | Không | — | Kết quả xem trước gần nhất: `{at, add_count, remove_count, by}` (VH-ACC-03) |
-| `needs_second_approval` | bool | Có | — | `true` khi xem trước ảnh hưởng trên 20 người (VH-BR-25) |
+| `needs_second_approval` | bool | Có | — | `true` khi xem trước ảnh hưởng trên 20 người, hoặc vai trò đích là vai trò nhạy cảm (VH-BR-25) |
 | `submitted_by` | ObjectId | Không | — | Người soạn |
 | `approved_by`, `approved_at` | ObjectId, Date | Không | — | Người duyệt thứ hai (khác người soạn) |
 | `activated_at`, `deactivated_at` | Date | Không | — | Lúc bật, lúc tắt |
@@ -1281,6 +1283,56 @@ Chỉ mục: `{legal_entity_code, status}`; `kind`.
 ```
 
 ---
+
+### 3.21 Collection bổ sung sau soát chéo (08/10/2026)
+
+Bốn collection dưới đây do BA trưởng thêm vào README mục 9 khi soát chéo bộ tài liệu, để các yêu cầu VH-NSU-06, VH-ADM-05, VH-IMP-02 và tách nhiệm (02 mục 6) có nơi lưu.
+
+**`profile_change_requests`: đề nghị sửa hồ sơ** (GĐ B, VH-NSU-06)
+
+| Trường | Kiểu | Bắt buộc | Mức mật | Mô tả / ràng buộc |
+|---|---|---|---|---|
+| `_id` | ObjectId | Có | — | Khoá |
+| `person_id` | ObjectId | Có | C1 | Người đề nghị (chỉ sửa hồ sơ của chính mình) → `people` |
+| `fields` | object | Có | C0 / C1 | Trường muốn sửa và giá trị đề nghị, chỉ các trường nhân viên được đề nghị (05 mục 6) |
+| `note` | string | Không | C1 | Ghi chú của nhân viên, ≤ 500 ký tự |
+| `status` | enum | Có | — | `cho_xu_ly` · `da_ap_dung` · `tu_choi` · `nguoi_gui_huy` |
+| `handled_by`, `handled_at`, `handle_note` | ObjectId, Date, string | Không | C1 | HC-NS xử lý; lý do bắt buộc khi từ chối |
+| `scheduled_change_id` | ObjectId | Không | — | Thay đổi được tạo khi áp dụng → `scheduled_changes` |
+
+Chỉ mục: `{person_id, status}`; `{status, created_at}`.
+
+**`system_settings`: cài đặt hệ thống** (GĐ B, VH-ADM-05)
+
+| Trường | Kiểu | Bắt buộc | Mức mật | Mô tả / ràng buộc |
+|---|---|---|---|---|
+| `_id` | string | Có | — | Khoá cài đặt, ví dụ `request.default_days`, `review.deadline_days`, `transition.max_days` |
+| `value` | any | Có | — | Giá trị; kiểu theo schema của từng khoá |
+| `default_value` | any | Có | — | Giá trị mặc định ghi trong tài liệu |
+| `updated_by`, `updated_at`, `reason` | ObjectId, Date, string | Có khi đã sửa | — | Lý do bắt buộc; mọi lần sửa ghi `audit_log` |
+
+**`directory_exclusions`: tài khoản Google không phải người** (GĐ B, VH-IMP-02)
+
+| Trường | Kiểu | Bắt buộc | Mức mật | Mô tả / ràng buộc |
+|---|---|---|---|---|
+| `_id` | string | Có | C0 | Địa chỉ email (hộp thư chung, tài khoản dịch vụ) |
+| `kind` | enum | Có | — | `hop_thu_chung` · `tai_khoan_dich_vu` · `khac` |
+| `note` | string | Không | — | Mô tả, ≤ 200 ký tự |
+| `added_by`, `added_at` | ObjectId, Date | Có | — | Người thêm |
+
+Tài khoản trong danh sách không hiện ở báo cáo đối chiếu và **không đăng nhập được VC Home** (không có hồ sơ).
+
+**`sod_exceptions`: ngoại lệ tách nhiệm** (GĐ C, 02 mục 6)
+
+| Trường | Kiểu | Bắt buộc | Mức mật | Mô tả / ràng buộc |
+|---|---|---|---|---|
+| `_id` | ObjectId | Có | — | Khoá |
+| `person_id` | ObjectId | Có | C1 | → `people` |
+| `conflict` | enum | Có | — | `hcns_qtht` · `kiem_soat_qtht` (các cặp ở 02 mục 6 có thể bật ngoại lệ) |
+| `reason` | string | Có | C1 | ≥ 20 ký tự |
+| `approved_by` | ObjectId | Có | — | Quản trị hệ thống khác người được ngoại lệ |
+| `from_on`, `to_on` | date | Có | — | Tối đa 90 ngày; hết hạn thì hệ thống gỡ vai trò cấp sau (VH-BR-17) |
+| `notified_audit_at` | Date | Có | — | Lúc báo kiểm soát |
 
 ## 4. Luồng trạng thái
 

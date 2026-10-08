@@ -178,7 +178,7 @@ Không xoá mã đã cấp, không dùng lại mã. Yêu cầu bỏ thì đổi 
 | **ACC — Cấp và gỡ quyền** | | | |
 | VH-ACC-01 | Luật cấp quyền mặc định theo hồ sơ | M | C |
 | VH-ACC-02 | Tính lại quyền khi hồ sơ, cơ cấu hoặc luật đổi | M | C |
-| VH-ACC-03 | Xem trước tác động của luật | S | C |
+| VH-ACC-03 | Xem trước tác động của luật | M | C |
 | VH-ACC-04 | Cấp quyền khẩn cấp có lý do và hạn tối đa 7 ngày | S | C |
 | VH-ACC-05 | Quyền có hạn dùng, tự gỡ khi hết hạn | M | D |
 | VH-ACC-06 | Gỡ quyền | M | C |
@@ -222,7 +222,7 @@ Không xoá mã đã cấp, không dùng lại mã. Yêu cầu bỏ thì đổi 
 | VH-IMP-03 | Lấy dữ liệu khởi đầu từ cây tổ chức của VClinks và VCwiki | S | B |
 | VH-IMP-04 | Đồng bộ tự động từ phần mềm nhân sự | C | E |
 
-Tổng: 78 yêu cầu (M: 45 · S: 25 · C: 7 · W: 1).
+Tổng: 78 yêu cầu (M: 46 · S: 24 · C: 7 · W: 1).
 
 ## 6. Danh mục quy tắc nghiệp vụ
 
@@ -254,7 +254,7 @@ Chi tiết và ví dụ ở [02-tac-nhan-quy-tac.md](02-tac-nhan-quy-tac.md) m�
 | VH-BR-22 | Mọi ngày giờ theo `Asia/Ho_Chi_Minh` |
 | VH-BR-23 | Quản lý và trưởng đơn vị xem được hồ sơ công việc và quyền của cả cây dưới quyền |
 | VH-BR-24 | Vị trí kiêm nhiệm cũng sinh quyền mặc định như vị trí chính |
-| VH-BR-25 | Luật ảnh hưởng trên 20 người, hoặc luật cấp vai trò nhạy cảm, phải xem trước và được người thứ hai duyệt (quản trị hệ thống + chủ app) |
+| VH-BR-25 | Luật ảnh hưởng trên 20 người, hoặc luật cấp vai trò nhạy cảm, phải xem trước và được người thứ hai duyệt (quản trị hệ thống khác, hoặc chủ app của app đó) |
 
 ## 7. Danh mục quy trình
 
@@ -284,16 +284,16 @@ Chi tiết và ví dụ ở [02-tac-nhan-quy-tac.md](02-tac-nhan-quy-tac.md) m�
 | VH-MH-05 | Ngăn gửi yêu cầu quyền | Mọi người | D |
 | VH-MH-06 | Danh bạ công ty | Mọi người | B |
 | VH-MH-07 | Sơ đồ tổ chức | Mọi người | B |
-| VH-MH-08 | Hộp duyệt | Quản lý, chủ app | D |
+| VH-MH-08 | Hộp duyệt (có ngăn Uỷ quyền) | Quản lý, chủ app | D |
 | VH-MH-09 | Đội của tôi | Quản lý, trưởng đơn vị | B (hồ sơ), C (quyền) |
 | VH-MH-10 | Rà soát quyền | Trưởng đơn vị | D |
-| VH-MH-11 | Quản trị: Nhân sự | HC-NS | B |
+| VH-MH-11 | Quản trị: Nhân sự (ngăn Tài khoản: khoá, mở khoá, gắn lại — chỉ quản trị hệ thống) | HC-NS, quản trị hệ thống | B |
 | VH-MH-12 | Quản trị: Cơ cấu tổ chức | HC-NS | B |
 | VH-MH-13 | Quản trị: Danh mục (chức danh, chức năng, pháp nhân, nơi làm việc) | HC-NS | B |
 | VH-MH-14 | Quản trị: Nhập dữ liệu và đối chiếu | HC-NS, quản trị hệ thống | B |
 | VH-MH-15 | Quản trị: App và vai trò app | Quản trị hệ thống, chủ app | B (app), C (vai trò) |
 | VH-MH-16 | Quản trị: Luật cấp quyền và xem trước | Quản trị hệ thống, chủ app | C |
-| VH-MH-17 | Quản trị: Tra cứu quyền | Quản trị hệ thống, kiểm soát, chủ app | C |
+| VH-MH-17 | Quản trị: Tra cứu quyền và báo cáo | Quản trị hệ thống, kiểm soát, chủ app; BGĐ và trưởng đơn vị xem báo cáo trong phạm vi | C |
 | VH-MH-18 | Quản trị: Đợt rà soát | Quản trị hệ thống, kiểm soát | D |
 | VH-MH-19 | Quản trị: Nhật ký | Quản trị hệ thống, kiểm soát | B |
 | VH-MH-20 | Quản trị: Cài đặt | Quản trị hệ thống | D |
@@ -321,7 +321,11 @@ Chi tiết ở [05-du-lieu.md](05-du-lieu.md). Tên collection theo quy ước M
 | `event_outbox`, `event_deliveries` | Sự kiện gửi app và lần gửi | C |
 | `audit_log` | Nhật ký của VC Home (ở GĐ A nhật ký đăng nhập nằm trong VC ID) | B |
 | `import_batches` | Lô nhập Excel, kết quả đối chiếu | B |
-| `notifications` | Thông báo trong VC Home | D |
+| `notifications` | Thông báo trong VC Home (GĐ C gửi bằng email Gmail công ty) | D |
+| `profile_change_requests` | Đề nghị sửa hồ sơ của nhân viên, chờ HC-NS xử lý (VH-NSU-06) | B |
+| `system_settings` | Cài đặt hệ thống: giá trị, người sửa, lý do (VH-ADM-05) | B |
+| `directory_exclusions` | Tài khoản Google không phải người (hộp thư chung, tài khoản dịch vụ), bỏ qua khi đối chiếu (VH-IMP-02) | B |
+| `sod_exceptions` | Ngoại lệ tách nhiệm có thời hạn (02 mục 6) | C |
 
 ## 10. Danh mục sự kiện và API cho app
 
@@ -330,13 +334,13 @@ Chi tiết ở [07-tich-hop.md](07-tich-hop.md).
 | Sự kiện | Khi nào | GĐ |
 |---|---|---|
 | `vh.person.joined` | Nhân viên mới có hiệu lực | C |
-| `vh.person.updated` | Đổi tên, email, ảnh, loại nhân viên | C |
+| `vh.person.updated` | Đổi tên, tên gọi, email, ảnh, SĐT công việc, loại nhân viên, pháp nhân, nơi làm việc | C |
 | `vh.person.moved` | Đổi vị trí chính, thêm hoặc bỏ kiêm nhiệm, đổi quản lý | C |
 | `vh.person.leave_started` / `vh.person.returned` | Bắt đầu, kết thúc nghỉ dài ngày | D |
 | `vh.person.left` | Nghỉ việc có hiệu lực | C |
 | `vh.person.locked` / `vh.person.unlocked` | Khoá tạm (gồm khoá khẩn cấp VH-AUT-06, khoá do Google) và mở khoá | C |
 | `vh.grant.added` / `vh.grant.removed` | Thêm, gỡ vai trò app (gửi cho đúng app đó) | C |
-| `vh.org.unit_changed` | Thêm, đổi tên, chuyển, gộp, ngừng đơn vị | C |
+| `vh.org.unit_changed` | Thêm, đổi tên, chuyển, gộp, ngừng đơn vị; đổi trưởng đơn vị | C |
 
 | Mã | API | GĐ |
 |---|---|---|
@@ -344,7 +348,7 @@ Chi tiết ở [07-tich-hop.md](07-tich-hop.md).
 | VH-API-02 | Danh sách nhân viên (lọc theo đơn vị có cây con, chức năng, trạng thái, thay đổi từ thời điểm) | B |
 | VH-API-03 | Chuỗi quản lý của một nhân viên | B |
 | VH-API-04 | Cây đơn vị và một đơn vị | B |
-| VH-API-05 | Danh mục chức danh, chức năng, pháp nhân | B |
+| VH-API-05 | Danh mục chức danh, chức năng, pháp nhân, nơi làm việc | B |
 | VH-API-06 | Danh sách quyền của app gọi (ai có vai trò gì trong app này) | C |
 | VH-API-07 | Kéo sự kiện từ một mốc (dự phòng khi nhận sự kiện bị gián đoạn) | C |
 | VH-API-08 | Danh mục app công khai (`catalog.json`) | A |
