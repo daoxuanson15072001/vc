@@ -1436,3 +1436,321 @@ Dưới 900 px: xem trước nằm dưới biểu mẫu.
 
 ---
 
+### VH-MH-17 Quản trị: Tra cứu quyền
+
+| | |
+|---|---|
+| **Mục đích** | Trả lời hai câu: "người này có quyền gì" và "ai có vai trò này"; xử lý sự cố quyền (gỡ, cấp khẩn cấp, khoá khẩn cấp); xem báo cáo tổng hợp |
+| **Ai dùng + quyền** | Quản trị hệ thống: tra cứu mọi người, gỡ quyền, cấp khẩn cấp, khoá tài khoản. Chủ app: tra cứu và gỡ quyền trong app mình (p). Kiểm soát: tra cứu, chỉ xem (đ). Tab "Báo cáo tổng hợp": thêm Ban giám đốc (đ), HC-NS (p), trưởng đơn vị (p) — mục 9 điểm 2 |
+| **Đường dẫn** | `/quan-tri/tra-cuu-quyen?tab=theo-nguoi|theo-app|bao-cao` |
+| **GĐ** | C (D: thêm cột hạn, nguồn "Được duyệt") |
+
+**Bố cục:** 3 tab.
+- **"Theo người":** ô tìm người → thẻ hồ sơ công việc (chỉ xem) + trạng thái tài khoản ("Hoạt động" / "Đã khoá: {lý do}") + bảng quyền của người đó.
+- **"Theo app":** chọn app, vai trò (có thể "Tất cả vai trò"), nguồn, đơn vị → bảng người.
+- **"Báo cáo tổng hợp":** thẻ số và bảng (mục bên dưới).
+
+**Trường dữ liệu**
+
+| Trường | Nguồn | Hiện cho ai | Ghi chú |
+|---|---|---|---|
+| Hồ sơ công việc (C1) | `people`, `positions` | QTHT (đ), kiểm soát (đ); chủ app chỉ C0 | Mỗi lần mở ghi nhật ký xem C1 |
+| Trạng thái tài khoản, đăng nhập gần nhất | `accounts`, VC ID | QTHT, kiểm soát | |
+| Quyền: app, vai trò, nguồn, luật / yêu cầu gốc, phạm vi đơn vị, cấp lúc, hạn, trạng thái | `access_grants`, `access_rules`, `access_requests` | QTHT, kiểm soát; chủ app chỉ app mình | Trạng thái gồm "Đang chuyển tiếp, gỡ ngày {dd/mm}" |
+| Đồng bộ VC ID | Kết quả đẩy quyền | QTHT | "Đã đẩy lúc {HH:mm}" / "Chờ đẩy" / "Lỗi đẩy: {mã}" (VH-ACC-07) |
+| Báo cáo: số người theo trạng thái; số người có quyền theo app và vai trò; số quyền ngoại lệ, khẩn cấp đang có; quyền sắp hết hạn 30 ngày; kết quả đợt rà soát gần nhất; người không đăng nhập 90 ngày còn quyền | Tổng hợp từ các collection | Theo phạm vi vai trò | Chỉ số đếm, không có hồ sơ từng người với BGĐ. Lọc pháp nhân, app, kỳ |
+
+**Hành động**
+
+| Nút / thao tác | Ai | Kết quả | Yêu cầu |
+|---|---|---|---|
+| Tìm người / chọn app, vai trò | QTHT, chủ app, kiểm soát | Hiện bảng | VH-ACC-08 |
+| "Gỡ" (dòng quyền nguồn "Được duyệt" / "Khẩn cấp") | QTHT; chủ app (app mình) | Bắt buộc lý do; gỡ ngay, đẩy VC ID, gửi `vh.grant.removed`, báo người giữ quyền | VH-ACC-06 |
+| "Gỡ" ở dòng nguồn "Luật" | — | Khoá, rê chuột "Quyền này đến từ luật {tên}. Sửa luật hoặc hồ sơ để gỡ." | VH-BR-09 |
+| "Cấp khẩn cấp" | QTHT | Hộp thoại: app, vai trò, thời hạn 1 / 3 / 7 ngày, lý do bắt buộc; cấp ngay, báo quản lý trực tiếp và kiểm soát | VH-ACC-04 |
+| "Khoá tài khoản" | QTHT | Bắt buộc lý do; hỏi "Khoá {tên}? Người này bị đăng xuất khỏi mọi ứng dụng trong vòng 1 phút."; toast "Đã khoá tài khoản." | VH-AUT-06 |
+| "Mở khoá" | QTHT | Bắt buộc lý do; chỉ khi hồ sơ không ở trạng thái "Đã nghỉ" | VH-AUT-06 |
+| "Đẩy lại sang VC ID" | QTHT | Đẩy lại quyền của người đó | VH-ACC-07 |
+| "Xuất Excel" | QTHT, chủ app, kiểm soát, người xem báo cáo | Tải bảng đang lọc; ghi nhật ký | VH-ACC-08, VH-ADM-02 |
+
+**Trạng thái**
+
+| Trạng thái | Hiển thị |
+|---|---|
+| Chưa tìm | "Nhập tên, mã nhân viên hoặc email để tra quyền." |
+| Người không có quyền nào | "{tên} chưa có quyền ứng dụng nào." |
+| App · vai trò không ai giữ | "Chưa ai có vai trò này." |
+| Báo cáo chưa có dữ liệu kỳ | "Chưa có dữ liệu cho kỳ đã chọn." |
+| Lỗi | `LOI-MAY` |
+
+**Kiểm tra nhập liệu**
+
+| Ô | Điều kiện | Câu báo |
+|---|---|---|
+| Lý do (gỡ, cấp khẩn cấp, khoá, mở khoá) | Bắt buộc, ≥ 10 ký tự (VH-BR-18) | "Nhập lý do (ít nhất 10 ký tự)." |
+| Thời hạn khẩn cấp | 1, 3 hoặc 7 ngày (tối đa 7, VH-BR-09) | "Quyền khẩn cấp tối đa 7 ngày." |
+| Cấp khẩn cấp cho chính mình | Không cho | "Không tự cấp quyền khẩn cấp cho chính bạn." |
+| Khoá chính mình | Không cho | "Không khoá được tài khoản của chính bạn." |
+
+**Liên quan:** VH-ACC-04, 06, 07, 08; VH-AUT-06; VH-ADM-02; VH-BR-09, 14, 17, 18, 23; VH-QT-02.
+
+---
+
+### VH-MH-18 Quản trị: Đợt rà soát
+
+| | |
+|---|---|
+| **Mục đích** | Mở đợt rà soát hằng quý, theo dõi tiến độ từng đơn vị, nhắc, đóng đợt và xem báo cáo kết quả |
+| **Ai dùng + quyền** | Quản trị hệ thống: mở, nhắc, đóng sớm ("Mở đợt rà soát" ✓). Kiểm soát: chỉ xem (đ) |
+| **Đường dẫn** | `/quan-tri/ra-soat`, `/quan-tri/ra-soat/{maDot}` |
+| **GĐ** | D |
+
+**Bố cục:** danh sách đợt (tên, mở ngày, hạn, trạng thái "Đang mở" / "Đã đóng", tiến độ %, số giữ / gỡ / tự gỡ). Trang một đợt: thẻ số tổng; bảng theo đơn vị (trưởng đơn vị, số dòng, đã xử lý, còn lại, gửi kết quả lúc); bảng chi tiết dòng (lọc đơn vị, app, quyết định).
+
+**Trường dữ liệu**
+
+| Trường | Nguồn | Hiện cho ai | Ghi chú |
+|---|---|---|---|
+| Tên đợt, ngày mở, hạn | `review_campaigns` | QTHT, kiểm soát | Tên mặc định "Rà soát quý {q}/{yyyy}"; hạn mặc định 14 ngày (VH-BR-16) |
+| Phạm vi | `review_campaigns` | Như trên | Mặc định mọi quyền ngoại lệ còn hiệu lực; có thể lọc theo app hoặc pháp nhân |
+| Tiến độ theo đơn vị | `review_items` | Như trên | |
+| Dòng rà soát: người, app · vai trò, người rà soát, quyết định, lý do, lúc | `review_items` | Như trên | Dòng của trưởng đơn vị tự rà soát chính mình hiện người rà soát là trưởng đơn vị cấp trên |
+| Kết quả: giữ, gỡ, tự gỡ do quá hạn | `review_items` | Như trên | Báo cáo VH-REV-03 |
+
+**Hành động**
+
+| Nút / thao tác | Ai | Kết quả | Yêu cầu |
+|---|---|---|---|
+| "Mở đợt rà soát" | QTHT | Hộp thoại tên, hạn, phạm vi; hiện số dòng sẽ tạo; xác nhận thì tạo dòng, báo từng trưởng đơn vị | VH-REV-01 |
+| "Nhắc" (đơn vị hoặc tất cả) | QTHT | Gửi thông báo nhắc tới trưởng đơn vị còn dòng chưa xử lý | VH-REV-01 |
+| Tự đóng khi hết hạn | Hệ thống | Dòng chưa xác nhận tự gỡ, báo người giữ quyền và trưởng đơn vị | VH-REV-03, VH-BR-16 |
+| "Đóng đợt sớm" | QTHT | Hỏi "Đóng đợt? {n} quyền chưa xác nhận sẽ tự gỡ ngay." | VH-REV-03 |
+| "Xuất báo cáo" | QTHT, kiểm soát | Excel kết quả từng dòng; ghi nhật ký | VH-REV-03 |
+| "Chuyển người rà soát" | QTHT | Khi trưởng đơn vị nghỉ hoặc vắng: chọn trưởng đơn vị cấp trên | VH-REV-02 |
+
+**Trạng thái**
+
+| Trạng thái | Hiển thị |
+|---|---|
+| Chưa có đợt nào | "Chưa có đợt rà soát nào." + "Mở đợt rà soát" |
+| Phạm vi không có quyền ngoại lệ | Trong hộp thoại mở đợt: "Không có quyền ngoại lệ nào trong phạm vi đã chọn." Nút mở khoá |
+| Đã có đợt đang mở | Nút "Mở đợt rà soát" khoá, rê chuột "Đang có đợt {tên} mở đến {dd/mm/yyyy}." |
+| Lỗi | `LOI-MAY` |
+
+**Kiểm tra nhập liệu**
+
+| Ô | Điều kiện | Câu báo |
+|---|---|---|
+| Tên đợt | Bắt buộc, ≤ 100 ký tự | "Nhập tên đợt" |
+| Hạn | 7–30 ngày kể từ hôm nay; mặc định 14 | "Hạn rà soát từ 7 đến 30 ngày." |
+
+**Liên quan:** VH-REV-01, 02, 03; VH-ADM-05; VH-BR-16, 17; VH-QT-09.
+
+---
+
+### VH-MH-19 Quản trị: Nhật ký
+
+| | |
+|---|---|
+| **Mục đích** | Tra ai đã làm gì, lúc nào, trên đối tượng nào, giá trị trước và sau, lý do; xuất cho kiểm toán |
+| **Ai dùng + quyền** | Quản trị hệ thống: toàn bộ. Kiểm soát: toàn bộ, chỉ đọc (đ). HC-NS: nhật ký hồ sơ, vị trí, cơ cấu, danh mục trong phạm vi (p: hồ sơ). Chủ app: nhật ký về app, vai trò, luật, quyền của app mình (p). Nhân viên xem nhật ký của mình ở VH-MH-03 và VH-MH-04 (m). Không ai sửa hay xoá được (VH-BR-18) |
+| **Đường dẫn** | `/quan-tri/nhat-ky` |
+| **GĐ** | B (A: nhật ký đăng nhập nằm ở VC ID, xem trên màn quản trị Keycloak) |
+
+**Bố cục:** thanh lọc trên; bảng nhật ký phân trang (mới nhất trước); bấm dòng mở ngăn kéo chi tiết so sánh trước / sau.
+
+**Trường dữ liệu**
+
+| Trường | Nguồn | Hiện cho ai | Ghi chú |
+|---|---|---|---|
+| Thời điểm | `audit_log` | Theo phạm vi | `dd/mm/yyyy HH:mm:ss`, giờ Việt Nam |
+| Người làm | `audit_log` | Theo phạm vi | Tên + mã NV; hệ thống ghi "Hệ thống ({tác vụ})" ví dụ "Hệ thống (tính lại quyền)" |
+| Hành động | `audit_log` | Theo phạm vi | Tạo, sửa, ngừng, xem C1, khoá, mở khoá, cấp, gỡ, duyệt, từ chối, áp luật, nhập lô, xuất… |
+| Loại đối tượng, đối tượng | `audit_log` | Theo phạm vi | Hồ sơ, vị trí, đơn vị, danh mục, app, vai trò app, luật, quyền, yêu cầu, rà soát, cài đặt, tài khoản |
+| Trước, sau | `audit_log` | Theo phạm vi | Ngăn kéo hiện từng trường đổi |
+| Lý do | `audit_log` | Theo phạm vi | |
+| IP rút gọn | `audit_log` | QTHT, kiểm soát | Ví dụ `113.161.x.x` |
+
+**Hành động**
+
+| Nút / thao tác | Ai | Kết quả | Yêu cầu |
+|---|---|---|---|
+| Lọc: khoảng thời gian (mặc định 7 ngày), người làm, hành động, loại đối tượng, đối tượng, app | Theo phạm vi | Lọc bảng | VH-ADM-01 |
+| "Xuất" (CSV hoặc Excel) | QTHT, kiểm soát, HC-NS (p), chủ app (p) | Tải theo bộ lọc; tối đa 100.000 dòng mỗi lần; việc xuất cũng ghi một dòng nhật ký | VH-ADM-01 |
+| Bấm tên đối tượng | Theo phạm vi | Mở màn của đối tượng (VH-MH-11, 12, 15, 16, 17) nếu người xem có quyền | — |
+
+**Trạng thái**
+
+| Trạng thái | Hiển thị |
+|---|---|
+| Không có dòng | `RONG-LOC` |
+| Đang tải | Khung xương 10 dòng |
+| Xuất quá giới hạn | "Kết quả có {n} dòng, vượt 100.000. Thu hẹp khoảng thời gian rồi xuất lại." |
+| Lỗi | `LOI-MAY` |
+
+**Kiểm tra nhập liệu**
+
+| Ô | Điều kiện | Câu báo |
+|---|---|---|
+| Khoảng thời gian | Từ ≤ đến; trong 24 tháng gần nhất (VH-BR-18) | "Ngày bắt đầu phải trước ngày kết thúc." · "Nhật ký chỉ giữ 24 tháng." |
+
+**Liên quan:** VH-ADM-01; VH-BR-18, 22; yêu cầu phi chức năng về nhật ký ở [08-phi-chuc-nang.md](08-phi-chuc-nang.md).
+
+---
+
+### VH-MH-20 Quản trị: Cài đặt
+
+| | |
+|---|---|
+| **Mục đích** | Đặt các con số vận hành: thời hạn yêu cầu, nhắc, tự huỷ, lịch rà soát, cảnh báo; xem thời hạn phiên; quản lý ngoại lệ tách nhiệm |
+| **Ai dùng + quyền** | Quản trị hệ thống ("Cài đặt hệ thống" ✓). Kiểm soát xem thay đổi cài đặt qua VH-MH-19 |
+| **Đường dẫn** | `/quan-tri/cai-dat?tab=quyen|rasoat|thongbao|phien|tachnhiem` |
+| **GĐ** | D |
+
+**Bố cục:** các tab; mỗi tab là một biểu mẫu với nút "Lưu" ở chân; mỗi ô có dòng giải thích và giá trị mặc định.
+
+**Trường dữ liệu**
+
+| Tab | Trường | Mặc định | Giới hạn | Căn cứ |
+|---|---|---|---|---|
+| Quyền | Thời hạn được chọn khi xin | 30, 90, 180, 365 ngày | Mỗi giá trị 1–365 | VH-BR-09 |
+| Quyền | Thời hạn mặc định | 90 ngày | Thuộc danh sách trên | VH-BR-09 |
+| Quyền | Hiện nút "Gia hạn" khi còn | 30 ngày | 7–60 | VH-REQ-06 |
+| Quyền | Báo sắp hết hạn trước | 14 và 3 ngày | 1–30 | VH-ACC-05 |
+| Quyền | Nhắc người duyệt sau | 2 và 5 ngày | 1–6 | VH-BR-13 |
+| Quyền | Tự huỷ yêu cầu sau | 7 ngày | Cố định theo VH-BR-13 (chỉ xem) | VH-BR-13 |
+| Rà soát | Chu kỳ | Hằng quý (tháng 1, 4, 7, 10) | Quý / nửa năm | VH-BR-16 |
+| Rà soát | Ngày tự mở trong tháng | Ngày 5 | 1–28 | VH-REV-01 |
+| Rà soát | Hạn xác nhận | 14 ngày | 7–30 | VH-BR-16 |
+| Thông báo | Người nhận cảnh báo vận hành (email, nhóm) | Nhóm vận hành | — | VH-ADM-04 |
+| Thông báo | Ngưỡng cảnh báo (đăng nhập lỗi, gửi sự kiện lỗi, đồng bộ Google không chạy) | Theo thiết kế SSO mục 11 | — | VH-ADM-04 |
+| Phiên | Hết hạn khi không dùng, tối đa | 12 giờ, 7 ngày | Chỉ xem (đặt trong cấu hình VC ID dạng code) | VH-AUT-05 |
+| Tách nhiệm | Danh sách ngoại lệ: người, hai vai trò, lý do, đến ngày | Trống | Tối đa 90 ngày mỗi ngoại lệ (đề xuất) | 02 mục 6 |
+
+**Hành động**
+
+| Nút / thao tác | Ai | Kết quả | Yêu cầu |
+|---|---|---|---|
+| "Lưu" | QTHT | Hỏi lại nếu đổi giá trị ảnh hưởng yêu cầu đang chờ: "Cài đặt mới áp cho yêu cầu gửi từ bây giờ." Toast "Đã lưu cài đặt." Ghi nhật ký trước / sau | VH-ADM-05 |
+| "Khôi phục mặc định" | QTHT | Đưa tab về giá trị mặc định (chưa lưu) | VH-ADM-05 |
+| "+ Ngoại lệ tách nhiệm" | QTHT | Hộp thoại người, cặp vai trò, lý do, đến ngày; báo kiểm soát | VH-ADM-03, VH-BR-17 |
+| "Kết thúc ngoại lệ" | QTHT | Đóng ngoại lệ ngay | VH-ADM-03 |
+| "Gửi cảnh báo thử" | QTHT | Gửi một cảnh báo thử tới người nhận | VH-ADM-04 |
+
+**Trạng thái:** đang tải: khung xương biểu mẫu; lỗi lưu: `LOI-MAY`, giữ giá trị đã nhập; hai người cùng sửa: `LOI-409`.
+
+**Kiểm tra nhập liệu**
+
+| Ô | Điều kiện | Câu báo |
+|---|---|---|
+| Các ô số | Số nguyên trong giới hạn ở bảng trên | "Nhập số từ {min} đến {max}." |
+| Thời hạn mặc định | Thuộc danh sách thời hạn được chọn | "Thời hạn mặc định phải nằm trong danh sách thời hạn." |
+| Thời hạn được chọn | Không vượt 365 | "Thời hạn tối đa 365 ngày (VH-BR-09)." |
+| Email người nhận | Đúng định dạng | "Email không hợp lệ." |
+| Ngoại lệ tách nhiệm | Có lý do ≥ 10 ký tự; đến ngày ≤ 90 ngày; người nhận không phải chính mình | "Nhập lý do (ít nhất 10 ký tự)." · "Ngoại lệ tối đa 90 ngày." · "Không tạo ngoại lệ cho chính bạn." |
+
+**Liên quan:** VH-ADM-03, 04, 05; VH-AUT-05; VH-REQ-04, 06; VH-REV-01; VH-BR-09, 13, 16, 17.
+
+---
+
+## 8. Thành phần trong app khác (VH-MH-21)
+
+### VH-MH-21 Thanh chuyển app
+
+| | |
+|---|---|
+| **Mục đích** | Từ bất kỳ app nào (VClinks, VCwiki, app sau này) chuyển sang app khác hoặc về VC Home bằng một lần bấm, không đăng nhập lại |
+| **Ai dùng + quyền** | Mọi người đã đăng nhập vào app. Danh sách lọc theo quyền của chính người đó |
+| **Đường dẫn** | Không có trang riêng. Nút 9 chấm ở header của từng app; dữ liệu đọc qua endpoint của chính app (`GET /api/platform/apps` ở VClinks, `GET /platform/apps` ở VCwiki), endpoint này tải `home.vcprosperous.com/catalog.json` (VH-API-08) và lọc theo quyền |
+| **GĐ** | A (lọc theo nhóm `groups`), C (lọc theo vai trò app, hiện nhãn vai trò), E (số việc chờ) |
+
+**Bố cục**
+
+```
+ Header của VClinks:  … (🔔) (⋮⋮⋮) (Minh ▾)
+                            │
+                ┌───────────▼────────────────────┐
+                │ (VC) VC Home                    │ ← luôn đứng đầu
+                │ ─────────────────────────────── │
+                │ [icon] VClinks      ✓ đang mở   │
+                │        NVKD                     │ ← nhãn vai trò (GĐ C)
+                │ [icon] VCwiki              (5)  │ ← số việc chờ (GĐ E)
+                │        Biên tập                 │
+                │ [icon] VCsale                   │
+                │ ─────────────────────────────── │
+                │ Tất cả ứng dụng trên VC Home →  │
+                └─────────────────────────────────┘
+```
+
+Máy tính: `Dropdown` antd rộng 280 px, tối đa 8 app, quá thì cuộn. Dưới 600 px: ngăn kéo từ dưới lên, chiếm toàn chiều ngang, vùng bấm 44 px. Phím: Enter / Space mở, mũi tên chọn, Esc đóng.
+
+**Trường dữ liệu**
+
+| Trường | Nguồn | Hiện cho ai | Ghi chú |
+|---|---|---|---|
+| "VC Home" | Tĩnh | Mọi người | Mục đầu tiên, mở `home.vcprosperous.com` |
+| Biểu tượng, tên app | `catalog.json` | Người có quyền vào app | Chỉ app trạng thái "Đang chạy"; **không** hiện ô "Sắp có" và liên kết ngoài (chỉ trang chủ có) |
+| Dấu "đang mở" | App hiện tại | Mọi người | App đang dùng có dấu ✓ và nền tô |
+| Nhãn vai trò | Claim vai trò app trong token (GĐ C) | Chính mình | Như trên ô trang chủ, rút gọn 1 dòng |
+| Số việc chờ | VH-API-09 | Chính mình | GĐ E; app không trả lời thì không hiện số |
+| "Tất cả ứng dụng trên VC Home →" | Tĩnh | Mọi người | Mở trang chủ VC Home |
+
+**Hành động**
+
+| Nút / thao tác | Ai | Kết quả | Yêu cầu |
+|---|---|---|---|
+| Bấm nút 9 chấm | Mọi người | Mở danh sách | VH-HOM-05 |
+| Bấm một app | Người có quyền | Mở app trong cùng tab; đã có phiên VC ID nên vào thẳng | VH-HOM-05, VH-AUT-03 |
+| Ctrl/⌘ + bấm | Như trên | Mở tab mới | VH-HOM-05 |
+| Bấm "VC Home" / "Tất cả ứng dụng" | Mọi người | Mở trang chủ VC Home | VH-HOM-05 |
+
+**Trạng thái**
+
+| Trạng thái | Hiển thị |
+|---|---|
+| Đang tải | 3 dòng khung xương trong danh sách |
+| Không tải được danh mục | Dùng bản đệm của app (5 phút); chưa có bản đệm: chỉ hiện "VC Home" và dòng xám "Không tải được danh sách ứng dụng." |
+| Chỉ có quyền ở app hiện tại | Danh sách có "VC Home" và app hiện tại |
+
+**Kiểm tra nhập liệu:** không có ô nhập. App phải lấy danh mục qua máy chủ của mình (không gọi thẳng từ trình duyệt sang VC Home) để không lộ nhóm, vai trò của người khác; `catalog.json` không chứa dữ liệu cá nhân.
+
+**Liên quan:** VH-HOM-05, 07; VH-AUT-03; VH-INT-01, 07; VH-API-08, 09; VH-BR-20, 21; thiết kế SSO mục 5.4, 5.5 (`AppSwitcher.tsx`, `platform.py`).
+
+---
+
+## 9. Điểm lệch với README và 02
+
+Các điểm dưới đây cần người duyệt chốt. Tài liệu này **không** sửa README hay 02; màn hình đặc tả theo cách hiểu ghi ở cột "Cách 06 đang làm".
+
+| # | Chỗ lệch | Trích nguyên văn | Cách 06 đang làm | Đề xuất sửa |
+|---|---|---|---|---|
+| 1 | Tổng số yêu cầu ở README mục 5 | "Tổng: 75 yêu cầu (M: 44 · S: 25 · C: 5 · W: 1)." | Bảng thực có **78** dòng: M 45 · S 25 · C 7 · W 1 | Sửa dòng tổng của README |
+| 2 | Báo cáo tổng hợp (VH-ADM-02) chưa có mã màn; Ban giám đốc không có màn nào trong README mục 8 | 02 mục 3: "Báo cáo tổng hợp \| — \| — \| (p) \| (p) \| ✓ \| (p: app mình) \| (đ) \| (đ)" | Đặt tạm thành tab "Báo cáo tổng hợp" của VH-MH-17; menu "Báo cáo" | Cấp mã màn riêng (mục 10, đề xuất 1) |
+| 3 | Ma trận 02 không ghi trưởng đơn vị duyệt bước 1, dù VH-BR-05 cho tạm làm | 02 mục 3: "Duyệt bước 1 (quản lý) \| — \| (p) \| — \| — \| — \| — \| — \| —"; VH-BR-05: "trưởng đơn vị tạm làm quản lý cho việc duyệt" | Hộp duyệt hiện cho trưởng đơn vị khi đang thay quản lý | Thêm chú thích vào ô Trưởng ĐV của dòng đó |
+| 4 | Ma trận 02 không ghi quản trị hệ thống duyệt bước 2, dù VH-BR-12 có | 02 mục 3: "Duyệt bước 2 (vai trò nhạy cảm) \| — \| — \| — \| — \| — \| (p) \| — \| —" (ô thứ năm là Quản trị HT); VH-BR-12: "chủ app xin vai trò nhạy cảm của chính app mình thì bước 2 chuyển cho quản trị hệ thống" | Hộp duyệt của quản trị hệ thống có bước 2 trong trường hợp này | Sửa ô Quản trị HT thành "(chỉ khi chủ app tự xin)" |
+| 5 | README mục 8 thiếu kiểm soát ở VH-MH-15 | README: "VH-MH-15 \| Quản trị: App và vai trò app \| Quản trị hệ thống, chủ app"; 02 mục 3 cho kiểm soát (đ) ở "Danh mục app" và "Vai trò app" | Kiểm soát xem được, chỉ đọc | Thêm "kiểm soát (xem)" vào cột "Ai dùng" |
+| 6 | README mục 8 ghi VH-MH-19 chỉ cho quản trị HT, kiểm soát; ma trận cho thêm HC-NS và chủ app | README: "VH-MH-19 \| Quản trị: Nhật ký \| Quản trị hệ thống, kiểm soát"; 02: "Nhật ký \| (m) \| — \| — \| (p: hồ sơ) \| ✓ \| (p: app mình) \| (đ) \| —" | HC-NS, chủ app thấy theo phạm vi; nhân viên xem của mình ở VH-MH-03, 04 | Thêm HC-NS, chủ app vào cột "Ai dùng" |
+| 7 | README mục 8 ghi VH-MH-08 cho "Quản lý, chủ app" | README: "VH-MH-08 \| Hộp duyệt \| Quản lý, chủ app" | Thêm quản trị HT (luật bước hai, VH-BR-25; bước 2 VH-BR-12), người được uỷ quyền | Sửa cột "Ai dùng" |
+| 8 | VH-BR-16 nói "rà soát luật mỗi nửa năm" nhưng không có yêu cầu, màn hay người làm | 02 VH-BR-16: "Quyền mặc định (từ luật) không rà soát từng người; thay vào đó rà soát luật mỗi nửa năm." | Chưa có màn; ghi đề xuất 3 ở mục 10 | Cấp mã yêu cầu hoặc ghi rõ làm ngoài hệ thống |
+| 9 | Phân loại C0 / C1 chưa có danh sách trường | README thuật ngữ: "Mức mật C0–C3 … (C0 công khai nội bộ → C3 nhạy cảm)"; 02: "Danh bạ (thông tin C0)", "hồ sơ công việc đầy đủ (C1)" | Danh bạ hiện ảnh, tên, chức danh, đơn vị, email, SĐT công việc, nơi làm việc, quản lý; phần còn lại là C1 (VH-MH-06) | Chốt danh sách ở 05 |
+| 10 | Thiết kế SSO mục 14 xếp "màn quản trị danh mục app" vào "để sau"; README xếp VH-APP-01 màn quản trị ở GĐ B | Thiết kế SSO: "Màn quản trị danh mục app và nhóm trong VC Home thay cho sửa `apps.yaml`…" (mục 14 Để sau); README: "VH-APP-01 \| Danh mục app \| M \| A (tệp tĩnh), B (quản trị trên màn)" | Theo README: màn có từ GĐ B | Ghi chú ở thiết kế SSO rằng README đã đưa việc này vào GĐ B |
+
+## 10. Đề xuất bổ sung (chưa cấp mã)
+
+| # | Đề xuất | Lý do | Ảnh hưởng nếu làm |
+|---|---|---|---|
+| 1 | Màn "Báo cáo" riêng tại `/bao-cao` cho Ban giám đốc, trưởng đơn vị, HC-NS, chủ app, kiểm soát | BGĐ không nên vào nhóm "QUẢN TRỊ"; báo cáo hiện ghép tạm vào VH-MH-17 | Thêm một mã màn; tách tab "Báo cáo tổng hợp" khỏi VH-MH-17 |
+| 2 | Cho kiểm soát xem danh sách luật (chỉ đọc) | Kiểm soát đang tra được quyền nguồn "Luật" nhưng không xem được điều kiện luật | Sửa ma trận 02, thêm cột (đ) ở VH-MH-16 |
+| 3 | Màn hoặc chức năng "Rà soát luật nửa năm" (VH-BR-16) | Quy tắc có, chưa có yêu cầu và màn | Thêm yêu cầu REV; có thể tái dùng VH-MH-18 với loại đợt "Luật" |
+| 4 | Cột "Lần dùng app gần nhất" ở VH-MH-10 | Trưởng đơn vị quyết giữ / gỡ chính xác hơn | Cần app gửi lần dùng gần nhất (qua VH-API-09 hoặc sự kiện mới) |
+| 5 | Lọc "Người không đăng nhập 90 ngày còn quyền" thành cảnh báo chủ động cho quản trị | Phát hiện tài khoản bỏ quên | Dùng `accounts.lần đăng nhập cuối`; thêm một loại thông báo |
+| 6 | Cho người dùng chọn nhận thông báo qua email ngoài chuông | Quản lý ít mở VC Home vẫn duyệt kịp, giảm yêu cầu tự huỷ | Thêm cài đặt cá nhân; cần dịch vụ gửi mail |
+| 7 | Chế độ "Xem như vai trò" cho quản trị hệ thống khi hỗ trợ người dùng (chỉ xem, có ghi nhật ký) | Xử lý câu hỏi "sao tôi không thấy app X" nhanh hơn | Rủi ro riêng tư; cần quyết định ở 08 |
+| 8 | Nút "Báo sai thông tin" ngay trên thẻ người ở danh bạ (gửi HC-NS) | Đồng nghiệp phát hiện sai chức danh, đơn vị nhanh hơn người đó | Mở rộng VH-NSU-06 cho người khác đề nghị |
+| 9 | Tìm danh bạ theo giọng nói hoặc gõ không dấu trên điện thoại | Nhân viên kinh doanh hay dùng điện thoại ngoài thị trường | Gõ không dấu đã có ở VH-MH-06; giọng nói để sau |
+
+## Lịch sử cập nhật
+
+| Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
+|---|---|---|---|---|
+| 0.1 | 08/10/2026 10:31 | Claude Code (vai BA) | Tạo tài liệu: quy ước chung, sơ đồ trang, menu theo vai trò, khung chung (header, thông báo, menu), đặc tả 21 màn VH-MH-01…21 kèm khung dây cho 6 màn chính, 10 điểm lệch với README và 02, 9 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |
