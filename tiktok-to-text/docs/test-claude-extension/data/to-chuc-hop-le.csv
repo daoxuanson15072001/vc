@@ -1,0 +1,3 @@
+Email,Họ tên,Mã đơn vị,Chức năng,Email quản lý,Email quản lý chuyên môn,Chức danh,Cấp bậc
+ktv.moi1@uat.test,Nguyễn KTV Mới Một,VCGARAGE-KT,tech,ks.kt@uat.test,,Kỹ thuật viên,2
+ktv.moi2@uat.test,Trần KTV Mới Hai,VCGARAGE-KT,,ktv.moi1@uat.test,,Thực tập sinh,1

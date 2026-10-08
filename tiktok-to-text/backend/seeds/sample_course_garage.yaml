@@ -1,0 +1,108 @@
+# Khoá đào tạo mẫu cho /learn — tiếp nhận xe & tư vấn dịch vụ cho cố vấn dịch vụ (CVDV) garage.
+# Đọc bởi backend/app/learn/sample.py (script: backend/scripts/seed_sample_course.py). Idempotent theo sample_key.
+# Đổi danh sách thẻ = đổi khoá: tăng sample_key (garage-cvdv-v2) rồi chạy seed --reset nếu muốn thay bản cũ.
+# audience.function `dich-vu` (cố vấn dịch vụ / khối dịch vụ xưởng) — danh mục org_functions hiện trống nên chưa đối
+# chiếu được mã chuẩn; đổi lại khi danh mục chức năng có mã chính thức.
+# Loại thẻ → câu sinh (2 câu/thẻ): 13 framework/concept (13 single + 13 multi), 1 sop (2 multi), 2 lesson (4 tự luận
+# theo thẻ, độ khó ≤ 4 — không rơi vào dòng tự luận độ khó 5) → 13 single, 15 multi → đủ cho ma trận 8 single / 7 multi.
+
+sample_key: garage-cvdv-v1
+title: Tiếp nhận xe & tư vấn dịch vụ cho cố vấn dịch vụ garage
+description: >-
+  Khoá mẫu 4 tuần cho cố vấn dịch vụ garage (cấp bậc 2, mảng Nền tảng ngành) — người trực tiếp tiếp khách, nhận xe
+  và báo giá. Sau 4 tuần bạn lập phiếu tiếp nhận đầy đủ, tư vấn bảo dưỡng định kỳ theo tình trạng xe, báo giá và
+  giữ nguyên tắc giảm giá, kiểm soát chất lượng trước bàn giao và xử lý khiếu nại thay mặt gara. Khoảng 3 giờ mỗi
+  tuần: đọc bài, luyện tập, cuối khoá thi 15 câu trắc nghiệm + 2 câu tự luận tình huống gara (30 phút, đạt từ 70%).
+learner: cố vấn dịch vụ mới ở xưởng dịch vụ ô tô, người tiếp khách và tư vấn sửa chữa   # người đọc phần diễn giải bài (AI)
+audience:
+  function: dich-vu
+  level: 2
+  category: nen
+  division: [vcservice, tap-doan]
+hours_per_week: 3
+enroll_days: 28            # hạn = ngày giao / tự ghi danh + 28 ngày, 23:59 giờ VN
+org_space: Kho video TikTok  # bài học + câu hỏi nằm ở kho org này
+questions_per_card: 2
+
+weeks:
+  - week: 1
+    title: Tiếp nhận xe
+    lessons:
+      - title: Phiếu tiếp nhận xe
+        cards: [6ab4b8c7b1c921b0a784dbcd, 6ab8d7d416800b4edd9fade8]
+      - title: Minh bạch khi kiểm tra và báo giá
+        cards: [6ab4b8d9b1c921b0a784dbd0, 6ab4b8ebb1c921b0a784dbd1]
+  - week: 2
+    title: Tư vấn bảo dưỡng định kỳ
+    lessons:
+      - title: Phiếu bảo dưỡng và chu kỳ
+        cards: [6ab4bac6b1c921b0a784dc41, 6ab4b9e5b1c921b0a784dc03]
+      - title: Hạng mục khách hay bỏ sót
+        cards: [6ab69f07f3ad31ef11df0c23, 6ab69c51f3ad31ef11df0b9c]
+  - week: 3
+    title: Báo giá, phụ tùng & gói dịch vụ
+    lessons:
+      - title: Giữ nguyên tắc giá và phụ tùng khách mang đến
+        cards: [6ab4b8cbb1c921b0a784dbce, 6ab4b95ab1c921b0a784dbe0]
+      - title: Tư vấn gói bảo dưỡng theo mốc km
+        cards: [6ab6a20af3ad31ef11df0c5b, 6ab69d76f3ad31ef11df0bd6]
+  - week: 4
+    title: Chất lượng, bàn giao & sau dịch vụ
+    lessons:
+      - title: Kiểm soát chất lượng và hẹn tiến độ
+        cards: [6ab6a1e4f3ad31ef11df0c58, 6ab4ba30b1c921b0a784dc1a]
+      - title: Khiếu nại và chăm sóc sau sửa
+        cards: [6ab4b928b1c921b0a784dbda, 6ab4b8f8b1c921b0a784dbd4]
+
+# Đọc thêm: không tính điểm, không sinh câu hỏi — gắn vào bài cuối cùng.
+reading_cards: [6ab4b8f3b1c921b0a784dbd2]
+
+exam:
+  duration_min: 30
+  pass_score: 70
+  attempts: 1
+  # 15 trắc nghiệm rút từ câu gắn 16 thẻ; 2 tự luận là đúng 2 câu tình huống gara bên dưới (độ khó 5 — câu sinh
+  # theo thẻ bị giới hạn độ khó ≤ 4 nên dòng tự luận độ khó 5 chỉ rút trúng 2 câu này).
+  blueprint:
+    - {kind: single, count: 8}
+    - {kind: multi, count: 7}
+    - {kind: essay, difficulty: 5, count: 2}
+  essays:
+    - stem: >-
+        Anh Hùng đưa chiếc Ford Ranger đã chạy khoảng 60.000 km vào gara lúc 8 giờ sáng, nói "thay nhớt thôi, anh
+        cần lấy xe trước trưa". Khi chạy thử bạn thấy vô lăng hơi lệch và rung nhẹ ở tốc độ cao; thân xe có vài vết
+        xước. Trình bày cách bạn tiếp nhận xe và tư vấn cho anh Hùng: ghi gì vào phiếu tiếp nhận, tư vấn những hạng
+        mục nào ngoài thay nhớt và nói với khách ra sao để khách không thấy bị ép.
+      cards: [6ab4b8c7b1c921b0a784dbcd, 6ab4bac6b1c921b0a784dc41, 6ab69f07f3ad31ef11df0c23]
+      rubric:
+        - {criterion: Phiếu tiếp nhận đầy đủ, max: 3, descriptor: "Ghi thân vỏ (vết xước, móp), đèn báo lỗi, km, lốp sơ cua, đồ nghề; nhắc khách lấy đồ giá trị; khách xác nhận trước khi xe lên cầu"}
+        - {criterion: Tư vấn đúng theo triệu chứng, max: 3, descriptor: "Nối vô lăng lệch với cân thước lái, rung ở tốc độ cao với cân bằng động; nêu hậu quả (mòn lốp, an toàn); dùng phiếu bảo dưỡng để khách thấy gói gồm gì"}
+        - {criterion: Không ép khách, max: 2, descriptor: "Tách hạng mục làm ngay / để lần sau, khách chốt món nào làm món đó; hạng mục chưa làm ghi vào báo giá bổ sung"}
+        - {criterion: Cam kết thời gian thực tế, max: 2, descriptor: "Hẹn giờ trả xe sát năng lực xưởng, báo trước nếu thêm hạng mục làm kéo dài"}
+      model_answer: >-
+        Tiếp nhận (khoảng 5 phút): đi quanh xe cùng anh Hùng, ghi vào phiếu các vết xước trên thân vỏ, đèn báo trên
+        táp-lô, số km, lốp sơ cua, bộ đồ nghề; nhắc anh lấy đồ cá nhân giá trị ra và ký xác nhận — tránh tranh chấp
+        khi giao xe và có sẵn dữ liệu để chào đánh bóng về sau. Tư vấn: dùng phiếu bảo dưỡng cấp 60.000 km cho anh
+        thấy mục kiểm tra / vệ sinh / thay thế; nêu triệu chứng quan sát được — vô lăng lệch là dấu hiệu lệch thước
+        lái, rung ở tốc độ cao thường do bánh xe mất cân bằng — và hậu quả mòn lốp sớm, kém an toàn; đề xuất cân
+        thước lái + cân bằng động như lịch 10.000 km. Để khách chọn: thay nhớt làm ngay; cân chỉnh làm nếu anh đồng ý
+        và vẫn kịp trưa; các mục khác ghi vào báo giá bổ sung gửi kèm khi quyết toán. Hẹn giờ trả xe theo đúng lịch
+        xưởng, báo lại ngay nếu phát sinh.
+    - stem: >-
+        Ba ngày sau khi thay má phanh, chị Lan quay lại gara, bực bội vì phanh kêu, đòi gặp thẳng chủ gara, đòi giảm
+        30% hoá đơn và yêu cầu đuổi người thợ đã làm. Là cố vấn dịch vụ, trình bày cách bạn xử lý với khách, với nội
+        bộ, và thay đổi gì để lỗi không lặp lại.
+      cards: [6ab4b928b1c921b0a784dbda, 6ab4b95ab1c921b0a784dbe0, 6ab6a1e4f3ad31ef11df0c58]
+      rubric:
+        - {criterion: Nhận lỗi thay mặt gara, max: 3, descriptor: "Lắng nghe, không đổ lỗi cho thợ trước mặt khách; gara nhận trách nhiệm như một tổ chức; hẹn kiểm tra và khắc phục ngay"}
+        - {criterion: Giữ vai đầu mối và hạn mức giảm giá, max: 3, descriptor: "CVDV là đầu mối; bồi thường / ưu đãi trong hạn mức của cấp mình, vượt thì trình cấp trên; thợ chỉ lên giải thích kỹ thuật cùng CVDV"}
+        - {criterion: Xử lý nội bộ bằng biên bản, max: 2, descriptor: "Việc ai sai đến đâu, có đuổi thợ hay không là việc nội bộ theo biên bản, không hứa với khách"}
+        - {criterion: Phòng lặp lại, max: 2, descriptor: "Checklist in giấy theo bước, đánh dấu sau khi siết, kiểm tra / chạy thử trước bàn giao"}
+      model_answer: >-
+        Với khách: mời chị ngồi, nghe hết, xin lỗi thay mặt gara — trải nghiệm xấu là lỗi của gara, không nói "tại
+        thợ". Khách phản ánh là còn muốn gắn bó nên giải thích nhẹ nhàng, kiểm tra xe ngay (có thể mời thợ lên giải
+        thích kỹ thuật cùng cố vấn) và khắc phục miễn phí. Về giảm giá: tôi là đầu mối, chỉ quyết trong hạn mức của
+        cố vấn; đề nghị lớn hơn thì trình quản lý xưởng theo quy định chứ không để khách vòng qua chủ gara. Yêu cầu
+        đuổi thợ: ghi nhận, nói rõ gara sẽ xử lý nội bộ. Nội bộ: lập biên bản xác định nguyên nhân (lắp sai, thiếu
+        bước, phụ tùng) và trách nhiệm. Phòng lặp lại: áp checklist in giấy theo bước cho thay má phanh, đánh dấu sau
+        mỗi bước siết, chạy thử trước khi bàn giao.

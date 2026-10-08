@@ -1,0 +1,10 @@
+Email,Họ tên,Mã đơn vị,Chức năng,Email quản lý,Email quản lý chuyên môn,Chức danh,Cấp bậc
+email-sai,Người Lỗi Email,VCGARAGE-KT,tech,ks.kt@uat.test,,,2
+loi.donvi@uat.test,Người Lỗi Đơn Vị,KHONG-CO,tech,,,,2
+loi.capbac@uat.test,Người Lỗi Cấp Bậc,VCGARAGE-KT,tech,,,,9
+loi.quanly@uat.test,Người Lỗi Quản Lý,VCGARAGE-KT,tech,khong.co@uat.test,,,2
+loi.trung@uat.test,Người Trùng Dòng,VCGARAGE-KT,tech,,,,2
+loi.trung@uat.test,Người Trùng Dòng,VCGARAGE-KT,tech,,,,2
+vong.a@uat.test,Người Vòng A,VCGARAGE-KT,tech,vong.b@uat.test,,,2
+vong.b@uat.test,Người Vòng B,VCGARAGE-KT,tech,vong.a@uat.test,,,2
+hop.le@uat.test,Người Hợp Lệ Trong File Lỗi,VCGARAGE-KT,tech,ks.kt@uat.test,,,2

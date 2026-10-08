@@ -1,0 +1,17 @@
+# Remote view of display :99 in a browser (noVNC), so the on-duty person can rescan a Zalo QR.
+# Listens on 127.0.0.1 only; reached through Cloudflare Tunnel + Cloudflare Access (login required).
+[Unit]
+Description=VClinks noVNC on 127.0.0.1:6080 for display :99
+After=vclinks-xvfb.service
+Requires=vclinks-xvfb.service
+
+[Service]
+User=vclinks
+Environment=DISPLAY=:99
+# x11vnc bound to localhost; the password file is created once with: x11vnc -storepasswd
+ExecStart=/bin/sh -c 'x11vnc -display :99 -localhost -forever -shared -rfbport 5900 -rfbauth /home/vclinks/.vnc/passwd -quiet & exec websockify --web /usr/share/novnc 127.0.0.1:6080 127.0.0.1:5900'
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

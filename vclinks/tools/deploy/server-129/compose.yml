@@ -1,0 +1,93 @@
+# VClinks on server 192.168.1.129 (ssh-local-192-1-129). Synced and started by sync.sh (run from the repo root).
+#
+# Everything runs on the host network, on ports this machine leaves free: api :3100,
+# web (nginx) on :8090 for the LAN (http://192.168.1.129:8090), proxying /api and /mcp to the api.
+# MongoDB is the machine's shared replica set rs0 (systemd mongod, mongod1, mongod2 on 27017-27019),
+# database `vclinks`. Those services fail at boot when 192.168.1.129 is not up yet: then the api restarts
+# until they are back.
+# Public URL: a Cloudflare tunnel on this machine maps the VClinks hostname -> http://127.0.0.1:8090.
+#
+# .env here is a symlink to ~/vclinks/.env on the server (secrets, never in git).
+
+name: vclinks-129
+
+services:
+  api:
+    build: { context: ../../.., dockerfile: apps/api/Dockerfile }
+    image: vclinks-api:129
+    restart: unless-stopped
+    network_mode: host
+    env_file: [.env]
+    environment:
+      PORT: 3100
+      MONGO_URI: mongodb://192.168.1.129:27017,192.168.1.129:27018,192.168.1.129:27019/vclinks?replicaSet=rs0
+      TZ: Asia/Ho_Chi_Minh
+      VCLINKS_REPO_ROOT: /repo
+    volumes:
+      # Read-only docs for the dev MCP (/mcp/dev read_ba, get_system_spec).
+      - ../../../docs:/repo/docs:ro
+      - ../../../CLAUDE.md:/repo/CLAUDE.md:ro
+      - ../../../TAI-LIEU.md:/repo/TAI-LIEU.md:ro
+      - ../../../pnpm-workspace.yaml:/repo/pnpm-workspace.yaml:ro
+
+  web:
+    build: { context: ../../.., dockerfile: apps/web/Dockerfile }
+    image: vclinks-web:129
+    restart: unless-stopped
+    network_mode: host
+    depends_on: [api]
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+  # Voice-to-text worker. Enabled with COMPOSE_PROFILES=asr and ASR_API_TOKEN (ingest scope) in .env.
+  asr:
+    profiles: [asr]
+    build: { context: ../../.., dockerfile: workers/asr/Dockerfile }
+    image: vclinks-asr:129
+    restart: unless-stopped
+    network_mode: host
+    depends_on: [api]
+    environment:
+      ASR_API_URL: http://127.0.0.1:3100
+      ASR_API_TOKEN: ${ASR_API_TOKEN:-}
+      ASR_MODEL: ${ASR_MODEL:-small}
+      ASR_DEVICE: cpu
+      TZ: Asia/Ho_Chi_Minh
+    volumes: [asr-models:/models]
+
+  # "Máy Zalo": one Chrome profile per personal Zalo nick, login by scanning the QR shown on the Dashboard
+  # (docs/06-van-hanh/chrome-driver.md "Máy Zalo"). Enabled with COMPOSE_PROFILES=...,farm and, in .env:
+  # ZALO_FARM_KEY (shared with the api, >= 24 chars), ZALO_FARM_TOKEN (ingest token of the extensions),
+  # optional ZALO_FARM_MAX (default 8: about 0.5-0.8 GB RAM per nick) and ZALO_FARM_VNC_PASSWORD (noVNC on
+  # 127.0.0.1:6080, reach it through an SSH tunnel). Agent on 127.0.0.1:9400, Chrome CDP on 127.0.0.1:9451-9499.
+  zalo-farm:
+    profiles: [farm]
+    build: { context: ../../.., dockerfile: tools/chrome-driver/farm/Dockerfile }
+    image: vclinks-zalo-farm:129
+    restart: unless-stopped
+    network_mode: host
+    depends_on: [api]
+    shm_size: 2gb
+    mem_limit: 8g
+    # Chrome isolates each page in its own sandbox (user namespaces), which Docker's default seccomp profile blocks
+    # ("No usable sandbox"). Lifting seccomp for this container keeps Chrome's sandbox ON, which protects the nick
+    # profiles better than --no-sandbox. A dedicated seccomp profile is a hardening item (plan P5).
+    security_opt: [seccomp=unconfined]
+    environment:
+      VCLINKS_API: http://localhost:3100
+      ZALO_FARM_PORT: "9400"
+      ZALO_FARM_MAX: ${ZALO_FARM_MAX:-8}
+      ZALO_FARM_KEY: ${ZALO_FARM_KEY:-}
+      # Direct mode (zca-js): 64 hex characters that encrypt the saved Zalo sessions (session.enc). Never in git.
+      ZALO_FARM_SESSION_KEY: ${ZALO_FARM_SESSION_KEY:-}
+      VCLINKS_TOKEN: ${ZALO_FARM_TOKEN:-}
+      VNC_PASSWORD: ${ZALO_FARM_VNC_PASSWORD:-}
+      CHROME_EXTRA_FLAGS: ${ZALO_FARM_CHROME_FLAGS:-}
+      TZ: Asia/Ho_Chi_Minh
+    volumes: [zalo-farm:/home/vclinks/.vclinks-fleet]
+
+volumes:
+  asr-models:
+    name: vclinks-129_asr-models
+  zalo-farm:
+    name: vclinks-129_zalo-farm

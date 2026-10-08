@@ -1,0 +1,135 @@
+1
+00:00:01,199 --> 00:00:06,332
+VClinks — nền tảng hội thoại đa kênh dành cho nhà phân phối phụ tùng ô tô.
+
+2
+00:00:09,332 --> 00:00:13,006
+Một garage hỏi giá qua Zalo của sale, bình luận trên Fanpage,
+
+3
+00:00:13,205 --> 00:00:17,007
+nhắn Zalo OA hỏi bảo hành, rồi gửi email xin hóa đơn.
+
+4
+00:00:17,207 --> 00:00:20,041
+Bốn kênh, bốn người — không ai thấy đủ bức tranh.
+
+5
+00:00:20,242 --> 00:00:23,846
+Sale nghỉ việc, khách và lịch sử trao đổi đi theo chiếc điện thoại.
+
+6
+00:00:24,045 --> 00:00:26,512
+Quản lý không biết tin nào đang bị bỏ quên.
+
+7
+00:00:28,713 --> 00:00:32,143
+Với VClinks, mọi kênh về một hộp thư:
+
+8
+00:00:33,042 --> 00:00:38,028
+Zalo cá nhân của từng sale, Zalo OA, Fanpage, chat web và email công ty.
+
+9
+00:00:39,929 --> 00:00:43,799
+Mỗi hội thoại có kênh, người phụ trách và đồng hồ chờ trả lời.
+
+10
+00:00:44,899 --> 00:00:49,370
+Sale làm theo danh sách: tin nào chưa trả lời, tin nào sắp quá hạn.
+
+11
+00:00:51,771 --> 00:00:56,338
+VClinks nhận ra bốn tin nhắn đó cùng của Garage Minh Phát.
+
+12
+00:00:58,439 --> 00:01:03,664
+Chủ garage, thợ và kế toán — gom về một hồ sơ khách.
+
+13
+00:01:04,563 --> 00:01:10,118
+Bên phải: mã khách, công nợ, đơn gần nhất, báo giá đang mở — đọc từ phần mềm bán hàng.
+
+14
+00:01:11,019 --> 00:01:14,205
+Sale trả lời với đủ bối cảnh, không phải hỏi lại khách.
+
+15
+00:01:16,204 --> 00:01:20,111
+Khách hỏi giá bộ côn Hilux 2017 máy dầu.
+
+16
+00:01:21,111 --> 00:01:27,003
+Trợ lý AI tra giá, tồn kho, chính sách — soạn sẵn câu trả lời có dẫn nguồn.
+
+17
+00:01:30,003 --> 00:01:32,963
+AI chỉ gợi ý. Sale sửa, rồi mới bấm gửi.
+
+18
+00:01:36,364 --> 00:01:40,966
+Báo giá đã duyệt được gửi thẳng vào khung chat, đúng kênh khách đang dùng,
+
+19
+00:01:43,766 --> 00:01:45,827
+và tự lưu vào lịch sử khách hàng.
+
+20
+00:01:48,227 --> 00:01:50,716
+Giám sát thấy cả tổ trên một màn hình:
+
+21
+00:01:50,917 --> 00:01:54,661
+ai đang trực, nick nào mất kết nối, khách nào chờ quá lâu.
+
+22
+00:01:55,460 --> 00:01:59,305
+Sale nghỉ phép có người trực thay; giám sát trả lời thay khi cần.
+
+23
+00:02:02,305 --> 00:02:07,487
+Sale nghỉ việc: bàn giao khách và lịch sử trong một thao tác, thu hồi phiên đăng nhập.
+
+24
+00:02:10,687 --> 00:02:12,818
+Nick Zalo là tài sản của công ty.
+
+25
+00:02:15,217 --> 00:02:18,218
+Khách nhắn Zalo OA báo bơm nước bị rò.
+
+26
+00:02:19,218 --> 00:02:23,706
+Chăm sóc khách hàng mở phiếu bảo hành ngay trong hội thoại, có hạn xử lý,
+
+27
+00:02:25,705 --> 00:02:29,264
+và luôn thấy còn bao lâu để trả lời miễn phí trên Zalo OA.
+
+28
+00:02:30,063 --> 00:02:33,680
+Sale phụ trách được báo, để không hứa ngược với bộ phận bảo hành.
+
+29
+00:02:36,280 --> 00:02:39,082
+Bảng điều hành là danh sách việc cần can thiệp:
+
+30
+00:02:39,282 --> 00:02:44,455
+tin chờ quá lâu, báo giá treo, khách nợ quá hạn đang nhắn, nick mất kết nối.
+
+31
+00:02:46,254 --> 00:02:49,395
+Bấm vào dòng nào là xử lý được ngay dòng đó.
+
+32
+00:02:52,395 --> 00:03:01,798
+Triển khai theo từng giai đoạn: Zalo đội sale → Zalo OA và CSKH → Fanpage, hồ sơ 360 → phân tích, mở rộng kênh.
+
+33
+00:03:03,098 --> 00:03:07,894
+AI gợi ý, người quyết. Dữ liệu khách tuân thủ Nghị định 13.
+
+34
+00:03:08,193 --> 00:03:13,442
+Mọi cuộc trò chuyện với khách hàng — trên một màn hình. Đăng ký triển khai thí điểm.

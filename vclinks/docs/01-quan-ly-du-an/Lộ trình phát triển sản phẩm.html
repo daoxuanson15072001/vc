@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lộ trình VClinks, VCwiki, VC AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a route map. Three coloured lines (VClinks, VCwiki, VC AI) run from the apps already built to one destination;
+   the ten steps hang off a dashed road down the left, each step a station with its own working scene. Road-sign type. */
+:root {
+  --bg: #f1f4f6;
+  --surface: #ffffff;
+  --surface-2: #e7ecf0;
+  --ink: #14191e;
+  --muted: #586470;
+  --line: #d3dbe2;
+  --links: #1c5dcc;
+  --links-soft: #e4edfc;
+  --wiki: #0a7a5a;
+  --wiki-soft: #def3ea;
+  --ai: #8f5c00;
+  --ai-fill: #e3a01a;
+  --ai-soft: #fbefd6;
+  --base: #4a5765;
+  --base-soft: #e4e9ee;
+  --stop: #b3352a;
+  --stop-soft: #fbe4e1;
+  --on-accent: #ffffff;
+  --on-amber: #1c1404;
+  --display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", ui-sans-serif, system-ui, sans-serif;
+  --body: "Be Vietnam Pro", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1215; --surface: #161b20; --surface-2: #1d242a; --ink: #e5eaee; --muted: #98a4af; --line: #2a333b;
+    --links: #7ea8ff; --links-soft: #16243e; --wiki: #3ec99a; --wiki-soft: #10302a;
+    --ai: #f1b645; --ai-fill: #d99a1c; --ai-soft: #30250e; --base: #a3afbb; --base-soft: #222a32;
+    --stop: #ff8b7c; --stop-soft: #3a1c19; --on-accent: #0b0f13; --on-amber: #1c1404;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1215; --surface: #161b20; --surface-2: #1d242a; --ink: #e5eaee; --muted: #98a4af; --line: #2a333b;
+  --links: #7ea8ff; --links-soft: #16243e; --wiki: #3ec99a; --wiki-soft: #10302a;
+  --ai: #f1b645; --ai-fill: #d99a1c; --ai-soft: #30250e; --base: #a3afbb; --base-soft: #222a32;
+  --stop: #ff8b7c; --stop-soft: #3a1c19; --on-accent: #0b0f13; --on-amber: #1c1404;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.page { max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); padding-block: 28px 72px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.06; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(42px, 6.6vw, 76px); font-weight: 700; letter-spacing: -0.005em; }
+h2 { font-size: clamp(30px, 3.8vw, 42px); font-weight: 700; }
+h3 { font-size: clamp(23px, 2.6vw, 29px); font-weight: 700; }
+h4 { font-family: var(--display); font-size: 15px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin: 0; }
+p { margin: 0; }
+ul { margin: 0; padding-left: 1.15em; }
+li + li { margin-top: 4px; }
+a { color: var(--links); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--links); outline-offset: 3px; border-radius: 6px; }
+.eyebrow { font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); }
+.lead { font-size: clamp(17px, 1.7vw, 20px); line-height: 1.55; max-width: 60ch; }
+.muted { color: var(--muted); }
+section { padding-block: 64px 0; }
+.sec-head { display: grid; gap: 10px; margin-bottom: 26px; max-width: 72ch; }
+.sec-head p { color: var(--muted); }
+
+/* hero */
+.hero { display: grid; gap: 22px; padding-block: 18px 0; }
+.endpoints { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 14px 18px; align-items: stretch; }
+.endpoint { display: grid; gap: 6px; align-content: start; padding: 18px 20px; border-radius: 14px; }
+.endpoint.from { background: var(--surface-2); }
+.endpoint.to { background: var(--surface); border: 2px solid var(--ink); }
+.endpoint h4 { color: var(--ink); }
+.arrow-mid { display: grid; place-items: center; color: var(--muted); }
+.arrow-mid svg { width: 46px; height: 24px; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: clamp(14px, 2vw, 22px); }
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.fig { margin: 0; display: grid; gap: 12px; }
+.fig figcaption { font-size: 14px; color: var(--muted); max-width: 80ch; }
+.svg { display: block; width: 100%; height: auto; fill: var(--ink); font-family: var(--body); }
+.map .svg { min-width: 820px; }
+.arch .svg { min-width: 840px; }
+.plan .svg { min-width: 860px; }
+.svg .num { font-family: var(--display); font-weight: 700; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.legend i { display: inline-block; width: 24px; height: 6px; border-radius: 3px; background: var(--c); }
+
+/* svg paint classes (theme tokens) */
+.f-surface { fill: var(--surface); } .f-bg { fill: var(--bg); } .f-ink { fill: var(--ink); } .f-line { fill: var(--line); }
+.f-links { fill: var(--links); } .f-links-soft { fill: var(--links-soft); } .s-links { stroke: var(--links); }
+.f-wiki { fill: var(--wiki); } .f-wiki-soft { fill: var(--wiki-soft); } .s-wiki { stroke: var(--wiki); }
+.f-ai { fill: var(--ai-fill); } .f-ai-soft { fill: var(--ai-soft); } .s-ai { stroke: var(--ai-fill); }
+.f-base { fill: var(--base); } .f-base-soft { fill: var(--base-soft); } .s-base { stroke: var(--base); }
+.f-stop-soft { fill: var(--stop-soft); } .s-stop { stroke: var(--stop); }
+.s-line { stroke: var(--line); } .s-ink { stroke: var(--ink); } .s-muted { stroke: var(--muted); } .s-on { stroke: var(--on-accent); }
+.f-muted { fill: var(--muted); } .f-on { fill: var(--on-accent); }
+.tm { fill: var(--muted); } .t-on { fill: var(--on-accent); } .t-amber { fill: var(--on-amber); } .t-bg { fill: var(--bg); }
+.t-links { fill: var(--links); } .t-wiki { fill: var(--wiki); } .t-ai { fill: var(--ai); } .t-stop { fill: var(--stop); }
+
+/* index */
+.index { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; padding-top: 6px; }
+.index a { font-size: 15px; font-weight: 500; text-decoration: none; color: var(--ink); }
+.index a:hover { color: var(--links); }
+.stations { display: flex; flex-wrap: wrap; gap: 6px; }
+.stations a { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; border: 2px solid var(--c); color: var(--c); background: var(--surface); font-family: var(--display); font-weight: 700; font-size: 17px; text-decoration: none; }
+.stations a:hover { background: var(--c-soft); color: var(--c); }
+
+/* products */
+.products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.product { display: grid; gap: 14px; align-content: start; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+.product header { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; align-items: center; }
+.product .emb { width: 56px; height: 56px; }
+.product h3 { color: var(--c); font-size: 32px; }
+.product .role { font-weight: 600; }
+.product .not { font-size: 15px; color: var(--muted); }
+
+/* steps */
+.steps { position: relative; display: grid; gap: 30px; }
+.steps::before { content: ""; position: absolute; left: 31px; top: 30px; bottom: 30px; border-left: 4px dashed var(--line); }
+.step { position: relative; display: grid; grid-template-columns: 66px minmax(0, 1fr); gap: 20px; scroll-margin-top: 16px; }
+.shield { position: relative; display: grid; place-items: center; width: 66px; height: 66px; border-radius: 16px; background: var(--surface); border: 3px solid var(--c); color: var(--c); font-family: var(--display); font-weight: 700; font-size: 36px; line-height: 1; font-variant-numeric: tabular-nums; }
+.step-body { display: grid; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: clamp(18px, 2.4vw, 26px); min-width: 0; }
+.step-meta { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.chip { font-family: var(--display); font-weight: 600; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 11px; border-radius: 999px; background: var(--c-soft); color: var(--c); }
+.when { font-family: var(--display); font-weight: 600; font-size: 16px; letter-spacing: 0.04em; color: var(--muted); }
+.why { color: var(--muted); max-width: 70ch; }
+.step-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 390px); gap: 26px; align-items: start; }
+.todo { display: grid; gap: 14px; min-width: 0; }
+.todo ul { display: grid; gap: 4px; }
+.done-when { display: grid; gap: 6px; padding: 12px 14px; border-radius: 12px; background: var(--c-soft); }
+.done-when h4 { color: var(--c); }
+.scene { background: var(--bg); border-radius: 14px; padding: 14px; }
+.scene figcaption { font-size: 13px; }
+.step-grid .scene { width: 100%; max-width: 460px; }
+.phase { position: relative; display: grid; grid-template-columns: 66px minmax(0, 1fr); gap: 20px; align-items: center; }
+.phase .mark { justify-self: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 7px var(--bg); }
+.phase-text { display: grid; gap: 4px; min-width: 0; }
+.phase h3 { font-size: clamp(26px, 3vw, 32px); }
+.stack { display: grid; gap: 34px; }
+[data-p="links"] { --c: var(--links); --c-soft: var(--links-soft); }
+[data-p="wiki"] { --c: var(--wiki); --c-soft: var(--wiki-soft); }
+[data-p="ai"] { --c: var(--ai); --c-soft: var(--ai-soft); }
+[data-p="base"] { --c: var(--base); --c-soft: var(--base-soft); }
+
+/* kpis */
+.kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.kpi { display: grid; gap: 6px; align-content: start; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+.kpi .big { font-family: var(--display); font-weight: 700; font-size: 54px; line-height: 1; color: var(--c); font-variant-numeric: tabular-nums; }
+.kpi .what { font-weight: 600; }
+.kpi .how { font-size: 14px; color: var(--muted); }
+
+/* principles, team, decisions */
+.principles { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 30px; }
+.principles li { margin: 0; padding-top: 12px; border-top: 1px solid var(--line); }
+.principles b { display: block; font-family: var(--display); font-size: 20px; letter-spacing: 0.01em; }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.two .panel { display: grid; gap: 14px; align-content: start; }
+.rows { display: grid; gap: 10px; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.row:last-child { border-bottom: 0; padding-bottom: 0; }
+.row .load { font-size: 14px; color: var(--muted); text-align: right; }
+.decisions { display: grid; gap: 10px; padding-left: 1.2em; }
+footer { padding-block: 56px 0; color: var(--muted); font-size: 14px; display: grid; gap: 4px; }
+
+@media (max-width: 900px) {
+  .products { grid-template-columns: minmax(0, 1fr); }
+  .step-grid { grid-template-columns: minmax(0, 1fr); }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .two { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .endpoints { grid-template-columns: minmax(0, 1fr); }
+  .arrow-mid { transform: rotate(90deg); height: 28px; }
+  .principles { grid-template-columns: minmax(0, 1fr); }
+  .kpis { grid-template-columns: minmax(0, 1fr); }
+  .steps::before { left: 21px; }
+  .step { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .shield { width: 46px; height: 46px; font-size: 26px; border-radius: 12px; }
+  .step-body { padding: 16px; }
+  .scene { padding: 8px; }
+  .phase { grid-template-columns: 46px minmax(0, 1fr); gap: 12px; }
+  .row { grid-template-columns: minmax(0, 1fr); }
+  .row .load { text-align: left; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stations a, .index a { transition: background-color .15s ease, color .15s ease; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="hero">
+  <p class="eyebrow">VC Phồn Vinh · Lộ trình sản phẩm · bản nháp 07/10/2026</p>
+  <h1>Lộ trình xây VClinks, VCwiki và VC AI</h1>
+  <p class="lead">Mười bước theo thứ tự. VCsale, VCgarage và VCe đã chạy. Lộ trình này xây ba thứ còn thiếu để cả tập đoàn chăm sóc khách ở một nơi và làm việc cùng một AI.</p>
+
+  <div class="endpoints">
+    <div class="endpoint from">
+      <h4>Xuất phát</h4>
+      <p>Ba app nghiệp vụ đã chạy, mỗi app một kho dữ liệu và một bộ tài khoản. Tin khách nằm rải ở Zalo, Zalo OA, Fanpage. Tri thức nằm trong đầu người và trong các file.</p>
+    </div>
+    <div class="arrow-mid" aria-hidden="true">
+      <svg viewBox="0 0 46 24"><path d="M2 12 H38" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M30 4 L40 12 L30 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="endpoint to">
+      <h4>Đích sau 12 tháng</h4>
+      <p>Nhân viên nhờ một AI tra cứu, soạn, gửi, chốt việc trên mọi app, đúng quyền của mình. Khách nhắn kênh nào cũng vào một hồ sơ. AI trả lời bằng tri thức đã duyệt.</p>
+    </div>
+  </div>
+
+  <figure class="fig panel map">
+    <div class="scroll">
+      <svg class="svg" viewBox="0 0 1070 300" role="img" aria-label="Bản đồ tuyến: từ ba app đã chạy, bước 1 làm nền chung, rồi chia ba tuyến VClinks, VCwiki, VC AI với các bước 2 tới 9, và gặp nhau ở đích là bước 10">
+        <text x="20" y="72" font-size="13" font-weight="700" class="tm" letter-spacing="1.5">ĐÃ CHẠY</text>
+        <rect x="20" y="86" width="132" height="36" rx="18" class="f-base-soft s-base" stroke-width="1.5"/>
+        <circle cx="40" cy="104" r="9" class="f-wiki"/><path d="M35.5 104 l3 3 l5.5 -6" fill="none" class="s-on" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="57" y="109" font-size="15" font-weight="600">VCsale</text>
+        <rect x="20" y="136" width="132" height="36" rx="18" class="f-base-soft s-base" stroke-width="1.5"/>
+        <circle cx="40" cy="154" r="9" class="f-wiki"/><path d="M35.5 154 l3 3 l5.5 -6" fill="none" class="s-on" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="57" y="159" font-size="15" font-weight="600">VCgarage</text>
+        <rect x="20" y="186" width="132" height="36" rx="18" class="f-base-soft s-base" stroke-width="1.5"/>
+        <circle cx="40" cy="204" r="9" class="f-wiki"/><path d="M35.5 204 l3 3 l5.5 -6" fill="none" class="s-on" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="57" y="209" font-size="15" font-weight="600">VCe</text>
+        <path d="M152 104 C176 104 172 155 198 155" fill="none" class="s-base" stroke-width="3"/>
+        <path d="M152 154 L198 155" fill="none" class="s-base" stroke-width="3"/>
+        <path d="M152 204 C176 204 172 155 198 155" fill="none" class="s-base" stroke-width="3"/>
+
+        <path d="M262 155 C298 155 298 75 334 75 L866 75 C902 75 902 155 938 155" fill="none" class="s-links" stroke-width="10" stroke-linecap="round"/>
+        <path d="M262 155 C298 155 298 235 334 235 L866 235 C902 235 902 155 938 155" fill="none" class="s-wiki" stroke-width="10" stroke-linecap="round"/>
+        <path d="M262 155 L938 155" fill="none" class="s-ai" stroke-width="10" stroke-linecap="round"/>
+        <path d="M198 155 L262 155" fill="none" class="s-base" stroke-width="10" stroke-linecap="round"/>
+
+        <circle cx="229" cy="155" r="17" class="f-surface s-base" stroke-width="5"/>
+        <text x="229" y="161" font-size="18" text-anchor="middle" class="num">1</text>
+        <text x="229" y="196" font-size="14" text-anchor="middle" font-weight="600">Nền chung</text>
+
+        <circle cx="390" cy="75" r="17" class="f-surface s-links" stroke-width="5"/>
+        <text x="390" y="81" font-size="18" text-anchor="middle" class="num">2</text>
+        <text x="390" y="46" font-size="14" text-anchor="middle" font-weight="600">Hộp thư hợp nhất</text>
+        <circle cx="540" cy="75" r="17" class="f-surface s-links" stroke-width="5"/>
+        <text x="540" y="81" font-size="18" text-anchor="middle" class="num">3</text>
+        <text x="540" y="46" font-size="14" text-anchor="middle" font-weight="600">Một khách, một hồ sơ</text>
+
+        <circle cx="450" cy="235" r="17" class="f-surface s-wiki" stroke-width="5"/>
+        <text x="450" y="241" font-size="18" text-anchor="middle" class="num">4</text>
+        <text x="450" y="276" font-size="14" text-anchor="middle" font-weight="600">Kho tri thức</text>
+        <circle cx="820" cy="235" r="17" class="f-surface s-wiki" stroke-width="5"/>
+        <text x="820" y="241" font-size="18" text-anchor="middle" class="num">9</text>
+        <text x="820" y="276" font-size="14" text-anchor="middle" font-weight="600">Vòng học</text>
+
+        <circle cx="570" cy="155" r="17" class="f-surface s-ai" stroke-width="5"/>
+        <text x="570" y="161" font-size="18" text-anchor="middle" class="num">5</text>
+        <text x="570" y="196" font-size="14" text-anchor="middle" font-weight="600">Bộ não AI</text>
+        <circle cx="645" cy="155" r="17" class="f-surface s-ai" stroke-width="5"/>
+        <text x="645" y="161" font-size="18" text-anchor="middle" class="num">6</text>
+        <text x="645" y="126" font-size="14" text-anchor="middle" font-weight="600">Cửa kiểm soát</text>
+        <circle cx="720" cy="155" r="17" class="f-surface s-ai" stroke-width="5"/>
+        <text x="720" y="161" font-size="18" text-anchor="middle" class="num">7</text>
+        <text x="720" y="196" font-size="14" text-anchor="middle" font-weight="600">Làm thay</text>
+        <circle cx="795" cy="155" r="17" class="f-surface s-ai" stroke-width="5"/>
+        <text x="795" y="161" font-size="18" text-anchor="middle" class="num">8</text>
+        <text x="795" y="126" font-size="14" text-anchor="middle" font-weight="600">Duyệt, chạy thật</text>
+
+        <circle cx="938" cy="155" r="25" class="f-ink"/>
+        <text x="938" y="162" font-size="21" text-anchor="middle" class="num t-bg">10</text>
+        <text x="974" y="150" font-size="17" font-weight="700">Đích</text>
+        <text x="974" y="171" font-size="13" class="tm">mọi app có AI</text>
+      </svg>
+    </div>
+    <div class="legend" aria-label="Chú giải màu tuyến">
+      <span style="--c: var(--base)"><i></i>Nền chung</span>
+      <span style="--c: var(--links)"><i></i>VClinks</span>
+      <span style="--c: var(--wiki)"><i></i>VCwiki</span>
+      <span style="--c: var(--ai-fill)"><i></i>VC AI</span>
+    </div>
+    <figcaption>Bước 1 dùng chung cho cả ba. Sau đó ba tuyến chạy song song. VC AI đi sau cùng vì mỗi bước mở thêm quyền cho AI, và cần hộp thư, hồ sơ khách, kho tri thức có trước.</figcaption>
+  </figure>
+
+  <nav class="index" aria-label="Mục lục">
+    <a href="#ba-thu">Ba thứ cần xây</a>
+    <a href="#buc-tranh">Bức tranh khi xây xong</a>
+    <a href="#muoi-buoc">Mười bước</a>
+    <a href="#lich">Lịch 12 tháng</a>
+    <a href="#do-dat">Đo thế nào là đạt</a>
+    <a href="#doi-ngu">Luật, đội và việc cần chốt</a>
+    <div class="stations">
+      <a href="#buoc-1" data-p="base" aria-label="Bước 1">1</a>
+      <a href="#buoc-2" data-p="links" aria-label="Bước 2">2</a>
+      <a href="#buoc-3" data-p="links" aria-label="Bước 3">3</a>
+      <a href="#buoc-4" data-p="wiki" aria-label="Bước 4">4</a>
+      <a href="#buoc-5" data-p="ai" aria-label="Bước 5">5</a>
+      <a href="#buoc-6" data-p="ai" aria-label="Bước 6">6</a>
+      <a href="#buoc-7" data-p="ai" aria-label="Bước 7">7</a>
+      <a href="#buoc-8" data-p="ai" aria-label="Bước 8">8</a>
+      <a href="#buoc-9" data-p="wiki" aria-label="Bước 9">9</a>
+      <a href="#buoc-10" data-p="ai" aria-label="Bước 10">10</a>
+    </div>
+  </nav>
+</header>
+
+<section id="ba-thu">
+  <div class="sec-head">
+    <p class="eyebrow">Ba thứ cần xây</p>
+    <h2>Mỗi thứ giữ một việc, không giẫm lên nhau</h2>
+    <p>VCsale, VCgarage, VCe vẫn là nơi giữ đơn, kho, lịch hẹn, khóa học. Ba thứ mới đứng quanh chúng.</p>
+  </div>
+  <div class="products">
+    <article class="product" data-p="links">
+      <header>
+        <svg class="svg emb" viewBox="0 0 64 64" role="img" aria-label="Biểu tượng VClinks: nhiều tin nhắn gom về một chỗ">
+          <rect x="4" y="9" width="36" height="25" rx="8" class="f-links-soft s-links" stroke-width="2.2"/>
+          <path d="M13 34 L9 43 L21 34 Z" class="f-links-soft s-links" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="24" y="26" width="36" height="25" rx="8" class="f-links s-links" stroke-width="2.2"/>
+          <circle cx="34" cy="38.5" r="2.6" class="f-on"/><circle cx="42" cy="38.5" r="2.6" class="f-on"/><circle cx="50" cy="38.5" r="2.6" class="f-on"/>
+        </svg>
+        <div>
+          <h3>VClinks</h3>
+          <p class="role">Cửa giao tiếp và trung tâm khách hàng</p>
+        </div>
+      </header>
+      <ul>
+        <li>Gom tin Zalo cá nhân, Zalo OA, Fanpage vào một hộp thư.</li>
+        <li>Mỗi khách một hồ sơ, gắn mã của khách ở VCsale, VCgarage, VCe.</li>
+        <li>Người bấm duyệt rồi mới gửi tin cho khách.</li>
+        <li>Nơi nhân viên nói chuyện với AI.</li>
+      </ul>
+      <p class="not">Không giữ đơn, kho, công nợ. Không ghi thẳng sang app khác.</p>
+    </article>
+    <article class="product" data-p="wiki">
+      <header>
+        <svg class="svg emb" viewBox="0 0 64 64" role="img" aria-label="Biểu tượng VCwiki: thẻ tri thức đã duyệt">
+          <rect x="16" y="6" width="38" height="46" rx="6" class="f-wiki-soft s-wiki" stroke-width="2.2"/>
+          <rect x="8" y="13" width="38" height="46" rx="6" class="f-surface s-wiki" stroke-width="2.2"/>
+          <line x1="15" y1="25" x2="38" y2="25" class="s-wiki" stroke-width="2.2" stroke-linecap="round"/>
+          <line x1="15" y1="33" x2="34" y2="33" class="s-wiki" stroke-width="2.2" stroke-linecap="round"/>
+          <line x1="15" y1="41" x2="28" y2="41" class="s-wiki" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="45" cy="49" r="10" class="f-wiki"/>
+          <path d="M40 49 l4 4 l6.5 -7.5" fill="none" class="s-on" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <h3>VCwiki</h3>
+          <p class="role">Kho tri thức của tập đoàn</p>
+        </div>
+      </header>
+      <ul>
+        <li>Nạp tài liệu, video, trang web, chuyển thành chữ.</li>
+        <li>Tinh chế thành thẻ tri thức có trích nguồn, người duyệt cuối.</li>
+        <li>Mỗi thẻ có đơn vị, lĩnh vực và mức mật.</li>
+        <li>Dùng cho AI trả lời, đào tạo nhân viên, làm nội dung.</li>
+      </ul>
+      <p class="not">Không giữ dữ liệu khách. Không trả lời khách trực tiếp.</p>
+    </article>
+    <article class="product" data-p="ai">
+      <header>
+        <svg class="svg emb" viewBox="0 0 64 64" role="img" aria-label="Biểu tượng VC AI: cửa kiểm soát có khóa">
+          <path d="M32 5 L55 13 V31 C55 45 45 54 32 59 C19 54 9 45 9 31 V13 Z" class="f-ai-soft s-ai" stroke-width="2.6" stroke-linejoin="round"/>
+          <circle cx="32" cy="28" r="7.5" class="f-ai"/>
+          <rect x="29" y="33" width="6" height="13" rx="2" class="f-ai"/>
+        </svg>
+        <div>
+          <h3>VC AI</h3>
+          <p class="role">Bộ não và cửa kiểm soát</p>
+        </div>
+      </header>
+      <ul>
+        <li>Bộ não: hiểu yêu cầu, lấy tri thức, chọn công cụ, soạn câu trả lời.</li>
+        <li>Cửa kiểm soát: hỏi năm câu trước mọi lệnh. Ai yêu cầu, có quyền không, rủi ro mức nào, ai cần xác nhận, đã ghi nhật ký chưa.</li>
+        <li>Mọi app nói chuyện với AI qua cùng một cửa.</li>
+      </ul>
+      <p class="not">Không có tài khoản riêng. Không vào thẳng database của app.</p>
+    </article>
+  </div>
+</section>
+
+<section id="buc-tranh">
+  <div class="sec-head">
+    <p class="eyebrow">Bức tranh khi xây xong</p>
+    <h2>Lệnh của AI đi một đường, dữ liệu khách và tri thức đi đường riêng</h2>
+  </div>
+  <figure class="fig panel arch">
+    <div class="scroll">
+      <svg class="svg" viewBox="0 0 980 600" role="img" aria-label="Sơ đồ hệ thống: khách và nhân viên dùng VClinks; VClinks gửi yêu cầu cho bộ não AI; bộ não lấy tri thức từ VCwiki và gửi đề xuất qua cửa kiểm soát; cửa kiểm soát gọi công cụ của VCsale, VCgarage, VCe và VClinks; VClinks đọc dữ liệu khách từ các app; câu hỏi hay đã ẩn danh chảy về VCwiki">
+        <defs>
+          <marker id="ar-m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-muted"/></marker>
+          <marker id="ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-ai"/></marker>
+          <marker id="ar-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-wiki"/></marker>
+          <marker id="ar-l" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-links"/></marker>
+        </defs>
+
+        <rect x="238" y="20" width="214" height="56" rx="12" class="f-surface s-line" stroke-width="1.5"/>
+        <circle cx="262" cy="41" r="8" class="f-links-soft s-links" stroke-width="1.5"/>
+        <path d="M250 64 C250 52 274 52 274 64" class="f-links-soft s-links" stroke-width="1.5"/>
+        <text x="286" y="44" font-size="16" font-weight="700">Khách hàng</text>
+        <text x="286" y="63" font-size="12.5" class="tm">Zalo, Zalo OA, Fanpage</text>
+        <rect x="528" y="20" width="214" height="56" rx="12" class="f-surface s-line" stroke-width="1.5"/>
+        <circle cx="552" cy="41" r="8" class="f-ai-soft s-ai" stroke-width="1.5"/>
+        <path d="M540 64 C540 52 564 52 564 64" class="f-ai-soft s-ai" stroke-width="1.5"/>
+        <text x="576" y="44" font-size="16" font-weight="700">Nhân viên</text>
+        <text x="576" y="63" font-size="12.5" class="tm">bán hàng, CSKH, quản lý</text>
+
+        <line x1="345" y1="76" x2="345" y2="116" class="s-muted" stroke-width="1.8" marker-end="url(#ar-m)"/>
+        <text x="353" y="101" font-size="12.5" class="tm">nhắn tin</text>
+        <line x1="635" y1="76" x2="635" y2="116" class="s-muted" stroke-width="1.8" marker-end="url(#ar-m)"/>
+        <text x="643" y="101" font-size="12.5" class="tm">trả lời, hỏi trợ lý</text>
+
+        <rect x="230" y="120" width="520" height="72" rx="14" class="f-links-soft s-links" stroke-width="2"/>
+        <text x="254" y="150" font-size="24" class="num t-links">VClinks</text>
+        <text x="254" y="175" font-size="13.5">hộp thư mọi kênh · một khách một hồ sơ · khung trợ lý AI</text>
+
+        <line x1="450" y1="192" x2="450" y2="232" class="s-muted" stroke-width="1.8" marker-end="url(#ar-m)"/>
+        <text x="442" y="217" font-size="12.5" text-anchor="end" class="tm">yêu cầu</text>
+        <line x1="530" y1="236" x2="530" y2="196" class="s-muted" stroke-width="1.8" marker-end="url(#ar-m)"/>
+        <text x="538" y="217" font-size="12.5" class="tm">nháp, câu trả lời</text>
+
+        <rect x="330" y="236" width="320" height="72" rx="14" class="f-ai-soft s-ai" stroke-width="2"/>
+        <text x="354" y="266" font-size="24" class="num t-ai">Bộ não AI</text>
+        <text x="354" y="291" font-size="13.5">hiểu yêu cầu · chọn công cụ · soạn trả lời</text>
+
+        <rect x="790" y="236" width="170" height="72" rx="14" class="f-wiki-soft s-wiki" stroke-width="2"/>
+        <text x="812" y="266" font-size="24" class="num t-wiki">VCwiki</text>
+        <text x="812" y="291" font-size="13">thẻ tri thức đã duyệt</text>
+        <line x1="790" y1="272" x2="654" y2="272" class="s-wiki" stroke-width="2" marker-end="url(#ar-w)"/>
+        <text x="722" y="262" font-size="12.5" text-anchor="middle" class="t-wiki">tri thức</text>
+
+        <line x1="490" y1="308" x2="490" y2="348" class="s-ai" stroke-width="2" marker-end="url(#ar-a)"/>
+        <text x="498" y="333" font-size="12.5" class="tm">đề xuất gọi công cụ</text>
+
+        <rect x="270" y="352" width="440" height="92" rx="14" class="f-surface s-ai" stroke-width="2.5"/>
+        <text x="294" y="381" font-size="24" class="num t-ai">Cửa kiểm soát</text>
+        <rect x="294" y="396" width="80" height="30" rx="15" class="f-ai-soft"/><text x="334" y="416" font-size="12.5" text-anchor="middle">Ai yêu cầu?</text>
+        <rect x="382" y="396" width="74" height="30" rx="15" class="f-ai-soft"/><text x="419" y="416" font-size="12.5" text-anchor="middle">Có quyền?</text>
+        <rect x="464" y="396" width="62" height="30" rx="15" class="f-ai-soft"/><text x="495" y="416" font-size="12.5" text-anchor="middle">Rủi ro?</text>
+        <rect x="534" y="396" width="90" height="30" rx="15" class="f-ai-soft"/><text x="579" y="416" font-size="12.5" text-anchor="middle">Ai xác nhận?</text>
+        <rect x="632" y="396" width="64" height="30" rx="15" class="f-ai-soft"/><text x="664" y="416" font-size="12.5" text-anchor="middle">Nhật ký</text>
+
+        <line x1="490" y1="444" x2="490" y2="470" class="s-ai" stroke-width="2"/>
+        <text x="482" y="462" font-size="12.5" text-anchor="end" class="tm">lệnh đã kiểm</text>
+        <line x1="290" y1="470" x2="688" y2="470" class="s-ai" stroke-width="2"/>
+        <line x1="290" y1="470" x2="290" y2="494" class="s-ai" stroke-width="2" marker-end="url(#ar-a)"/>
+        <line x1="422" y1="470" x2="422" y2="494" class="s-ai" stroke-width="2" marker-end="url(#ar-a)"/>
+        <line x1="554" y1="470" x2="554" y2="494" class="s-ai" stroke-width="2" marker-end="url(#ar-a)"/>
+        <line x1="688" y1="470" x2="688" y2="494" class="s-ai" stroke-width="2" marker-end="url(#ar-a)"/>
+
+        <rect x="230" y="496" width="120" height="60" rx="10" class="f-base-soft s-base" stroke-width="1.5"/>
+        <text x="290" y="522" font-size="15" font-weight="700" text-anchor="middle">VCsale</text>
+        <text x="290" y="542" font-size="12" text-anchor="middle" class="tm">giá, tồn, báo giá</text>
+        <rect x="362" y="496" width="120" height="60" rx="10" class="f-base-soft s-base" stroke-width="1.5"/>
+        <text x="422" y="522" font-size="15" font-weight="700" text-anchor="middle">VCgarage</text>
+        <text x="422" y="542" font-size="12" text-anchor="middle" class="tm">lịch hẹn, xe</text>
+        <rect x="494" y="496" width="120" height="60" rx="10" class="f-base-soft s-base" stroke-width="1.5"/>
+        <text x="554" y="522" font-size="15" font-weight="700" text-anchor="middle">VCe</text>
+        <text x="554" y="542" font-size="12" text-anchor="middle" class="tm">khóa học</text>
+        <rect x="626" y="496" width="124" height="60" rx="10" class="f-links-soft s-links" stroke-width="1.5"/>
+        <text x="688" y="522" font-size="15" font-weight="700" text-anchor="middle">VClinks</text>
+        <text x="688" y="542" font-size="12" text-anchor="middle" class="tm">gửi tin cho khách</text>
+
+        <path d="M710 420 H770 V290 H654" fill="none" class="s-muted" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#ar-m)"/>
+        <text x="778" y="404" font-size="12.5" class="tm">kết quả,</text>
+        <text x="778" y="421" font-size="12.5" class="tm">đã che dữ liệu</text>
+        <text x="778" y="438" font-size="12.5" class="tm">cá nhân</text>
+
+        <path d="M290 556 V576 M422 556 V576 M554 556 V576 M554 576 H190 V156 H226" fill="none" class="s-links" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ar-l)"/>
+        <text x="178" y="318" font-size="12.5" text-anchor="end" class="t-links" font-weight="600">dữ liệu khách</text>
+        <text x="178" y="336" font-size="12.5" text-anchor="end" class="tm">VClinks đọc</text>
+        <text x="178" y="354" font-size="12.5" text-anchor="end" class="tm">theo thay đổi</text>
+
+        <path d="M750 140 H875 V232" fill="none" class="s-wiki" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ar-w)"/>
+        <text x="884" y="176" font-size="12.5" class="t-wiki" font-weight="600">câu hỏi hay,</text>
+        <text x="884" y="194" font-size="12.5" class="tm">đã ẩn danh</text>
+      </svg>
+    </div>
+    <figcaption>Nét liền là đường của một lệnh AI: từ VClinks xuống bộ não, qua cửa kiểm soát rồi mới tới công cụ của từng app. Nét đứt là hai dòng dữ liệu riêng. VClinks đọc dữ liệu khách từ các app. Câu hỏi hay trong chat, sau khi ẩn danh, chảy về VCwiki để người duyệt thành tri thức.</figcaption>
+  </figure>
+</section>
+
+<section id="muoi-buoc">
+  <div class="sec-head">
+    <p class="eyebrow">Mười bước</p>
+    <h2>Làm theo thứ tự này</h2>
+    <p>Bốn tháng đầu xây nền, bốn tháng sau bật AI từng bước, bốn tháng cuối để AI học và mở rộng sang mọi app. Bước 2, 3 và 4 chạy song song được. Từ bước 5 đi lần lượt, vì mỗi bước mở thêm quyền cho AI.</p>
+  </div>
+
+  <div class="steps">
+
+    <div class="phase">
+      <span class="mark" aria-hidden="true"></span>
+      <div class="phase-text">
+        <p class="eyebrow">Tháng 1 – 4</p>
+        <h3>Xây nền</h3>
+        <p class="muted">Đăng nhập chung, hộp thư, hồ sơ khách, kho tri thức. Chưa bật AI.</p>
+      </div>
+    </div>
+
+    <article class="step" id="buoc-1" data-p="base">
+      <div class="shield" aria-hidden="true">1</div>
+      <div class="step-body">
+        <div class="step-meta"><span class="chip">Nền chung</span><span class="when">Tháng 1</span></div>
+        <h3>Nền chung: danh tính, tổ chức, luật dữ liệu</h3>
+        <p class="why">AI và mọi app cần biết cùng một điều: người này là ai, thuộc đơn vị nào, được xem dữ liệu gì.</p>
+        <div class="step-grid">
+          <div class="todo">
+            <h4>Làm gì</h4>
+            <ul>
+              <li>Một lần đăng nhập cho mọi app, bằng tài khoản Google Workspace của công ty.</li>
+              <li>Một danh bạ tổ chức chung: tập đoàn, đơn vị (VCparts, VCservice, VCe…), phòng, vai trò.</li>
+              <li>Một bảng chia dữ liệu bốn mức: công khai, nội bộ, cá nhân, nhạy cảm. Mức nhạy cảm không gửi ra AI bên ngoài.</li>
+              <li>Chọn nhà cung cấp AI có thỏa thuận bảo vệ dữ liệu. Pháp chế rà theo Luật Bảo vệ dữ liệu cá nhân.</li>
+              <li>Chốt máy chủ chạy thật và lịch sao lưu.</li>
+            </ul>
+            <div class="done-when">
+              <h4>Xong khi</h4>
+              <p>Một tài khoản đăng nhập được VCsale, VCgarage, VCe. Bảng chia mức dữ liệu được ký duyệt.</p>
+            </div>
+          </div>
+          <figure class="fig scene">
+            <svg class="svg" viewBox="0 0 360 220" role="img" aria-label="Một tài khoản công ty đăng nhập được mọi app; dữ liệu chia bốn mức">
+              <defs><marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-muted"/></marker></defs>
+              <rect x="12" y="48" width="132" height="64" rx="12" class="f-base-soft s-base" stroke-width="1.5"/>
+              <circle cx="34" cy="71" r="9" class="f-surface s-base" stroke-width="1.5"/>
+              <path d="M22 96 C22 84 46 84 46 96 Z" class="f-surface s-base" stroke-width="1.5"/>
+              <text x="54" y="76" font-size="13" font-weight="700">Tài khoản</text>
+              <text x="54" y="94" font-size="12" class="tm">Google công ty</text>
+              <text x="78" y="134" font-size="12" text-anchor="middle" class="tm">đăng nhập một lần</text>
+              <path d="M144 80 C178 80 172 28 204 28" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m1)"/>
+              <path d="M144 80 C178 80 172 64 204 64" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m1)"/>
+              <path d="M144 80 C178 80 172 100 204 100" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m1)"/>
+              <path d="M144 80 C178 80 172 136 204 136" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m1)"/>
+              <rect x="206" y="14" width="142" height="28" rx="14" class="f-surface s-line" stroke-width="1.5"/><text x="277" y="33" font-size="12.5" text-anchor="middle" font-weight="600">VCsale</text>
+              <rect x="206" y="50" width="142" height="28" rx="14" class="f-surface s-line" stroke-width="1.5"/><text x="277" y="69" font-size="12.5" text-anchor="middle" font-weight="600">VCgarage</text>
+              <rect x="206" y="86" width="142" height="28" rx="14" class="f-surface s-line" stroke-width="1.5"/><text x="277" y="105" font-size="12.5" text-anchor="middle" font-weight="600">VCe</text>
+              <rect x="206" y="122" width="142" height="28" rx="14" class="f-surface s-line" stroke-width="1.5"/><text x="277" y="141" font-size="12.5" text-anchor="middle" font-weight="600">VClinks, VCwiki</text>
+              <text x="12" y="174" font-size="12" font-weight="700" class="tm">DỮ LIỆU CHIA BỐN MỨC</text>
+              <rect x="12" y="182" width="82" height="30" rx="6" class="f-wiki-soft"/><text x="53" y="202" font-size="12" text-anchor="middle">Công khai</text>
+              <rect x="96" y="182" width="82" height="30" rx="6" class="f-links-soft"/><text x="137" y="202" font-size="12" text-anchor="middle">Nội bộ</text>
+              <rect x="180" y="182" width="82" height="30" rx="6" class="f-ai-soft"/><text x="221" y="202" font-size="12" text-anchor="middle">Cá nhân</text>
+              <rect x="264" y="182" width="84" height="30" rx="6" class="f-stop-soft s-stop" stroke-width="1.5"/><text x="306" y="202" font-size="12" text-anchor="middle" class="t-stop" font-weight="600">Nhạy cảm</text>
+            </svg>
+            <figcaption>Một tài khoản cho mọi app. Mức nhạy cảm không bao giờ gửi ra AI bên ngoài.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <article class="step" id="buoc-2" data-p="links">
+      <div class="shield" aria-hidden="true">2</div>
+      <div class="step-body">
+        <div class="step-meta"><span class="chip">VClinks</span><span class="when">Tháng 1 – 3</span></div>
+        <h3>Hộp thư hợp nhất, người duyệt rồi mới gửi</h3>
+        <p class="why">Chăm sóc khách bắt đầu từ chỗ khách nhắn. Gom mọi kênh về một nơi trước, AI mới có chỗ để làm việc.</p>
+        <div class="step-grid">
+          <div class="todo">
+            <h4>Làm gì</h4>
+            <ul>
+              <li>Nhận tin Zalo cá nhân của nick công ty, Zalo OA, Fanpage vào một hộp thư.</li>
+              <li>Mỗi tin gửi ra khách phải có người bấm duyệt. Lưu ai duyệt, lúc nào.</li>
+              <li>Chia hội thoại cho nhân viên: nhận, giao, chuyển, ghi chú nội bộ, gắn nhãn.</li>
+              <li>Hạn trả lời tính theo giờ làm việc, cảnh báo tin sắp quá hạn.</li>
+              <li>Phân quyền theo danh bạ tổ chức ở bước 1. Ghi nhật ký mỗi lần xem số điện thoại.</li>
+            </ul>
+            <div class="done-when">
+              <h4>Xong khi</h4>
+              <p>Đội bán hàng trả lời mọi kênh trên VClinks hằng ngày. Không còn tin quá 2 giờ chưa ai nhận.</p>
+            </div>
+          </div>
+          <figure class="fig scene">
+            <svg class="svg" viewBox="0 0 360 220" role="img" aria-label="Tin từ Zalo, Zalo OA, Fanpage về một hộp thư; nhân viên bấm Duyệt rồi tin mới gửi lại đúng kênh">
+              <defs><marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-muted"/></marker></defs>
+              <rect x="12" y="24" width="94" height="30" rx="15" class="f-surface s-line" stroke-width="1.5"/><circle cx="29" cy="39" r="5" class="f-links"/><text x="40" y="44" font-size="13" font-weight="600">Zalo</text>
+              <rect x="12" y="88" width="94" height="30" rx="15" class="f-surface s-line" stroke-width="1.5"/><circle cx="29" cy="103" r="5" class="f-links"/><text x="40" y="108" font-size="13" font-weight="600">Zalo OA</text>
+              <rect x="12" y="152" width="94" height="30" rx="15" class="f-surface s-line" stroke-width="1.5"/><circle cx="29" cy="167" r="5" class="f-links"/><text x="40" y="172" font-size="13" font-weight="600">Fanpage</text>
+              <path d="M106 39 C128 39 126 70 146 70" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m2)"/>
+              <path d="M106 103 L146 103" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m2)"/>
+              <path d="M106 167 C128 167 126 136 146 136" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m2)"/>
+              <rect x="148" y="14" width="118" height="180" rx="12" class="f-surface s-links" stroke-width="1.8"/>
+              <text x="207" y="36" font-size="12.5" text-anchor="middle" font-weight="700">Hộp thư chung</text>
+              <rect x="160" y="50" width="94" height="22" rx="6" class="f-links"/>
+              <rect x="160" y="80" width="94" height="22" rx="6" class="f-links-soft"/>
+              <rect x="160" y="110" width="94" height="22" rx="6" class="f-links-soft"/>
+              <rect x="160" y="140" width="94" height="22" rx="6" class="f-links-soft"/>
+              <rect x="160" y="170" width="94" height="14" rx="6" class="f-links-soft"/>
+              <line x1="266" y1="61" x2="284" y2="61" class="s-muted" stroke-width="1.5" marker-end="url(#m2)"/>
+              <rect x="286" y="44" width="62" height="34" rx="8" class="f-links"/>
+              <text x="317" y="66" font-size="13" text-anchor="middle" font-weight="700" class="t-on">Duyệt</text>
+              <text x="317" y="98" font-size="11.5" text-anchor="middle" class="tm">lưu người bấm,</text>
+              <text x="317" y="113" font-size="11.5" text-anchor="middle" class="tm">giờ bấm</text>
+              <line x1="317" y1="124" x2="317" y2="172" class="s-links" stroke-width="1.8" marker-end="url(#m2)"/>
+              <text x="317" y="194" font-size="11.5" text-anchor="middle" class="tm">gửi lại</text>
+              <text x="317" y="209" font-size="11.5" text-anchor="middle" class="tm">đúng kênh</text>
+            </svg>
+            <figcaption>Ba kênh về một hộp thư. Không tin nào ra khách khi chưa có người bấm Duyệt.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <article class="step" id="buoc-3" data-p="links">
+      <div class="shield" aria-hidden="true">3</div>
+      <div class="step-body">
+        <div class="step-meta"><span class="chip">VClinks</span><span class="when">Tháng 3 – 4</span></div>
+        <h3>Một khách, một hồ sơ</h3>
+        <p class="why">Một garage có thể vừa mua phụ tùng, vừa sửa xe, vừa cho thợ đi học. Nhân viên cần thấy hết ở một chỗ.</p>
+        <div class="step-grid">
+          <div class="todo">
+            <h4>Làm gì</h4>
+            <ul>
+              <li>VClinks đọc danh sách khách của VCsale, VCgarage, VCe theo một mẫu chung. Chỉ đọc, và chỉ đọc khách vừa đổi.</li>
+              <li>Gộp hồ sơ theo số điện thoại, mã số thuế đã xác thực. Trường hợp chưa chắc thì đưa sale admin duyệt.</li>
+              <li>Mỗi hồ sơ ghi nguồn khách, mã của khách ở từng app, người phụ trách theo từng đơn vị.</li>
+              <li>Hồ sơ 360: báo giá, đơn, công nợ, lịch hẹn, khóa học đọc thẳng từ app gốc lúc mở, có ghi giờ lấy.</li>
+              <li>Việc cần làm trên app gốc (tạo mã khách, sửa số điện thoại, đổi người phụ trách) thành danh sách việc cho sale admin.</li>
+            </ul>
+            <div class="done-when">
+              <h4>Xong khi</h4>
+              <p>Mở một khách thấy đủ dữ liệu của ba app trong 3 giây. Khách trùng được gộp hoặc có gợi ý gộp.</p>
+            </div>
+          </div>
+          <figure class="fig scene">
+            <svg class="svg" viewBox="0 0 360 220" role="img" aria-label="VClinks đọc khách từ VCsale, VCgarage, VCe và gộp vào một hồ sơ Garage Minh Phát">
+              <defs><marker id="m3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-muted"/></marker></defs>
+              <rect x="12" y="38" width="92" height="36" rx="8" class="f-base-soft s-base" stroke-width="1.5"/><text x="58" y="61" font-size="13" text-anchor="middle" font-weight="700">VCsale</text>
+              <rect x="12" y="98" width="92" height="36" rx="8" class="f-base-soft s-base" stroke-width="1.5"/><text x="58" y="121" font-size="13" text-anchor="middle" font-weight="700">VCgarage</text>
+              <rect x="12" y="158" width="92" height="36" rx="8" class="f-base-soft s-base" stroke-width="1.5"/><text x="58" y="181" font-size="13" text-anchor="middle" font-weight="700">VCe</text>
+              <text x="124" y="30" font-size="11.5" class="tm">đọc</text>
+              <path d="M104 56 C126 56 124 96 146 96" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m3)"/>
+              <path d="M104 116 C126 116 124 130 146 130" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m3)"/>
+              <path d="M104 176 C126 176 124 164 146 164" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m3)"/>
+              <rect x="150" y="12" width="198" height="196" rx="14" class="f-surface s-links" stroke-width="1.8"/>
+              <circle cx="178" cy="42" r="15" class="f-links-soft"/><text x="178" y="47" font-size="12" text-anchor="middle" font-weight="700" class="t-links">MP</text>
+              <text x="202" y="40" font-size="13" font-weight="700">Garage Minh Phát</text>
+              <text x="202" y="57" font-size="11.5" class="tm">phụ trách: Minh</text>
+              <rect x="164" y="82" width="172" height="28" rx="14" class="f-links-soft"/><text x="176" y="101" font-size="12">VCsale · mã KH-0123</text>
+              <rect x="164" y="116" width="172" height="28" rx="14" class="f-links-soft"/><text x="176" y="135" font-size="12">VCgarage · 2 xe đang sửa</text>
+              <rect x="164" y="150" width="172" height="28" rx="14" class="f-links-soft"/><text x="176" y="169" font-size="12">VCe · 1 thợ đang học</text>
+              <text x="249" y="198" font-size="11.5" text-anchor="middle" class="tm">đọc lúc mở hồ sơ, có giờ lấy</text>
+            </svg>
+            <figcaption>Ba app vẫn giữ dữ liệu gốc. VClinks đọc về và ghép thành một hồ sơ cho nhân viên.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <article class="step" id="buoc-4" data-p="wiki">
+      <div class="shield" aria-hidden="true">4</div>
+      <div class="step-body">
+        <div class="step-meta"><span class="chip">VCwiki</span><span class="when">Tháng 2 – 4, song song</span></div>
+        <h3>Kho tri thức có người duyệt</h3>
+        <p class="why">AI chỉ trả lời tốt bằng tri thức nó được đọc. Kho phải có trước khi bật AI cho khách.</p>
+        <div class="step-grid">
+          <div class="todo">
+            <h4>Làm gì</h4>
+            <ul>
+              <li>Một cửa nạp: tài liệu, PDF, Word, video, ghi âm, trang web. Tất cả chuyển thành chữ; nguồn tiếng nước ngoài có bản dịch.</li>
+              <li>AI tinh chế thành thẻ tri thức có trích nguồn. Người duyệt cuối, có lịch sử phiên bản.</li>
+              <li>Gắn đơn vị, lĩnh vực và mức mật cho từng thẻ.</li>
+              <li>Lập kho chăm sóc khách: bảo hành, đổi trả, giao hàng, thanh toán, câu khách hỏi nhiều nhất. Mỗi đơn vị một người chịu trách nhiệm.</li>
+              <li>Tìm theo nghĩa, để câu hỏi khác chữ vẫn ra đúng thẻ.</li>
+            </ul>
+            <div class="done-when">
+              <h4>Xong khi</h4>
+              <p>Mỗi đơn vị có ít nhất 100 thẻ chăm sóc khách đã duyệt. Thử 50 câu khách hỏi thật, 80% ra đúng thẻ.</p>
+            </div>
+          </div>
+          <figure class="fig scene">
+            <svg class="svg" viewBox="0 0 360 220" role="img" aria-label="Tài liệu, video, trang web chuyển thành chữ, AI tinh chế thành thẻ nháp, người duyệt thành thẻ đã duyệt có gắn đơn vị và mức mật">
+              <defs><marker id="m4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-muted"/></marker></defs>
+              <rect x="12" y="14" width="84" height="26" rx="13" class="f-wiki-soft"/><text x="54" y="32" font-size="12" text-anchor="middle">Tài liệu</text>
+              <rect x="12" y="48" width="84" height="26" rx="13" class="f-wiki-soft"/><text x="54" y="66" font-size="12" text-anchor="middle">Video</text>
+              <rect x="12" y="82" width="84" height="26" rx="13" class="f-wiki-soft"/><text x="54" y="100" font-size="12" text-anchor="middle">Trang web</text>
+              <path d="M96 27 C116 27 112 60 130 60" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m4)"/>
+              <path d="M96 61 L130 61" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m4)"/>
+              <path d="M96 95 C116 95 112 62 130 62" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m4)"/>
+              <rect x="132" y="40" width="76" height="44" rx="8" class="f-surface s-wiki" stroke-width="1.5"/>
+              <text x="170" y="58" font-size="12" text-anchor="middle">Chuyển</text><text x="170" y="74" font-size="12" text-anchor="middle">thành chữ</text>
+              <line x1="208" y1="62" x2="232" y2="62" class="s-muted" stroke-width="1.5" marker-end="url(#m4)"/>
+              <rect x="234" y="40" width="114" height="44" rx="8" class="f-surface s-wiki" stroke-width="1.5"/>
+              <text x="291" y="58" font-size="12" text-anchor="middle" font-weight="700">AI tinh chế</text><text x="291" y="74" font-size="11.5" text-anchor="middle" class="tm">có trích nguồn</text>
+              <path d="M291 84 V114 H60 V124" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m4)"/>
+              <rect x="20" y="126" width="90" height="56" rx="8" class="f-wiki-soft s-wiki" stroke-width="1.2" stroke-dasharray="4 3"/>
+              <rect x="12" y="134" width="90" height="56" rx="8" class="f-surface s-wiki" stroke-width="1.2" stroke-dasharray="4 3"/>
+              <text x="57" y="166" font-size="12" text-anchor="middle">Thẻ nháp</text>
+              <line x1="102" y1="162" x2="140" y2="162" class="s-muted" stroke-width="1.5" marker-end="url(#m4)"/>
+              <circle cx="172" cy="162" r="30" class="f-wiki-soft s-wiki" stroke-width="1.8"/>
+              <text x="172" y="158" font-size="11.5" text-anchor="middle" font-weight="600">Người</text><text x="172" y="173" font-size="11.5" text-anchor="middle" font-weight="600">duyệt</text>
+              <line x1="202" y1="162" x2="238" y2="162" class="s-muted" stroke-width="1.5" marker-end="url(#m4)"/>
+              <rect x="240" y="124" width="108" height="76" rx="8" class="f-surface s-wiki" stroke-width="2.2"/>
+              <text x="294" y="144" font-size="12" text-anchor="middle" font-weight="700">Thẻ đã duyệt</text>
+              <rect x="250" y="154" width="54" height="18" rx="9" class="f-wiki-soft"/><text x="277" y="167" font-size="11" text-anchor="middle">VCparts</text>
+              <rect x="250" y="176" width="70" height="18" rx="9" class="f-wiki-soft"/><text x="285" y="189" font-size="11" text-anchor="middle">Công khai</text>
+            </svg>
+            <figcaption>AI tinh chế, người duyệt. Mỗi thẻ biết mình thuộc đơn vị nào và được cho ai xem.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <div class="phase">
+      <span class="mark" aria-hidden="true"></span>
+      <div class="phase-text">
+        <p class="eyebrow">Tháng 5 – 8</p>
+        <h3>Bật AI từng bước</h3>
+        <p class="muted">Mỗi bước mở thêm một mức quyền: soạn nháp, tra cứu, làm thay có xác nhận, việc lớn có quản lý duyệt.</p>
+      </div>
+    </div>
+
+    <article class="step" id="buoc-5" data-p="ai">
+      <div class="shield" aria-hidden="true">5</div>
+      <div class="step-body">
+        <div class="step-meta"><span class="chip">VC AI</span><span class="when">Tháng 5</span></div>
+        <h3>Bộ não AI và nháp trả lời</h3>
+        <p class="why">Việc an toàn nhất để AI bắt đầu là soạn nháp. Người vẫn là người bấm gửi.</p>
+        <div class="step-grid">
+          <div class="todo">
+            <h4>Làm gì</h4>
+            <ul>
+              <li>Dựng bộ não AI: hiểu câu hỏi, tìm thẻ VCwiki phù hợp, soạn câu trả lời có trích thẻ.</li>
+              <li>Trong hộp thư VClinks: nút "Nháp AI" soạn trả lời khách. Nhân viên sửa, duyệt rồi gửi.</li>
+              <li>Khung "Trợ lý" để nhân viên hỏi về chính sách, kỹ thuật, quy trình.</li>
+              <li>Che số điện thoại, email, địa chỉ của khách trước khi gửi vào AI. Tin có yêu cầu chuyển tiền, mã OTP thì không soạn.</li>
+              <li>Lưu cặp nháp và bản người sửa để đo và cải thiện.</li>
+            </ul>
+            <div class="done-when">
+              <h4>Xong khi</h4>
+              <p>60% nháp được duyệt không phải sửa. Không nháp nào lộ dữ liệu cá nhân.</p>
+            </div>
+          </div>
+          <figure class="fig scene">
+            <svg class="svg" viewBox="0 0 360 220" role="img" aria-label="Khách hỏi bảo hành; bộ não AI lấy thẻ VCwiki và soạn nháp có trích thẻ; nhân viên bấm Duyệt, gửi">
+              <defs><marker id="m5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-muted"/></marker></defs>
+              <rect x="12" y="14" width="176" height="40" rx="12" class="f-surface s-line" stroke-width="1.5"/>
+              <text x="24" y="39" font-size="12.5">Bảo hành mấy tháng em?</text>
+              <rect x="232" y="10" width="116" height="48" rx="8" class="f-wiki-soft s-wiki" stroke-width="1.5"/>
+              <text x="244" y="29" font-size="11.5" font-weight="700" class="t-wiki">Thẻ VCwiki</text>
+              <text x="244" y="46" font-size="11.5">Bảo hành 6 tháng</text>
+              <path d="M94 54 C94 66 150 62 150 77" fill="none" class="s-muted" stroke-width="1.5" marker-end="url(#m5)"/>
+              <path d="M290 58 C290 80 252 92 238 98" fill="none" class="s-wiki" stroke-width="1.8" marker-end="url(#m5)"/>
+              <text x="300" y="86" font-size="11.5" class="t-wiki">tri thức</text>
+              <rect x="124" y="80" width="112" height="46" rx="12" class="f-ai-soft s-ai" stroke-width="1.8"/>
+              <text x="180" y="100" font-size="13" text-anchor="middle" font-weight="700" class="t-ai">Bộ não AI</text>
+              <text x="180" y="117" font-size="11.5" text-anchor="middle">tìm thẻ, soạn nháp</text>
+              <line x1="180" y1="126" x2="180" y2="148" class="s-muted" stroke-width="1.5" marker-end="url(#m5)"/>
+              <rect x="12" y="150" width="248" height="56" rx="12" class="f-links-soft s-links" stroke-width="1.5" stroke-dasharray="5 4"/>
+              <text x="24" y="172" font-size="12">Dạ, phụ tùng bảo hành 6 tháng</text>
+              <text x="24" y="191" font-size="11.5" class="tm">hoặc 10.000 km ạ. [Thẻ bảo hành]</text>
+              <rect x="270" y="160" width="78" height="36" rx="8" class="f-links"/>
+              <text x="309" y="183" font-size="12" text-anchor="middle" font-weight="700" class="t-on">Duyệt, gửi</text>
+            </svg>
+            <figcaption>AI soạn, trích đúng thẻ đã duyệt. Nhân viên đọc, sửa nếu cần, rồi tự bấm gửi.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <article class="step" id="buoc-6" data-p="ai">
+      <div class="shield" aria-hidden="true">6</div>
+      <div class="step-body">
+        <div class="step-meta"><span class="chip">VC AI</span><span class="when">Tháng 6</span></div>
+        <h3>Cửa kiểm soát và tra cứu dữ liệu thật</h3>
+        <p class="why">Muốn AI chạm vào dữ liệu thật của VCsale, VCgarage, VCe thì phải có cửa kiểm soát trước.</p>
+        <div class="step-grid">
+          <div class="todo">
+            <h4>Làm gì</h4>
+            <ul>
+              <li>Dựng cửa kiểm soát. Mọi lệnh của AI qua năm câu: ai yêu cầu, có quyền không, rủi ro mức nào, ai cần xác nhận, đã ghi nhật ký chưa.</li>
+              <li>AI không có tài khoản riêng. AI làm thay đúng người đang hỏi, bằng thẻ quyền ngắn hạn.</li>
+              <li>Mỗi app mở công cụ đọc theo một mẫu: tìm khách, tồn kho, giá, đơn, lịch hẹn, khóa học.</li>
+              <li>Nhật ký cho từng lệnh, giới hạn số lệnh mỗi lượt, nút tắt khẩn cấp.</li>
+              <li>Bộ 50 câu hỏi tiếng Việt để đo AI chọn đúng công cụ.</li>
+            </ul>
+            <div class="done-when">
+              <h4>Xong khi</h4>
+              <p>90% câu tra cứu trả lời đúng. Người thiếu quyền hỏi thì AI bị chặn và có nhật ký. Không có sự cố vượt quyền.</p>
+            </div>
+          </div>
+          <figure class="fig scene">
+            <svg class="svg" viewBox="0 0 360 220" role="img" aria-label="Bộ não AI gửi lệnh qua cửa kiểm soát năm bước kiểm tra rồi mới đọc dữ liệu ở VCsale, VCgarage, VCe; sai thì chặn">
+              <defs><marker id="m6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-muted"/></marker></defs>
+              <rect x="12" y="80" width="84" height="54" rx="12" class="f-ai-soft s-ai" stroke-width="1.8"/>
+              <text x="54" y="103" font-size="12.5" text-anchor="middle" font-weight="700" class="t-ai">Bộ não</text>
+              <text x="54" y="120" font-size="12.5" text-anchor="middle" font-weight="700" class="t-ai">AI</text>
+              <line x1="96" y1="107" x2="116" y2="107" class="s-muted" stroke-width="1.5" marker-end="url(#m6)"/>
+              <rect x="118" y="12" width="120" height="196" rx="12" class="f-surface s-ai" stroke-width="2.2"/>
+              <text x="178" y="33" font-size="12.5" text-anchor="middle" font-weight="700" class="t-ai">Cửa kiểm soát</text>
+              <circle cx="134" cy="56" r="7" class="f-wiki"/><path d="M130.5 56 l2.5 2.5 l4.5 -5" fill="none" class="s-on" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="147" y="60" font-size="11.5">Ai yêu cầu?</text>
+              <circle cx="134" cy="84" r="7" class="f-wiki"/><path d="M130.5 84 l2.5 2.5 l4.5 -5" fill="none" class="s-on" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="147" y="88" font-size="11.5">Có quyền?</text>
+              <circle cx="134" cy="112" r="7" class="f-wiki"/><path d="M130.5 112 l2.5 2.5 l4.5 -5" fill="none" class="s-on" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="147" y="116" font-size="11.5">Mức rủi ro?</text>
+              <circle cx="134" cy="140" r="7" class="f-wiki"/><path d="M130.5 140 l2.5 2.5 l4.5 -5" fill="none" class="s-on" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="147" y="144" font-size="11.5">Ai xác nhận?</text>
+              <circle cx="134" cy="168" r="7" class="f-wiki"/><path d="M130.5 168 l2.5 2.5 l4.5 -5" fill="none" class="s-on" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="147" y="172" font-size="11.5">Ghi nhật ký</text>
+              <text x="178" y="198" font-size="11.5" text-anchor="middle" font-weight="600" class="t-stop">sai thì chặn</text>
+              <line x1="238" y1="44" x2="256" y2="44" class="s-muted" stroke-width="1.5" marker-end="url(#m6)"/>
+              <line x1="238" y1="108" x2="256" y2="108" class="s-muted" stroke-width="1.5" marker-end="url(#m6)"/>
+              <line x1="238" y1="172" x2="256" y2="172" class="s-muted" stroke-width="1.5" marker-end="url(#m6)"/>
+              <rect x="258" y="24" width="90" height="40" rx="8" class="f-base-soft s-base" stroke-width="1.5"/><text x="303" y="41" font-size="12" text-anchor="middle" font-weight="700">VCsale</text><text x="303" y="57" font-size="11" text-anchor="middle" class="tm">tồn kho, giá</text>
+              <rect x="258" y="88" width="90" height="40" rx="8" class="f-base-soft s-base" stroke-width="1.5"/><text x="303" y="105" font-size="12" text-anchor="middle" font-weight="700">VCgarage</text><text x="303" y="121" font-size="11" text-anchor="middle" class="tm">lịch hẹn</text>
+              <rect x="258" y="152" width="90" height="40" rx="8" class="f-base-soft s-base" stroke-width="1.5"/><text x="303" y="169" font-size="12" text-anchor="middle" font-weight="700">VCe</text><text x="303" y="185" font-size="11" text-anchor="middle" class="tm">khóa học</text>
+            </svg>
+            <figcaption>Qua đủ năm câu thì lệnh mới tới app, và app vẫn kiểm quyền lần cuối. Kết quả trả về đã che dữ liệu cá nhân.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <article class="step" id="buoc-7" data-p="ai">
+      <div class="shield" aria-hidden="true">7</div>
+      <div class="step-body">
+        <div class="step-meta"><span class="chip">VC AI</span><span class="when">Tháng 7</span></div>
+        <h3>AI làm thay, người bấm xác nhận</h3>
+        <p class="why">Đây là bước AI tiết kiệm thời gian thật: tạo báo giá, gửi cho khách, đặt lịch.</p>
+        <div class="step-grid">
+          <div class="todo">
+            <h4>Làm gì</h4>
+            <ul>
+              <li>AI tạo nháp trên app gốc: báo giá nháp ở VCsale, lịch hẹn ở VCgarage, đăng ký học ở VCe. Nháp gắn nhãn "AI tạo".</li>
+              <li>Việc đi ra ngoài (gửi báo giá, gửi tin) hiện thẻ xác nhận: nội dung, người nhận, số tiền. Nhân viên bấm Gửi.</li>
+              <li>Gõ "ok" trong chat không tính là xác nhận. Chỉ nút bấm mới tính.</li>
+              <li>Tin cho khách luôn đi qua VClinks, chỉ tới liên hệ đã đăng ký. Dữ liệu đổi sau khi xem thì lệnh hủy, tạo lệnh mới.</li>
+            </ul>
+            <div class="done-when">
+              <h4>Xong khi</h4>
+              <p>Thời gian tạo và gửi một báo giá giảm ít nhất 40%. 80% đề xuất của AI được xác nhận không phải sửa.</p>
+            </div>
+          </div>
+          <figure class="fig scene">
+            <svg class="svg" viewBox="0 0 360 220" role="img" aria-label="Thẻ xác nhận: gửi báo giá BG-0125 cho anh Nam, Garage Minh Phát, qua Zalo đã đăng ký, tổng 42.500.000 đồng, nút Hủy và Gửi, hết hạn sau 15 phút">
+              <rect x="30" y="10" width="300" height="200" rx="14" class="f-surface s-line" stroke-width="1.5"/>
+              <path d="M44 10 H316 A14 14 0 0 1 330 24 V50 H30 V24 A14 14 0 0 1 44 10 Z" class="f-ai-soft"/>
+              <text x="48" y="36" font-size="14" font-weight="700">Gửi báo giá BG-0125</text>
+              <text x="48" y="76" font-size="12" class="tm">Khách</text><text x="128" y="76" font-size="12">Anh Nam · Garage Minh Phát</text>
+              <text x="48" y="101" font-size="12" class="tm">Kênh</text><text x="128" y="101" font-size="12">Zalo đã đăng ký</text>
+              <text x="48" y="127" font-size="12" class="tm">Tổng</text><text x="128" y="127" font-size="15" font-weight="700">42.500.000 ₫</text>
+              <line x1="48" y1="144" x2="312" y2="144" class="s-line" stroke-width="1.5"/>
+              <text x="48" y="186" font-size="11.5" class="tm">hết hạn sau 15 phút</text>
+              <rect x="172" y="166" width="62" height="30" rx="8" class="f-surface s-line" stroke-width="1.5"/>
+              <text x="203" y="186" font-size="12.5" text-anchor="middle">Hủy</text>
+              <rect x="244" y="166" width="68" height="30" rx="8" class="f-links"/>
+              <text x="278" y="186" font-size="12.5" text-anchor="middle" font-weight="700" class="t-on">Gửi</text>
+            </svg>
+            <figcaption>Người xác nhận thấy đúng thứ sẽ được gửi. Lệnh chỉ chạy khi bấm Gửi và dữ liệu chưa đổi.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <article class="step" id="buoc-8" data-p="ai">
+      <div class="shield" aria-hidden="true">8</div>
+      <div class="step-body">
+        <div class="step-meta"><span class="chip">VC AI</span><span class="when">Tháng 8</span></div>
+        <h3>Quản lý duyệt việc lớn, AI chạy chính thức</h3>
+        <p class="why">Việc lớn như đơn vượt ngưỡng hay sửa dữ liệu hàng loạt cần người có thẩm quyền quyết.</p>
+        <div class="step-grid">
+          <div class="todo">
+            <h4>Làm gì</h4>
+            <ul>
+              <li>Ngưỡng theo từng đơn vị. Ví dụ báo giá trên 100 triệu, đơn trên 50 triệu thì quản lý duyệt.</li>
+              <li>Hộp duyệt trên điện thoại, nhắc trước khi hết hạn. Người yêu cầu không tự duyệt được.</li>
+              <li>Duyệt xong, AI tự làm tiếp và báo lại nhân viên.</li>
+              <li>Ba việc AI không bao giờ làm: xóa dữ liệu, đổi phân quyền, thanh toán.</li>
+              <li>Thử tấn công trước khi chạy thật: tin khách cài lệnh giả, giả quyền, gửi lặp. Có sổ tay xử lý sự cố.</li>
+            </ul>
+            <div class="done-when">
+              <h4>Xong khi</h4>
+              <p>AI chạy chính thức cho đội bán hàng. Thời gian chờ duyệt trung vị dưới 30 phút trong giờ làm việc.</p>
+            </div>
+          </div>
+          <figure class="fig scene">
+            <svg class="svg" viewBox="0 0 360 220" role="img" aria-label="Bốn mức rủi ro từ tự chạy tới chặn; điện thoại quản lý nhận yêu cầu duyệt đơn 85 triệu vượt ngưỡng 50 triệu">
+              <text x="12" y="20" font-size="12" font-weight="700" class="tm">BỐN MỨC RỦI RO</text>
+              <rect x="12" y="30" width="192" height="40" rx="8" class="f-stop-soft s-stop" stroke-width="1.5"/>
+              <text x="24" y="47" font-size="12" font-weight="700" class="t-stop">Chặn</text><text x="24" y="63" font-size="11">xóa, đổi quyền, thanh toán</text>
+              <rect x="12" y="76" width="192" height="40" rx="8" class="f-ai-soft s-ai" stroke-width="1.5"/>
+              <text x="24" y="93" font-size="12" font-weight="700" class="t-ai">Quản lý duyệt</text><text x="24" y="109" font-size="11">đơn trên 50 triệu</text>
+              <rect x="12" y="122" width="192" height="40" rx="8" class="f-links-soft s-links" stroke-width="1.5"/>
+              <text x="24" y="139" font-size="12" font-weight="700" class="t-links">Người dùng bấm</text><text x="24" y="155" font-size="11">gửi báo giá, gửi tin</text>
+              <rect x="12" y="168" width="192" height="40" rx="8" class="f-wiki-soft s-wiki" stroke-width="1.5"/>
+              <text x="24" y="185" font-size="12" font-weight="700" class="t-wiki">Tự chạy</text><text x="24" y="201" font-size="11">tra cứu, đọc</text>
+              <rect x="224" y="8" width="124" height="204" rx="18" class="f-surface s-ink" stroke-width="2"/>
+              <line x1="272" y1="20" x2="300" y2="20" class="s-line" stroke-width="3" stroke-linecap="round"/>
+              <rect x="232" y="36" width="108" height="122" rx="10" class="f-ai-soft"/>
+              <text x="242" y="56" font-size="12" font-weight="700" class="t-ai">Cần duyệt</text>
+              <text x="242" y="76" font-size="12" font-weight="700">Đơn 85 triệu</text>
+              <text x="242" y="93" font-size="11" class="tm">vượt ngưỡng</text>
+              <text x="242" y="108" font-size="11" class="tm">50 triệu</text>
+              <rect x="240" y="122" width="44" height="26" rx="6" class="f-links"/><text x="262" y="139" font-size="11" text-anchor="middle" font-weight="700" class="t-on">Duyệt</text>
+              <rect x="288" y="122" width="46" height="26" rx="6" class="f-surface s-line" stroke-width="1.2"/><text x="311" y="139" font-size="11" text-anchor="middle">Từ chối</text>
+              <text x="286" y="180" font-size="11" text-anchor="middle" class="tm">nhắc trước hạn</text>
+              <text x="286" y="196" font-size="11" text-anchor="middle" class="tm">không tự duyệt</text>
+            </svg>
+            <figcaption>Phần lớn việc nằm ở hai mức dưới nên không chậm. Chỉ việc vượt ngưỡng mới tới quản lý.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <div class="phase">
+      <span class="mark" aria-hidden="true"></span>
+      <div class="phase-text">
+        <p class="eyebrow">Tháng 9 – 12</p>
+        <h3>Học và mở rộng</h3>
+        <p class="muted">AI giỏi lên từ chính câu khách hỏi, rồi có mặt trong mọi app của tập đoàn.</p>
+      </div>
+    </div>
+
+    <article class="step" id="buoc-9" data-p="wiki">
+      <div class="shield" aria-hidden="true">9</div>
+      <div class="step-body">
+        <div class="step-meta"><span class="chip">VClinks + VCwiki</span><span class="when">Tháng 9 – 10</span></div>
+        <h3>Vòng học: câu khách hỏi thành tri thức</h3>
+        <p class="why">Câu khách hỏi mỗi ngày là nguồn tri thức tốt nhất. AI phải giỏi lên theo thời gian.</p>
+        <div class="step-grid">
+          <div class="todo">
+            <h4>Làm gì</h4>
+            <ul>
+              <li>Câu hỏi và câu trả lời hay trong VClinks được ẩn danh rồi đưa vào kho thô của VCwiki. Người duyệt xong mới thành thẻ.</li>
+              <li>Mỗi tuần, biên tập viên nhận danh sách câu khách hỏi mà chưa có thẻ.</li>
+              <li>Hội thoại mẫu thành bài học trong VCwiki cho nhân viên mới.</li>
+              <li>Câu hỏi phổ biến thành ý tưởng nội dung marketing.</li>
+            </ul>
+            <div class="done-when">
+              <h4>Xong khi</h4>
+              <p>70% câu khách hỏi có thẻ trả lời được. Tỉ lệ nháp không phải sửa tăng mỗi tháng.</p>
+            </div>
+          </div>
+          <figure class="fig scene">
+            <svg class="svg" viewBox="0 0 360 220" role="img" aria-label="Vòng lặp: chat VClinks, ẩn danh, thẻ mới đã duyệt trong VCwiki, AI soạn tốt hơn, quay lại chat">
+              <defs><marker id="m9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-muted"/></marker></defs>
+              <rect x="118" y="8" width="124" height="34" rx="17" class="f-links-soft s-links" stroke-width="1.5"/>
+              <text x="180" y="30" font-size="12.5" text-anchor="middle" font-weight="700">Chat VClinks</text>
+              <rect x="240" y="93" width="108" height="34" rx="17" class="f-base-soft s-base" stroke-width="1.5"/>
+              <text x="294" y="115" font-size="12.5" text-anchor="middle" font-weight="700">Ẩn danh</text>
+              <rect x="112" y="178" width="136" height="34" rx="17" class="f-wiki-soft s-wiki" stroke-width="1.5"/>
+              <text x="180" y="200" font-size="12.5" text-anchor="middle" font-weight="700">Thẻ mới đã duyệt</text>
+              <rect x="8" y="93" width="120" height="34" rx="17" class="f-ai-soft s-ai" stroke-width="1.5"/>
+              <text x="68" y="115" font-size="12.5" text-anchor="middle" font-weight="700">AI soạn tốt hơn</text>
+              <path d="M242 25 C284 25 294 48 294 90" fill="none" class="s-muted" stroke-width="1.6" marker-end="url(#m9)"/>
+              <path d="M294 127 C294 168 280 195 250 195" fill="none" class="s-muted" stroke-width="1.6" marker-end="url(#m9)"/>
+              <path d="M112 195 C80 195 68 168 68 130" fill="none" class="s-muted" stroke-width="1.6" marker-end="url(#m9)"/>
+              <path d="M68 93 C68 48 84 25 116 25" fill="none" class="s-muted" stroke-width="1.6" marker-end="url(#m9)"/>
+              <text x="180" y="104" font-size="12" text-anchor="middle" class="tm">mỗi tuần</text>
+              <text x="180" y="122" font-size="13" text-anchor="middle" font-weight="700">AI giỏi lên</text>
+            </svg>
+            <figcaption>Chat sinh ra câu hỏi, VCwiki biến câu hỏi đã duyệt thành tri thức, AI dùng tri thức đó cho lần sau.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <article class="step" id="buoc-10" data-p="ai">
+      <div class="shield" aria-hidden="true">10</div>
+      <div class="step-body">
+        <div class="step-meta"><span class="chip">Tất cả</span><span class="when">Tháng 10 – 12</span></div>
+        <h3>Mở rộng và tự động hoá</h3>
+        <p class="why">Khi lõi đã an toàn, mỗi app chỉ cần mở công cụ theo mẫu là có AI.</p>
+        <div class="step-grid">
+          <div class="todo">
+            <h4>Làm gì</h4>
+            <ul>
+              <li>Khung trợ lý AI có ngay trong VCsale, VCgarage, VCe, dùng chung bộ não và cửa kiểm soát.</li>
+              <li>Nhân viên dùng Claude Desktop với đúng quyền của mình, qua một cổng chung.</li>
+              <li>AI chạy theo lịch: nhắc nợ, nhắc bảo dưỡng, nhắc mua lại, báo giá treo. Luôn tạo việc chờ người xác nhận, không tự gửi.</li>
+              <li>Chọn AI theo chi phí: việc đơn giản dùng AI nhỏ, dữ liệu nhạy cảm dùng AI chạy trên máy công ty.</li>
+              <li>Đánh giá mở VClinks và VC AI cho doanh nghiệp ngoài tập đoàn thuê.</li>
+            </ul>
+            <div class="done-when">
+              <h4>Xong khi</h4>
+              <p>Một app mới đưa 5–8 công cụ lên AI trong 2 tuần. Không có sự cố lộ dữ liệu giữa các đơn vị.</p>
+            </div>
+          </div>
+          <figure class="fig scene">
+            <svg class="svg" viewBox="0 0 360 220" role="img" aria-label="Bộ não và cửa kiểm soát ở giữa, nối tới khung trợ lý trong VCsale, VCgarage, VCe và Claude Desktop; việc chạy theo lịch tạo việc chờ xác nhận">
+              <defs><marker id="m10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-muted"/></marker></defs>
+              <line x1="132" y1="84" x2="96" y2="48" class="s-muted" stroke-width="1.5"/>
+              <line x1="228" y1="84" x2="264" y2="48" class="s-muted" stroke-width="1.5"/>
+              <line x1="132" y1="140" x2="96" y2="174" class="s-muted" stroke-width="1.5"/>
+              <line x1="228" y1="140" x2="264" y2="174" class="s-muted" stroke-width="1.5"/>
+              <rect x="12" y="14" width="96" height="34" rx="8" class="f-base-soft s-base" stroke-width="1.5"/><text x="60" y="36" font-size="12.5" text-anchor="middle" font-weight="700">VCsale</text>
+              <rect x="252" y="14" width="96" height="34" rx="8" class="f-base-soft s-base" stroke-width="1.5"/><text x="300" y="36" font-size="12.5" text-anchor="middle" font-weight="700">VCgarage</text>
+              <rect x="12" y="174" width="96" height="34" rx="8" class="f-base-soft s-base" stroke-width="1.5"/><text x="60" y="196" font-size="12.5" text-anchor="middle" font-weight="700">VCe</text>
+              <rect x="252" y="174" width="96" height="34" rx="8" class="f-links-soft s-links" stroke-width="1.5"/><text x="300" y="196" font-size="11.5" text-anchor="middle" font-weight="700">Claude Desktop</text>
+              <rect x="120" y="82" width="120" height="60" rx="14" class="f-ai-soft s-ai" stroke-width="2.2"/>
+              <text x="180" y="106" font-size="12.5" text-anchor="middle" font-weight="700" class="t-ai">Bộ não AI</text>
+              <text x="180" y="125" font-size="11.5" text-anchor="middle">+ cửa kiểm soát</text>
+              <rect x="12" y="97" width="92" height="30" rx="15" class="f-surface s-ai" stroke-width="1.5"/>
+              <text x="58" y="116" font-size="11.5" text-anchor="middle">Chạy theo lịch</text>
+              <line x1="104" y1="112" x2="118" y2="112" class="s-muted" stroke-width="1.5" marker-end="url(#m10)"/>
+              <line x1="240" y1="112" x2="254" y2="112" class="s-muted" stroke-width="1.5" marker-end="url(#m10)"/>
+              <rect x="256" y="97" width="92" height="30" rx="15" class="f-surface s-links" stroke-width="1.5"/>
+              <text x="302" y="116" font-size="11.5" text-anchor="middle">Chờ xác nhận</text>
+            </svg>
+            <figcaption>Một bộ não và một cửa kiểm soát cho mọi app. Việc chạy theo lịch vẫn dừng ở bước chờ người xác nhận.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section id="lich">
+  <div class="sec-head">
+    <p class="eyebrow">Lịch 12 tháng</p>
+    <h2>Ba tuyến chạy song song, AI đi sau cùng</h2>
+    <p>Số tháng tính cho đội ở cuối trang, có AI hỗ trợ lập trình. Thêm người thì các tuyến song song đi nhanh hơn; các bước của VC AI vẫn phải đi lần lượt.</p>
+  </div>
+  <figure class="fig panel plan">
+    <div class="scroll">
+      <svg class="svg" viewBox="0 0 1000 352" role="img" aria-label="Lịch 12 tháng theo bốn tuyến. Tháng 1 đến 4 xây nền: bước 1 nền chung, bước 2 hộp thư, bước 3 hồ sơ khách, bước 4 kho tri thức. Tháng 5 đến 8 bật AI, mỗi tháng một bước từ bước 5 đến bước 8. Tháng 9 đến 12: bước 9 vòng học, bước 10 mở rộng. Kết quả: hộp thư chạy thật giữa tháng 3, nháp AI cuối tháng 5, AI tra cứu cuối tháng 6, AI chạy chính thức cuối tháng 8, mọi app có AI cuối tháng 12.">
+        <path d="M182 34 V26 H442 V34" fill="none" class="s-muted" stroke-width="1.5"/>
+        <text x="312" y="18" font-size="14" text-anchor="middle" font-weight="700">Xây nền</text>
+        <path d="M446 34 V26 H706 V34" fill="none" class="s-muted" stroke-width="1.5"/>
+        <text x="576" y="18" font-size="14" text-anchor="middle" font-weight="700">Bật AI từng bước</text>
+        <path d="M710 34 V26 H970 V34" fill="none" class="s-muted" stroke-width="1.5"/>
+        <text x="840" y="18" font-size="14" text-anchor="middle" font-weight="700">Học và mở rộng</text>
+
+        <g font-size="12" text-anchor="middle" class="tm">
+          <text x="213" y="54">Tháng 1</text>
+          <text x="279" y="54">Tháng 2</text>
+          <text x="345" y="54">Tháng 3</text>
+          <text x="411" y="54">Tháng 4</text>
+          <text x="477" y="54">Tháng 5</text>
+          <text x="543" y="54">Tháng 6</text>
+          <text x="609" y="54">Tháng 7</text>
+          <text x="675" y="54">Tháng 8</text>
+          <text x="741" y="54">Tháng 9</text>
+          <text x="807" y="54">Tháng 10</text>
+          <text x="873" y="54">Tháng 11</text>
+          <text x="939" y="54">Tháng 12</text>
+        </g>
+
+        <g class="s-line" stroke-width="1">
+          <line x1="180" y1="64" x2="180" y2="298"/>
+          <line x1="246" y1="64" x2="246" y2="298"/>
+          <line x1="312" y1="64" x2="312" y2="298"/>
+          <line x1="378" y1="64" x2="378" y2="298"/>
+          <line x1="510" y1="64" x2="510" y2="298"/>
+          <line x1="576" y1="64" x2="576" y2="298"/>
+          <line x1="642" y1="64" x2="642" y2="298"/>
+          <line x1="774" y1="64" x2="774" y2="298"/>
+          <line x1="840" y1="64" x2="840" y2="298"/>
+          <line x1="906" y1="64" x2="906" y2="298"/>
+          <line x1="972" y1="64" x2="972" y2="298"/>
+          <line x1="16" y1="118" x2="972" y2="118"/>
+          <line x1="16" y1="172" x2="972" y2="172"/>
+          <line x1="16" y1="226" x2="972" y2="226"/>
+          <line x1="16" y1="298" x2="972" y2="298"/>
+        </g>
+        <g class="s-muted" stroke-width="1.2" stroke-dasharray="4 4">
+          <line x1="444" y1="40" x2="444" y2="298"/>
+          <line x1="708" y1="40" x2="708" y2="298"/>
+        </g>
+
+        <circle cx="24" cy="85" r="6" class="f-base"/>
+        <text x="38" y="90" font-size="15" font-weight="700">Nền chung</text>
+        <circle cx="24" cy="139" r="6" class="f-links"/>
+        <text x="38" y="144" font-size="15" font-weight="700">VClinks</text>
+        <circle cx="24" cy="193" r="6" class="f-wiki"/>
+        <text x="38" y="198" font-size="15" font-weight="700">VCwiki</text>
+        <circle cx="24" cy="247" r="6" class="f-ai"/>
+        <text x="38" y="252" font-size="15" font-weight="700">VC AI</text>
+        <text x="16" y="319" font-size="15" font-weight="700">Kết quả</text>
+
+        <rect x="182" y="72" width="62" height="24" rx="7" class="f-base"/>
+        <text x="196" y="89" font-size="15" text-anchor="middle" class="num t-on">1</text>
+        <text x="182" y="112" font-size="12">Đăng nhập chung, tổ chức, mức dữ liệu</text>
+
+        <rect x="182" y="126" width="161" height="24" rx="7" class="f-links"/>
+        <text x="196" y="143" font-size="15" text-anchor="middle" class="num t-on">2</text>
+        <text x="182" y="166" font-size="12">Hộp thư hợp nhất</text>
+        <rect x="347" y="126" width="95" height="24" rx="7" class="f-links"/>
+        <text x="361" y="143" font-size="15" text-anchor="middle" class="num t-on">3</text>
+        <text x="347" y="166" font-size="12">Một khách, một hồ sơ</text>
+
+        <rect x="248" y="180" width="194" height="24" rx="7" class="f-wiki"/>
+        <text x="262" y="197" font-size="15" text-anchor="middle" class="num t-on">4</text>
+        <text x="248" y="220" font-size="12">Kho tri thức có người duyệt</text>
+        <rect x="710" y="180" width="128" height="24" rx="7" class="f-wiki"/>
+        <text x="724" y="197" font-size="15" text-anchor="middle" class="num t-on">9</text>
+        <text x="710" y="220" font-size="12">Vòng học từ chat</text>
+
+        <rect x="446" y="234" width="62" height="24" rx="7" class="f-ai"/>
+        <text x="460" y="251" font-size="15" text-anchor="middle" class="num t-amber">5</text>
+        <text x="446" y="274" font-size="12">Bộ não, nháp AI</text>
+        <rect x="512" y="234" width="62" height="24" rx="7" class="f-ai"/>
+        <text x="526" y="251" font-size="15" text-anchor="middle" class="num t-amber">6</text>
+        <text x="512" y="291" font-size="12">Cửa kiểm soát</text>
+        <rect x="578" y="234" width="62" height="24" rx="7" class="f-ai"/>
+        <text x="592" y="251" font-size="15" text-anchor="middle" class="num t-amber">7</text>
+        <text x="578" y="274" font-size="12">Làm thay</text>
+        <rect x="644" y="234" width="62" height="24" rx="7" class="f-ai"/>
+        <text x="658" y="251" font-size="15" text-anchor="middle" class="num t-amber">8</text>
+        <text x="644" y="291" font-size="12">Duyệt, chạy chính thức</text>
+        <rect x="776" y="234" width="194" height="24" rx="7" class="f-ai"/>
+        <text x="794" y="251" font-size="15" text-anchor="middle" class="num t-amber">10</text>
+        <text x="776" y="274" font-size="12">Mở rộng, tự động hoá</text>
+
+        <line x1="180" y1="314" x2="972" y2="314" class="s-line" stroke-width="2"/>
+        <path d="M345 306 L353 314 L345 322 L337 314 Z" class="f-links"/>
+        <text x="345" y="340" font-size="12.5" text-anchor="middle" font-weight="600">Hộp thư chạy thật</text>
+        <path d="M510 306 L518 314 L510 322 L502 314 Z" class="f-ai"/>
+        <text x="510" y="340" font-size="12.5" text-anchor="middle" font-weight="600">Nháp AI</text>
+        <path d="M576 306 L584 314 L576 322 L568 314 Z" class="f-ai"/>
+        <text x="576" y="340" font-size="12.5" text-anchor="middle" font-weight="600">AI tra cứu</text>
+        <path d="M708 306 L716 314 L708 322 L700 314 Z" class="f-ai"/>
+        <text x="708" y="340" font-size="12.5" text-anchor="middle" font-weight="600">AI chạy chính thức</text>
+        <path d="M972 304 L982 314 L972 324 L962 314 Z" class="f-ink"/>
+        <text x="986" y="340" font-size="12.5" text-anchor="end" font-weight="700">Mọi app có AI</text>
+      </svg>
+    </div>
+    <figcaption>Mỗi thanh là một bước, màu theo tuyến. Hàng dưới cùng là kết quả nhìn thấy được: giữa tháng 3 đội bán hàng dùng hộp thư chung, cuối tháng 8 AI chạy chính thức, cuối tháng 12 mọi app có AI.</figcaption>
+  </figure>
+</section>
+
+<section id="do-dat">
+  <div class="sec-head">
+    <p class="eyebrow">Đo thế nào là đạt</p>
+    <h2>Sáu con số để biết có đi tiếp hay không</h2>
+    <p>Đo trước khi bật AI để có số gốc, rồi đo lại sau từng bước. Chưa đạt thì sửa ở bước đó, chưa mở thêm quyền cho AI.</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi" data-p="ai">
+      <span class="big">−40%</span>
+      <p class="what">Thời gian tạo và gửi một báo giá</p>
+      <p class="how">So với số đo trước khi có AI, sau 2 tuần AI làm thay. Đo ở bước 7.</p>
+    </div>
+    <div class="kpi" data-p="ai">
+      <span class="big">80%</span>
+      <p class="what">Đề xuất của AI được xác nhận không phải sửa</p>
+      <p class="how">Số lần bấm Gửi chia cho số lần AI đề xuất. Đo từ bước 7.</p>
+    </div>
+    <div class="kpi" data-p="ai">
+      <span class="big">90%</span>
+      <p class="what">Câu tra cứu AI trả lời đúng</p>
+      <p class="how">Bộ 50 câu hỏi tiếng Việt lấy từ nhân viên thật. Đo ở bước 6.</p>
+    </div>
+    <div class="kpi" data-p="links">
+      <span class="big">60%</span>
+      <p class="what">Nháp trả lời khách được duyệt không phải sửa</p>
+      <p class="how">Lưu cặp nháp AI và bản người sửa. Đo từ bước 5.</p>
+    </div>
+    <div class="kpi" data-p="wiki">
+      <span class="big">70%</span>
+      <p class="what">Câu khách hỏi có thẻ tri thức trả lời được</p>
+      <p class="how">Lấy mẫu 200 câu hỏi thật mỗi tháng. Đo từ bước 9.</p>
+    </div>
+    <div class="kpi" data-p="base">
+      <span class="big">0</span>
+      <p class="what">Sự cố AI vượt quyền hoặc lộ dữ liệu giữa các đơn vị</p>
+      <p class="how">Nhật ký từng lệnh và bộ thử tấn công. Đo ở mọi bước.</p>
+    </div>
+  </div>
+</section>
+
+<section id="doi-ngu">
+  <div class="sec-head">
+    <p class="eyebrow">Luật, đội và việc cần chốt</p>
+    <h2>Sáu luật giữ suốt 12 tháng</h2>
+    <p>Bước nào cũng phải giữ đủ sáu luật này. Trước mỗi lần mở thêm quyền cho AI, kiểm lại cả sáu.</p>
+  </div>
+  <div class="stack">
+    <ul class="principles">
+      <li><b>Người duyệt rồi mới gửi</b>Không tin nào ra khách khi chưa có người bấm. Lưu ai bấm, lúc nào.</li>
+      <li><b>AI không có tài khoản riêng</b>AI làm thay đúng người đang hỏi, chỉ trong quyền của người đó.</li>
+      <li><b>Mỗi app giữ dữ liệu của mình</b>VClinks đọc về để chăm sóc khách, không ghi thẳng vào app khác.</li>
+      <li><b>Trả lời bằng tri thức đã duyệt</b>AI trích thẻ VCwiki, không tự nghĩ ra giá, chính sách, bảo hành.</li>
+      <li><b>Che dữ liệu cá nhân</b>Số điện thoại, địa chỉ được che trước khi vào AI. Dữ liệu nhạy cảm chỉ chạy AI trên máy công ty.</li>
+      <li><b>Mọi lệnh có nhật ký</b>Tra được ai yêu cầu, AI làm gì, ai duyệt. Có nút tắt AI khẩn cấp.</li>
+    </ul>
+
+    <div class="two">
+      <div class="panel">
+        <h3>Đội đề xuất</h3>
+        <div class="rows">
+          <div class="row"><div><b>Chủ sản phẩm</b><p class="muted">Giữ thứ tự ưu tiên, nghiệm thu cuối mỗi bước</p></div><span class="load">1 người · bán thời gian</span></div>
+          <div class="row"><div><b>VClinks</b><p class="muted">Hộp thư, hồ sơ khách, khung trợ lý, thẻ xác nhận</p></div><span class="load">2 lập trình viên · cả năm</span></div>
+          <div class="row"><div><b>VCwiki</b><p class="muted">Nạp tài liệu, tinh chế thẻ, tìm theo nghĩa, vòng học</p></div><span class="load">1 lập trình viên · cả năm</span></div>
+          <div class="row"><div><b>Biên tập tri thức</b><p class="muted">Viết và duyệt thẻ chăm sóc khách ở mỗi đơn vị</p></div><span class="load">1 người mỗi đơn vị · 2–4 giờ/tuần từ tháng 2</span></div>
+          <div class="row"><div><b>VC AI</b><p class="muted">Bộ não và cửa kiểm soát</p></div><span class="load">1 lập trình viên chuyên trách · từ tháng 4</span></div>
+          <div class="row"><div><b>Đội VCsale, VCgarage, VCe</b><p class="muted">Mở công cụ cho AI theo mẫu chung</p></div><span class="load">1–2 tuần mỗi app · tháng 6–7 và tháng 10</span></div>
+          <div class="row"><div><b>Kiểm thử</b><p class="muted">Thử quyền, thử tấn công, nghiệm thu từng bước</p></div><span class="load">bán thời gian · dồn vào tháng 6–8</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Cần chốt trước khi bắt đầu</h3>
+        <ol class="decisions">
+          <li><b>Nhà cung cấp AI và điều khoản dữ liệu.</b> Đề xuất: AI trên cloud có cam kết không dùng dữ liệu để huấn luyện; pháp chế duyệt theo Luật Bảo vệ dữ liệu cá nhân.</li>
+          <li><b>Đơn vị chạy thử đầu tiên.</b> Đề xuất: VCparts, 5–10 nhân viên bán hàng làm nhiều báo giá.</li>
+          <li><b>Ngưỡng cần quản lý duyệt.</b> Đề xuất: báo giá trên 100 triệu, đơn trên 50 triệu; chỉnh lại sau 2 tuần chạy.</li>
+          <li><b>Người giữ kho tri thức chăm sóc khách</b> ở VCparts, VCservice, VCe.</li>
+          <li><b>Máy chủ chạy thật.</b> Máy nội bộ hay thuê cloud, tách khỏi máy chạy thử.</li>
+          <li><b>Người chuyên trách VC AI</b> từ tháng 4.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Bản trình bày gọn: coi VClinks, VCwiki và VC AI như xây từ đầu, còn VCsale, VCgarage, VCe đã chạy. Tháng tính từ ngày khởi động, chưa gắn lịch thật.</p>
+  <p>Hiện trạng thật và lịch theo ngày: <a href="lo-trinh-ai-trung-tam-vclinks-vcwiki.md">lo-trinh-ai-trung-tam-vclinks-vcwiki.md</a></p>
+  <p>VC Phồn Vinh · bản nháp 07/10/2026</p>
+</footer>
+
+</div>
+</body>
+</html>

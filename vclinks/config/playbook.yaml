@@ -1,0 +1,51 @@
+# Playbook giọng văn cho gợi ý trả lời AI (CLAUDE.md §8, M1c-06).
+# Sửa file này rồi khởi động lại API. Mọi dòng ở đây là ngữ cảnh mức C1 (nội bộ) gửi cho AI.
+# Không ghi số tài khoản, giá riêng, công nợ hay dữ liệu khách vào file này.
+
+version: 1
+
+# Xử lý theo vai trò liên hệ (contacts.role):
+#   draft        = soạn nháp trả lời
+#   summary_only = chỉ tóm tắt, không soạn nháp
+#   ignore       = bỏ qua, không gọi AI
+actions:
+  khach_hang: draft
+  dai_ly_gara: draft
+  nha_cung_cap: draft
+  doi_tac: draft
+  khac: draft
+  oa_doanh_nghiep: ignore
+  nhan_vien: summary_only
+  quan_ly: summary_only
+  ngan_hang: summary_only
+  co_quan_nha_nuoc: summary_only
+  gia_dinh_ban_be: ignore
+
+# Vai trò chưa xác định (liên hệ chưa phân loại)
+defaultAction: draft
+# Hội thoại nhóm
+groupAction: draft
+
+# Cách xưng hô theo vai trò; thiếu thì dùng defaultAddress
+address:
+  khach_hang: "Xưng em, gọi khách là anh/chị."
+  dai_ly_gara: "Xưng em, gọi là anh/chị; khách là gara, đại lý quen nên lời lẽ gọn, đi thẳng vào hàng."
+  nha_cung_cap: "Xưng em, gọi là anh/chị; lịch sự, rõ ràng."
+  doi_tac: "Xưng em, gọi là anh/chị; lịch sự, rõ ràng."
+defaultAddress: "Xưng em, gọi khách là anh/chị."
+
+# Độ dài tối đa của nháp (số câu)
+maxSentences: 4
+
+# Mẫu câu tham khảo (giọng văn, không bắt buộc dùng)
+phrases:
+  - "Dạ em chào anh/chị ạ."
+  - "Em kiểm tra tồn kho và báo lại anh/chị ngay ạ."
+  - "Anh/chị cho em xin số VIN hoặc mã phụ tùng để em tra chính xác ạ."
+  - "Em cảm ơn anh/chị đã ủng hộ VCparts ạ."
+
+# Điều cấm (nhắc lại cho AI; bộ lọc phía máy chủ vẫn kiểm độc lập)
+rules:
+  - "Không hứa giá, tồn, thời gian giao nếu ngữ cảnh tin cậy không có."
+  - "Không đưa số tài khoản, đường link, mã OTP, mật khẩu."
+  - "Không nhận lời chuyển tiền, đổi số tài khoản, đổi thông tin thanh toán."

@@ -1,0 +1,567 @@
+{
+  "description": "Bộ mẫu có nhãn cho cổng so sánh (GOV-03 — docs/BA.md mục 16.2). Mỗi ca: thẻ đã có (1–3, đã duyệt), thẻ nháp, nhãn đúng (new / duplicate / supplement / conflict / noise), thẻ liên quan đúng (khoá trong `existing`), ghi chú vì sao. Dùng cho backend/tests/test_novelty.py và backend/scripts/eval_novelty.py.",
+  "cases": [
+    {
+      "id": "dup-01",
+      "domain": "garage",
+      "label": "duplicate",
+      "related": ["dau"],
+      "note": "Diễn đạt lại, cùng hai mốc km, không thêm gì",
+      "existing": [
+        {"key": "dau", "title": "Chu kỳ thay dầu động cơ xe con",
+         "summary": "Dầu khoáng thay sau 5.000 km, dầu tổng hợp thay sau 10.000 km hoặc 6 tháng, tuỳ điều kiện nào đến trước.",
+         "body": "- Dầu khoáng: 5.000 km.\n- Dầu bán tổng hợp: 7.500 km.\n- Dầu tổng hợp toàn phần: 10.000 km hoặc 6 tháng.\n- Thay lọc dầu cùng lúc thay dầu.",
+         "key_points": ["Dầu khoáng 5.000 km", "Dầu tổng hợp 10.000 km hoặc 6 tháng", "Thay lọc dầu cùng lúc"]},
+        {"key": "loc-gio", "title": "Thay lọc gió động cơ",
+         "summary": "Lọc gió động cơ kiểm tra mỗi 10.000 km, thay mỗi 20.000 km; đi đường bụi thì thay sớm hơn.",
+         "body": "Lọc gió bẩn làm xe hao xăng, yếu máy. Kiểm tra bằng cách soi đèn qua lọc."}
+      ],
+      "draft": {"title": "Khi nào cần thay nhớt máy cho ô tô con",
+                "summary": "Nhớt khoáng nên thay mỗi 5.000 km; nhớt tổng hợp thay mỗi 10.000 km hoặc sau 6 tháng nếu xe ít chạy. Nhớ thay luôn lọc nhớt.",
+                "body": "Thay nhớt đúng hạn giúp máy bền. Nhớt khoáng: 5.000 km. Nhớt tổng hợp toàn phần: 10.000 km hay 6 tháng. Mỗi lần thay nhớt nên thay lọc nhớt."}
+    },
+    {
+      "id": "dup-02",
+      "domain": "phụ tùng",
+      "label": "duplicate",
+      "related": ["vin"],
+      "note": "Cùng quy trình tra mã OE theo VIN, chỉ viết khác",
+      "existing": [
+        {"key": "vin", "title": "Tra mã OE theo số VIN trước khi báo giá",
+         "summary": "Luôn xin số VIN (số khung) của khách và tra mã OE trên catalog điện tử trước khi báo giá, tránh giao sai phụ tùng do đời xe / thị trường khác nhau.",
+         "body": "1. Xin ảnh cà vẹt hoặc số VIN 17 ký tự.\n2. Tra VIN trên catalog (partsouq, EPC hãng) để ra mã OE.\n3. Báo giá theo mã OE, ghi mã OE lên báo giá.\n4. Không báo giá chỉ theo tên xe + năm sản xuất."}
+      ],
+      "draft": {"title": "Báo giá phụ tùng phải dựa trên mã OE tra từ số khung",
+                "summary": "Nhân viên bán hàng cần hỏi số khung (VIN) của xe, tra ra mã OE trên catalog rồi mới báo giá; không báo giá theo đời xe để tránh giao nhầm.",
+                "body": "Các bước: xin ảnh đăng ký xe có số VIN 17 ký tự → tra catalog điện tử lấy mã OE → báo giá kèm mã OE. Chỉ biết tên xe và năm thì chưa được báo giá."}
+    },
+    {
+      "id": "dup-03",
+      "domain": "marketing",
+      "label": "duplicate",
+      "related": ["hook"],
+      "note": "Cùng nguyên tắc 3 giây đầu và cùng ví dụ",
+      "existing": [
+        {"key": "hook", "title": "3 giây đầu quyết định video TikTok",
+         "summary": "Người xem quyết định lướt qua hay ở lại trong 3 giây đầu; mở bằng vấn đề của khách hoặc kết quả bất ngờ, không mở bằng lời chào.",
+         "body": "- Không chào hỏi, không giới thiệu công ty ở đầu video.\n- Mở bằng câu hỏi về nỗi đau: \"Xe bạn rung khi dừng đèn đỏ?\"\n- Hoặc cho thấy kết quả trước: khoang máy sau khi vệ sinh."},
+        {"key": "hashtag", "title": "Dùng hashtag trên TikTok",
+         "summary": "Dùng 3–5 hashtag: 1–2 hashtag ngành rộng, 2–3 hashtag ngách theo dòng xe / dịch vụ.",
+         "body": "Không nhồi hashtag trending không liên quan."}
+      ],
+      "draft": {"title": "Mở đầu video ngắn trong 3 giây",
+                "summary": "Ba giây đầu video TikTok quyết định người xem có ở lại không. Hãy mở bằng nỗi đau của khách hoặc kết quả, bỏ phần chào hỏi.",
+                "body": "Đừng mở đầu bằng \"Xin chào, garage chúng tôi...\". Mở bằng câu hỏi kiểu \"Xe bạn rung khi dừng đèn đỏ?\" hoặc cho xem ngay kết quả khoang máy sạch sau vệ sinh."}
+    },
+    {
+      "id": "dup-04",
+      "domain": "tài chính",
+      "label": "duplicate",
+      "related": ["cong-no"],
+      "note": "Cùng mốc ngày 5, cùng cách đối chiếu",
+      "existing": [
+        {"key": "cong-no", "title": "Đối chiếu công nợ nhà cung cấp hằng tháng",
+         "summary": "Kế toán công nợ đối chiếu số dư với từng nhà cung cấp trước ngày 5 hằng tháng, có biên bản xác nhận hai bên ký.",
+         "body": "1. Xuất sổ chi tiết công nợ phải trả theo nhà cung cấp.\n2. Gửi biên bản đối chiếu trước ngày 5.\n3. Chênh lệch phải giải trình và xử lý trong tháng.\n4. Lưu biên bản đã ký vào hồ sơ."}
+      ],
+      "draft": {"title": "Quy định xác nhận công nợ phải trả với nhà cung cấp",
+                "summary": "Hằng tháng, trước ngày mùng 5, kế toán phải lập biên bản đối chiếu công nợ với từng nhà cung cấp và lấy chữ ký xác nhận hai bên.",
+                "body": "Lấy sổ chi tiết phải trả, gửi biên bản đối chiếu cho nhà cung cấp trước ngày 5; nếu lệch số thì giải trình, xử lý ngay trong tháng; lưu bản ký vào hồ sơ."}
+    },
+    {
+      "id": "dup-05",
+      "domain": "kinh doanh",
+      "label": "duplicate",
+      "related": ["chao-hang"],
+      "note": "Cùng 4 bước chào hàng garage mới",
+      "existing": [
+        {"key": "chao-hang", "title": "Quy trình chào hàng garage mới (VCpart)",
+         "summary": "4 bước: khảo sát garage (số cầu nâng, dòng xe chính) → gửi bảng giá nhóm hàng chạy → giao thử đơn đầu có ưu đãi → chăm sóc lại sau 7 ngày.",
+         "body": "1. Khảo sát: số cầu nâng, dòng xe sửa nhiều, nhà cung cấp hiện tại.\n2. Gửi bảng giá 20 mã chạy nhất theo dòng xe.\n3. Đơn đầu giao thử, miễn phí vận chuyển.\n4. Gọi lại sau 7 ngày hỏi chất lượng, chào đơn tiếp."},
+        {"key": "tuyen-giao", "title": "Tuyến giao hàng nội thành",
+         "summary": "Chia 3 tuyến giao nội thành, chốt đơn trước 10h giao trong ngày.",
+         "body": "Đơn sau 10h giao sáng hôm sau."}
+      ],
+      "draft": {"title": "Các bước tiếp cận một garage chưa mua hàng",
+                "summary": "Tiếp cận garage mới theo 4 bước: khảo sát, gửi bảng giá mã chạy, giao thử đơn đầu miễn phí ship, gọi lại sau 1 tuần.",
+                "body": "Khảo sát garage có mấy cầu nâng, sửa dòng xe nào, đang lấy hàng của ai → gửi bảng giá khoảng 20 mã chạy nhất → đơn đầu giao thử, miễn phí vận chuyển → sau 7 ngày gọi lại hỏi chất lượng và chào đơn mới."}
+    },
+    {
+      "id": "dup-06",
+      "domain": "nhân sự",
+      "label": "duplicate",
+      "related": ["thu-viec"],
+      "note": "Cùng thời gian thử việc, cùng cách đánh giá",
+      "existing": [
+        {"key": "thu-viec", "title": "Thử việc kỹ thuật viên garage",
+         "summary": "Kỹ thuật viên mới thử việc 2 tháng; cuối mỗi tháng trưởng xưởng chấm theo checklist tay nghề, đạt từ 70% thì ký hợp đồng.",
+         "body": "- Thời gian: 2 tháng.\n- Checklist: bảo dưỡng cấp 1, thay má phanh, đọc lỗi OBD, an toàn xưởng.\n- Đạt ≥ 70% điểm checklist tháng thứ 2 thì ký hợp đồng chính thức."}
+      ],
+      "draft": {"title": "Đánh giá thử việc thợ sửa chữa",
+                "summary": "Thợ mới vào thử việc 60 ngày, trưởng xưởng chấm checklist tay nghề cuối mỗi tháng; tháng thứ hai đạt 70% trở lên thì ký hợp đồng.",
+                "body": "Checklist gồm bảo dưỡng cấp 1, thay má phanh, đọc lỗi OBD, an toàn trong xưởng."}
+    },
+    {
+      "id": "sup-01",
+      "domain": "garage",
+      "label": "supplement",
+      "related": ["ma-phanh"],
+      "note": "Giữ mốc 3 mm, thêm dấu hiệu, đĩa phanh và ví dụ số km",
+      "existing": [
+        {"key": "ma-phanh", "title": "Khi nào thay má phanh",
+         "summary": "Thay má phanh khi độ dày còn dưới 3 mm.",
+         "body": "Đo độ dày má phanh mỗi lần bảo dưỡng. Dưới 3 mm thì thay."}
+      ],
+      "draft": {"title": "Kiểm tra má phanh và đĩa phanh",
+                "summary": "Má phanh dưới 3 mm phải thay; ngoài ra cần đo độ đảo đĩa phanh và để ý tiếng rít kim loại khi phanh.",
+                "body": "- Má phanh dưới 3 mm: thay.\n- Có tiếng rít kim loại: má đã mòn tới báo mòn, thay ngay.\n- Đo độ đảo đĩa phanh; vô lăng rung khi phanh thường do đĩa đảo quá 0,05 mm → láng hoặc thay đĩa.\n- Ví dụ: Toyota Vios chạy phố thường thay má trước ở khoảng 40.000 km."}
+    },
+    {
+      "id": "sup-02",
+      "domain": "phụ tùng",
+      "label": "supplement",
+      "related": ["ac-quy"],
+      "note": "Không trái chu kỳ 3 tháng, thêm ngưỡng điện áp và cách xếp kho",
+      "existing": [
+        {"key": "ac-quy", "title": "Bảo quản ắc quy tồn kho",
+         "summary": "Ắc quy nước tồn kho phải sạc bổ sung 3 tháng một lần để không bị sunfat hoá.",
+         "body": "Ghi ngày sạc lên thùng ắc quy."},
+        {"key": "lop", "title": "Xếp lốp trong kho",
+         "summary": "Lốp để đứng, xoay nửa vòng mỗi tháng; lốp đã lắp vành thì xếp chồng tối đa 4 bộ.",
+         "body": "Tránh ánh nắng và dầu mỡ."}
+      ],
+      "draft": {"title": "Kiểm tra điện áp ắc quy trong kho",
+                "summary": "Ngoài sạc định kỳ 3 tháng, thủ kho đo điện áp mỗi tháng: dưới 12,4 V thì sạc ngay; xuất kho theo FIFO.",
+                "body": "- Đo điện áp đầu mỗi tháng, ghi sổ.\n- Dưới 12,4 V: sạc bổ sung ngay, không đợi đủ 3 tháng.\n- Không đặt ắc quy trực tiếp trên nền xi măng, kê pallet.\n- Xuất kho theo nguyên tắc nhập trước xuất trước."}
+    },
+    {
+      "id": "sup-03",
+      "domain": "marketing",
+      "label": "supplement",
+      "related": ["gio-dang"],
+      "note": "Giữ khung 19–21h, thêm số liệu thử nghiệm và khung cuối tuần",
+      "existing": [
+        {"key": "gio-dang", "title": "Khung giờ đăng bài fanpage garage",
+         "summary": "Đăng bài fanpage garage vào 19h–21h các ngày trong tuần, lúc chủ xe rảnh lướt điện thoại.",
+         "body": "Lên lịch đăng trước bằng Meta Business Suite."}
+      ],
+      "draft": {"title": "Kết quả thử khung giờ đăng bài fanpage",
+                "summary": "Thử 3 tháng trên fanpage VCgarage: bài đăng 19h–21h ngày thường có tương tác cao hơn 35% so với giờ hành chính; cuối tuần thêm khung 9h–11h cũng tốt.",
+                "body": "- Ngày thường: 19h–21h vẫn tốt nhất (+35% tương tác so với 9h–17h).\n- Thứ bảy, chủ nhật: khung 9h–11h đạt tương tác gần bằng buổi tối.\n- Bài video đăng buổi tối có tỷ lệ inbox đặt lịch cao gấp đôi bài ảnh."}
+    },
+    {
+      "id": "sup-04",
+      "domain": "tài chính",
+      "label": "supplement",
+      "related": ["dong-tien"],
+      "note": "Thẻ cũ chỉ nêu nguyên tắc 13 tuần; thẻ nháp thêm cách lập từng bước và ví dụ",
+      "existing": [
+        {"key": "dong-tien", "title": "Dự báo dòng tiền 13 tuần",
+         "summary": "Công ty con lập dự báo dòng tiền cuốn chiếu 13 tuần, cập nhật mỗi thứ hai, gửi kế toán trưởng tập đoàn.",
+         "body": "Dự báo 13 tuần giúp thấy trước tuần thiếu tiền để chủ động vay hoặc giãn chi."},
+        {"key": "ton-kho", "title": "Vòng quay hàng tồn kho phụ tùng",
+         "summary": "Theo dõi vòng quay tồn kho theo nhóm hàng; nhóm dưới 2 vòng/năm cần xả hàng.",
+         "body": "Vòng quay = giá vốn hàng bán / tồn kho bình quân."}
+      ],
+      "draft": {"title": "Cách lập bảng dự báo dòng tiền 13 tuần",
+                "summary": "Hướng dẫn lập bảng dự báo dòng tiền 13 tuần: tách thu theo hạn công nợ khách, chi theo lịch trả nhà cung cấp, lương, thuế; tô đỏ tuần có số dư dưới mức tối thiểu.",
+                "body": "1. Số dư đầu kỳ = tiền mặt + tiền gửi.\n2. Dòng thu: công nợ phải thu theo ngày đến hạn, nhân tỷ lệ thu đúng hạn thực tế (vd 80%).\n3. Dòng chi: nhà cung cấp theo hạn, lương ngày 10, thuế ngày 20, lãi vay.\n4. Số dư tối thiểu = 2 tuần chi cố định; tuần nào thấp hơn thì tô đỏ.\n5. Ví dụ: VCpart tuần 7 thiếu 800 triệu do trùng kỳ trả hàng nhập khẩu → giãn 1 lô hàng sang tuần 9."}
+    },
+    {
+      "id": "sup-05",
+      "domain": "kinh doanh",
+      "label": "supplement",
+      "related": ["ck-garage"],
+      "note": "Giữ mức 5% trên 50 triệu, thêm điều kiện thanh toán và ví dụ",
+      "existing": [
+        {"key": "ck-garage", "title": "Chiết khấu garage đối tác theo doanh số",
+         "summary": "Garage đối tác mua từ 50 triệu/tháng được chiết khấu 5% trên hoá đơn tháng sau.",
+         "body": "Doanh số tính theo hoá đơn đã xuất trong tháng."}
+      ],
+      "draft": {"title": "Điều kiện giữ chiết khấu 5% cho garage đối tác",
+                "summary": "Garage mua từ 50 triệu/tháng được chiết khấu 5%; để giữ mức này garage phải thanh toán công nợ trong 30 ngày, trả chậm thì tháng sau không được hưởng.",
+                "body": "- Mức chiết khấu: 5% khi doanh số tháng ≥ 50 triệu (như chính sách hiện hành).\n- Điều kiện thêm: không có công nợ quá hạn 30 ngày.\n- Ví dụ: garage Minh Phát mua 62 triệu tháng 8 nhưng còn nợ quá hạn 12 triệu → tháng 9 chưa được chiết khấu cho tới khi trả hết."}
+    },
+    {
+      "id": "sup-06",
+      "domain": "đào tạo",
+      "label": "supplement",
+      "related": ["kem-cap"],
+      "note": "Thẻ cũ chỉ nói kèm cặp 1-1, thẻ nháp thêm lộ trình 4 tuần",
+      "existing": [
+        {"key": "kem-cap", "title": "Kèm cặp kỹ thuật viên mới",
+         "summary": "Mỗi kỹ thuật viên mới được giao cho một thợ chính kèm cặp 1-1 trong tháng đầu.",
+         "body": "Thợ chính chịu trách nhiệm tay nghề và an toàn của người mới."}
+      ],
+      "draft": {"title": "Lộ trình 4 tuần kèm cặp kỹ thuật viên mới",
+                "summary": "Tháng đầu kèm cặp 1-1 chia 4 tuần: tuần 1 an toàn và dụng cụ, tuần 2 bảo dưỡng cấp 1, tuần 3 hệ thống phanh, tuần 4 đọc lỗi OBD; cuối mỗi tuần thợ chính ký xác nhận.",
+                "body": "- Tuần 1: nội quy, an toàn xưởng, dụng cụ, cầu nâng.\n- Tuần 2: bảo dưỡng cấp 1 dưới sự giám sát.\n- Tuần 3: tháo lắp, vệ sinh phanh.\n- Tuần 4: đọc lỗi bằng máy chẩn đoán.\n- Thợ chính ký phiếu xác nhận cuối mỗi tuần."}
+    },
+    {
+      "id": "sup-07",
+      "domain": "garage",
+      "label": "supplement",
+      "related": ["obd"],
+      "note": "Không trái nguyên tắc không xoá lỗi ngay, thêm freeze frame và ví dụ P0300",
+      "existing": [
+        {"key": "obd", "title": "Đọc lỗi bằng máy chẩn đoán OBD",
+         "summary": "Đọc và ghi lại toàn bộ mã lỗi trước khi sửa; không xoá lỗi ngay khi chưa tìm ra nguyên nhân.",
+         "body": "Xoá lỗi sớm làm mất dữ liệu để chẩn đoán và khách tưởng đã sửa xong."}
+      ],
+      "draft": {"title": "Dùng dữ liệu freeze frame khi chẩn đoán",
+                "summary": "Khi đọc lỗi OBD, lưu cả dữ liệu freeze frame (tốc độ, nhiệt độ, tải động cơ lúc báo lỗi) trước khi xoá — giúp tái hiện lỗi.",
+                "body": "- Ghi mã lỗi và chụp màn hình freeze frame.\n- Chưa tìm ra nguyên nhân thì chưa xoá lỗi.\n- Ví dụ: P0300 (bỏ máy ngẫu nhiên) chỉ xuất hiện khi máy nguội ở 20°C → kiểm tra kim phun và cuộn đánh lửa lúc máy nguội."}
+    },
+    {
+      "id": "con-01",
+      "domain": "garage",
+      "label": "conflict",
+      "related": ["nuoc-mat"],
+      "note": "Chu kỳ khác hẳn (40.000 km / 2 năm vs 100.000 km, không theo năm)",
+      "existing": [
+        {"key": "nuoc-mat", "title": "Chu kỳ thay nước làm mát",
+         "summary": "Thay nước làm mát mỗi 40.000 km hoặc 2 năm, tuỳ điều kiện nào đến trước.",
+         "body": "Nước làm mát cũ mất tính chống ăn mòn, gây gỉ két nước và bơm nước."}
+      ],
+      "draft": {"title": "Nước làm mát loại mới dùng rất lâu",
+                "summary": "Nước làm mát xe con chỉ cần thay mỗi 100.000 km, không cần thay theo thời gian.",
+                "body": "Chỉ cần châm thêm khi thiếu. Thay theo năm là lãng phí cho khách."}
+    },
+    {
+      "id": "con-02",
+      "domain": "kinh doanh",
+      "label": "conflict",
+      "related": ["no-le"],
+      "note": "Thẻ cũ cấm ghi nợ khách lẻ, thẻ nháp cho ghi nợ 15 ngày",
+      "existing": [
+        {"key": "no-le", "title": "Thanh toán của khách lẻ tại garage",
+         "summary": "Khách lẻ thanh toán đủ khi nhận xe; không ghi nợ dưới mọi hình thức.",
+         "body": "Cố vấn dịch vụ không được cho khách lẻ nợ, kể cả khách quen. Chỉ khách doanh nghiệp có hợp đồng mới được công nợ."},
+        {"key": "coc", "title": "Đặt cọc khi đặt phụ tùng theo yêu cầu",
+         "summary": "Phụ tùng phải đặt hàng riêng cho khách: thu cọc 30% giá trị.",
+         "body": "Khách huỷ thì không hoàn cọc."}
+      ],
+      "draft": {"title": "Ưu đãi công nợ cho khách quen",
+                "summary": "Khách lẻ quen (đã sửa từ 3 lần) được ghi nợ tối đa 15 ngày khi nhận xe.",
+                "body": "Cố vấn dịch vụ tự quyết cho nợ, ghi vào sổ, nhắc khách trả trong 15 ngày."}
+    },
+    {
+      "id": "con-03",
+      "domain": "phụ tùng",
+      "label": "conflict",
+      "related": ["doi-tra"],
+      "note": "Thẻ cũ không nhận đổi trả phụ tùng điện đã lắp; thẻ nháp nhận trong 7 ngày",
+      "existing": [
+        {"key": "doi-tra", "title": "Chính sách đổi trả phụ tùng điện",
+         "summary": "Phụ tùng điện (cảm biến, IC, hộp điều khiển) đã lắp lên xe thì không nhận đổi trả; chỉ đổi khi còn nguyên hộp, chưa lắp.",
+         "body": "Lý do: phụ tùng điện dễ hỏng do lắp sai, chập điện, không xác định được lỗi nhà sản xuất."},
+        {"key": "bao-hanh", "title": "Bảo hành má phanh",
+         "summary": "Má phanh bảo hành 6 tháng với lỗi bong lớp ma sát.",
+         "body": "Không bảo hành mòn tự nhiên."}
+      ],
+      "draft": {"title": "Đổi trả cảm biến lỗi",
+                "summary": "Cảm biến và phụ tùng điện đã lắp lên xe vẫn được đổi trả trong 7 ngày nếu khách báo không hoạt động.",
+                "body": "Nhận lại hàng, đổi cái mới cho khách ngay để giữ uy tín, không cần kiểm tra nguyên nhân."}
+    },
+    {
+      "id": "con-04",
+      "domain": "marketing",
+      "label": "conflict",
+      "related": ["ads-test"],
+      "note": "Thẻ cũ: chạy tối thiểu 3 ngày; thẻ nháp: tắt sau 24 giờ",
+      "existing": [
+        {"key": "ads-test", "title": "Thời gian thử nghiệm nhóm quảng cáo Facebook",
+         "summary": "Nhóm quảng cáo mới phải chạy tối thiểu 3 ngày (qua giai đoạn máy học) rồi mới đánh giá và tắt.",
+         "body": "Tắt sớm làm hệ thống chưa học xong, số liệu ngày đầu thường cao bất thường."},
+        {"key": "ads-audience", "title": "Tệp khách quảng cáo garage",
+         "summary": "Garage nhắm bán kính 5–10 km quanh xưởng, độ tuổi 28–50.",
+         "body": "Loại trừ nhân viên và khách đã đặt lịch trong 30 ngày."}
+      ],
+      "draft": {"title": "Tối ưu ngân sách quảng cáo Facebook",
+                "summary": "Nhóm quảng cáo mới có chi phí mỗi tin nhắn cao hơn mục tiêu sau 24 giờ thì tắt ngay để tiết kiệm ngân sách.",
+                "body": "Không chờ đợi: sau 1 ngày thấy kém là tắt, dồn tiền cho nhóm tốt."}
+    },
+    {
+      "id": "con-05",
+      "domain": "tài chính",
+      "label": "conflict",
+      "related": ["duyet-chi"],
+      "note": "Ngưỡng và số người duyệt khác nhau cho cùng khoản chi",
+      "existing": [
+        {"key": "duyet-chi", "title": "Hạn mức duyệt chi",
+         "summary": "Khoản chi từ 20 triệu trở lên cần hai người duyệt: trưởng bộ phận và kế toán trưởng.",
+         "body": "Dưới 20 triệu: trưởng bộ phận duyệt. Từ 20 triệu: thêm kế toán trưởng. Từ 500 triệu: thêm giám đốc division."}
+      ],
+      "draft": {"title": "Phân quyền duyệt chi cho trưởng phòng",
+                "summary": "Khoản chi dưới 50 triệu chỉ cần trưởng phòng duyệt, không cần qua kế toán trưởng.",
+                "body": "Giúp giải ngân nhanh cho các việc mua sắm nhỏ của phòng."}
+    },
+    {
+      "id": "con-06",
+      "domain": "garage",
+      "label": "conflict",
+      "related": ["bu-long"],
+      "note": "Thẻ cũ cấm siết cuối bằng súng hơi; thẻ nháp khuyên siết hết cỡ bằng súng hơi",
+      "existing": [
+        {"key": "bu-long", "title": "Siết bu lông bánh xe",
+         "summary": "Siết bu lông bánh xe con 100–120 Nm bằng cần lực, theo hình sao; không dùng súng hơi siết lần cuối.",
+         "body": "Súng hơi siết quá lực làm cong đĩa phanh, gãy bu lông. Súng hơi chỉ dùng để vặn vào sơ bộ."},
+        {"key": "ap-suat", "title": "Áp suất lốp",
+         "summary": "Bơm lốp theo tem áp suất ở khung cửa người lái, đo khi lốp nguội.",
+         "body": "Không bơm theo số in trên hông lốp (đó là áp suất tối đa)."}
+      ],
+      "draft": {"title": "Lắp bánh xe nhanh",
+                "summary": "Dùng súng hơi siết bu lông bánh xe hết cỡ cho chắc, không cần dùng cần lực để tiết kiệm thời gian.",
+                "body": "Siết súng hơi ở mức mạnh nhất là đủ an toàn, khách lấy xe nhanh hơn."}
+    },
+    {
+      "id": "con-07",
+      "domain": "nhân sự",
+      "label": "conflict",
+      "related": ["nghi-phep"],
+      "note": "Thời hạn báo nghỉ phép khác (3 ngày vs 1 ngày)",
+      "existing": [
+        {"key": "nghi-phep", "title": "Xin nghỉ phép năm",
+         "summary": "Nhân viên xin nghỉ phép năm phải tạo đơn trên hệ thống trước ít nhất 3 ngày làm việc để quản lý sắp xếp người thay.",
+         "body": "Nghỉ đột xuất do ốm đau thì báo quản lý trước 8h sáng và bổ sung đơn sau."}
+      ],
+      "draft": {"title": "Quy định báo nghỉ phép",
+                "summary": "Nghỉ phép năm chỉ cần nhắn quản lý qua Zalo trước 1 ngày, không phải tạo đơn trên hệ thống.",
+                "body": "Cho nhanh gọn, quản lý đồng ý qua tin nhắn là được."}
+    },
+    {
+      "id": "new-01",
+      "domain": "garage",
+      "label": "new",
+      "related": [],
+      "note": "Cùng mảng bảo dưỡng nhưng ý khác hẳn (vệ sinh bướm ga)",
+      "existing": [
+        {"key": "bugi", "title": "Thay bugi",
+         "summary": "Bugi thường thay mỗi 20.000 km; bugi iridium 60.000–100.000 km.",
+         "body": "Bugi mòn làm khó nổ, hao xăng."},
+        {"key": "loc-xang", "title": "Thay lọc xăng",
+         "summary": "Lọc xăng thay mỗi 40.000 km với xe phun xăng điện tử.",
+         "body": "Xe có lọc xăng liền bơm trong bình thì theo khuyến cáo hãng."}
+      ],
+      "draft": {"title": "Vệ sinh bướm ga khi xe rung ở chế độ không tải",
+                "summary": "Xe rung, vòng tua không ổn định khi dừng đèn đỏ thường do bướm ga bám muội; vệ sinh bướm ga rồi cài lại vị trí bướm ga bằng máy chẩn đoán.",
+                "body": "1. Tháo ống gió, xịt dung dịch vệ sinh bướm ga, lau bằng khăn mềm.\n2. Không dùng giấy nhám.\n3. Sau khi lắp, học lại vị trí bướm ga (throttle relearn) bằng máy chẩn đoán, nếu không xe sẽ bị ga lên cao."}
+    },
+    {
+      "id": "new-02",
+      "domain": "phụ tùng",
+      "label": "new",
+      "related": [],
+      "note": "Cùng chủ đề báo giá phụ tùng nhưng nói về phân loại OEM / OES / aftermarket",
+      "existing": [
+        {"key": "vin2", "title": "Hỏi thông tin xe trước khi báo giá",
+         "summary": "Luôn hỏi đời xe, năm sản xuất, số khung trước khi tra phụ tùng.",
+         "body": "Một đời xe có thể có 2–3 phiên bản phụ tùng khác nhau."}
+      ],
+      "draft": {"title": "Giải thích cho khách về OEM, OES và hàng aftermarket",
+                "summary": "Ba loại phụ tùng: OEM (hàng hãng, hộp hãng), OES (cùng nhà sản xuất cung cấp cho hãng, hộp nhà sản xuất), aftermarket (hãng thứ ba). Báo giá nên đưa 2–3 lựa chọn.",
+                "body": "- OEM: đắt nhất, bảo hành theo hãng.\n- OES: chất lượng tương đương OEM, rẻ hơn 20–40% (vd Denso, Aisin, Bosch).\n- Aftermarket: rẻ, chất lượng không đồng đều.\nNên báo giá cả OES và aftermarket để khách chọn."}
+    },
+    {
+      "id": "new-03",
+      "domain": "marketing",
+      "label": "new",
+      "related": [],
+      "note": "Cùng marketing video nhưng ý khác (video khách hàng thật làm bằng chứng)",
+      "existing": [
+        {"key": "caption", "title": "Viết caption TikTok",
+         "summary": "Caption ngắn dưới 150 ký tự, có lời kêu gọi đặt lịch.",
+         "body": "Đưa số hotline vào bình luận ghim."},
+        {"key": "hook2", "title": "Hook mở đầu video",
+         "summary": "Mở video bằng câu hỏi về vấn đề của khách.",
+         "body": "Ví dụ: \"Điều hoà xe bạn có mùi hôi?\""}
+      ],
+      "draft": {"title": "Dùng video khách hàng thật làm bằng chứng xã hội",
+                "summary": "Xin phép quay 15–30 giây khách nhận xe và nói cảm nhận; video khách thật tạo tin tưởng hơn video quảng cáo tự quay.",
+                "body": "- Hỏi khách trước, tặng phiếu rửa xe cảm ơn.\n- Quay dọc, ánh sáng tự nhiên, để khách tự nói.\n- Gắn biển số mờ, không lộ thông tin cá nhân.\n- Ghép vào quảng cáo đặt lịch làm phần chứng thực."}
+    },
+    {
+      "id": "new-04",
+      "domain": "tài chính",
+      "label": "new",
+      "related": [],
+      "note": "Cùng mảng tài chính nhưng là tính điểm hoà vốn, chưa có",
+      "existing": [
+        {"key": "cong-no2", "title": "Theo dõi tuổi nợ phải thu",
+         "summary": "Báo cáo tuổi nợ phải thu theo các nhóm 0–30, 31–60, 61–90, trên 90 ngày; nhóm trên 90 ngày lập dự phòng.",
+         "body": "Kế toán gửi báo cáo tuổi nợ cho kinh doanh mỗi thứ hai."}
+      ],
+      "draft": {"title": "Tính điểm hoà vốn cho garage mới mở",
+                "summary": "Điểm hoà vốn (doanh thu) = định phí tháng / tỷ lệ lãi góp. Garage định phí 300 triệu/tháng, tỷ lệ lãi góp 40% thì cần doanh thu 750 triệu/tháng.",
+                "body": "1. Định phí: thuê mặt bằng, lương cứng, khấu hao, lãi vay.\n2. Tỷ lệ lãi góp = (doanh thu − biến phí) / doanh thu; biến phí gồm phụ tùng, vật tư, hoa hồng.\n3. Chia định phí cho tỷ lệ lãi góp ra doanh thu hoà vốn.\n4. Quy ra số xe/ngày để đặt chỉ tiêu cho xưởng."}
+    },
+    {
+      "id": "new-05",
+      "domain": "kinh doanh",
+      "label": "new",
+      "related": [],
+      "note": "Cùng mảng bán hàng nhưng là xử lý phản đối giá",
+      "existing": [
+        {"key": "chao-hang2", "title": "Gọi điện chào hàng garage",
+         "summary": "Gọi vào 9h–11h sáng, lúc chủ garage đã giao việc xong cho thợ.",
+         "body": "Tránh gọi giờ trưa và sau 17h."}
+      ],
+      "draft": {"title": "Xử lý phản đối 'Giá bên anh cao hơn chỗ khác'",
+                "summary": "Không giảm giá ngay: hỏi rõ so với mã hàng nào, chỉ ra khác biệt (hàng OES / hàng trôi nổi, bảo hành, giao nhanh), chỉ chào giá theo sản lượng khi khách cam kết.",
+                "body": "1. Hỏi lại: \"Anh so với mã nào, hãng nào?\"\n2. So sánh cùng loại hàng; thường chỗ rẻ là hàng không rõ nguồn gốc.\n3. Nêu giá trị: bảo hành 6 tháng, giao trong 2 giờ, đổi trả nhanh.\n4. Chỉ nhượng giá khi đổi lại sản lượng hoặc thanh toán sớm."}
+    },
+    {
+      "id": "new-06",
+      "domain": "nhân sự",
+      "label": "new",
+      "related": [],
+      "note": "Cùng mảng kỹ thuật viên nhưng là KPI tỷ lệ sửa lại",
+      "existing": [
+        {"key": "dong-phuc", "title": "Đồng phục kỹ thuật viên",
+         "summary": "Kỹ thuật viên mặc đồng phục công ty, giày bảo hộ trong xưởng.",
+         "body": "Mỗi người được cấp 3 bộ/năm."},
+        {"key": "thuong", "title": "Thưởng doanh thu xưởng",
+         "summary": "Xưởng vượt chỉ tiêu doanh thu tháng thì trích 3% phần vượt thưởng cho tổ.",
+         "body": "Chia theo ngày công."}
+      ],
+      "draft": {"title": "KPI tỷ lệ xe quay lại sửa lại (comeback)",
+                "summary": "Đo chất lượng tay nghề bằng tỷ lệ xe quay lại vì cùng lỗi trong 30 ngày; mục tiêu dưới 2%, tính theo từng kỹ thuật viên.",
+                "body": "- Công thức: số xe quay lại cùng lỗi trong 30 ngày / tổng xe đã sửa.\n- Trên 2%: trưởng xưởng xem lại từng ca, kèm cặp lại.\n- Không tính xe quay lại vì lỗi mới khác."}
+    },
+    {
+      "id": "new-07",
+      "domain": "garage",
+      "label": "new",
+      "related": [],
+      "note": "Chăm sóc khách: nhắc lịch bảo dưỡng qua Zalo OA — chưa có thẻ nào",
+      "existing": [
+        {"key": "tiep-khach", "title": "Tiếp nhận xe tại garage",
+         "summary": "Cố vấn dịch vụ kiểm tra xe cùng khách, chụp ảnh 4 góc và ghi số km trước khi nhận xe.",
+         "body": "Ghi các vết trầy có sẵn vào phiếu tiếp nhận, khách ký."}
+      ],
+      "draft": {"title": "Nhắc lịch bảo dưỡng qua Zalo OA",
+                "summary": "Gửi tin Zalo OA nhắc khách bảo dưỡng khi xe sắp đến hạn theo số km dự tính, kèm nút đặt lịch; tăng tỷ lệ khách quay lại.",
+                "body": "1. Lưu số km và ngày lần bảo dưỡng trước.\n2. Ước tính km/tháng của khách, tính ngày đến hạn.\n3. Gửi tin trước 7 ngày, kèm nút đặt lịch.\n4. Không gửi quá 2 tin/tháng cho một khách."}
+    },
+    {
+      "id": "noi-01",
+      "domain": "nhân sự",
+      "label": "noise",
+      "related": [],
+      "note": "Lời chúc, không có tri thức",
+      "existing": [
+        {"key": "sinh-nhat", "title": "Chính sách quà sinh nhật nhân viên",
+         "summary": "Mỗi nhân viên được tặng quà sinh nhật trị giá 500.000 đồng do công đoàn chi.",
+         "body": "Phòng nhân sự tổng hợp danh sách sinh nhật đầu tháng."}
+      ],
+      "draft": {"title": "Chúc mừng sinh nhật anh Hùng",
+                "summary": "Cả phòng kinh doanh chúc anh Hùng sinh nhật vui vẻ, luôn khoẻ mạnh và thành công!",
+                "body": "Chúc mừng sinh nhật anh Hùng! 🎂 Cảm ơn anh đã luôn đồng hành cùng team."}
+    },
+    {
+      "id": "noi-02",
+      "domain": "marketing",
+      "label": "noise",
+      "related": [],
+      "note": "Tin khuyến mãi thuần tuý, không có bài học",
+      "existing": [
+        {"key": "km-cach", "title": "Cách thiết kế chương trình khuyến mãi dầu nhớt",
+         "summary": "Khuyến mãi dầu nhớt nên tặng dịch vụ (kiểm tra 20 hạng mục) thay vì giảm giá trực tiếp để giữ biên lợi nhuận.",
+         "body": "Giảm giá trực tiếp làm khách chỉ quay lại khi có giảm giá."}
+      ],
+      "draft": {"title": "Khuyến mãi tháng 10",
+                "summary": "Giảm 20% dầu nhớt Castrol từ 1/10 đến 31/10. Gọi hotline 1900 xxxx để đặt lịch ngay!",
+                "body": "Số lượng có hạn. Áp dụng tại tất cả chi nhánh."}
+    },
+    {
+      "id": "noi-03",
+      "domain": "hành chính",
+      "label": "noise",
+      "related": [],
+      "note": "Thông báo lịch họp nhất thời",
+      "existing": [
+        {"key": "giao-ban", "title": "Cách điều hành họp giao ban tuần",
+         "summary": "Họp giao ban tối đa 45 phút: mỗi phòng báo cáo 3 phút theo mẫu kết quả – vướng mắc – cần hỗ trợ.",
+         "body": "Việc cần bàn sâu tách thành cuộc họp riêng."}
+      ],
+      "draft": {"title": "Dời lịch họp giao ban",
+                "summary": "Họp giao ban tuần sau dời sang thứ ba lúc 9h, phòng họp tầng 2.",
+                "body": "Mọi người sắp xếp tham dự đầy đủ."}
+    },
+    {
+      "id": "noi-04",
+      "domain": "marketing",
+      "label": "noise",
+      "related": [],
+      "note": "Câu chung chung ai cũng biết, không áp dụng được",
+      "existing": [
+        {"key": "4p", "title": "Mô hình 4P cho dịch vụ garage",
+         "summary": "Sản phẩm, giá, kênh, xúc tiến — áp dụng cho gói bảo dưỡng định kỳ.",
+         "body": "Gói bảo dưỡng theo mốc km, giá trọn gói, đặt lịch qua Zalo, khuyến mãi tặng kiểm tra."}
+      ],
+      "draft": {"title": "Marketing rất quan trọng",
+                "summary": "Marketing rất quan trọng với doanh nghiệp, cần làm marketing tốt thì mới bán được hàng.",
+                "body": "Doanh nghiệp nào cũng cần marketing. Làm tốt marketing thì kinh doanh sẽ tốt."}
+    },
+    {
+      "id": "noi-05",
+      "domain": "khác",
+      "label": "noise",
+      "related": [],
+      "note": "Chuyện cá nhân / du lịch, không liên quan công việc",
+      "existing": [
+        {"key": "team-building", "title": "Tổ chức team building hiệu quả",
+         "summary": "Team building gắn với mục tiêu gắn kết liên phòng: chia đội trộn các phòng, có hoạt động giải quyết vấn đề chung.",
+         "body": "Ngân sách 1,5 triệu/người/năm."}
+      ],
+      "draft": {"title": "Vlog Đà Lạt của team",
+                "summary": "Cả team đi Đà Lạt 3 ngày 2 đêm, cảnh đẹp, đồ ăn ngon, thời tiết se lạnh rất thích.",
+                "body": "Ngày 1 đi chợ đêm, ngày 2 lên đồi chè, ngày 3 về. Ai chưa đi thì nên đi một lần!"}
+    },
+    {
+      "id": "noi-06",
+      "domain": "hành chính",
+      "label": "noise",
+      "related": [],
+      "note": "Lời mời vào nhóm chat, không có nội dung",
+      "existing": [
+        {"key": "zalo-nhom", "title": "Quy tắc dùng nhóm Zalo công việc",
+         "summary": "Mỗi dự án một nhóm Zalo; việc cần làm giao trên hệ thống, không chỉ giao qua Zalo.",
+         "body": "Tin nhắn ngoài giờ không bắt buộc trả lời ngay."}
+      ],
+      "draft": {"title": "Vào nhóm Zalo",
+                "summary": "Mọi người vào nhóm Zalo mới theo link bên dưới nhé.",
+                "body": "Link: https://zalo.me/g/abcxyz"}
+    },
+    {
+      "id": "sup-08",
+      "domain": "phụ tùng",
+      "label": "supplement",
+      "related": ["giao-hang"],
+      "note": "Thẻ cũ chỉ có mốc chốt đơn; thẻ nháp thêm trường hợp đơn gấp, cùng mốc 10h",
+      "existing": [
+        {"key": "giao-hang", "title": "Giờ chốt đơn giao trong ngày",
+         "summary": "Đơn phụ tùng chốt trước 10h sáng được giao trong ngày ở nội thành.",
+         "body": "Đơn chốt sau 10h giao sáng hôm sau."}
+      ],
+      "draft": {"title": "Xử lý đơn gấp sau giờ chốt",
+                "summary": "Vẫn giữ mốc chốt đơn 10h để giao trong ngày; đơn gấp sau 10h (xe khách nằm cầu nâng) được giao bằng xe ôm công nghệ, garage chịu phí ship.",
+                "body": "- Kinh doanh xác nhận xe đang nằm xưởng chờ hàng.\n- Đặt giao nhanh qua ứng dụng, báo phí trước cho garage.\n- Ghi chú \"đơn gấp\" trên phiếu xuất để kho ưu tiên soạn trong 15 phút."}
+    },
+    {
+      "id": "con-08",
+      "domain": "phụ tùng",
+      "label": "conflict",
+      "related": ["bh-ac-quy"],
+      "note": "Thời hạn bảo hành khác (12 tháng vs 6 tháng) cho cùng loại ắc quy",
+      "existing": [
+        {"key": "bh-ac-quy", "title": "Bảo hành ắc quy khô",
+         "summary": "Ắc quy khô (MF) bán ra được bảo hành 12 tháng hoặc 20.000 km.",
+         "body": "Khách mang ắc quy và phiếu bảo hành tới cửa hàng; kiểm tra bằng máy test ắc quy."}
+      ],
+      "draft": {"title": "Chính sách bảo hành ắc quy MF",
+                "summary": "Ắc quy khô MF chỉ bảo hành 6 tháng kể từ ngày xuất hoá đơn, không tính theo km.",
+                "body": "Quá 6 tháng khách tự chịu chi phí thay mới."}
+    }
+  ]
+}

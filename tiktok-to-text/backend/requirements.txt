@@ -1,0 +1,21 @@
+# Cài thêm vào .venv của dự án (đã có yt-dlp, openpyxl, whisper từ requirements.txt gốc)
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pymongo>=4.8
+anthropic>=1.0        # dựng thẻ VCWIKI
+pypdf>=5.0            # đọc PDF
+trafilatura>=2.0      # lấy nội dung chính của trang web
+python-multipart      # tải file lên
+# Hệ thống: tesseract + poppler (pdftoppm) cho OCR; dữ liệu tiếng Việt ở data/tessdata
+mcp>=2.2               # cổng MCP cho AI (/mcp)
+pillow>=11.0           # ảnh: thu nhỏ trước khi gửi Claude, đổi HEIC / ảnh lớn
+pillow-heif>=0.20      # ảnh HEIC chụp từ iPhone
+python-docx>=1.1       # đọc Word (.docx) — file tải lên và file Google Drive
+python-pptx>=1.0       # đọc PowerPoint (.pptx)
+markitdown[pdf,docx,pptx,xlsx]>=0.1.8   # Word / PowerPoint / PDF -> Markdown giữ bảng + tiêu đề (DOC_ENGINE); kéo theo pdfplumber, mammoth, pandas, magika
+numpy>=2.0             # cosine embedding (kb/embeddings.py), BM25 (kb/lexical.py), đề xuất dọn hàng chờ (kb/queue_cleanup.py)
+# torch + transformers (reranker tìm kiếm, kb/rerank.py) nặng ~1 GB nên tách ra requirements-ml.txt — setup.sh cài mặc định
+# Tuỳ chọn, không cài mặc định: docling (DOC_ENGINE=docling) — bảng PDF phức tạp tốt hơn nhưng kéo torch + mô hình (~40 gói)
+curl_cffi>=0.10        # yt-dlp giả trình duyệt — thiếu thì TikTok chặn quét kênh ("Unable to extract secondary user ID")
+# Hệ thống: ffmpeg / ffprobe (tách tiếng, cắt khung hình video tải lên)
+edge-tts>=7.0          # đọc thẻ VCWIKI bằng giọng tiếng Việt (vi-VN HoaiMy / NamMinh)

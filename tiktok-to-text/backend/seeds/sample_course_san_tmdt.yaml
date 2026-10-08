@@ -1,0 +1,109 @@
+# Khoá đào tạo mẫu cho /learn — bán hàng trên sàn TMĐT (TikTok Shop) cho nhân viên kinh doanh online.
+# Đọc bởi backend/app/learn/sample.py (script: backend/scripts/seed_sample_course.py). Idempotent theo sample_key.
+# Đổi danh sách thẻ = đổi khoá: tăng sample_key (san-tmdt-v2) rồi chạy seed --reset nếu muốn thay bản cũ.
+# Loại thẻ → câu sinh (2 câu/thẻ): 11 framework/concept (11 single + 11 multi), 1 kpi (2 single), 3 sop + 1 checklist
+# (8 multi) → 13 single, 19 multi, 0 tự luận theo thẻ → đủ cho ma trận 8 single / 7 multi.
+
+sample_key: san-tmdt-v1
+title: Bán hàng trên sàn TMĐT cho nhân viên kinh doanh online
+description: >-
+  Khoá mẫu 4 tuần cho nhân viên kinh doanh online (cấp bậc 2, mảng Bán hàng) vận hành gian hàng TikTok Shop. Sau 4
+  tuần bạn tự chuẩn hoá thẻ sản phẩm, tính lãi thực sau phí sàn và voucher trước khi tham gia chiến dịch, xử lý đơn
+  hoàn / đánh giá tiêu cực đúng quy trình và chẩn đoán được vì sao shop tụt đơn. Khoảng 3 giờ mỗi tuần: đọc bài,
+  luyện tập, cuối khoá thi 15 câu trắc nghiệm + 2 câu tự luận tình huống gian hàng (30 phút, đạt từ 70%).
+learner: nhân viên kinh doanh online vận hành shop trên sàn thương mại điện tử   # người đọc phần diễn giải bài (AI)
+audience:
+  function: kinh-doanh
+  level: 2
+  category: bh
+  division: [vcpart, tap-doan]
+hours_per_week: 3
+enroll_days: 28            # hạn = ngày giao / tự ghi danh + 28 ngày, 23:59 giờ VN
+org_space: Kho video TikTok  # bài học + câu hỏi nằm ở kho org này
+questions_per_card: 2
+
+weeks:
+  - week: 1
+    title: Nền tảng gian hàng
+    lessons:
+      - title: Khởi động shop đúng thứ tự
+        cards: [6ab73036e8a762a4385a5358, 6ab731d7e8a762a4385a53a0]
+      - title: Thẻ sản phẩm chuẩn
+        cards: [6ab73287e8a762a4385a53b3, 6ab6fcfef3ad31ef11df0dfd]
+  - week: 2
+    title: Phí sàn, giá bán & chiến dịch
+    lessons:
+      - title: Phí sàn và lãi thực trên mỗi đơn
+        cards: [6ab6f85cf3ad31ef11df0d0d, 6ab73034e8a762a4385a5357]
+      - title: Tham gia chiến dịch & voucher mà không lỗ
+        cards: [6ab731d6e8a762a4385a539d, 6ab7324be8a762a4385a53ae]
+  - week: 3
+    title: Livestream & vận hành đơn
+    lessons:
+      - title: Livestream bán hàng
+        cards: [6ab6f891f3ad31ef11df0d1b, 6ab6fafaf3ad31ef11df0da2]
+      - title: Đơn hoàn, trả hàng và đối soát
+        cards: [6ab6fb81f3ad31ef11df0dbc, 6ab6fff5f3ad31ef11df0e19]
+  - week: 4
+    title: Điểm shop, chẩn đoán & quảng cáo
+    lessons:
+      - title: Điểm shop và đánh giá tiêu cực
+        cards: [6ab6ab74f3ad31ef11df0cc5, 6ab6f89af3ad31ef11df0d1d]
+      - title: Chẩn đoán tụt đơn, đo quảng cáo bằng lãi thực
+        cards: [6ab6aa1bf3ad31ef11df0c8e, 6ab6faccf3ad31ef11df0d96]
+
+# Đọc thêm: không tính điểm, không sinh câu hỏi — gắn vào bài cuối cùng.
+reading_cards: [6ab73387e8a762a4385a53c0]
+
+exam:
+  duration_min: 30
+  pass_score: 70
+  attempts: 1
+  # 15 trắc nghiệm rút từ câu gắn 16 thẻ; 2 tự luận là đúng 2 câu tình huống gian hàng bên dưới (độ khó 5 — câu sinh
+  # theo thẻ bị giới hạn độ khó ≤ 4 nên dòng tự luận độ khó 5 chỉ rút trúng 2 câu này).
+  blueprint:
+    - {kind: single, count: 8}
+    - {kind: multi, count: 7}
+    - {kind: essay, difficulty: 5, count: 2}
+  essays:
+    - stem: >-
+        Gian hàng phụ tùng VCpart trên TikTok Shop sáng nay có 3 việc cùng lúc: một khách mở yêu cầu "chỉ hoàn tiền"
+        cho bộ má phanh vì cho rằng giao sai mã (yêu cầu mở từ hôm qua), hai đánh giá 1 sao mới trong tuần, và điểm
+        shop vừa tụt xuống 3.5. Trình bày thứ tự bạn xử lý, việc cụ thể ở từng bước và bằng chứng cần chuẩn bị.
+      cards: [6ab6fb81f3ad31ef11df0dbc, 6ab6f89af3ad31ef11df0d1d, 6ab6ab74f3ad31ef11df0cc5]
+      rubric:
+        - {criterion: Xử lý yêu cầu hoàn tiền trước hạn, max: 3, descriptor: "Nhận ra 'chỉ hoàn tiền' sẽ tự chấp thuận nếu không từ chối trong 24-48h; gọi khách hỏi lý do trước khi bấm; nếu từ chối thì kèm bằng chứng (video đóng gói, ảnh lộ trình, mã hàng)"}
+        - {criterion: Xử lý đánh giá tiêu cực theo 3 bước, max: 3, descriptor: "Liên hệ và bồi thường khách → xin đánh giá lại, lưu ảnh chat / đánh giá đã sửa → nộp kháng nghị trên Seller Center; biết chỉ sửa đánh giá mà không kháng nghị thì điểm vẫn tính 1 sao"}
+        - {criterion: Chẩn đoán điểm shop theo 3 cột, max: 3, descriptor: "Tách điểm sản phẩm / kho vận / CSKH để biết đang yếu ở đâu; biện pháp đúng cột (vd yêu cầu shipper quét đơn tại chỗ, trả lời tin nhắn đúng hạn, mô tả sản phẩm rõ mã xe)"}
+        - {criterion: Phòng lặp lại, max: 1, descriptor: "Đề xuất một việc phòng ngừa: ghi rõ dòng xe / mã OE trong mô tả, quay video đóng gói, theo dõi mục trả hàng hằng ngày"}
+      model_answer: >-
+        (1) Ưu tiên yêu cầu "chỉ hoàn tiền" vì sắp quá hạn 24-48h và sẽ tự được chấp thuận — mất cả tiền lẫn hàng. Gọi
+        khách hỏi lý do: nếu khách bức xúc và lỗi thuộc shop thì chấp nhận / đổi hàng ngay để tránh thêm 1 sao; nếu
+        khách chọn nhầm mã xe thì xin khách huỷ yêu cầu và đổi hàng ngoài hệ thống; nếu phải từ chối thì chọn từ chối,
+        tải lên video đóng gói, ảnh mã hàng khớp đơn và ghi rõ lý do. (2) Hai đánh giá 1 sao: liên hệ, bồi thường /
+        đổi hàng, xin khách sửa đánh giá; chụp lại đoạn chat và đánh giá đã sửa; nộp kháng nghị trên Seller Center —
+        chỉ sửa đánh giá mà không kháng nghị thì điểm vẫn bị tính như từng có 1 sao. (3) Điểm shop 3.5: tách 3 cột
+        (sản phẩm nặng nhất, rồi kho vận, CSKH) để biết đang yếu ở đâu; kho vận thấp thì yêu cầu shipper quét đơn tại
+        chỗ hoặc tắt nhãn giao nhanh nếu không đáp ứng; CSKH thì trả lời tin nhắn trong hạn. Phòng ngừa: ghi rõ dòng
+        xe / mã phụ tùng trong mô tả, quay video đóng gói mọi đơn, kiểm mục trả hàng hằng ngày.
+    - stem: >-
+        Trưởng nhóm muốn đưa sản phẩm lọc gió động cơ bán chạy nhất vào đợt sale ngày đôi sắp tới và chạy thêm
+        quảng cáo trong ngày sale. Trình bày cách bạn tính xem có nên tham gia không: các khoản phải trừ khỏi giá
+        bán, cách tính lãi ngày sale khác ngày thường thế nào, mức chi quảng cáo tối đa mỗi đơn, và điều kiện đăng ký
+        chiến dịch cần kiểm tra.
+      cards: [6ab73034e8a762a4385a5357, 6ab7324be8a762a4385a53ae, 6ab731d6e8a762a4385a539d]
+      rubric:
+        - {criterion: Liệt kê đủ khoản phí cố định, max: 3, descriptor: "Giá nhập, phí sàn + hoa hồng, FreeShip Extra / Voucher Xtra nếu tham gia, thuế hộ kinh doanh, vận hành / đóng gói, phí cố định theo đơn — xem mức phí hiện hành, không giả định mức cũ"}
+        - {criterion: Tính lãi ngày sale riêng, max: 3, descriptor: "Trừ thêm phần voucher chiến dịch shop tự chịu (mở chi tiết chiến dịch xem tỷ lệ), không dùng chung điểm hoà vốn ngày thường"}
+        - {criterion: Trần chi phí quảng cáo mỗi đơn, max: 2, descriptor: "Chi phí quảng cáo / đơn phải thấp hơn lãi sau phí sàn + voucher ngày sale; trừ tiếp hoa hồng affiliate nếu có"}
+        - {criterion: Điều kiện đăng ký và quyết định, max: 2, descriptor: "Giá chiến dịch ≤ giá thấp nhất 30 ngày; đăng ký trước để kịp duyệt; ra quyết định tham gia / không, hoặc tách sản phẩm riêng cho sale sâu"}
+      model_answer: >-
+        Bước 1 — lãi gốc ngày thường: giá bán trừ giá nhập, phí sàn + hoa hồng, FreeShip Extra (và Voucher Xtra nếu
+        tham gia), thuế hộ kinh doanh, chi phí vận hành / đóng gói / hỏng hàng và phí cố định theo đơn; lấy mức phí
+        đang áp dụng vì phí sàn đã đổi nhiều lần. Bước 2 — lãi ngày sale: mở chi tiết chiến dịch xem nền tảng tài trợ
+        bao nhiêu phần voucher, trừ tiếp phần shop tự chịu; lãi có thể về gần 0 hoặc âm chỉ vì vài điểm phần trăm
+        voucher, nên không dùng điểm hoà vốn ngày thường. Bước 3 — quảng cáo: chi phí quảng cáo tối đa mỗi đơn bằng
+        lãi sau phí sàn + voucher ngày sale, trừ tiếp hoa hồng affiliate nếu có; vượt mức này là bán lỗ. Bước 4 —
+        điều kiện: giá chiến dịch phải ≤ giá thấp nhất khách mua trong 30 ngày, đăng ký trước vài ngày để kịp duyệt;
+        nếu lãi ngày sale âm thì đề xuất tăng giá trị đơn (combo lọc gió + lọc điều hoà) hoặc dùng sản phẩm riêng cho
+        sale sâu, vẫn giữ FreeShip Extra và Flash Sale để không mất ưu tiên phân phối.

@@ -1,0 +1,4 @@
+﻿Ngày,Tài khoản kênh,Kênh,Lượt chờ,Đã trả lời,Đang chờ,FRT trung vị (phút làm việc),FRT P90 (phút làm việc),Quá SLA,% quá SLA,Quá 15 phút,% quá 15 phút,Quá 2 giờ,% quá 2 giờ,Trả lời qua VClinks,Trả lời từ điện thoại,% qua VClinks,Người đăng nhập,Người hoạt động,% đăng nhập
+2026-10-02,Nick 01 (dữ liệu mẫu),zalo,4,3,1,20,150,3,75,3,75,2,50,1,2,33.3,,,
+2026-10-02,Nick 02 (dữ liệu mẫu),zalo,1,1,0,5,5,0,0,0,0,0,0,0,1,0,,,
+2026-10-02..2026-10-02,Tất cả,,5,4,1,10,150,3,60,3,60,2,40,1,3,25,2,5,40

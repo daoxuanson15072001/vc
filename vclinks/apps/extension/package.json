@@ -1,0 +1,23 @@
+{
+  "name": "@vclinks/extension",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@vclinks/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.280",
+    "esbuild": "^0.24.0",
+    "fake-indexeddb": "^6.0.0",
+    "happy-dom": "^20.14.5",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

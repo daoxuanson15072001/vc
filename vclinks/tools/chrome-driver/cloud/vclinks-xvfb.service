@@ -1,0 +1,14 @@
+# Virtual screen :99 for the Chrome driver profiles (Zalo Web needs a real, non-headless Chrome).
+# Install: see docs/06-van-hanh/chrome-driver.md, section "Chạy trên cloud".
+[Unit]
+Description=VClinks Xvfb virtual display :99
+After=network.target
+
+[Service]
+User=vclinks
+ExecStart=/usr/bin/Xvfb :99 -screen 0 1600x1000x24 -nolisten tcp
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

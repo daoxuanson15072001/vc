@@ -1,0 +1,4 @@
+id,query,target,kind,source,split,filters,expected_2,expected_1,expected_0,note
+nv-001,"cách tính lương khoán cho thợ gara",cards,dien-dat-khac,nhan_vien,,,"Tiêu đề (hoặc đầu tiêu đề) thẻ đúng ý | id thẻ 24 ký tự","Tiêu đề thẻ gần ý","Tiêu đề thẻ lạc đề hay bị trả về","Ghi chú: ai hỏi, trong tình huống nào"
+nv-002,"checklist nhận xe vào xưởng",cards,ghep-dieu-kien,nhan_vien,,type=checklist; division=vcservice,"Phiếu tiếp nhận xe",,,
+nv-003,"video nói về GMV Max",documents,so-hieu-ma-ten-rieng,nhan_vien,,,"Tiêu đề tài liệu | id tài liệu",,,

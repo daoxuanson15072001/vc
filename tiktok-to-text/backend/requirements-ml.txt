@@ -1,0 +1,6 @@
+# Thư viện AI nặng (~1 GB) — tách khỏi requirements.txt để máy chỉ chạy API / test không phải tải.
+# setup.sh cài mặc định (bỏ bằng: bash setup.sh --no-ml). Cài tay: .venv/bin/pip install -r backend/requirements-ml.txt
+# Thiếu thì tìm kiếm vẫn chạy nhưng không rerank (kb/rerank.py in cảnh báo rõ lúc lần tìm đầu).
+torch>=2.5             # reranker cross-encoder chạy MPS (Apple Silicon) / CUDA / CPU
+transformers>=4.56     # bge-reranker-v2-m3 (dùng tham số dtype= của from_pretrained); kéo theo huggingface_hub
+# Model tải một lần: .venv/bin/python -c "from huggingface_hub import snapshot_download as s; s('BAAI/bge-reranker-v2-m3')"

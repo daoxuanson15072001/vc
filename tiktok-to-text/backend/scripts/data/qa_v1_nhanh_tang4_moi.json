@@ -1,0 +1,587 @@
+[
+ {
+  "code": "0.1.3.1",
+  "parent_code": "0.1.3",
+  "parent_slug": "nen.ky-thuat.sua-chua-bao-duong",
+  "slug": "nen.ky-thuat.sua-chua-bao-duong.lich-bao-duong",
+  "name": "Lịch & hạng mục bảo dưỡng",
+  "scope_note": "Gồm: chu kỳ / mốc km bảo dưỡng; hạng mục kiểm tra – thay thế theo lịch (nhớt máy, nhớt hộp số chính và phụ, dây cu-roa cam, cân thước lái – cân bằng động); gói bảo dưỡng lớn cho xe cao km và các hạng mục hay bị bỏ sót\nKhông gồm: kỹ thuật sửa chữa từng hệ thống → 0.1.3.2–0.1.3.5; thiết kế, định giá gói bảo dưỡng của gara → 0.3.5; phiếu bảo dưỡng và tư vấn khi tiếp nhận → 0.3.2\nDễ nhầm với: 0.1.3.2 Nạp, nhiên liệu & làm mát — phân biệt: thẻ trả lời \"mốc nào, làm những hạng mục gì\" → 0.1.3.1; \"vì sao hỏng, vệ sinh / thay thế thế nào\" → 0.1.3.2\nVí dụ thẻ: \"Cân thước lái và cân bằng động bánh xe định kỳ 10.000km — hạng mục dễ bị bỏ quên nhưng…\"; \"Ford Ranger/Raptor: hộp số chính lẫn hộp số phụ đều cần thay nhớt ở mốc 50.000-60.000km…\"",
+  "cards": 4
+ },
+ {
+  "code": "0.1.3.2",
+  "parent_code": "0.1.3",
+  "parent_slug": "nen.ky-thuat.sua-chua-bao-duong",
+  "slug": "nen.ky-thuat.sua-chua-bao-duong.nap-nhien-lieu",
+  "name": "Nạp, nhiên liệu & làm mát",
+  "scope_note": "Gồm: carbon họng nạp – xupap – buồng đốt và phương pháp vệ sinh (bắn đá khô, bắn trấu, hoá chất), đo hiệu quả trên dyno; kim phun (vệ sinh, test lưu lượng, nhổ kim kẹt, thay và coding); mạch nước làm mát – van nước sưởi\nKhông gồm: nguyên lý vì sao xe tiêu chuẩn khí thải cao đóng carbon → 0.1.1; đọc lỗi, đo điện trở để tìm bệnh → 0.1.2; rã máy, gia công chi tiết → 0.1.3.3\nDễ nhầm với: 0.1.3.1 Lịch & hạng mục bảo dưỡng — phân biệt: kỹ thuật làm sạch / thay một chi tiết hệ nạp – nhiên liệu – làm mát → 0.1.3.2; mốc km và gói bảo dưỡng tổng thể → 0.1.3.1\nVí dụ thẻ: \"Máy dầu tiêu chuẩn khí thải cao (Ford Ranger, Ranger Raptor) đóng carbon họng nạp dày…\"; \"Đo dyno trước/sau vệ sinh carbon họng nạp: Ford Ranger Raptor giảm 5-10% lưu lượng gió…\"",
+  "cards": 6
+ },
+ {
+  "code": "0.1.3.3",
+  "parent_code": "0.1.3",
+  "parent_slug": "nen.ky-thuat.sua-chua-bao-duong",
+  "slug": "nen.ky-thuat.sua-chua-bao-duong.dai-tu",
+  "name": "Đại tu & gia công cơ khí",
+  "scope_note": "Gồm: rã – đo kiểm – gia công – lắp ráp động cơ (phay mặt lốc / culasse, doa – mài đồng tâm lỗ cốt máy, đo lòng xy-lanh, khe hở bạc xéc-măng); sửa động cơ thuỷ kích; vật tư ráp máy; xử lý ốc gãy, tuôn ren\nKhông gồm: chẩn đoán, lấy bằng chứng trước khi rã máy → 0.1.2; vệ sinh carbon, thay kim phun không rã máy → 0.1.3.2; chọn mua, bảo quản, an toàn dụng cụ đo → 0.1.5\nDễ nhầm với: 0.1.5 Dụng cụ & an toàn xưởng — phân biệt: cách dùng dụng cụ trong một bước đại tu / gia công → 0.1.3.3; chọn, đầu tư, an toàn dụng cụ → 0.1.5\nVí dụ thẻ: \"Bốn mẹo vật tư khi đại tu động cơ: nhớt đỏ mồi máy, keo Loctite thay băng keo ron, đánh…\"; \"Động cơ thủy kích: tắt máy ngay khi ngập nước, sửa đúng chuẩn hãng phải đo lại toàn bộ…\"",
+  "cards": 7
+ },
+ {
+  "code": "0.1.3.4",
+  "parent_code": "0.1.3",
+  "parent_slug": "nen.ky-thuat.sua-chua-bao-duong",
+  "slug": "nen.ky-thuat.sua-chua-bao-duong.gam-truyen-dong",
+  "name": "Gầm, lái, phanh & truyền động",
+  "scope_note": "Gồm: sửa chữa – thay thế hệ lái (thước lái điện), treo (bầu hơi khí nén), phanh (láng đĩa, giới hạn láng), hộp số và truyền động (đại tu hộp số tự động); coding, cân chỉnh sau khi thay\nKhông gồm: chu kỳ cân chỉnh, thay nhớt hộp số → 0.1.3.1; cấu tạo, nguyên lý hệ thống gầm → 0.1.1; báo giá sửa gầm cho khách → 0.3.2\nDễ nhầm với: 0.1.3.1 Lịch & hạng mục bảo dưỡng — phân biệt: \"bao lâu làm một lần\" → 0.1.3.1; \"thay / sửa thế nào, cài đặt gì sau khi thay\" → 0.1.3.4\nVí dụ thẻ: \"Thay thước lái điện xe châu Âu: bắt buộc coding lại phần mềm và cân góc đặt bánh sau khi…\"; \"Bầu hơi treo khí nén Mercedes GLC hay bể sau khoảng 80.000km, chi phí thay 40-60 triệu/cặp\"",
+  "cards": 4
+ },
+ {
+  "code": "0.1.3.5",
+  "parent_code": "0.1.3",
+  "parent_slug": "nen.ky-thuat.sua-chua-bao-duong",
+  "slug": "nen.ky-thuat.sua-chua-bao-duong.cham-soc-xe",
+  "name": "Chăm sóc xe, thân vỏ & sơn",
+  "scope_note": "Gồm: rửa xe, rửa khoang máy; chọn và pha hoá chất theo gốc vết bẩn; đánh bóng, ceramic, PPF; phủ gầm; tẩy ố kính, phục hồi nhựa đen; quy trình sơn và đổi màu xe\nKhông gồm: mặt bằng, thiết bị, ghép dịch vụ trung tâm chăm sóc xe → 0.3.4; giá gói chăm sóc → 0.3.5; lộ trình đào tạo thợ chăm sóc xe → 0.3.3\nDễ nhầm với: 0.3.4 Mở & mở rộng gara — phân biệt: kỹ thuật làm trên xe → 0.1.3.5; setup mặt bằng, thiết bị, danh mục dịch vụ của trung tâm → 0.3.4\nVí dụ thẻ: \"Rửa xe chăm sóc khác rửa thường ở hai tiêu chí an toàn và tối ưu, thể hiện rõ nhất ở khâu…\"; \"Rửa khoang máy an toàn: rủi ro nằm ở khâu làm khô, che chắn để giảm áp lực, áp lực 90–100…\"",
+  "cards": 8
+ },
+ {
+  "code": "1.3.4.1",
+  "parent_code": "1.3.4",
+  "parent_slug": "mkt.digital.video-ngan-livestream",
+  "slug": "mkt.digital.video-ngan-livestream.dinh-huong-kenh",
+  "name": "Định hướng & định vị kênh",
+  "scope_note": "Gồm: xác định mục đích, ngành hàng, ngách trước khi xây kênh; chọn hướng nội dung kiên định (kênh gara, kênh review/KOC, kênh seller); thương hiệu cá nhân người đứng kênh; mô hình kênh bền vững; đưa sản phẩm vào nội dung để kênh view cao bán được hàng.\nKhông gồm: lập tài khoản, hồ sơ kênh, nhịp đăng → 1.3.4.2; tuyến và lịch nội dung chi tiết → 1.4.1\nDễ nhầm với: 1.1.2 Định vị & thông điệp — phân biệt: 1.1.2 định vị thương hiệu doanh nghiệp; 1.3.4.1 định hướng một kênh video cụ thể và người đứng kênh\nVí dụ thẻ: \"Xây kênh video cho gara: chọn kiên định 1 trong 4 hướng giải trí – thông tin – chia sẻ –…\"; \"5 yếu tố xây kênh KOC/affiliate bền vững: đa kênh, giá trị độc quyền, dữ liệu khách hàng…\"",
+  "cards": 6
+ },
+ {
+  "code": "1.3.4.2",
+  "parent_code": "1.3.4",
+  "parent_slug": "mkt.digital.video-ngan-livestream",
+  "slug": "mkt.digital.video-ngan-livestream.van-hanh-kenh",
+  "name": "Lập & vận hành kênh",
+  "scope_note": "Gồm: checklist lập kênh mới (avatar, tên, bio, tài khoản doanh nghiệp, nút thu lead), cấu trúc nhiều kênh gắn một shop, số lượng và nhịp đăng video, giữ nhịp kênh dịp Tết/nghỉ lễ.\nKhông gồm: nguyên nhân 0 view, cứu kênh ít view → 1.3.4.4; vận hành phiên livestream bán hàng → 2.5.5\nDễ nhầm với: 1.4.1 Chiến lược & lịch nội dung — phân biệt: 1.4.1 chọn tuyến, chủ đề, lịch nội dung; 1.3.4.2 là thao tác lập kênh và giữ tần suất đăng để kênh không tụt phân phối\nVí dụ thẻ: \"Xây nhiều kênh TikTok gắn về 1 shop để tránh khoá kênh và tận dụng tối đa nội dung khi…\"; \"Checklist lập kênh TikTok mới: avatar, tên kênh, bio, chủ đề nội dung và chất lượng hình…\"",
+  "cards": 5
+ },
+ {
+  "code": "1.3.4.3",
+  "parent_code": "1.3.4",
+  "parent_slug": "mkt.digital.video-ngan-livestream",
+  "slug": "mkt.digital.video-ngan-livestream.thuat-toan-follow",
+  "name": "Thuật toán phân phối & follow",
+  "scope_note": "Gồm: cách TikTok phân phối video và ưu ái kênh mới, vai trò thật của follow, mẹo sai (mua follow, tương tác chéo, hashtag, xin vía), ảnh hưởng của chạy ads tới kênh, phân phối video đăng lại hoặc chỉ dùng làm ads.\nKhông gồm: chẩn đoán video 0 view, cứu kênh flop → 1.3.4.4; cài đặt và tối ưu quảng cáo GMV Max → 2.5.4\nDễ nhầm với: 1.3.4.4 Xử lý 0 view & kênh flop — phân biệt: 1.3.4.3 là quy luật phân phối chung; 1.3.4.4 là chẩn đoán và xử lý khi video/kênh đã ít view\nVí dụ thẻ: \"Thuật toán TikTok/TikTok Shop ưu ái kênh và shop mới — không cần nhiều follow mới bán…\"; \"Không mua follow/tương tác ảo trên TikTok: view và follow không quyết định việc bán được…\"",
+  "cards": 6
+ },
+ {
+  "code": "1.3.4.4",
+  "parent_code": "1.3.4",
+  "parent_slug": "mkt.digital.video-ngan-livestream",
+  "slug": "mkt.digital.video-ngan-livestream.kenh-it-view",
+  "name": "Xử lý 0 view & kênh flop",
+  "scope_note": "Gồm: nguyên nhân video 0 view (vi phạm, chất lượng, thiết bị, quét nhầm sao chép, đang xét duyệt), cách xử lý kênh 100–200 view, tiêu chí giữ hay bỏ kênh, vì sao xoá kênh/đổi thiết bị không chữa được.\nKhông gồm: quy luật phân phối và follow nói chung → 1.3.4.3; chất lượng quay dựng → 1.4.6\nDễ nhầm với: 2.5.3 Chính sách & phí sàn — phân biệt: 2.5.3 là chính sách, vi phạm của shop trên sàn; 1.3.4.4 là xử lý lượt xem của kênh video\nVí dụ thẻ: \"3 nguyên nhân khiến video TikTok 0 view và cách dùng công cụ miễn phí \"Học hỏi từ nhà…\"; \"Khi nào nên bỏ một kênh TikTok bán hàng: 3 dấu hiệu cần dứt bỏ, khi nào nên giữ lại tiếp…\"",
+  "cards": 6
+ },
+ {
+  "code": "1.4.3.1",
+  "parent_code": "1.4.3",
+  "parent_slug": "mkt.noi-dung.kich-ban-video",
+  "slug": "mkt.noi-dung.kich-ban-video.hook-thong-diep",
+  "name": "Hook & thông điệp bán hàng",
+  "scope_note": "Gồm: hook 3–5 giây đầu và kho mẫu hook, mở đầu bằng vấn đề/lợi ích/giá, một lý do mua cốt lõi (USP), đánh đúng nỗi đau, bộ từ khoá theo ngành hàng, hiểu sản phẩm để nói không cần kịch bản.\nKhông gồm: khung toàn bài, công thức kịch bản → 1.4.3.2; caption, tiêu đề chữ → 1.4.2\nDễ nhầm với: 1.4.2 Copywriting & tiêu đề — phân biệt: 1.4.2 là câu chữ viết (caption, tiêu đề, bài); 1.4.3.1 là câu mở đầu và thông điệp nói/hình trong video\nVí dụ thẻ: \"Viết hook mở đầu video viral: nguyên tắc tốc độ-cụ thể và 7 mẫu câu hook thông dụng\"; \"Kiến thức sản phẩm là gốc để khai thác từ khóa và nói không cần kịch bản; có thể dùng…\"",
+  "cards": 7
+ },
+ {
+  "code": "1.4.3.2",
+  "parent_code": "1.4.3",
+  "parent_slug": "mkt.noi-dung.kich-ban-video",
+  "slug": "mkt.noi-dung.kich-ban-video.khung-kich-ban",
+  "name": "Công thức & cấu trúc kịch bản",
+  "scope_note": "Gồm: khung mở–thân–kết, vấn đề–giải pháp, nỗi đau–trải nghiệm, kể chuyện; công thức video review/so sánh; các dạng content bán hàng và concept viral TikTok.\nKhông gồm: câu hook, USP, từ khoá → 1.4.3.1; chọn cách quay (one-shot, AI, ghép nhạc) → 1.4.3.3\nDễ nhầm với: 1.4.1 Chiến lược & lịch nội dung — phân biệt: 1.4.1 chọn tuyến, chủ đề cho cả kênh; 1.4.3.2 là khung dựng từng video\nVí dụ thẻ: \"Kịch bản video bán hàng hiệu quả: khơi gợi nỗi đau khách hàng, trải nghiệm chân thực sản…\"; \"Viết kịch bản video kể chuyện: công thức mâu thuẫn-cảm xúc-cách xử lý-suy nghĩ và 3 cấu…\"",
+  "cards": 7
+ },
+ {
+  "code": "1.4.3.3",
+  "parent_code": "1.4.3",
+  "parent_slug": "mkt.noi-dung.kich-ban-video",
+  "slug": "mkt.noi-dung.kich-ban-video.dinh-dang-video",
+  "name": "Định dạng video & tính chân thật",
+  "scope_note": "Gồm: chọn kiểu video bán hàng (one-shot, trải sàn, ghép nhạc, video AI, video đồ ăn), mức đầu tư quay dựng theo loại sản phẩm, trải nghiệm thật quyết định chuyển đổi.\nKhông gồm: ánh sáng, thiết bị, chi phí sản xuất → 1.4.6; khung kịch bản → 1.4.3.2\nDễ nhầm với: 1.4.6 Quy trình sản xuất & duyệt nội dung (PDCA) — phân biệt: 1.4.6 là quay/sản xuất cho đạt chuẩn kỹ thuật; 1.4.3.3 là chọn định dạng nội dung nào bán được\nVí dụ thẻ: \"Chuyển đổi video bán hàng phụ thuộc tính chân thật: đưa trải nghiệm thật, hạn chế app…\"; \"Video AI có thể bán hàng nhưng tỷ lệ thấp hơn người thật; rủi ro lớn nhất là dàn dựng sai…\"",
+  "cards": 5
+ },
+ {
+  "code": "1.4.3.4",
+  "parent_code": "1.4.3",
+  "parent_slug": "mkt.noi-dung.kich-ban-video",
+  "slug": "mkt.noi-dung.kich-ban-video.y-tuong-video",
+  "name": "Ý tưởng, tham khảo & nhân bản",
+  "scope_note": "Gồm: tìm video mẫu đang bán qua Creative Center/Cảm hứng sáng tạo, nguồn content từ khách trải nghiệm thật, nhân bản video thắng (giữ sườn cứng), đổi mới công thức khi nội dung chững.\nKhông gồm: ý tưởng tuyến nội dung cho cả kênh → 1.4.1; nghiên cứu đối thủ tổng thể → 1.2.4\nDễ nhầm với: 1.2.4 Nghiên cứu thị trường & đối thủ — phân biệt: 1.2.4 phân tích đối thủ để lập kế hoạch; 1.4.3.4 lấy video đang chạy làm mẫu để viết và nhân bản kịch bản\nVí dụ thẻ: \"Chiến lược nguồn content vô tận: quay khách hàng trải nghiệm thật, phản ứng thật, phỏng…\"; \"Tìm ý tưởng content qua Creative Center/Cảm hứng sáng tạo TikTok: tham khảo có chọn lọc…\"",
+  "cards": 4
+ },
+ {
+  "code": "2.5.1.1",
+  "parent_code": "2.5.1",
+  "parent_slug": "bh.san-tmdt.chon-hang-dinh-gia",
+  "slug": "bh.san-tmdt.chon-hang-dinh-gia.chon-san-pham",
+  "name": "Chọn sản phẩm & ngành hàng",
+  "scope_note": "Gồm: tiêu chí chọn sản phẩm bán sàn (lợi thế nguồn hàng, nhu cầu thật, sản phẩm \"win\"), ngành hàng dễ/khó bán, sản phẩm hợp affiliate, chọn Hero SKU, công cụ tìm sản phẩm thịnh hành.\nKhông gồm: test lô nhỏ, mùa vụ, làm mới sản phẩm → 2.5.1.2; đặt giá bán → 2.5.1.3; kiến trúc danh mục SKU khi mua hàng → 6.1.2\nDễ nhầm với: 1.2.4 Nghiên cứu thị trường & đối thủ — phân biệt: 2.5.1.1 là chọn mã cụ thể để đưa lên sàn; 1.2.4 là nghiên cứu thị trường, đối thủ nói chung.\nVí dụ thẻ: \"Chọn 2-5 sản phẩm Hero SKU (có lượt mua và đánh giá tốt) để tập trung đầu tư hút traffic…\"; \"Chọn sản phẩm affiliate/không nhập kho: theo tệp khách, thương hiệu đang chạy quảng cáo…\"",
+  "cards": 9
+ },
+ {
+  "code": "2.5.1.2",
+  "parent_code": "2.5.1",
+  "parent_slug": "bh.san-tmdt.chon-hang-dinh-gia",
+  "slug": "bh.san-tmdt.chon-hang-dinh-gia.test-mua-vu",
+  "name": "Test sản phẩm & mùa vụ",
+  "scope_note": "Gồm: test trước khi nhập lớn (lô mẫu, bán thử qua link affiliate), đón mùa vụ và giao mùa, rủi ro ôm hàng theo trend thời sự, làm mới hoặc đổi sản phẩm khi bán chững.\nKhông gồm: tiêu chí chọn sản phẩm, ngành hàng → 2.5.1.1; dự báo nhu cầu & kế hoạch mua toàn công ty → 6.1.1\nDễ nhầm với: 2.5.2.3 Mùa sale & nghỉ lễ — phân biệt: 2.5.1.2 là chọn, chuẩn bị sản phẩm theo mùa; 2.5.2.3 là vận hành shop quanh ngày sale, Tết.\nVí dụ thẻ: \"Test sản phẩm bằng lô nhỏ và xin feedback khách trước khi nhập hàng lớn\"; \"Mua mẫu gắn affiliate bán thử trước khi nhập hàng, tránh ôm vốn tồn kho ngay từ đầu\"",
+  "cards": 7
+ },
+ {
+  "code": "2.5.1.3",
+  "parent_code": "2.5.1",
+  "parent_slug": "bh.san-tmdt.chon-hang-dinh-gia",
+  "slug": "bh.san-tmdt.chon-hang-dinh-gia.dinh-gia",
+  "name": "Định giá & biên lợi nhuận",
+  "scope_note": "Gồm: hệ số giá bán/giá nhập theo mô hình chi phí (tự live, chạy ads, thuê vận hành), định giá theo giá trị, chọn chiến lược giá rẻ hay giá cao, tính phí sàn và rủi ro hoàn hỏng vào giá, định giá bán lẻ cho xưởng sản xuất lên sàn.\nKhông gồm: điều chỉnh giá khi phí tăng, phá giá → 2.5.1.4; giá niêm yết, combo, khuyến mại → 2.5.1.5; lãi gộp theo mã/kênh trong báo cáo → 3.3.5\nDễ nhầm với: 2.3.1 Chính sách giá & bậc giá — phân biệt: 2.5.1.3 là giá bán lẻ trên sàn cho người tiêu dùng; 2.3.1 là bậc giá B2B cho gara, đại lý.\nVí dụ thẻ: \"Định giá bán gấp 2,5-3 lần giá nhập để trụ được trên sàn TMĐT khi phí sàn liên tục tăng\"; \"Định giá x2 giá nhập chỉ hợp mô hình tự livestream không chạy quảng cáo, không phù hợp mô…\"",
+  "cards": 6
+ },
+ {
+  "code": "2.5.1.4",
+  "parent_code": "2.5.1",
+  "parent_slug": "bh.san-tmdt.chon-hang-dinh-gia",
+  "slug": "bh.san-tmdt.chon-hang-dinh-gia.dieu-chinh-gia",
+  "name": "Ứng phó phí tăng & phá giá",
+  "scope_note": "Gồm: tăng giá khi sàn tăng phí (mức, nhịp tăng), tối ưu chi phí trước khi tăng giá, ưu tiên lợi nhuận hơn số đơn, không bán phá giá, đối phó đối thủ phá giá.\nKhông gồm: mức phí và cơ cấu phí sàn → 2.5.3.1; thao tác sửa giá/biến thể không bị bóp tương tác → 2.5.2.1\nDễ nhầm với: 2.5.1.3 Định giá & biên lợi nhuận — phân biệt: 2.5.1.3 là đặt giá ban đầu; 2.5.1.4 là điều chỉnh giá khi chi phí hoặc cạnh tranh thay đổi.\nVí dụ thẻ: \"Phí sàn tăng: nên tối ưu chi phí vận hành/quảng cáo trước khi tính đến tăng giá bán\"; \"Đối phó đối thủ bán phá giá: giữ giá cao, cạnh tranh bằng chất lượng và ngân sách quảng…\"",
+  "cards": 4
+ },
+ {
+  "code": "2.5.1.5",
+  "parent_code": "2.5.1",
+  "parent_slug": "bh.san-tmdt.chon-hang-dinh-gia",
+  "slug": "bh.san-tmdt.chon-hang-dinh-gia.chien-thuat-gia",
+  "name": "Chiến thuật giá & combo",
+  "scope_note": "Gồm: đặt giá niêm yết để chạy khuyến mại, tách giá live và giá quảng cáo, combo và quà tặng kèm, sản phẩm phễu, bán lỗ/hoà vốn có kế hoạch giai đoạn đầu.\nKhông gồm: quy định, phí và cách đăng ký voucher, flash sale, chiến dịch của sàn → 2.5.3.2; khuyến mại cho gara, đại lý → 1.5.1\nDễ nhầm với: 2.5.3.2 Freeship, voucher & chương trình sàn — phân biệt: 2.5.1.5 là shop tự thiết kế giá, combo; 2.5.3.2 là luật, phí và cách đăng ký chương trình của sàn.\nVí dụ thẻ: \"Giá niêm yết nên gấp 2,5-3 lần giá bán, và cách tăng giá bằng biến thể mới để tránh bị…\"; \"Đặt 2 mức giá riêng cho livestream và chạy quảng cáo TikTok Shop để tối ưu chuyển đổi và…\"",
+  "cards": 5
+ },
+ {
+  "code": "2.5.2.1",
+  "parent_code": "2.5.2",
+  "parent_slug": "bh.san-tmdt.van-hanh-shop",
+  "slug": "bh.san-tmdt.van-hanh-shop.listing-gian-hang",
+  "name": "Listing & quản trị gian hàng",
+  "scope_note": "Gồm: đăng và tối ưu thẻ/trang sản phẩm (tên, ảnh, thuộc tính, mô tả, từ khoá), sửa giá/biến thể sản phẩm đang chạy, lỗi bị từ chối duyệt/ẩn/xoá/spam link, thao tác giỏ hàng – video trong gian hàng, kênh hỗ trợ chính thức của sàn.\nKhông gồm: luật nội dung, bản quyền → 2.5.3.4; giấy tờ ngành hàng, điều kiện tài khoản → 2.5.3.3; chọn sản phẩm → 2.5.1.1\nDễ nhầm với: 2.5.3.4 Vi phạm nội dung & bản quyền — phân biệt: 2.5.2.1 là thao tác trên listing; 2.5.3.4 là điều sàn cấm trong nội dung video, live, mô tả.\nVí dụ thẻ: \"Thẻ sản phẩm là gốc rễ: quy trình 6 bước tối ưu và công cụ tăng traffic sàn\"; \"Sản phẩm bị xóa vì ảnh bảng size không khớp lựa chọn biến thể — không được khiếu nại\"",
+  "cards": 10
+ },
+ {
+  "code": "2.5.2.2",
+  "parent_code": "2.5.2",
+  "parent_slug": "bh.san-tmdt.van-hanh-shop",
+  "slug": "bh.san-tmdt.van-hanh-shop.don-hoan-huy",
+  "name": "Đơn, hoàn huỷ & điểm shop",
+  "scope_note": "Gồm: xử lý đơn và kho giao (đa kho, kho gần khách, năng lực kho so với lượng đẩy đơn), trả hàng hoàn tiền, huỷ đơn rủi ro, chặn khách bom/ác ý, điểm cửa hàng và phục hồi sau đánh giá tiêu cực.\nKhông gồm: văn bản quy định mốc giờ giao, cách sàn tính điểm → 2.5.3.3; phí đơn hoàn và gói bồi hoàn → 2.5.3.1; bảo hành, đổi trả cho khách B2B → 2.6.3\nDễ nhầm với: 2.5.3.3 Tài khoản & chuẩn vận hành — phân biệt: 2.5.2.2 là cách shop xử lý, kéo điểm; 2.5.3.3 là quy định và ngưỡng do sàn đặt.\nVí dụ thẻ: \"Điểm xếp hạng shop TikTok Shop: 3 cột điểm đối trọng khác nhau, \"hài lòng sản phẩm\" nặng…\"; \"Phá vòng luẩn quẩn điểm shop thấp - ROI tụt bằng đơn giá trị thấp free ship\"",
+  "cards": 12
+ },
+ {
+  "code": "2.5.2.3",
+  "parent_code": "2.5.2",
+  "parent_slug": "bh.san-tmdt.van-hanh-shop",
+  "slug": "bh.san-tmdt.van-hanh-shop.sale-nghi-le",
+  "name": "Mùa sale & nghỉ lễ",
+  "scope_note": "Gồm: chuẩn bị gian hàng, tồn kho, video, live trước sale ngày đôi/siêu sale, lịch chiến dịch và khung giờ tung voucher của sàn, bán xuyên hay nghỉ Tết, bật chế độ nghỉ lễ, chống tụt số sau sale.\nKhông gồm: phí, cách đăng ký voucher/flash sale/chiến dịch → 2.5.3.2; chọn Hero SKU → 2.5.1.1; ngân sách ads mùa sale → 2.5.4.4\nDễ nhầm với: 2.5.1.2 Test sản phẩm & mùa vụ — phân biệt: 2.5.2.3 là vận hành shop quanh mốc thời gian; 2.5.1.2 là chọn, chuẩn bị sản phẩm theo mùa.\nVí dụ thẻ: \"Checklist 4 bước chuẩn bị gian hàng cho sale ngày đôi: shop, tồn kho, video và livestream\"; \"Chia 3 giai đoạn khi sale gối nghỉ lễ: chuẩn bị trước, duy trì traffic trong lễ, chống…\"",
+  "cards": 5
+ },
+ {
+  "code": "2.5.2.4",
+  "parent_code": "2.5.2",
+  "parent_slug": "bh.san-tmdt.van-hanh-shop",
+  "slug": "bh.san-tmdt.van-hanh-shop.chan-doan-shop",
+  "name": "Rà soát & chẩn đoán shop",
+  "scope_note": "Gồm: đặt mục tiêu ngày/tuần, rà soát định kỳ tuần/tháng, chẩn đoán tụt đơn hoặc lâu không ra đơn theo nhóm nguyên nhân, phân biệt dao động ngắn hạn với xu hướng xấu.\nKhông gồm: lấy số liệu, đối soát, báo cáo quyết toán → 2.5.6; chỉ số quảng cáo (ROI, chi phí/đơn) → 2.5.4.4\nDễ nhầm với: 2.5.6 Đối soát & báo cáo sàn — phân biệt: 2.5.2.4 là đọc nguyên nhân để hành động; 2.5.6 là lấy và đối chiếu số liệu.\nVí dụ thẻ: \"Đặt mục tiêu cụ thể theo ngày/tuần và kiên trì thực hiện thay vì đặt mục tiêu doanh số…\"; \"3 sai lầm khiến shop mới bán mà không ra đơn: sai đối tượng khách, content kém, làm nửa…\"",
+  "cards": 7
+ },
+ {
+  "code": "2.5.2.5",
+  "parent_code": "2.5.2",
+  "parent_slug": "bh.san-tmdt.van-hanh-shop",
+  "slug": "bh.san-tmdt.van-hanh-shop.mo-hinh-shop",
+  "name": "Mô hình & tổ chức shop",
+  "scope_note": "Gồm: chọn mô hình bán (seller, affiliate, dropship; in-house hay dựa KOC; livestream hay video + ads; ít vốn hay nhiều vốn), các mảng việc cốt lõi, định biên nhân sự shop, điều kiện nguồn lực để bán quy mô lớn.\nKhông gồm: lộ trình theo giai đoạn, case tăng trưởng → 2.5.2.6; cách tìm, booking, quản lý KOC → 2.5.5.3; cơ cấu đội sales B2B → 2.1.2\nDễ nhầm với: 2.5.5.3 Affiliate, KOC & booking — phân biệt: 2.5.2.5 là quyết định có dựa vào KOC hay không và định biên; 2.5.5.3 là thao tác làm việc với KOC.\nVí dụ thẻ: \"Không cần nhập kho vẫn bán được trên TikTok Shop nhờ dropship hoặc tiếp thị liên kết chia…\"; \"4 trụ cột vận hành shop TikTok: quảng cáo, booking KOC, chăm sóc điểm cửa hàng và nội dung\"",
+  "cards": 9
+ },
+ {
+  "code": "2.5.2.6",
+  "parent_code": "2.5.2",
+  "parent_slug": "bh.san-tmdt.van-hanh-shop",
+  "slug": "bh.san-tmdt.van-hanh-shop.lo-trinh-shop",
+  "name": "Lộ trình phát triển shop",
+  "scope_note": "Gồm: lộ trình từ 0 đến đơn đầu tiên, thứ tự việc khi khởi động kênh, các giai đoạn tăng trưởng và khó khăn từng giai đoạn, kỳ vọng thời gian, case tăng trưởng của shop.\nKhông gồm: chọn mô hình, định biên → 2.5.2.5; chẩn đoán khi tụt đơn → 2.5.2.4; tư duy chung về kinh doanh sàn → 2.5\nDễ nhầm với: 2.5.2.5 Mô hình & tổ chức shop — phân biệt: 2.5.2.6 trả lời \"làm gì trước, gì sau\"; 2.5.2.5 trả lời \"theo mô hình nào, cần những ai\".\nVí dụ thẻ: \"Case: kế hoạch coaching 3 tháng x2 doanh thu, chấp nhận lỗ 6 tháng đầu để tối ưu cấu trúc\"; \"Đừng đánh giá kênh TikTok Shop mới bằng vài đơn hàng đầu tiên — cần định hướng dài hạn và…\"",
+  "cards": 10
+ },
+ {
+  "code": "2.5.3.1",
+  "parent_code": "2.5.3",
+  "parent_slug": "bh.san-tmdt.chinh-sach-phi-san",
+  "slug": "bh.san-tmdt.chinh-sach-phi-san.phi-san",
+  "name": "Phí sàn & phí vận chuyển",
+  "scope_note": "Gồm: cơ cấu và mức phí sàn (giao dịch, hoa hồng, xử lý đơn), các đợt tăng phí, cách được giảm phí, phí đơn bom/hoàn và gói bồi hoàn/bảo hiểm phí vận chuyển.\nKhông gồm: điều chỉnh giá bán khi phí tăng → 2.5.1.4; phí riêng của freeship, voucher, chiến dịch → 2.5.3.2; hạch toán, thuế sàn → 3.6.6\nDễ nhầm với: 3.6.6 Hộ kinh doanh & thuế sàn TMĐT — phân biệt: 2.5.3.1 là phí sàn thu; 3.6.6 là thuế sàn khấu trừ và cách kê khai.\nVí dụ thẻ: \"TikTok Shop tăng phí sàn, phí hoa hồng và VXP nhiều lần trong 2026, tổng phí cố định lên…\"; \"Cơ cấu các khoản phí sàn TikTok Shop tự động trừ trên mỗi đơn hàng\"",
+  "cards": 7
+ },
+ {
+  "code": "2.5.3.2",
+  "parent_code": "2.5.3",
+  "parent_slug": "bh.san-tmdt.chinh-sach-phi-san",
+  "slug": "bh.san-tmdt.chinh-sach-phi-san.chuong-trinh-san",
+  "name": "Freeship, voucher & chương trình sàn",
+  "scope_note": "Gồm: FreeShip Extra, mốc và trần freeship, Voucher Extra/VXP+, voucher siêu sale, flash sale và campaign của sàn (điều kiện, phí, cách đăng ký), Star Shop/Star Shop+, lợi thế Mall.\nKhông gồm: phí sàn cố định, gói bồi hoàn vận chuyển → 2.5.3.1; shop tự thiết kế combo, giá niêm yết → 2.5.1.5; chuẩn bị gian hàng ngày sale → 2.5.2.3\nDễ nhầm với: 2.5.2.3 Mùa sale & nghỉ lễ — phân biệt: 2.5.3.2 là luật và phí của chương trình; 2.5.2.3 là việc shop chuẩn bị, vận hành quanh ngày sale.\nVí dụ thẻ: \"Tham gia flash sale/campaign của sàn: giá đăng ký bị khống chế là mức rẻ nhất trong 30…\"; \"Star Shop, Cup sản phẩm và lợi thế shop Mall trong tìm kiếm: cách giữ và cạnh tranh\"",
+  "cards": 11
+ },
+ {
+  "code": "2.5.3.3",
+  "parent_code": "2.5.3",
+  "parent_slug": "bh.san-tmdt.chinh-sach-phi-san",
+  "slug": "bh.san-tmdt.chinh-sach-phi-san.tai-khoan-shop",
+  "name": "Tài khoản & chuẩn vận hành",
+  "scope_note": "Gồm: điều kiện mở shop, pháp nhân và chuyển chủ sở hữu, xác minh danh tính và rút tiền, giấy tờ ngành hàng, giới hạn đơn và điều kiện mở tính năng, mốc giờ bàn giao vận chuyển (FDR), cách sàn tính điểm shop/sản phẩm và quyền lợi theo ngưỡng.\nKhông gồm: cách kéo điểm, xử lý hoàn huỷ → 2.5.2.2; bị khoá do vi phạm và kháng nghị → 2.5.3.6; thuế hộ kinh doanh → 3.6.6\nDễ nhầm với: 2.5.2.2 Đơn, hoàn huỷ & điểm shop — phân biệt: 2.5.3.3 là quy định, ngưỡng do sàn đặt; 2.5.2.2 là thao tác xử lý của shop.\nVí dụ thẻ: \"Quy trình chuyển đổi chủ sở hữu/pháp nhân TikTok Shop và lưu ý thời gian khóa rút tiền…\"; \"Giấy tờ công bố sản phẩm theo ngành hàng: thiếu hoặc hết hạn sẽ bị TikTok Shop quét và…\"",
+  "cards": 11
+ },
+ {
+  "code": "2.5.3.4",
+  "parent_code": "2.5.3",
+  "parent_slug": "bh.san-tmdt.chinh-sach-phi-san",
+  "slug": "bh.san-tmdt.chinh-sach-phi-san.luat-noi-dung",
+  "name": "Vi phạm nội dung & bản quyền",
+  "scope_note": "Gồm: từ ngữ cấm và cách nói thay, giá ảo/giá gây hiểu lầm, trần chiết khấu, cách nói freeship/tặng quà, nội dung affiliate gây hiểu nhầm, nội dung lặp lại/kém nỗ lực (CPL), re-up, nhạc thương mại, bản quyền thương hiệu — dùng chung cho video, live, mô tả.\nKhông gồm: vi phạm đặc thù phiên live (phát lại, kéo khách ra ngoài, minigame) → 2.5.3.5; điểm phạt, khoá, kháng nghị → 2.5.3.6; cách viết kịch bản → 1.4.3\nDễ nhầm với: 1.4.3 Kịch bản video & thư viện hook — phân biệt: 2.5.3.4 là điều sàn cấm; 1.4.3 là cách làm nội dung hay.\nVí dụ thẻ: \"TikTok siết nội dung affiliate gây hiểu nhầm (giá lệch thời điểm, ảnh AI, content \"đặt…\"; \"Giá ảo câu view và giá gây hiểu lầm giữa video với link đều là lỗi vi phạm bị TikTok phạt…\"",
+  "cards": 12
+ },
+ {
+  "code": "2.5.3.5",
+  "parent_code": "2.5.3",
+  "parent_slug": "bh.san-tmdt.chinh-sach-phi-san",
+  "slug": "bh.san-tmdt.chinh-sach-phi-san.vi-pham-live",
+  "name": "Vi phạm khi livestream",
+  "scope_note": "Gồm: nguyên nhân bị dừng/khoá live, lỗi live phổ biến, cấm kéo khách sang nền tảng khác, phát lại live và cắt highlight, minigame kiểu cờ bạc, live đa nền tảng/nhiều tài khoản, dấu hiệu kênh dính vi phạm (live 0 mắt xem).\nKhông gồm: ngôn từ, giá, bản quyền dùng chung video và live → 2.5.3.4; kỹ năng host, kịch bản live → 2.5.5.1; setup phòng live → 2.5.5.4\nDễ nhầm với: 2.5.5.2 Xây đội & vận hành phiên live — phân biệt: 2.5.3.5 là luật và rủi ro vi phạm; 2.5.5.2 là tổ chức, vận hành phiên live.\nVí dụ thẻ: \"Chính sách TikTok Live 2025: nguyên nhân bị khóa live và cập nhật bỏ yêu cầu chọn shop…\"; \"Mức phạt vi phạm chính sách quảng cáo TikTok và cách tránh bị quét khi livestream đa nền…\"",
+  "cards": 9
+ },
+ {
+  "code": "2.5.3.6",
+  "parent_code": "2.5.3",
+  "parent_slug": "bh.san-tmdt.chinh-sach-phi-san",
+  "slug": "bh.san-tmdt.chinh-sach-phi-san.khoa-khang-nghi",
+  "name": "Khoá, kháng nghị & lừa đảo",
+  "scope_note": "Gồm: điểm phạt và ngưỡng khoá, thời hạn xoá điểm, lỗi dẫn tới khoá shop/kênh (khoá liên đới, buff đơn, giao dịch ngoài sàn), quy trình tự kháng nghị, cảnh giác dịch vụ ảo và mạo danh lừa seller.\nKhông gồm: nội dung từng lỗi nội dung/live → 2.5.3.4, 2.5.3.5; bảo mật dữ liệu nội bộ → 5.7.5\nDễ nhầm với: 2.5.3.3 Tài khoản & chuẩn vận hành — phân biệt: 2.5.3.6 là hậu quả vi phạm và cách gỡ; 2.5.3.3 là điều kiện, quy định thường ngày.\nVí dụ thẻ: \"Điểm phạt vận hành kênh và điểm chất lượng sản phẩm quyết định việc tài khoản/sản phẩm bị…\"; \"TikTok Shop siết giao dịch ngoài sàn, nhưng livestream xả hàng lẻ/đặc thù vẫn có cách làm…\"",
+  "cards": 11
+ },
+ {
+  "code": "3.6.1.1",
+  "parent_code": "3.6.1",
+  "parent_slug": "tckt.thue.hoa-don-dien-tu",
+  "slug": "tckt.thue.hoa-don-dien-tu.loai-hoa-don",
+  "name": "Quy định chung & loại hoá đơn",
+  "scope_note": "Gồm: khung NĐ123 → NĐ70 → NĐ254/2026 và quản lý bằng dữ liệu thời gian thực; HĐ có mã, không mã, khởi tạo từ máy tính tiền và đối tượng bắt buộc; đăng ký, xác thực sinh trắc học; phần mềm xuất HĐ tự động (kể cả đơn sàn)\nKhông gồm: nghĩa vụ hoá đơn riêng của hộ kinh doanh → 3.6.6.4; phần mềm kế toán, ERP nói chung → 5.7.1\nDễ nhầm với: 3.6.1.2 Thời điểm lập hoá đơn — phân biệt: 3.6.1.1 trả lời loại HĐ nào, ai phải dùng, đăng ký thế nào; 3.6.1.2 trả lời lập vào lúc nào\nVí dụ thẻ: \"NĐ254/2026 gom toàn bộ quy định hóa đơn điện tử, chuyển sang quản lý bằng dữ liệu thời…\"; \"7 điểm nổi bật về hóa đơn theo Nghị định 254/2026: bán cho người tiêu dùng, đặt cọc, sàn…\"",
+  "cards": 5
+ },
+ {
+  "code": "3.6.1.2",
+  "parent_code": "3.6.1",
+  "parent_slug": "tckt.thue.hoa-don-dien-tu",
+  "slug": "tckt.thue.hoa-don-dien-tu.thoi-diem-lap",
+  "name": "Thời điểm lập hoá đơn",
+  "scope_note": "Gồm: nguyên tắc chuyển giao quyền sở hữu / hoàn thành dịch vụ, không theo dòng tiền; đặt cọc vs tạm ứng; đối soát định kỳ ≤ 7 ngày; các trường hợp được lập, ký số lùi ngày; HĐ kèm bảng kê, xuất gộp; nguyên nhân lập sai thời điểm\nKhông gồm: mức phạt lập sai thời điểm → 3.6.1.4; ghi nhận doanh thu kế toán → 3.5.2\nDễ nhầm với: 3.6.1.4 Sai sót, điều chỉnh & xử phạt — phân biệt: 3.6.1.2 là quy tắc lập đúng lúc; 3.6.1.4 là hậu quả và cách xử lý khi đã lập sai\nVí dụ thẻ: \"Thời điểm xuất hóa đơn hàng hóa/dịch vụ: theo chuyển giao quyền sở hữu và hoàn thành dịch…\"; \"Xuất hóa đơn dịch vụ theo hoàn thành hoặc thu tiền trước, phải phân biệt rõ đặt cọc với…\"",
+  "cards": 6
+ },
+ {
+  "code": "3.6.1.3",
+  "parent_code": "3.6.1",
+  "parent_slug": "tckt.thue.hoa-don-dien-tu",
+  "slug": "tckt.thue.hoa-don-dien-tu.nguoi-mua",
+  "name": "Nội dung & thông tin người mua",
+  "scope_note": "Gồm: thông tin người mua theo loại khách (DN/HKD cần tên, địa chỉ, MST; khách lẻ không bắt buộc CCCD); trường hợp 'người mua không lấy HĐ' / 'bán cho người tiêu dùng'; giá ghi trên HĐ hàng khuyến mại, biếu tặng, tiêu dùng nội bộ\nKhông gồm: giá tính thuế GTGT hàng khuyến mại → 3.6.2; thủ tục đăng ký khuyến mại → 1.5.1\nDễ nhầm với: 3.6.1.1 Quy định chung & loại hoá đơn — phân biệt: 3.6.1.3 là ghi gì lên từng tờ HĐ; 3.6.1.1 là loại HĐ và đối tượng áp dụng\nVí dụ thẻ: \"Xuất hóa đơn theo đúng loại người mua: khách kinh doanh phải đủ tên/địa chỉ/MST, khách…\"; \"5 trường hợp được ghi \"người mua không lấy hóa đơn\" khi xuất hóa đơn điện tử\"",
+  "cards": 3
+ },
+ {
+  "code": "3.6.1.4",
+  "parent_code": "3.6.1",
+  "parent_slug": "tckt.thue.hoa-don-dien-tu",
+  "slug": "tckt.thue.hoa-don-dien-tu.dieu-chinh-phat",
+  "name": "Sai sót, điều chỉnh & xử phạt",
+  "scope_note": "Gồm: huỷ, điều chỉnh, thay thế, thông báo sai sót HĐ (NĐ70, NĐ254) và kê khai lại; mức phạt không lập, lập sai thời điểm, sai nội dung (NĐ125, NĐ310); ranh giới không xuất HĐ với trốn thuế; hệ quả mất khấu trừ, loại chi phí\nKhông gồm: khai bổ sung tờ khai thuế nói chung → 3.6.7.2; 10 hành vi trốn thuế → 3.6.7.5\nDễ nhầm với: 3.6.1.5 Hoá đơn đầu vào & rủi ro — phân biệt: 3.6.1.4 là lỗi của chính DN khi lập HĐ bán ra; 3.6.1.5 là rủi ro từ HĐ nhận của người bán\nVí dụ thẻ: \"Điều chỉnh hóa đơn theo NĐ254/2026: sai kỹ thuật chỉ cần thông báo, sai bản chất mới cần…\"; \"Xử lý hóa đơn điện tử sai sót: khi nào hủy, điều chỉnh hay thay thế, và cách kê khai lại\"",
+  "cards": 6
+ },
+ {
+  "code": "3.6.1.5",
+  "parent_code": "3.6.1",
+  "parent_slug": "tckt.thue.hoa-don-dien-tu",
+  "slug": "tckt.thue.hoa-don-dien-tu.dau-vao",
+  "name": "Hoá đơn đầu vào & rủi ro",
+  "scope_note": "Gồm: tra cứu HĐ mua vào / bán ra trên hệ thống thuế; nhận diện HĐ khống, công ty ma, HĐ bất hợp pháp; rủi ro bên mua khi người bán lập sai thời điểm; cách tự bảo vệ khi đối tác bỏ trốn\nKhông gồm: điều kiện khấu trừ VAT đầu vào → 3.6.2; điều kiện chi phí được trừ → 3.6.3.3; hệ số K, cảnh báo rủi ro → 3.6.7.4\nDễ nhầm với: 3.7.1 Chứng từ hợp lệ & lưu trữ — phân biệt: 3.6.1.5 xét tính hợp pháp của HĐ theo luật thuế; 3.7.1 là lập, luân chuyển, lưu chứng từ nội bộ\nVí dụ thẻ: \"Cách tự tra cứu hóa đơn điện tử mua vào/bán ra trên hệ thống của Tổng cục Thuế để không…\"; \"Hóa đơn từ công ty ma: nhận diện giao dịch trực tiếp/gián tiếp và cách tự bảo vệ khi đối…\"",
+  "cards": 4
+ },
+ {
+  "code": "3.6.3.1",
+  "parent_code": "3.6.3",
+  "parent_slug": "tckt.thue.thue-tndn-chi-phi",
+  "slug": "tckt.thue.thue-tndn-chi-phi.luat-tndn",
+  "name": "Luật TNDN mới & thuế suất",
+  "scope_note": "Gồm: Luật TNDN 67/2025, NĐ320/2025, TT20/2026 (thay TT78/2014, TT96/2015); 3 mức thuế suất 15 – 17 – 20% theo doanh thu năm trước; danh mục chi phí được trừ mới mở rộng\nKhông gồm: ưu đãi, miễn thuế cho DN mới, DN nhỏ → 3.6.3.6; công thức thu nhập tính thuế → 3.6.3.2\nDễ nhầm với: 3.6.7.6 Luật QLT & cập nhật chính sách — phân biệt: 3.6.3.1 chỉ văn bản về thuế TNDN; 3.6.7.6 là luật quản lý thuế và tổng hợp chính sách nhiều sắc thuế\nVí dụ thẻ: \"Luật thuế TNDN sửa đổi từ 1/10/2025: 3 mức thuế suất 15-17-20% theo doanh thu năm trước\"; \"Luật Thuế TNDN 67/2025: mở rộng chi phí được trừ ở R&D, phúc lợi luật hóa và tài trợ hạ…\"",
+  "cards": 4
+ },
+ {
+  "code": "3.6.3.2",
+  "parent_code": "3.6.3",
+  "parent_slug": "tckt.thue.thue-tndn-chi-phi",
+  "slug": "tckt.thue.thue-tndn-chi-phi.tinh-thue",
+  "name": "Thu nhập tính thuế & tạm nộp",
+  "scope_note": "Gồm: công thức thu nhập tính thuế; lợi nhuận kế toán vs lợi nhuận tính thuế; thu nhập miễn thuế (cổ tức…); chuyển lỗ tối đa 5 năm; tạm nộp quý tối thiểu 80%; lỗ kế toán vẫn phải nộp thuế\nKhông gồm: điều kiện từng khoản chi được trừ → 3.6.3.3; thời hạn nộp tờ khai chung → 3.6.7.2\nDễ nhầm với: 3.3.1 Đọc & phân tích BCTC — phân biệt: 3.6.3.2 điều chỉnh lợi nhuận theo luật thuế; 3.3.1 đọc lợi nhuận kế toán để quản trị\nVí dụ thẻ: \"Thuế TNDN tính trên \"chi phí được trừ\" chứ không phải \"chi phí kế toán\" — sự khác biệt…\"; \"Doanh nghiệp lỗ kế toán vẫn phải nộp thuế TNDN, thậm chí lãi 10 tỷ có thể bị tính thuế…\"",
+  "cards": 5
+ },
+ {
+  "code": "3.6.3.3",
+  "parent_code": "3.6.3",
+  "parent_slug": "tckt.thue.thue-tndn-chi-phi",
+  "slug": "tckt.thue.thue-tndn-chi-phi.chi-phi-tru",
+  "name": "Điều kiện chi phí được trừ",
+  "scope_note": "Gồm: 3 lớp hợp lý – hợp lệ – hợp pháp; 3 điều kiện theo luật; hai cửa hoá đơn / bảng kê 02; thanh toán không dùng tiền mặt từ 5 triệu (mốc 20 → 5 triệu, NĐ320); chủ động loại chi phí không được trừ; hiệu ứng dây chuyền khi bị loại\nKhông gồm: quy tắc từng loại chi đặc thù → 3.6.3.4, 3.6.3.5; khấu trừ VAT đầu vào → 3.6.2\nDễ nhầm với: 3.7.1 Chứng từ hợp lệ & lưu trữ — phân biệt: 3.6.3.3 là tiêu chí thuế để chi phí được trừ; 3.7.1 là lập và lưu chứng từ\nVí dụ thẻ: \"3 lớp điều kiện để chi phí được trừ khi tính thuế TNDN: hợp lý, hợp lệ, hợp pháp\"; \"3 điều kiện chi phí được trừ và các khoản chi hay bị loại dù đủ hồ sơ (tính phù hợp, quản…\"",
+  "cards": 7
+ },
+ {
+  "code": "3.6.3.4",
+  "parent_code": "3.6.3",
+  "parent_slug": "tckt.thue.thue-tndn-chi-phi",
+  "slug": "tckt.thue.thue-tndn-chi-phi.chi-nhan-su",
+  "name": "Chi lương, khuyến mại & tài trợ",
+  "scope_note": "Gồm: điều kiện chi lương, thưởng, phụ cấp được trừ (6 lớp); trần phúc lợi 1 tháng lương; chi khuyến mại (đăng ký / thông báo, hạn mức 50%); chi quảng cáo sai sự thật; chi tài trợ\nKhông gồm: thuế TNCN của người lao động → 3.6.4; thiết kế cơ chế lương thưởng → 4.4\nDễ nhầm với: 3.6.3.5 Tài sản, lãi vay & tổn thất — phân biệt: 3.6.3.4 là chi cho con người và thị trường; 3.6.3.5 là chi gắn với tài sản, vốn vay, hàng hoá\nVí dụ thẻ: \"6 lớp điều kiện để chi lương thưởng, phụ cấp cho người lao động được tính chi phí được trừ\"; \"Chi phúc lợi cho người lao động: trần 1 tháng lương và bẫy \"gọi tên sai bản chất\" khiến…\"",
+  "cards": 5
+ },
+ {
+  "code": "3.6.3.5",
+  "parent_code": "3.6.3",
+  "parent_slug": "tckt.thue.thue-tndn-chi-phi",
+  "slug": "tckt.thue.thue-tndn-chi-phi.tai-san-vay",
+  "name": "Tài sản, lãi vay & tổn thất",
+  "scope_note": "Gồm: ô tô ≤ 9 chỗ (trần 1,6 tỷ); xăng dầu xe cá nhân dùng cho công ty; lãi vay (trần 30% EBITDA khi có giao dịch liên kết, vay bằng tài sản cá nhân); huỷ hàng tồn kho, thanh lý, tổn thất thiên tai; tiền thuê trả gộp phải phân bổ đúng kỳ\nKhông gồm: hồ sơ vay ngân hàng → 3.4.1; kê khai thuế thay cho chủ nhà cá nhân → 3.6.7.2\nDễ nhầm với: 3.6.3.3 Điều kiện chi phí được trừ — phân biệt: 3.6.3.3 là điều kiện chung; 3.6.3.5 là quy tắc riêng của từng loại chi\nVí dụ thẻ: \"Ô tô từ 9 chỗ trở xuống: nguyên giá và VAT khấu trừ tối đa 1,6 tỷ nếu không kinh doanh…\"; \"Chi phí xăng dầu xe cá nhân dùng cho công ty: không có cách \"hợp thức hóa\", chỉ có cách…\"",
+  "cards": 5
+ },
+ {
+  "code": "3.6.3.6",
+  "parent_code": "3.6.3",
+  "parent_slug": "tckt.thue.thue-tndn-chi-phi",
+  "slug": "tckt.thue.thue-tndn-chi-phi.uu-dai",
+  "name": "Miễn, giảm & ưu đãi TNDN",
+  "scope_note": "Gồm: miễn thuế 3 năm cho DN nhỏ và vừa mới thành lập (NQ198, NĐ20/2026, tiêu chí người đứng sau); ưu đãi khởi nghiệp sáng tạo; miễn TNDN doanh thu ≤ 1 tỷ (NĐ141/2026); quỹ phát triển KHCN; kê khai miễn thuế trên HTKK; việc cần làm trong thời gian được miễn\nKhông gồm: miễn thuế hộ kinh doanh → 3.6.6.3; gia hạn nộp thuế → 3.6.7.3\nDễ nhầm với: 3.6.7.3 Nộp thuế, gia hạn & nợ thuế — phân biệt: ưu đãi làm giảm số thuế; gia hạn chỉ lùi thời hạn nộp\nVí dụ thẻ: \"Miễn thuế TNDN 3 năm cho DN vừa và nhỏ mới thành lập theo Nghị quyết 198 và NĐ 20/2026\"; \"Miễn thuế TNDN 3 năm cho DN mới: xét theo người đứng sau doanh nghiệp, không phải theo…\"",
+  "cards": 7
+ },
+ {
+  "code": "3.6.6.1",
+  "parent_code": "3.6.6",
+  "parent_slug": "tckt.thue.ho-kinh-doanh-thue-san",
+  "slug": "tckt.thue.ho-kinh-doanh-thue-san.chon-mo-hinh",
+  "name": "Chọn HKD hay công ty",
+  "scope_note": "Gồm: tiêu chí so sánh HKD – công ty (khách hàng cuối, tỷ lệ VAT đầu vào, thuế trên doanh thu vs trên lãi, sổ sách, bảo hiểm); tình huống gara và HKD doanh thu lớn; thủ tục, ưu đãi khi chuyển HKD thành công ty\nKhông gồm: mở mới, đóng pháp nhân ở cấp tập đoàn → 5.1.4; chế độ thuế HKD chi tiết → 3.6.6.3\nDễ nhầm với: 5.2.4 Pháp nhân & quan hệ nội bộ tập đoàn — phân biệt: 3.6.6.1 là bài toán thuế của một cơ sở kinh doanh; 5.2.4 là cấu trúc pháp nhân tập đoàn\nVí dụ thẻ: \"Chọn hộ kinh doanh hay công ty cho gara theo doanh thu năm và cách tính thuế hộ kinh…\"; \"Hộ kinh doanh không khấu trừ được VAT đầu vào: ngưỡng VAT đầu vào quyết định mô hình nào…\"",
+  "cards": 8
+ },
+ {
+  "code": "3.6.6.2",
+  "parent_code": "3.6.6",
+  "parent_slug": "tckt.thue.ho-kinh-doanh-thue-san",
+  "slug": "tckt.thue.ho-kinh-doanh-thue-san.thue-khoan",
+  "name": "Thuế khoán & chuyển sang kê khai",
+  "scope_note": "Gồm: 3 phương pháp tính thuế HKD theo TT40/2021; lịch khai – nộp thuế khoán; rủi ro của khoán và của kê khai; đề án bỏ thuế khoán (QĐ3389) và việc chuẩn bị trước 01/01/2026 (kiểm kê tồn kho, tách tài khoản)\nKhông gồm: ngưỡng và cách tính thuế áp dụng từ 2026 → 3.6.6.3\nDễ nhầm với: 3.6.6.3 Ngưỡng & cách tính thuế 2026 — phân biệt: 3.6.6.2 là cơ chế khoán cũ và quá trình chuyển đổi; 3.6.6.3 là quy định đang áp dụng sau chuyển đổi\nVí dụ thẻ: \"Hộ kinh doanh có 3 phương pháp tính thuế: kê khai, kê khai từng lần và khoán — khoán…\"; \"Lịch khai và nộp thuế khoán hộ kinh doanh hằng năm: từ 20/11 kê khai đến thông báo nộp…\"",
+  "cards": 5
+ },
+ {
+  "code": "3.6.6.3",
+  "parent_code": "3.6.6",
+  "parent_slug": "tckt.thue.ho-kinh-doanh-thue-san",
+  "slug": "tckt.thue.ho-kinh-doanh-thue-san.nguong-2026",
+  "name": "Ngưỡng & cách tính thuế 2026",
+  "scope_note": "Gồm: nhóm doanh thu và phương pháp tính theo NĐ68/2026; NĐ141/2026 nâng ngưỡng miễn lên 1 tỷ; tính theo doanh thu hay lợi nhuận, ổn định phương pháp; GTGT trực tiếp của nhóm 3; dự thảo, đề xuất 17% và giảm 30%; cá nhân cho thuê bất động sản\nKhông gồm: sàn khấu trừ thay → 3.6.6.5; hoá đơn, sổ sách HKD → 3.6.6.4\nDễ nhầm với: 3.6.6.2 Thuế khoán & chuyển sang kê khai — phân biệt: 3.6.6.3 là quy định hiện hành sau khi bỏ khoán\nVí dụ thẻ: \"Nghị định 68/2026 hộ kinh doanh: phân nhóm doanh thu, hạn kê khai, ổn định phương pháp…\"; \"Nghị định 68/2026: bỏ ngưỡng miễn thuế 500 triệu, 3 mốc doanh thu hộ kinh doanh và căn cứ…\"",
+  "cards": 8
+ },
+ {
+  "code": "3.6.6.4",
+  "parent_code": "3.6.6",
+  "parent_slug": "tckt.thue.ho-kinh-doanh-thue-san",
+  "slug": "tckt.thue.ho-kinh-doanh-thue-san.hoa-don-hkd",
+  "name": "Hoá đơn & sổ sách HKD",
+  "scope_note": "Gồm: ngưỡng bắt buộc HĐĐT / HĐ máy tính tiền của HKD; xuất cho toàn bộ giao dịch; hàng tồn chưa có HĐ đầu vào; HĐ khi bán qua sàn (NĐ254); HĐ lẻ theo phương pháp tính thuế; sổ kế toán HKD (TT88 → TT152); tiêu chí HKD lớn\nKhông gồm: quy định HĐĐT chung của doanh nghiệp → 3.6.1; chế độ kế toán doanh nghiệp → 3.5.1\nDễ nhầm với: 3.6.1.1 Quy định chung & loại hoá đơn — phân biệt: 3.6.6.4 chỉ nghĩa vụ riêng của HKD, cá nhân kinh doanh\nVí dụ thẻ: \"Hộ kinh doanh doanh thu từ 1 tỷ/năm phải xuất hóa đơn điện tử từ máy tính tiền, nộp thuế…\"; \"Nghĩa vụ xuất hóa đơn của hộ kinh doanh: ngưỡng 1 tỷ, thời điểm và rủi ro khi không xuất\"",
+  "cards": 8
+ },
+ {
+  "code": "3.6.6.5",
+  "parent_code": "3.6.6",
+  "parent_slug": "tckt.thue.ho-kinh-doanh-thue-san",
+  "slug": "tckt.thue.ho-kinh-doanh-thue-san.thue-san",
+  "name": "Thuế sàn TMĐT & khấu trừ thay",
+  "scope_note": "Gồm: sàn khấu trừ, nộp thay thuế cho HKD/cá nhân (NĐ117/2025, từ 01/04/2025); tỷ lệ ~1,5% (1% GTGT + 0,5% TNCN); doanh thu tính thuế là tiền khách thanh toán chưa trừ phí sàn; nghĩa vụ còn lại sau khấu trừ (đối chiếu, thông báo doanh thu năm); bán ngoài sàn, COD và case truy thu, khởi tố\nKhông gồm: phí và chính sách sàn → 2.5.3; đối soát tiền sàn → 2.5.6; công ty bán trên sàn → 3.6.2, 3.6.3\nDễ nhầm với: 2.5.6 Đối soát & báo cáo sàn — phân biệt: 3.6.6.5 là nghĩa vụ thuế; 2.5.6 là khớp số tiền sàn chuyển về\nVí dụ thẻ: \"Nghị định 117/2025: 3 tổ chức khấu trừ, nộp thuế thay hộ kinh doanh trên sàn TMĐT; không…\"; \"Thuế bán hàng qua sàn thương mại điện tử: sàn khấu trừ và nộp thay, ngưỡng miễn thuế…\"",
+  "cards": 6
+ },
+ {
+  "code": "3.6.6.6",
+  "parent_code": "3.6.6",
+  "parent_slug": "tckt.thue.ho-kinh-doanh-thue-san",
+  "slug": "tckt.thue.ho-kinh-doanh-thue-san.dang-ky-mst",
+  "name": "Đăng ký, MST & kê khai HKD",
+  "scope_note": "Gồm: thành lập HKD, đăng ký thuế lần đầu; MST cá nhân vs HKD trên sàn (đuôi 888, số shop trên một CCCD); cập nhật CCCD – MST – tài khoản ngân hàng đúng chủ thể để rút tiền; 5 cách nộp tờ khai, thông báo tài khoản; kênh hỗ trợ kê khai (eTax Mobile, VNeID)\nKhông gồm: lịch khai thuế khoán → 3.6.6.2; lịch kê khai của doanh nghiệp → 3.6.7.2\nDễ nhầm với: 2.5.3 Chính sách & phí sàn — phân biệt: 3.6.6.6 là thủ tục thuế của người bán; 2.5.3 là quy định vận hành do sàn đặt ra\nVí dụ thẻ: \"Thành lập hộ kinh doanh: nơi nộp hồ sơ, thời hạn 3 ngày và mốc 10 ngày đăng ký thuế lần…\"; \"5 cách nộp tờ khai thuế của hộ kinh doanh và thủ tục thông báo tài khoản ngân hàng/ví…\"",
+  "cards": 6
+ },
+ {
+  "code": "3.6.7.1",
+  "parent_code": "3.6.7",
+  "parent_slug": "tckt.thue.ke-khai-quyet-toan",
+  "slug": "tckt.thue.ke-khai-quyet-toan.quan-tri-thue",
+  "name": "Quản trị thuế cho giám đốc",
+  "scope_note": "Gồm: vai trò giám đốc vs kế toán; kiểm soát thuế trước khi ký, chi, tuyển, đầu tư; khung quản trị thuế (4 bước; trước – trong – sau; 5 việc); câu hỏi khi thuế tăng, giảm bất thường; tối ưu thuế đúng luật\nKhông gồm: kiểm soát nội bộ, phân quyền chung → 3.7.3; quy trình thanh tra → 3.6.7.4\nDễ nhầm với: 3.7.3 Kiểm soát nội bộ & phân quyền — phân biệt: 3.6.7.1 chỉ rủi ro thuế phát sinh từ quyết định kinh doanh; 3.7.3 là hệ thống kiểm soát chung\nVí dụ thẻ: \"Giám đốc học thuế khác kế toán học thuế: học để hỏi đúng và chịu trách nhiệm, không phải…\"; \"Thuế là kết quả của quyết định kinh doanh: 4 việc giám đốc phải kiểm soát trước khi ký…\"",
+  "cards": 10
+ },
+ {
+  "code": "3.6.7.2",
+  "parent_code": "3.6.7",
+  "parent_slug": "tckt.thue.ke-khai-quyet-toan",
+  "slug": "tckt.thue.ke-khai-quyet-toan.han-ke-khai",
+  "name": "Kỳ, hạn & thủ tục kê khai",
+  "scope_note": "Gồm: kỳ tính thuế vs kỳ khai thuế; thời hạn nộp tờ khai tháng, quý, năm và khi trùng lễ Tết; mẫu tờ khai (TT80 → TT89); khai bổ sung trong 5 năm; lệ phí môn bài; mã định danh thay MST; kê khai thay khi thuê nhà của cá nhân\nKhông gồm: nộp tiền, gia hạn, phạt chậm nộp → 3.6.7.3; quyết toán TNCN → 3.6.4; kê khai của HKD → 3.6.6.6\nDễ nhầm với: 3.6.7.3 Nộp thuế, gia hạn & nợ thuế — phân biệt: 3.6.7.2 là nộp hồ sơ khai; 3.6.7.3 là nộp tiền thuế\nVí dụ thẻ: \"Phân biệt kỳ tính thuế và kỳ khai thuế để tránh kê khai sai kỳ khi thanh toán trễ\"; \"Khung thời hạn nộp hồ sơ khai thuế theo tháng/quý/năm và các mốc lưu ý hàng tháng\"",
+  "cards": 8
+ },
+ {
+  "code": "3.6.7.3",
+  "parent_code": "3.6.7",
+  "parent_slug": "tckt.thue.ke-khai-quyet-toan",
+  "slug": "tckt.thue.ke-khai-quyet-toan.nop-gia-han",
+  "name": "Nộp thuế, gia hạn & nợ thuế",
+  "scope_note": "Gồm: chứng từ nộp ngân sách (mã tiểu mục, thông báo chấp nhận); 2 loại phạt chậm nộp 0,03% và 0,05%/ngày; chính sách gia hạn qua các năm và NĐ245/2026; lập giấy đề nghị gia hạn trên eTax Mobile, HTKK; nợ thuế, cưỡng chế, cấm xuất cảnh\nKhông gồm: kế hoạch dòng tiền chung → 3.2.1; miễn, giảm thuế → 3.6.3.6, 3.6.6.3\nDễ nhầm với: 3.6.3.6 Miễn, giảm & ưu đãi TNDN — phân biệt: gia hạn chỉ lùi thời hạn, không giảm số thuế\nVí dụ thẻ: \"Tránh bị phạt oan khi nộp thuế: chọn đúng mã tiểu mục ngân sách và kiểm tra thông báo…\"; \"Cách tính 2 loại phạt chậm nộp: 0,05%/ngày với tờ khai/phạt hành chính, 0,03%/ngày với…\"",
+  "cards": 6
+ },
+ {
+  "code": "3.6.7.4",
+  "parent_code": "3.6.7",
+  "parent_slug": "tckt.thue.ke-khai-quyet-toan",
+  "slug": "tckt.thue.ke-khai-quyet-toan.thanh-tra",
+  "name": "Thanh tra, kiểm tra & ấn định",
+  "scope_note": "Gồm: chấm điểm, xếp hạng rủi ro; 20 dấu hiệu bất thường; hệ số K; quy trình 5 bước và trường hợp kiểm tra tại trụ sở; nội dung hay bị kiểm tra, hồ sơ chuẩn bị; 9 trường hợp ấn định thuế; thiệt hại thật sau truy thu\nKhông gồm: hành vi trốn thuế và chế tài → 3.6.7.5; kiểm soát nội bộ → 3.7.3\nDễ nhầm với: 3.6.7.5 Vi phạm, trốn thuế & xử phạt — phân biệt: 3.6.7.4 là quá trình cơ quan thuế kiểm tra; 3.6.7.5 là hành vi vi phạm và mức phạt\nVí dụ thẻ: \"Cơ quan thuế chọn doanh nghiệp kiểm tra dựa trên chấm điểm rủi ro, không phải doanh thu…\"; \"20 dấu hiệu bất thường trên báo cáo tài chính/tờ khai khiến doanh nghiệp bị thanh tra…\"",
+  "cards": 7
+ },
+ {
+  "code": "3.6.7.5",
+  "parent_code": "3.6.7",
+  "parent_slug": "tckt.thue.ke-khai-quyet-toan",
+  "slug": "tckt.thue.ke-khai-quyet-toan.tron-thue",
+  "name": "Vi phạm, trốn thuế & xử phạt",
+  "scope_note": "Gồm: 10 hành vi trốn thuế và phạt 1 – 3 lần; hai sổ kế toán và cách gộp sổ; MST trạng thái 06; tạm ngừng kinh doanh sai thủ tục; thời hiệu xử phạt 2 năm\nKhông gồm: phạt về hoá đơn → 3.6.1.4; phạt chậm nộp tiền thuế → 3.6.7.3\nDễ nhầm với: 3.7.5 Giao dịch liên kết & rủi ro pháp lý — phân biệt: 3.6.7.5 là vi phạm luật thuế; 3.7.5 là rủi ro pháp lý của giao dịch nội bộ\nVí dụ thẻ: \"10 hành vi bị coi là trốn thuế theo Luật Quản lý thuế mới, phạt 1-3 lần số tiền trốn\"; \"Dùng hai sổ kế toán không phải quản trị khéo mà là gian lận, kéo theo rủi ro thuế, pháp…\"",
+  "cards": 6
+ },
+ {
+  "code": "3.6.7.6",
+  "parent_code": "3.6.7",
+  "parent_slug": "tckt.thue.ke-khai-quyet-toan",
+  "slug": "tckt.thue.ke-khai-quyet-toan.chinh-sach-moi",
+  "name": "Luật QLT & cập nhật chính sách",
+  "scope_note": "Gồm: Luật Quản lý thuế 108/2025 và quản lý thuế bằng dữ liệu từ 1/7/2026; nguồn dữ liệu cơ quan thuế dùng (ngân hàng, HĐĐT, phần mềm kế toán); tổng hợp chính sách theo mốc hiệu lực; NQ198, NQ68; cách kiểm chứng nguồn tin thuế\nKhông gồm: văn bản riêng của từng sắc thuế → 3.6.1 – 3.6.6\nDễ nhầm với: 3.6.3.1 Luật TNDN mới & thuế suất — phân biệt: 3.6.7.6 là luật quản lý thuế và bản tin chính sách nhiều sắc thuế\nVí dụ thẻ: \"Quản lý thuế bằng dữ liệu từ 1/7/2026: Luật 108, NĐ252, TT89, NĐ291 và 6 việc doanh…\"; \"Nguồn dữ liệu cơ quan thuế dùng để xác định doanh thu: phần mềm kế toán, tài khoản ngân…\"",
+  "cards": 6
+ },
+ {
+  "code": "4.3.3.4",
+  "parent_code": "4.3.3",
+  "parent_slug": "hcns.dao-tao.ky-nang-ca-nhan",
+  "slug": "hcns.dao-tao.ky-nang-ca-nhan.chuyen-doi-su-nghiep",
+  "name": "Định hướng & chuyển đổi sự nghiệp",
+  "scope_note": "Gồm: đánh giá công việc hiện tại, quyết định đi hay ở, chuẩn bị năng lực trước khi nhảy việc, chọn môi trường và sếp, đổi việc giữa chừng sự nghiệp\nKhông gồm: thủ tục nghỉ việc, bàn giao → 4.6.4; thăng tiến trong công ty → 4.1.3; chọn nghề lúc bắt đầu → 0.4.1\nDễ nhầm với: 4.6.4 Nghỉ việc & bàn giao — phân biệt: cân nhắc có nên đi → 4.3.3.4; đã quyết đi thì làm thủ tục thế nào → 4.6.4\nVí dụ thẻ: \"Đánh giá công việc hiện tại qua 4 yếu tố: phát triển, thu nhập, môi trường, cân bằng cuộc…\"; \"Chuẩn bị năng lực và vị thế trước khi nhảy việc: 3 yếu tố thăng chức và 3 bước chuyển đổi…\"",
+  "cards": 10
+ },
+ {
+  "code": "5.4.1.1",
+  "parent_code": "5.4.1",
+  "parent_slug": "qltt.lanh-dao.tu-duy-lanh-dao",
+  "slug": "qltt.lanh-dao.tu-duy-lanh-dao.vai-tro",
+  "name": "Vai trò người đứng đầu",
+  "scope_note": "Gồm: lãnh đạo, chủ, giám đốc thực sự làm gì — 3 việc chia tiền, chia việc, đào tạo; điều hành khác vận hành; leader khác manager; chủ khác sếp làm thuê; năng lực người điều hành là trần của tổ chức; hiểu đủ để giám sát, thuê ngoài phần không giỏi.\nKhông gồm: kỹ thuật giao việc, uỷ quyền → 5.4.2; người mới lên quản lý, thế kẹt cấp trung → 5.4.4; ngưỡng phân quyền, quyền cổ đông → 5.2.2, 5.2.3.\nDễ nhầm với: 5.4.4 Quản lý cấp trung — phân biệt: 5.4.1.1 là vai trò của người đứng đầu nói chung; 5.4.4 là bài toán chuyển đổi và thế kẹt của người mới lên hoặc ở giữa.\nVí dụ thẻ: \"Gara chỉ lớn tới giới hạn năng lực của người điều hành: chủ đừng là người giỏi nhất, hãy…\"; \"Lãnh đạo có 3 việc chính: chia tiền, chia việc, đào tạo-dẫn dắt; càng nhỏ càng phải kiêm…\"",
+  "cards": 7
+ },
+ {
+  "code": "5.4.1.2",
+  "parent_code": "5.4.1",
+  "parent_slug": "qltt.lanh-dao.tu-duy-lanh-dao",
+  "slug": "qltt.lanh-dao.tu-duy-lanh-dao.phong-cach",
+  "name": "Phong cách quản trị",
+  "scope_note": "Gồm: chọn lối quản trị theo quy mô (tình cảm → quy trình → cơ chế, quy định thành văn), biết mình thiên leadership hay management để tìm người bổ khuyết, niềm tin vào con người (tháp nhân sự đảo ngược), chỉ can thiệp vào việc chứ không vào tính cách nhân viên.\nKhông gồm: tỷ lệ ân–uy, giữ uy → 5.4.1.3; tạo động lực, giữ người → 5.4.3; giá trị cốt lõi của tổ chức → 5.5.1.\nDễ nhầm với: 5.5.1 Giá trị cốt lõi & hành vi — phân biệt: 5.4.1.2 là lối quản trị của cá nhân người lãnh đạo; 5.5.1 là chuẩn hành vi chung của cả tổ chức.\nVí dụ thẻ: \"Quản trị gara theo quy mô: nhỏ dùng tình cảm, vừa dùng quy trình, lớn dùng cơ chế — và…\"; \"Biết mình là kiểu quản lý nào: phân biệt quản lý – quản trị, leadership – management, tự…\"",
+  "cards": 4
+ },
+ {
+  "code": "5.4.1.3",
+  "parent_code": "5.4.1",
+  "parent_slug": "qltt.lanh-dao.tu-duy-lanh-dao",
+  "slug": "qltt.lanh-dao.tu-duy-lanh-dao.giu-uy",
+  "name": "Giữ uy & cân bằng ân–uy",
+  "scope_note": "Gồm: tỷ lệ ân–uy (70/30), không dễ dãi trước rồi mới siết, mềm mỏng khác yếu đuối, được tôn trọng quan trọng hơn được yêu quý, giữ khoảng cách với nhân viên, sai lầm làm mất uy (quá hiền, né đối thoại khó), giữ uy trong tình huống hằng ngày.\nKhông gồm: quản lý mới xây uy với đội cũ → 5.4.4; xử lý chống lệnh, bè phái, kỷ luật → 5.4.5; phẩm chất tạo lòng tin → 5.4.1.4.\nDễ nhầm với: 5.4.1.4 Lòng tin & phẩm chất sếp — phân biệt: 5.4.1.3 là sự cứng rắn, nguyên tắc, giới hạn; 5.4.1.4 là sự chính trực, công bằng khiến nhân viên tin và đi theo.\nVí dụ thẻ: \"Ân – uy 70/30 khi quản lý đội sales: kỷ luật và quy trình trước, tình cảm sau, không dễ…\"; \"Giữ uy trong tình huống hằng ngày: sếp tự tuân thủ luật, nắm kênh thông báo, du di có…\"",
+  "cards": 5
+ },
+ {
+  "code": "5.4.1.4",
+  "parent_code": "5.4.1",
+  "parent_slug": "qltt.lanh-dao.tu-duy-lanh-dao",
+  "slug": "qltt.lanh-dao.tu-duy-lanh-dao.long-tin",
+  "name": "Lòng tin & phẩm chất sếp",
+  "scope_note": "Gồm: đặc điểm giúp sếp nhanh được tin (nhất quán, minh bạch, gương mẫu, dám đứng mũi chịu sào), 'sếp chơi đẹp' (ghi nhận đúng người, nhận lỗi trước, công bằng), sếp có tầm mà người giỏi muốn theo, ngôn từ và cách xưng hô của sếp.\nKhông gồm: ân–uy, giữ khoảng cách → 5.4.1.3; ghi nhận, khen thưởng như công cụ tạo động lực → 5.4.3, 5.5.3.\nDễ nhầm với: 5.4.3 Tạo động lực & giữ người (Gen Z) — phân biệt: 5.4.1.4 là phẩm chất của chính người sếp; 5.4.3 là cơ chế, hành động để giữ và thúc đẩy nhân viên.\nVí dụ thẻ: \"Người giỏi kỳ vọng gì ở sếp: tấm gương về ra quyết định, chịu trách nhiệm, nhìn xa\"; \"3 đặc điểm giúp một người sếp nhanh chóng chiếm được lòng tin của nhân viên\"",
+  "cards": 4
+ },
+ {
+  "code": "5.4.1.5",
+  "parent_code": "5.4.1",
+  "parent_slug": "qltt.lanh-dao.tu-duy-lanh-dao",
+  "slug": "qltt.lanh-dao.tu-duy-lanh-dao.quyet-dinh",
+  "name": "Quyết định & tự quản trị",
+  "scope_note": "Gồm: ra quyết định là việc chính của sếp (đủ dữ liệu, quyết nhanh, không né xung đột), hỏi 'để làm gì' trước khi đặt mục tiêu, tách cảm xúc khỏi quyết định, xin feedback ngược để thấy điểm mù, quản trị khối lượng việc và sự cân bằng của người lãnh đạo.\nKhông gồm: ngưỡng duyệt, uỷ quyền quyết định → 5.2.2; đặt OKR / KPI công ty → 5.3.1; quản lý thời gian của nhân viên → 4.3.3.2.\nDễ nhầm với: 4.3.3.2 Quản lý thời gian & hiệu suất cá nhân — phân biệt: 5.4.1.5 là tự quản trị ở vai trò lãnh đạo (quyết định, uỷ thác, cân bằng); 4.3.3.2 là kỹ năng cá nhân của mọi nhân viên.\nVí dụ thẻ: \"3 điều để làm sếp vừa bản lĩnh vừa hạnh phúc: quản trị khối lượng việc, tối ưu kết quả…\"; \"Lãnh đạo quyết đoán như một thuyền trưởng, nhưng phải tự hỏi \"để làm gì\" trước khi ra mục…\"",
+  "cards": 4
+ },
+ {
+  "code": "5.7.3.1",
+  "parent_code": "5.7.3",
+  "parent_slug": "qltt.he-thong.ai-tu-dong-hoa",
+  "slug": "qltt.he-thong.ai-tu-dong-hoa.nen-tang-agent",
+  "name": "Nền tảng & kiến trúc agent",
+  "scope_note": "Gồm: phân biệt chatbot – workflow – agent, vòng xử lý của agent, các thành phần Skill – Tool / MCP – Memory – Rule – Hook – Schedule, thiết kế và onboarding một agent, chọn nền tảng đa agent hay coding agent (Claude Code, Codex).\nKhông gồm: Memory, kho tri thức, đóng gói skill từ kinh nghiệm → 5.7.3.2; ghép nhiều agent thành đội → 5.7.3.3; agent cho từng phòng ban → 5.7.3.5.\nDễ nhầm với: 5.7.3.3 Đội agent & tổ chức AI — phân biệt: 5.7.3.1 là cấu tạo và cách dựng một agent; 5.7.3.3 là cách nhiều agent và người ghép thành bộ máy.\nVí dụ thẻ: \"3 cấp độ dùng AI: Chatbot trả lời câu hỏi, Workflow chạy quy trình cố định, Agent tự lập…\"; \"AI Agent hành động thật nhờ được cấp quyền đọc/sửa file, chạy code, gọi API — khác hẳn…\"",
+  "cards": 9
+ },
+ {
+  "code": "5.7.3.2",
+  "parent_code": "5.7.3",
+  "parent_slug": "qltt.he-thong.ai-tu-dong-hoa",
+  "slug": "qltt.he-thong.ai-tu-dong-hoa.tri-thuc",
+  "name": "Kho tri thức & đào tạo",
+  "scope_note": "Gồm: Memory khác Knowledge Vault, đóng gói cách làm tốt thành Skill dùng chung, 'bộ não doanh nghiệp', liên kết ngữ cảnh markdown / wiki cho agent; agent dựng giáo trình, FAQ, onboarding nhân viên mới, AI mentor, đóng vai luyện tình huống.\nKhông gồm: onboarding chính agent → 5.7.3.1; hệ thống, lộ trình đào tạo không gắn AI → 4.3.1; công cụ VCWIKI → 5.7.4; chuẩn hoá dữ liệu nguồn → 5.7.2.\nDễ nhầm với: 4.3.1 Hệ thống đào tạo nội bộ, wiki & lộ trình học — phân biệt: 5.7.3.2 là dùng agent / AI để lưu, tra cứu và dạy tri thức; 4.3.1 là thiết kế hệ thống đào tạo nói chung.\nVí dụ thẻ: \"Memory của AI Agent chỉ nên lưu đúng vai trò, mục tiêu, quyết định và tiêu chuẩn — không…\"; \"Knowledge Vault: kho tri thức chính thức để AI Agent tra cứu, thay vì nhồi hết dữ liệu…\"",
+  "cards": 9
+ },
+ {
+  "code": "5.7.3.3",
+  "parent_code": "5.7.3",
+  "parent_slug": "qltt.he-thong.ai-tu-dong-hoa",
+  "slug": "qltt.he-thong.ai-tu-dong-hoa.doi-agent",
+  "name": "Đội agent & tổ chức AI",
+  "scope_note": "Gồm: mỗi vai trò một agent dùng chung dữ liệu, AI Leader điều phối và quy trình bàn giao, điều kiện có 'phòng ban AI' thật, doanh nghiệp một người (OPC), thử agent trước khi tuyển thêm người, team nhỏ phủ thêm kênh / phân khúc nhờ AI.\nKhông gồm: cấu tạo một agent → 5.7.3.1; lộ trình đưa AI vào quy trình, phân vai người – AI → 5.7.3.4; định biên nhân sự → 4.1.1.\nDễ nhầm với: 5.7.3.4 Triển khai & phối hợp người–AI — phân biệt: 5.7.3.3 là mô hình bộ máy (agent nào, ai làm gì); 5.7.3.4 là cách đưa AI vào quy trình đang chạy và quản trị thay đổi.\nVí dụ thẻ: \"Mỗi nhân sự một AI Agent riêng theo vai trò, cùng dùng chung một nguồn dữ liệu tổ chức\"; \"Quy mô doanh nghiệp AI Agent quyết định bởi chất lượng workflow, không phải số lượng Agent\"",
+  "cards": 9
+ },
+ {
+  "code": "5.7.3.4",
+  "parent_code": "5.7.3",
+  "parent_slug": "qltt.he-thong.ai-tu-dong-hoa",
+  "slug": "qltt.he-thong.ai-tu-dong-hoa.trien-khai",
+  "name": "Triển khai & phối hợp người–AI",
+  "scope_note": "Gồm: đồng bộ AI giữa các phòng ban, thiết kế lại workflow thay vì gắn AI vào quy trình cũ, phân vai người – AI, nguyên tắc và câu hỏi trước khi giao việc cho agent, văn hoá triển khai từ lãnh đạo, vì sao agent thất bại, AI thay đổi yêu cầu năng lực từng nghề (vd kế toán).\nKhông gồm: điểm phê duyệt rủi ro cao, pháp lý AI → 5.7.3.6; thiết kế quy trình không gắn AI → 5.6.1; phân quyền dữ liệu → 5.7.5.\nDễ nhầm với: 5.6.1 Thiết kế quy trình & SOP — phân biệt: 5.7.3.4 là thiết kế lại quy trình khi có agent tham gia; 5.6.1 là phương pháp SOP chung.\nVí dụ thẻ: \"Triển khai AI Agent lẻ tẻ theo phòng ban tạo điểm nghẽn; cần đồng bộ toàn tổ chức\"; \"Văn hoá triển khai AI Agent phải bắt đầu từ lãnh đạo; cắt giảm nhân sự lâu năm quá sớm có…\"",
+  "cards": 8
+ },
+ {
+  "code": "5.7.3.5",
+  "parent_code": "5.7.3",
+  "parent_slug": "qltt.he-thong.ai-tu-dong-hoa",
+  "slug": "qltt.he-thong.ai-tu-dong-hoa.ung-dung",
+  "name": "Ứng dụng theo phòng ban",
+  "scope_note": "Gồm: agent cho marketing (brief và sản xuất content, flow marketing, theo dõi đối thủ), bán hàng (Sale Agent, rà CRM nhắc follow-up), kế toán (rà hoá đơn, nhắc công nợ), nhân sự – vận hành (báo cáo chấm công bất thường), điều hành (thư ký họp).\nKhông gồm: đào tạo, onboarding, kho tri thức → 5.7.3.2; nguyên tắc chống bịa của agent CSKH và các rủi ro → 5.7.3.6; nghiệp vụ marketing, bán hàng không gắn AI → 1, 2.\nDễ nhầm với: 1.3.6 Email, Zalo, CRM automation — phân biệt: 1.3.6 là tự động hoá kênh theo kịch bản cố định; 5.7.3.5 là agent tự nghiên cứu, soạn, theo dõi theo mục tiêu.\nVí dụ thẻ: \"Brief AI Content đúng cách: nghiên cứu thị trường, đối thủ, kênh, khách hàng trước khi để…\"; \"Quy trình AI Content end-to-end: đề xuất ý tưởng định kỳ, viết nháp, dựng video, đăng đa…\"",
+  "cards": 10
+ },
+ {
+  "code": "5.7.3.6",
+  "parent_code": "5.7.3",
+  "parent_slug": "qltt.he-thong.ai-tu-dong-hoa",
+  "slug": "qltt.he-thong.ai-tu-dong-hoa.rui-ro",
+  "name": "Rủi ro & tuân thủ AI",
+  "scope_note": "Gồm: Human in the Loop — người duyệt ở bước liên quan tiền, dữ liệu khách, thương hiệu, khó hoàn tác; agent không được đoán, phải tra nguồn chính thức; rủi ro theo năng lực người dùng; pháp lý AI (Luật Trí tuệ nhân tạo, danh mục hệ thống rủi ro cao theo QĐ 33/2026).\nKhông gồm: phân quyền, bảo mật dữ liệu cho agent → 5.7.5; rủi ro & tuân thủ chung của doanh nghiệp → 5.6.4.\nDễ nhầm với: 5.7.5 Bảo mật & phân quyền dữ liệu — phân biệt: 5.7.5 là ai / agent được truy cập dữ liệu nào; 5.7.3.6 là kiểm soát đầu ra, điểm phê duyệt và tuân thủ pháp luật về AI.\nVí dụ thẻ: \"Human in the Loop: đặt con người vào điểm quyết định rủi ro cao (tiền, dữ liệu khách…\"; \"Giới hạn của AI Agent nằm ở người dùng: kiến thức nền, 3 kiểu người dùng và rủi ro tương…\"",
+  "cards": 4
+ }
+]

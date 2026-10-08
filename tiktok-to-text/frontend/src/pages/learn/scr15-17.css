@@ -1,0 +1,57 @@
+/* SCR-15 Học tập của tôi, SCR-17 Làm bài + Chấm bài (UI-3 nhánh b-learn) — chỉ token, tiền tố lm- / gr-; bố cục
+   chia đôi của Chấm bài dùng lại .rv-split / .rv-pane (components.css, mẫu TPL-A2). */
+.lm-section { display: flex; flex-direction: column; gap: var(--sp-3); margin-bottom: var(--sp-5); }
+.lm-section > h2 { margin: var(--sp-2) 0 0; font-size: var(--fs-md); color: var(--muted); font-weight: 600; }
+.lm-list { display: flex; flex-direction: column; gap: var(--sp-3); }
+.lm-card { display: flex; flex-direction: column; gap: var(--sp-3); }
+.lm-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: var(--sp-3); }
+.lm-title { margin: 0; font-size: var(--fs-lg); line-height: var(--lh-lg); overflow-wrap: anywhere; }
+.lm-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px var(--sp-3); color: var(--muted); font-size: var(--fs-sm); margin-top: var(--sp-1); }
+.lm-due[data-tone='warn'] { color: var(--warn); font-weight: 600; }
+.lm-due[data-tone='bad'] { color: var(--bad); font-weight: 600; }
+.lm-progress { display: flex; flex-direction: column; gap: var(--sp-1); max-width: 420px; }
+.lm-progress-text { font-size: var(--fs-sm); color: var(--muted); }
+.lm-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.lm-actions a.ui-btn, .lm-actions .ui-btn { text-decoration: none; }
+.lm-result { font-size: var(--fs-md); }
+.lm-week { margin: var(--sp-2) 0 0; }
+.lm-week ul { list-style: none; margin: var(--sp-1) 0 0; padding: 0; }
+.lm-lesson { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); padding: 3px 0; }
+.lm-done { color: var(--good); }
+.lm-desc { margin: 0; color: var(--muted); }
+.lm-sample { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-bottom: var(--sp-4); }
+.lm-sample-btns { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+@media (max-width: 720px) {
+  .lm-actions .ui-btn-primary { width: 100%; justify-content: center; }
+}
+
+/* Làm bài */
+.lt-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-4); }
+.lt-saved { color: var(--muted); font-size: var(--fs-sm); }
+.lt-notes { margin: var(--sp-2) 0 0; }
+.lt-qhead-focus:focus { outline: none; }
+
+/* Chấm bài */
+.gr-list .ui-table td, .gr-list .ui-table tbody th { vertical-align: top; }
+.gr-col-status { white-space: nowrap; }
+.gr-col-status .ui-badge + .ui-badge { margin-left: 4px; }
+.gr-sub { display: block; color: var(--muted); font-size: var(--fs-sm); }
+.gr-split.is-wide .gr-col-path, .gr-split.is-wide .gr-col-when { display: none; }   /* cột trái gọn: lộ trình, giờ nộp xem ở khung chấm */
+.gr-pane-meta { display: flex; flex-wrap: wrap; gap: 4px var(--sp-3); color: var(--muted); font-size: var(--fs-sm); }
+.gr-body { display: flex; flex-direction: column; gap: var(--sp-4); }
+.gr-q { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-3) var(--sp-4); border: 1px solid var(--border); border-radius: var(--r-md); background: var(--surface); }
+.gr-q-head { display: flex; justify-content: space-between; gap: var(--sp-3); align-items: flex-start; }
+.gr-q-stem { font-weight: 600; overflow-wrap: anywhere; }
+.gr-essay { white-space: pre-wrap; padding: var(--sp-2) var(--sp-3); background: var(--surface-2); border-radius: var(--r-md); overflow-wrap: anywhere; }
+.gr-score-row { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: flex-end; }
+.gr-score-row label { display: flex; flex-direction: column; gap: var(--sp-1); font-size: var(--fs-sm); }
+.gr-score-row input { width: 100px; }
+.gr-score-row .gr-reason { flex: 1 1 260px; }
+.gr-score-row .gr-reason input { width: 100%; }
+.gr-feedback { display: flex; flex-direction: column; gap: var(--sp-2); }
+.gr-feedback textarea { width: 100%; }
+.gr-total { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--sp-2) var(--sp-4); }
+.gr-foot { display: flex; flex-direction: column; gap: var(--sp-2); }
+.gr-foot-row { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); align-items: center; justify-content: flex-end; }
+.gr-rubric { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.gr-rubric th, .gr-rubric td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }

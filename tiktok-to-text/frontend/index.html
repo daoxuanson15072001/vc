@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VC Content Engine</title>
+    <meta name="description" content="VC Content Engine — Kho tư liệu, VCWIKI, nội dung marketing và học tập của VC Phồn Vinh" />
+    <meta name="application-name" content="VC Content Engine" />
+    <!-- Trang sau đăng nhập không cho máy tìm kiếm index (SEO-01); cổng công khai /p/… render riêng ở BE -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#c81e4a" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)" />
+    <!-- Xem trước khi dán link (SEO-05) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="VC Content Engine" />
+    <meta property="og:title" content="VC Content Engine" />
+    <meta property="og:description" content="Kho tư liệu, VCWIKI, nội dung marketing và học tập của VC Phồn Vinh" />
+    <meta property="og:image" content="/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="VC Content Engine" />
+    <meta name="twitter:image" content="/og.png" />
+    <!-- Bản thuần văn bản của Hướng dẫn sử dụng cho AI / công cụ không chạy JS: /guide.md, /guide/<id>.md, /api/guide -->
+    <link rel="alternate" type="text/markdown" href="/guide.md" title="Hướng dẫn sử dụng (Markdown)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- Giao diện Sáng / Tối người dùng đã chọn (theme.js): đặt trước khi vẽ để không chớp màu -->
+    <script>
+      try { var t = localStorage.getItem('vc-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t) } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

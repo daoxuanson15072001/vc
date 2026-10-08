@@ -1,0 +1,107 @@
+# Khoá đào tạo mẫu cho /learn — quản lý đội ngũ cho trưởng nhóm mới.
+# Đọc bởi backend/app/learn/sample.py (script: backend/scripts/seed_sample_course.py). Idempotent theo sample_key.
+# Đổi danh sách thẻ = đổi khoá: tăng sample_key (truong-nhom-moi-v2) rồi chạy seed --reset nếu muốn thay bản cũ.
+# audience.function `quan-ly` (trưởng nhóm mọi chức năng) — danh mục org_functions hiện trống nên chưa đối chiếu được
+# mã chuẩn; đổi lại khi danh mục chức năng có mã chính thức.
+# Loại thẻ → câu sinh (2 câu/thẻ): 16 framework/concept → 16 single + 16 multi → đủ cho ma trận 8 single / 7 multi.
+
+sample_key: truong-nhom-moi-v1
+title: Quản lý đội ngũ cho trưởng nhóm mới
+description: >-
+  Khoá mẫu 4 tuần cho trưởng nhóm mới lên chức (cấp bậc 4, mảng Quản trị tổ chức) ở mọi division. Sau 4 tuần bạn
+  hiểu rõ vai trò mới, giao việc kèm tiêu chuẩn kết quả, xây uy tín với nhân sự cũ, ghi nhận và giữ người, xử lý
+  phản biện, xung đột và đặt luật chơi cho nhóm. Khoảng 3 giờ mỗi tuần: đọc bài, luyện tập, cuối khoá thi 15 câu
+  trắc nghiệm + 2 câu tự luận tình huống đội nhóm (30 phút, đạt từ 70%).
+learner: trưởng nhóm mới lên quản lý đội ngũ   # người đọc phần diễn giải bài (AI)
+audience:
+  function: quan-ly
+  level: 4
+  category: qltt
+  division: [tap-doan]
+hours_per_week: 3
+enroll_days: 28            # hạn = ngày giao / tự ghi danh + 28 ngày, 23:59 giờ VN
+org_space: Kho video TikTok  # bài học + câu hỏi nằm ở kho org này
+questions_per_card: 2
+
+weeks:
+  - week: 1
+    title: Vào vai trưởng nhóm
+    lessons:
+      - title: Hiểu vai trò mới
+        cards: [6ab69a52f3ad31ef11df0b60, 6ab69e09f3ad31ef11df0bf0]
+      - title: Những việc đầu tiên khi nhận nhóm
+        cards: [6ab69a66f3ad31ef11df0b65, 6ab69aadf3ad31ef11df0b76]
+  - week: 2
+    title: Giao việc & uỷ thác
+    lessons:
+      - title: Giao việc kèm tiêu chuẩn kết quả
+        cards: [6ab69516f3ad31ef11df0b29, 6ab699adf3ad31ef11df0b3b]
+      - title: Uỷ thác và huấn luyện hành vi
+        cards: [6ab69cd4f3ad31ef11df0bb8, 6ab4bb16b1c921b0a784dc56]
+  - week: 3
+    title: Uy tín & động lực
+    lessons:
+      - title: Xây uy tín với đội ngũ
+        cards: [6ab69f97f3ad31ef11df0c39, 6ab4bbf3b1c921b0a784dc8a]
+      - title: Ghi nhận và giữ người
+        cards: [6ab4bb64b1c921b0a784dc69, 6ab4bbf1b1c921b0a784dc89]
+  - week: 4
+    title: Phản biện, xung đột & luật chơi
+    lessons:
+      - title: Phản biện và xung đột
+        cards: [6ab69eebf3ad31ef11df0c1b, 6ab69cb0f3ad31ef11df0bb0]
+      - title: Luật chơi của nhóm và quyết định giữ người
+        cards: [6ab4bbd8b1c921b0a784dc84, 6ab69e22f3ad31ef11df0bf4]
+
+# Đọc thêm: không tính điểm, không sinh câu hỏi — gắn vào bài cuối cùng.
+reading_cards: [6ab69e9ff3ad31ef11df0c0f]
+
+exam:
+  duration_min: 30
+  pass_score: 70
+  attempts: 1
+  # 15 trắc nghiệm rút từ câu gắn 16 thẻ; 2 tự luận là đúng 2 câu tình huống đội nhóm bên dưới (độ khó 5 — câu sinh
+  # theo thẻ bị giới hạn độ khó ≤ 4 nên dòng tự luận độ khó 5 chỉ rút trúng 2 câu này).
+  blueprint:
+    - {kind: single, count: 8}
+    - {kind: multi, count: 7}
+    - {kind: essay, difficulty: 5, count: 2}
+  essays:
+    - stem: >-
+        Bạn vừa được đề bạt trưởng nhóm kinh doanh 6 người ở VCpart. Anh Tuấn — lớn tuổi hơn, thâm niên lâu nhất và
+        từng mong lên vị trí này — trong buổi họp đầu tiên cãi lại kế hoạch của bạn trước cả nhóm: "Cách này anh làm
+        rồi, không ăn thua". Sau họp, hai bạn khác bắt đầu than phiền theo. Trình bày cách bạn xử lý trong 2 tuần
+        tới.
+      cards: [6ab69f97f3ad31ef11df0c39, 6ab69eebf3ad31ef11df0c1b, 6ab4bbd8b1c921b0a784dc84]
+      rubric:
+        - {criterion: Phân biệt phản biện có cơ sở hay cái tôi, max: 3, descriptor: "Trao đổi 1-1, hỏi căn cứ: thông tin từ đâu, vì sao chắc chắn, giải pháp của anh là gì, rủi ro nếu sai; ghi nhận nếu có cơ sở"}
+        - {criterion: Xây uy tín bằng việc chứng minh được, max: 3, descriptor: "Không gồng quyền lực; cá nhân hoá cách dẫn dắt từng người, xắn tay gỡ một việc đang bí, minh bạch cách mình phản ứng"}
+        - {criterion: Đặt luật chơi cho cả nhóm, max: 3, descriptor: "Luật giao tiếp: nêu vấn đề kèm tối thiểu 2 giải pháp, đã thống nhất thì làm theo, không phát ngôn tiêu cực; công bố mục tiêu và tiêu chuẩn kết quả"}
+        - {criterion: Giữ bình tĩnh và nhất quán, max: 1, descriptor: "Không phản ứng cảm xúc trước cả nhóm, không trù dập; áp luật như nhau cho mọi người"}
+      model_answer: >-
+        Không tranh cãi tiếp trước cả nhóm; hẹn anh Tuấn nói chuyện 1-1 ngay trong tuần. Trong buổi 1-1 hỏi để phân
+        biệt phản biện có cơ sở hay cái tôi: anh đã làm cách này ở đâu, khi nào, số liệu ra sao; giải pháp anh đề
+        xuất là gì; rủi ro nếu cách của anh sai. Nếu anh có căn cứ thì ghi nhận công khai và đưa vào kế hoạch — người
+        phản biện có kiến thức là tài sản; nếu chỉ là cái tôi thì nói rõ kỳ vọng. Xây uy tín bằng việc chứng minh:
+        gặp riêng từng người để hiểu mục tiêu, điểm mạnh; xắn tay cùng nhóm gỡ một khách / đơn đang bí. Đặt luật chơi
+        trong buổi họp tiếp theo: ai nêu vấn đề phải kèm ít nhất 2 giải pháp, đã thống nhất thì làm theo, không phát
+        ngôn tiêu cực; công bố mục tiêu và tiêu chuẩn kết quả của từng người; áp dụng nhất quán cho cả nhóm, kể cả
+        chính mình.
+    - stem: >-
+        Chị Mai là người giỏi nhất nhóm nhưng hai lần liên tiếp nộp báo cáo khách hàng trễ hạn và thiếu số liệu.
+        Bạn đang có xu hướng tự làm lại cho nhanh. Trình bày cách bạn giao lại việc này cho chị Mai (nội dung giao,
+        tiêu chuẩn, mốc kiểm tra), mức độ can thiệp phù hợp, và cách ghi nhận khi chị làm tốt.
+      cards: [6ab69516f3ad31ef11df0b29, 6ab69cd4f3ad31ef11df0bb8, 6ab4bb64b1c921b0a784dc69]
+      rubric:
+        - {criterion: Giao đề bài và tiêu chuẩn kết quả rõ, max: 3, descriptor: "Nêu rõ báo cáo cần số liệu nào, định dạng, hạn nộp; giao đích đến, không vẽ sẵn cách làm; hỏi lại nguyên nhân trễ lần trước"}
+        - {criterion: Uỷ thác thay vì ôm việc, max: 3, descriptor: "Không tự làm lại; chỉ đạo rõ → nhân viên tự chịu trách nhiệm → giảm can thiệp vi mô; biết ôm việc chặn đường phát triển của cả hai"}
+        - {criterion: Mốc kiểm tra phù hợp, max: 2, descriptor: "Đặt mốc cập nhật định kỳ (vd giữa kỳ) thay vì kiểm từng chi tiết; có phương án khi vẫn không đạt"}
+        - {criterion: Ghi nhận cụ thể, max: 2, descriptor: "Khen nỗ lực / kết quả cụ thể, không khen chung chung; chúc mừng rồi nêu ngay bước tiếp theo"}
+      model_answer: >-
+        Không làm lại thay — sếp ôm việc thì không đào tạo được ai và tự chặn đường của mình. Gặp chị Mai hỏi vì sao
+        hai lần trễ (quá tải, chưa rõ yêu cầu hay thiếu dữ liệu), rồi giao lại có tiêu chuẩn: báo cáo gồm những số
+        liệu nào, theo mẫu nào, nộp trước giờ nào ngày nào; giao đích đến, để chị tự chọn cách làm. Vì chị là người
+        giỏi, đi theo chuỗi chỉ đạo rõ ràng → chị tự chịu trách nhiệm → mình giảm can thiệp: chỉ đặt một mốc cập nhật
+        giữa kỳ, không soát từng dòng; nếu vẫn không đạt thì trao đổi lại về phạm vi công việc. Khi chị nộp đúng hạn,
+        đủ số liệu: khen cụ thể ("báo cáo lần này có đủ công nợ từng khách, nộp sớm một ngày"), chúc mừng rồi nêu
+        ngay bước tiếp theo, ví dụ nhờ chị hướng dẫn mẫu báo cáo cho bạn mới.

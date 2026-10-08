@@ -1,0 +1,8 @@
+{
+  "name": "vclinks-zalo-farm-direct",
+  "private": true,
+  "description": "Pinned dependencies of the máy Zalo direct mode (zca-js). Installed with npm ci in tools/chrome-driver/farm/Dockerfile.",
+  "dependencies": {
+    "zca-js": "2.2.0"
+  }
+}

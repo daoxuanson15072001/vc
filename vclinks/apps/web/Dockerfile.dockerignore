@@ -1,0 +1,7 @@
+# BuildKit picks this up for `-f apps/web/Dockerfile` (paths relative to the repo root context).
+**/node_modules
+**/dist
+.git
+apps/api
+apps/extension
+workers

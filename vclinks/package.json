@@ -1,0 +1,31 @@
+{
+  "name": "vclinks",
+  "private": true,
+  "packageManager": "pnpm@9.14.4",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "pnpm --filter \"./packages/*\" build && pnpm --filter \"./apps/*\" build",
+    "test": "pnpm -r test && node --test tools/chrome-driver/test",
+    "typecheck": "pnpm --filter \"./packages/*\" build && pnpm -r typecheck",
+    "dev:api": "pnpm --filter @vclinks/api dev",
+    "dev:web": "pnpm --filter @vclinks/web dev",
+    "dev:ext": "pnpm --filter @vclinks/shared build && pnpm --filter @vclinks/extension watch",
+    "infra:up": "docker compose up -d mongo redis minio",
+    "token:create": "pnpm --filter @vclinks/api token:create",
+    "driver": "tools/chrome-driver/driver.sh",
+    "driver:config": "node tools/chrome-driver/driver-config.js",
+    "fleet": "node tools/chrome-driver/fleet.js",
+    "watchdog": "node tools/chrome-driver/watchdog.js",
+    "test:e2e": "pnpm --filter \"./packages/*\" build && pnpm --filter @vclinks/api test:e2e",
+    "seed:org": "pnpm --filter @vclinks/shared build && pnpm --filter @vclinks/api build && node tools/seed/seed-org.js",
+    "uat:m1b": "pnpm --filter @vclinks/shared build && pnpm --filter @vclinks/api build && node tools/seed/uat-m1b-env.js",
+    "seed:thu": "node tools/seed/tai-khoan-thu.js",
+    "seed:td": "pnpm --filter @vclinks/shared build && pnpm --filter @vclinks/api build && node tools/seed/seed-td.js",
+    "ci:local": "pnpm typecheck && pnpm test && pnpm test:e2e"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.60.0"
+  }
+}

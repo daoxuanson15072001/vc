@@ -1,0 +1,96 @@
+# Khoá đào tạo mẫu cho /learn — yêu cầu 6ab889cd…9949de mục 1 (anh Thọ Anh chốt 16 thẻ, 27/09/2026).
+# Đọc bởi backend/app/learn/sample.py (script: backend/scripts/seed_sample_course.py). Idempotent theo sample_key.
+# Đổi danh sách thẻ = đổi khoá: tăng sample_key (nvkd-b2b-v2) rồi chạy seed --reset nếu muốn thay bản cũ.
+
+sample_key: nvkd-b2b-v1
+title: Kỹ năng bán hàng B2B cho NVKD mới
+description: >-
+  Khoá mẫu 4 tuần cho nhân viên kinh doanh VCpart mới (cấp bậc 2, mảng Bán hàng). Sau 4 tuần bạn tự lên kế hoạch
+  cuộc gặp khách và xử lý 3 dạng từ chối phổ biến của chủ gara. Khoảng 3 giờ mỗi tuần: đọc bài, luyện tập, cuối khoá
+  thi 15 câu trắc nghiệm + 2 câu tự luận tình huống gara (30 phút, đạt từ 70%).
+learner: nhân viên kinh doanh mới bán phụ tùng ô tô cho chủ gara   # người đọc phần diễn giải bài (AI)
+audience:
+  function: kinh-doanh
+  level: 2
+  category: bh
+  division: [vcpart, tap-doan]
+hours_per_week: 3
+enroll_days: 28            # hạn = ngày giao / tự ghi danh + 28 ngày, 23:59 giờ VN
+require_org_space: true     # yêu cầu 9949de: 16 thẻ phải ở kho org
+org_space: Kho video TikTok  # 16 thẻ + bài học + câu hỏi nằm ở kho org này (nhân viên nào cũng xem được)
+questions_per_card: 2
+
+weeks:
+  - week: 1
+    title: Tư thế & tiếp cận
+    lessons:
+      - title: Tư thế người bán
+        cards: [6ab4ba0fb1c921b0a784dc0d, 6ab4ba4ab1c921b0a784dc21, 6ab4ba29b1c921b0a784dc18]
+      - title: Gặp khách lần đầu
+        cards: [6ab4baa0b1c921b0a784dc39, 6ab4b978b1c921b0a784dbe9]
+  - week: 2
+    title: Chuẩn bị & khai thác nhu cầu
+    lessons:
+      - title: Chuẩn bị cuộc gặp
+        cards: [6ab4ba40b1c921b0a784dc1f, 6ab4b9dab1c921b0a784dc01]
+      - title: Hỏi để hiểu khách
+        cards: [6ab4b9a8b1c921b0a784dbf4, 6ab4b9beb1c921b0a784dbfa]
+  - week: 3
+    title: Báo giá, phản đối, chốt
+    lessons:
+      - title: Trả lời hỏi giá & phản đối
+        cards: [6ab4b9c3b1c921b0a784dbfb, 6ab4ba12b1c921b0a784dc0f]
+      - title: Chốt đơn
+        cards: [6ab4ba4cb1c921b0a784dc22, 6ab4b975b1c921b0a784dbe7]
+  - week: 4
+    title: Giữ giá & chăm sóc
+    lessons:
+      - title: Giữ giá
+        cards: [6ab4ba5ab1c921b0a784dc23, 6ab4b98ab1c921b0a784dbed]
+      - title: Chăm sóc khách B2B
+        cards: [6ab4ba06b1c921b0a784dc0b]
+
+# Đọc thêm: không tính điểm, không sinh câu hỏi — gắn vào bài cuối cùng.
+reading_cards: [6ab4b9d9b1c921b0a784dbff]
+
+exam:
+  duration_min: 30
+  pass_score: 70
+  attempts: 1
+  # 15 trắc nghiệm rút từ câu gắn 16 thẻ; 2 tự luận là đúng 2 câu tình huống gara bên dưới (độ khó 5 — câu sinh
+  # theo thẻ bị giới hạn độ khó ≤ 4 nên dòng tự luận độ khó 5 chỉ rút trúng 2 câu này).
+  blueprint:
+    - {kind: single, count: 8}
+    - {kind: multi, count: 7}
+    - {kind: essay, difficulty: 5, count: 2}
+  essays:
+    - stem: >-
+        Chủ gara Minh Phát nói: "Má phanh VCpart đắt hơn hàng không hoá đơn ngoài chợ tới 30%, anh lấy bên kia cho
+        rẻ." Trình bày cách bạn xử lý lời từ chối này theo 3 bước (nghe hết và tóm lại → tìm lý do thật → đưa giá trị
+        để khách tự so sánh), mỗi bước nêu câu bạn sẽ nói.
+      cards: [6ab4ba12b1c921b0a784dc0f, 6ab4b9c3b1c921b0a784dbfb, 6ab4ba5ab1c921b0a784dc23]
+      rubric:
+        - {criterion: Nghe hết và tóm lại lời phản đối, max: 3, descriptor: "Không cắt lời, không cãi; nhắc lại đúng ý khách (giá cao hơn 30%) để khách xác nhận"}
+        - {criterion: Tìm lý do thật bằng câu hỏi, max: 3, descriptor: "Hỏi để biết khách lo giá, lo dòng tiền hay chưa tin chất lượng; không giảm giá ngay"}
+        - {criterion: Đưa giá trị để khách tự so sánh, max: 4, descriptor: "Hoá đơn, bảo hành, độ bền, rủi ro xe quay lại gara; đề xuất bước tiếp theo cụ thể (dùng thử, đơn nhỏ)"}
+      model_answer: >-
+        (1) Nghe hết, không cắt lời: "Dạ, anh đang thấy má phanh bên em cao hơn hàng ngoài chợ khoảng 30%, đúng không
+        ạ?" (2) Hỏi lý do thật: "Ngoài giá, anh có lo gì về hàng bên em không — hạn thanh toán, giao hàng hay chất
+        lượng?" — xác định khách lo giá hay lo dòng tiền. (3) Đưa giá trị: hàng có hoá đơn để gara quyết toán, bảo
+        hành rõ ràng, má phanh bền nên xe không quay lại gara vì kêu / mòn nhanh — mất một khách xe tốn hơn 30% chênh
+        lệch. Đề xuất lấy thử một đơn nhỏ để anh so sánh, không giảm giá ngay.
+    - stem: >-
+        Bạn vừa gặp lần đầu gara Thành Công (5 cầu nâng, chủ gara tự nhập phụ tùng, thợ trưởng hay chọn hàng). Lập kế
+        hoạch cho lần gặp thứ hai: mục tiêu của buổi gặp, những câu hỏi bạn chuẩn bị, ai cần có mặt, và bạn mang
+        theo gì.
+      cards: [6ab4ba40b1c921b0a784dc1f, 6ab4b9dab1c921b0a784dc01, 6ab4b978b1c921b0a784dbe9]
+      rubric:
+        - {criterion: Mục tiêu và bước tiếp theo cụ thể, max: 3, descriptor: "Mục tiêu đo được (vd chốt đơn thử má phanh / lọc), có bước tiếp theo muốn khách đồng ý"}
+        - {criterion: Câu hỏi khai thác nhu cầu chuẩn bị sẵn, max: 3, descriptor: "Câu hỏi từ nông đến sâu: dòng xe hay sửa, nhà cung cấp hiện tại, điều chưa hài lòng"}
+        - {criterion: Phủ người ảnh hưởng quyết định, max: 2, descriptor: "Có kế hoạch gặp cả thợ trưởng (người chọn hàng), không chỉ chủ gara"}
+        - {criterion: Chuẩn bị tài liệu / báo giá, max: 2, descriptor: "Mang báo giá theo dòng xe gara hay sửa, mẫu hàng, chính sách bảo hành"}
+      model_answer: >-
+        Mục tiêu: chốt một đơn thử má phanh + lọc cho 2 dòng xe gara sửa nhiều nhất, hẹn lịch giao. Câu hỏi: gara hay
+        sửa dòng xe nào; đang lấy hàng ở đâu, bao lâu một lần; điều gì chưa hài lòng với nhà cung cấp hiện tại; ai
+        quyết chọn hàng. Người cần có mặt: chủ gara (quyết tiền) và thợ trưởng (chọn hàng). Mang theo: báo giá theo
+        dòng xe đã hỏi ở lần 1, mẫu má phanh, chính sách bảo hành / đổi trả, hạn thanh toán.

@@ -1,0 +1,21 @@
+node_modules/
+dist/
+coverage/
+.env
+*.log
+.DS_Store
+apps/extension/build/
+*.zip
+
+# Large binaries (CLAUDE.md §13: videos stay out of git)
+*.mp4
+
+# Chrome driver fleet config (machine-specific: uids, ports)
+tools/chrome-driver/fleet.json
+
+# Python bytecode (workers)
+__pycache__/
+*.pyc
+
+# Login links of test users (tools/seed/tai-khoan-thu.js)
+tools/seed/out/

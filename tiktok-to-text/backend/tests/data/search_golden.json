@@ -1,0 +1,2705 @@
+{
+ "description": "Bộ câu hỏi chuẩn đo chất lượng tìm kiếm (CE-11, SYS-22 — backend/scripts/eval_search.py). Mỗi ca: id, query, target (cards = search_cards | documents = search_documents), kind (dien-dat-khac | tu-khoa-ngan | so-hieu-ma-ten-rieng | khong-dau-viet-tat | ghep-dieu-kien | tinh-che | khong-co-dap-an), source (ai_seed | kiem_thu_2609 | nhan_vien), split (dev | test), block (khối cây v2: nen mkt bh tckt hcns qltt mh), filters (thẻ: category, level, division, process_step, type; tài liệu: status), expected: thẻ {id, grade, title} / tài liệu {document_id, grade, start?, title} — grade 2 đúng trọng tâm, 1 liên quan, 0 đã chấm lạc đề; title chỉ để đọc. Id lấy trên DB QA tiktok_to_text_qa_v1 (bản sao DB thật, id giữ nguyên). Thêm câu hỏi thật: scripts/data/search_golden_template.csv + eval_search.py --import.",
+ "cases": [
+  {
+   "id": "kt-q1-dai",
+   "query": "làm sao để nhân viên giỏi không bỏ sang công ty khác",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "kiem_thu_2609",
+   "split": "dev",
+   "block": "qltt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4bc37b1c921b0a784dc91",
+     "grade": 2
+    },
+    {
+     "id": "6ab699dcf3ad31ef11df0b42",
+     "grade": 2
+    },
+    {
+     "id": "6ab69ae2f3ad31ef11df0b81",
+     "grade": 2
+    },
+    {
+     "id": "6ab73d82b43e7b02a2eab680",
+     "grade": 2
+    },
+    {
+     "id": "6ab73d54b43e7b02a2eab675",
+     "grade": 2
+    },
+    {
+     "id": "6ab69b7bf3ad31ef11df0b90",
+     "grade": 2
+    },
+    {
+     "id": "6ab693c1f3ad31ef11df0aec",
+     "grade": 2
+    },
+    {
+     "id": "6ab4bbf1b1c921b0a784dc89",
+     "grade": 2
+    },
+    {
+     "id": "6ab69cdbf3ad31ef11df0bbb",
+     "grade": 1
+    },
+    {
+     "id": "6ab4bb77b1c921b0a784dc6d",
+     "grade": 1
+    },
+    {
+     "id": "6ab6990cf3ad31ef11df0b31",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q1 câu dài"
+  },
+  {
+   "id": "kt-q1-ngan",
+   "query": "giữ chân nhân viên",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "kiem_thu_2609",
+   "split": "dev",
+   "block": "qltt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4bc37b1c921b0a784dc91",
+     "grade": 2
+    },
+    {
+     "id": "6ab699dcf3ad31ef11df0b42",
+     "grade": 2
+    },
+    {
+     "id": "6ab69ae2f3ad31ef11df0b81",
+     "grade": 2
+    },
+    {
+     "id": "6ab73d82b43e7b02a2eab680",
+     "grade": 2
+    },
+    {
+     "id": "6ab73d54b43e7b02a2eab675",
+     "grade": 2
+    },
+    {
+     "id": "6ab69b7bf3ad31ef11df0b90",
+     "grade": 2
+    },
+    {
+     "id": "6ab693c1f3ad31ef11df0aec",
+     "grade": 2
+    },
+    {
+     "id": "6ab4bbf1b1c921b0a784dc89",
+     "grade": 2
+    },
+    {
+     "id": "6ab69cdbf3ad31ef11df0bbb",
+     "grade": 1
+    },
+    {
+     "id": "6ab4bb77b1c921b0a784dc6d",
+     "grade": 1
+    },
+    {
+     "id": "6ab6990cf3ad31ef11df0b31",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q1 từ khoá"
+  },
+  {
+   "id": "kt-q2-dai",
+   "query": "chủ gara chê phụ tùng bên mình đắt hơn chỗ khác thì trả lời thế nào",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "kiem_thu_2609",
+   "split": "test",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6815ddb4c6ad4f9b845eb",
+     "grade": 2
+    },
+    {
+     "id": "6ab4ba12b1c921b0a784dc0f",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b8cbb1c921b0a784dbce",
+     "grade": 1
+    },
+    {
+     "id": "6ab4b8d8b1c921b0a784dbcf",
+     "grade": 1
+    },
+    {
+     "id": "6ab6a298f3ad31ef11df0c67",
+     "grade": 1
+    },
+    {
+     "id": "6ab4ba4cb1c921b0a784dc22",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q2 câu dài"
+  },
+  {
+   "id": "kt-q2-ngan",
+   "query": "xử lý từ chối giá",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "kiem_thu_2609",
+   "split": "test",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6815ddb4c6ad4f9b845eb",
+     "grade": 2
+    },
+    {
+     "id": "6ab4ba12b1c921b0a784dc0f",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b8cbb1c921b0a784dbce",
+     "grade": 1
+    },
+    {
+     "id": "6ab4b8d8b1c921b0a784dbcf",
+     "grade": 1
+    },
+    {
+     "id": "6ab6a298f3ad31ef11df0c67",
+     "grade": 1
+    },
+    {
+     "id": "6ab4ba4cb1c921b0a784dc22",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q2 từ khoá"
+  },
+  {
+   "id": "kt-q3-dai",
+   "query": "tại sao khách mua một lần rồi không quay lại mua nữa",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "kiem_thu_2609",
+   "split": "dev",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6f7e8f3ad31ef11df0cf5",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b962b1c921b0a784dbe1",
+     "grade": 2
+    },
+    {
+     "id": "6ab6a269f3ad31ef11df0c64",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b97eb1c921b0a784dbeb",
+     "grade": 1
+    },
+    {
+     "id": "6ab4b9e0b1c921b0a784dc02",
+     "grade": 1
+    },
+    {
+     "id": "6ab6fa8ff3ad31ef11df0d8b",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q3 câu dài"
+  },
+  {
+   "id": "kt-q3-ngan",
+   "query": "giữ chân khách hàng",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "kiem_thu_2609",
+   "split": "dev",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6f7e8f3ad31ef11df0cf5",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b962b1c921b0a784dbe1",
+     "grade": 2
+    },
+    {
+     "id": "6ab6a269f3ad31ef11df0c64",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b97eb1c921b0a784dbeb",
+     "grade": 1
+    },
+    {
+     "id": "6ab4b9e0b1c921b0a784dc02",
+     "grade": 1
+    },
+    {
+     "id": "6ab6fa8ff3ad31ef11df0d8b",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q3 từ khoá"
+  },
+  {
+   "id": "kt-q4-dai",
+   "query": "làm sao để nhiều người biết đến mình trên mạng mà không phải đốt tiền chạy quảng cáo",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "kiem_thu_2609",
+   "split": "test",
+   "block": "mkt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6a190f3ad31ef11df0c53",
+     "grade": 2
+    },
+    {
+     "id": "6ab6f9b9f3ad31ef11df0d5d",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b924b1c921b0a784dbd8",
+     "grade": 2
+    },
+    {
+     "id": "6ab6fb2ff3ad31ef11df0daa",
+     "grade": 1
+    },
+    {
+     "id": "6ab73d4fb43e7b02a2eab673",
+     "grade": 1
+    },
+    {
+     "id": "6ab69c84f3ad31ef11df0ba7",
+     "grade": 1
+    },
+    {
+     "id": "6ab6f949f3ad31ef11df0d44",
+     "grade": 1
+    },
+    {
+     "id": "6ab69c84f3ad31ef11df0ba8",
+     "grade": 1
+    },
+    {
+     "id": "6ab69e4bf3ad31ef11df0bfc",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q4 câu dài"
+  },
+  {
+   "id": "kt-q4-ngan",
+   "query": "marketing 0 đồng",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "kiem_thu_2609",
+   "split": "test",
+   "block": "mkt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6a190f3ad31ef11df0c53",
+     "grade": 2
+    },
+    {
+     "id": "6ab6f9b9f3ad31ef11df0d5d",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b924b1c921b0a784dbd8",
+     "grade": 2
+    },
+    {
+     "id": "6ab6fb2ff3ad31ef11df0daa",
+     "grade": 1
+    },
+    {
+     "id": "6ab73d4fb43e7b02a2eab673",
+     "grade": 1
+    },
+    {
+     "id": "6ab69c84f3ad31ef11df0ba7",
+     "grade": 1
+    },
+    {
+     "id": "6ab6f949f3ad31ef11df0d44",
+     "grade": 1
+    },
+    {
+     "id": "6ab69c84f3ad31ef11df0ba8",
+     "grade": 1
+    },
+    {
+     "id": "6ab69e4bf3ad31ef11df0bfc",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q4 từ khoá"
+  },
+  {
+   "id": "kt-q5-dai",
+   "query": "xe khách vào xưởng phải chờ lâu quá, làm sao cho xe ra nhanh hơn",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "kiem_thu_2609",
+   "split": "dev",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4ba30b1c921b0a784dc1a",
+     "grade": 2
+    },
+    {
+     "id": "6ab6a223f3ad31ef11df0c5d",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b98db1c921b0a784dbee",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b8c7b1c921b0a784dbcd",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q5 câu dài"
+  },
+  {
+   "id": "kt-q5-ngan",
+   "query": "thời gian sửa chữa",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "kiem_thu_2609",
+   "split": "dev",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4ba30b1c921b0a784dc1a",
+     "grade": 2
+    },
+    {
+     "id": "6ab6a223f3ad31ef11df0c5d",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b98db1c921b0a784dbee",
+     "grade": 2
+    },
+    {
+     "id": "6ab4b8c7b1c921b0a784dbcd",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q5 từ khoá"
+  },
+  {
+   "id": "kt-q6-dai",
+   "query": "xử lý hàng tồn kho chậm luân chuyển như thế nào",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "kiem_thu_2609",
+   "split": "test",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69201f3ad31ef11df0a8a",
+     "grade": 2
+    },
+    {
+     "id": "6ab68e4bf3ad31ef11df0a0c",
+     "grade": 1
+    },
+    {
+     "id": "6ab693f0f3ad31ef11df0af4",
+     "grade": 1
+    },
+    {
+     "id": "6ab6946df3ad31ef11df0b14",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q6 câu dài"
+  },
+  {
+   "id": "kt-q6-ngan",
+   "query": "tồn kho chậm luân chuyển",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "kiem_thu_2609",
+   "split": "test",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69201f3ad31ef11df0a8a",
+     "grade": 2
+    },
+    {
+     "id": "6ab68e4bf3ad31ef11df0a0c",
+     "grade": 1
+    },
+    {
+     "id": "6ab693f0f3ad31ef11df0af4",
+     "grade": 1
+    },
+    {
+     "id": "6ab6946df3ad31ef11df0b14",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q6 từ khoá"
+  },
+  {
+   "id": "kt-q7-dai",
+   "query": "mua đồ không lấy hoá đơn thì có được tính vào chi phí không",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "kiem_thu_2609",
+   "split": "dev",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab68f0ff3ad31ef11df0a33",
+     "grade": 2
+    },
+    {
+     "id": "6ab68fd9f3ad31ef11df0a59",
+     "grade": 2
+    },
+    {
+     "id": "6ab68fc6f3ad31ef11df0a55",
+     "grade": 2
+    },
+    {
+     "id": "6ab68a32f3ad31ef11df09c3",
+     "grade": 1
+    },
+    {
+     "id": "6ab4bb9ab1c921b0a784dc75",
+     "grade": 1
+    },
+    {
+     "id": "6ab68e65f3ad31ef11df0a12",
+     "grade": 1
+    },
+    {
+     "id": "6ab68adff3ad31ef11df09c5",
+     "grade": 1
+    },
+    {
+     "id": "6ab6902cf3ad31ef11df0a65",
+     "grade": 1
+    },
+    {
+     "id": "6ab6935ef3ad31ef11df0ad0",
+     "grade": 1
+    },
+    {
+     "id": "6ab68fadf3ad31ef11df0a51",
+     "grade": 1
+    },
+    {
+     "id": "6ab68dd0f3ad31ef11df09f5",
+     "grade": 1
+    },
+    {
+     "id": "6ab68d0bf3ad31ef11df09d3",
+     "grade": 1
+    },
+    {
+     "id": "6ab68eadf3ad31ef11df0a20",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q7 câu dài"
+  },
+  {
+   "id": "kt-q7-ngan",
+   "query": "chi phí được trừ",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "kiem_thu_2609",
+   "split": "dev",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab68f0ff3ad31ef11df0a33",
+     "grade": 2
+    },
+    {
+     "id": "6ab68fd9f3ad31ef11df0a59",
+     "grade": 2
+    },
+    {
+     "id": "6ab68fc6f3ad31ef11df0a55",
+     "grade": 2
+    },
+    {
+     "id": "6ab68a32f3ad31ef11df09c3",
+     "grade": 1
+    },
+    {
+     "id": "6ab4bb9ab1c921b0a784dc75",
+     "grade": 1
+    },
+    {
+     "id": "6ab68e65f3ad31ef11df0a12",
+     "grade": 1
+    },
+    {
+     "id": "6ab68adff3ad31ef11df09c5",
+     "grade": 1
+    },
+    {
+     "id": "6ab6902cf3ad31ef11df0a65",
+     "grade": 1
+    },
+    {
+     "id": "6ab6935ef3ad31ef11df0ad0",
+     "grade": 1
+    },
+    {
+     "id": "6ab68fadf3ad31ef11df0a51",
+     "grade": 1
+    },
+    {
+     "id": "6ab68dd0f3ad31ef11df09f5",
+     "grade": 1
+    },
+    {
+     "id": "6ab68d0bf3ad31ef11df09d3",
+     "grade": 1
+    },
+    {
+     "id": "6ab68eadf3ad31ef11df0a20",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q7 từ khoá"
+  },
+  {
+   "id": "kt-q8-dai",
+   "query": "tiền kẹt hết vào hàng tồn với công nợ khách, lấy đâu ra tiền trả nhà cung cấp",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "kiem_thu_2609",
+   "split": "test",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6924df3ad31ef11df0a99",
+     "grade": 2
+    },
+    {
+     "id": "6ab69201f3ad31ef11df0a8a",
+     "grade": 2
+    },
+    {
+     "id": "6ab6924ef3ad31ef11df0a9a",
+     "grade": 2
+    },
+    {
+     "id": "6ab4ba13b1c921b0a784dc11",
+     "grade": 2
+    },
+    {
+     "id": "6ab69492f3ad31ef11df0b1a",
+     "grade": 2
+    },
+    {
+     "id": "6ab6f9a5f3ad31ef11df0d58",
+     "grade": 2
+    },
+    {
+     "id": "6ab69156f3ad31ef11df0a7e",
+     "grade": 1
+    },
+    {
+     "id": "6ab4b9ecb1c921b0a784dc05",
+     "grade": 1
+    },
+    {
+     "id": "6ab4b9a2b1c921b0a784dbf1",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q8 câu dài"
+  },
+  {
+   "id": "kt-q8-ngan",
+   "query": "vốn lưu động",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "kiem_thu_2609",
+   "split": "test",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6924df3ad31ef11df0a99",
+     "grade": 2
+    },
+    {
+     "id": "6ab69201f3ad31ef11df0a8a",
+     "grade": 2
+    },
+    {
+     "id": "6ab6924ef3ad31ef11df0a9a",
+     "grade": 2
+    },
+    {
+     "id": "6ab4ba13b1c921b0a784dc11",
+     "grade": 2
+    },
+    {
+     "id": "6ab69492f3ad31ef11df0b1a",
+     "grade": 2
+    },
+    {
+     "id": "6ab6f9a5f3ad31ef11df0d58",
+     "grade": 2
+    },
+    {
+     "id": "6ab69156f3ad31ef11df0a7e",
+     "grade": 1
+    },
+    {
+     "id": "6ab4b9ecb1c921b0a784dc05",
+     "grade": 1
+    },
+    {
+     "id": "6ab4b9a2b1c921b0a784dbf1",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — Q8 từ khoá"
+  },
+  {
+   "id": "kt-p1",
+   "query": "Thước đo hiệu quả xưởng là số xe giao trả mỗi ngày trên mỗi khoang, không phải số xe tiếp nhận",
+   "target": "cards",
+   "kind": "tinh-che",
+   "source": "kiem_thu_2609",
+   "split": "dev",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4ba30b1c921b0a784dc1a",
+     "grade": 2
+    },
+    {
+     "id": "6ab4ba13b1c921b0a784dc10",
+     "grade": 1
+    },
+    {
+     "id": "6ab4b8c7b1c921b0a784dbcd",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — P1"
+  },
+  {
+   "id": "kt-p2",
+   "query": "Nhân sự giỏi rời công ty chủ yếu vì không còn đất để phát huy năng lực, chứ không phải vì tiền",
+   "target": "cards",
+   "kind": "tinh-che",
+   "source": "kiem_thu_2609",
+   "split": "test",
+   "block": "qltt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69ae2f3ad31ef11df0b81",
+     "grade": 2
+    },
+    {
+     "id": "6ab699dcf3ad31ef11df0b42",
+     "grade": 1
+    }
+   ],
+   "note": "Kiểm thử tay 26/09 — P2"
+  },
+  {
+   "id": "c-nen-01",
+   "query": "Anh em thợ lâu năm hay bỏ bớt công đoạn cho nhanh, xưởng phải chấn chỉnh thế nào?",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4bae3b1c921b0a784dc4a",
+     "grade": 2,
+     "title": "Thợ càng giỏi càng dễ làm tắt: mọi khâu, kể cả khâu nhỏ nhất, phải theo quy trình và lệnh sửa chữa; muốn cải tiến thì viết lại quy trình trước"
+    },
+    {
+     "id": "6ab6a1e4f3ad31ef11df0c58",
+     "grade": 1,
+     "title": "Ba lớp kiểm soát chất lượng bảo dưỡng: checklist in giấy theo bước, đánh dấu sau khi siết, cân lại thước lái cuối quy trình"
+    },
+    {
+     "id": "6ab4bac2b1c921b0a784dc3f",
+     "grade": 1,
+     "title": "Triển khai quy trình ở gara: chuyên nghiệp là làm đúng cái đã ban hành; quy trình gồm lưu đồ, biểu mẫu, mục tiêu đo được và may đo theo mặt bằng"
+    }
+   ],
+   "note": "84dc4a đúng trọng tâm (thợ giỏi làm tắt, bắt theo quy trình); df0c58/84dc3f là cơ chế kiểm soát, triển khai quy trình ở xưởng"
+  },
+  {
+   "id": "c-bh-01",
+   "query": "Khách bảo để suy nghĩ thêm rồi gọi lại, em nên đáp sao cho khỏi mất khách?",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4ba4cb1c921b0a784dc22",
+     "grade": 2,
+     "title": "Xử lý câu \"để anh/chị báo lại sau\" bằng 3 bước: hỏi thẳng, đưa 3 lý do để khách chọn, rồi hạ vai người bán"
+    },
+    {
+     "id": "6ab4ba12b1c921b0a784dc0f",
+     "grade": 1,
+     "title": "Xử lý phản đối: nghe hết, tóm lại, tìm lý do thật phía sau rồi mới xử lý trọng tâm – tối đa 3 lần"
+    },
+    {
+     "id": "6ab4ba30b1c921b0a784dc19",
+     "grade": 1,
+     "title": "Lập bộ 20–25 câu phản đối thường gặp kèm cách đáp để sales không hoảng khi gặp câu khó"
+    }
+   ],
+   "note": "84dc22 xử lý câu \"để anh báo lại sau\"; 84dc0f/84dc19 xử lý phản đối nói chung"
+  },
+  {
+   "id": "c-mkt-01",
+   "query": "Kênh có đông người theo dõi mà chẳng chốt được đơn nào là tại sao?",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "mkt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69a1bf3ad31ef11df0b50",
+     "grade": 2,
+     "title": "Hành trình khách hàng và \"bẫy digital\": vì sao có follower vẫn không bán được hàng"
+    },
+    {
+     "id": "6ab6fb8ff3ad31ef11df0dbf",
+     "grade": 2,
+     "title": "Kênh triệu view vẫn không bán được hàng nếu thiếu sản phẩm gắn trong content hoặc lên xu hướng sai tệp khách"
+    },
+    {
+     "id": "6ab73111e8a762a4385a5381",
+     "grade": 2,
+     "title": "Không mua follow/tương tác ảo trên TikTok: view và follow không quyết định việc bán được hàng"
+    },
+    {
+     "id": "6ab6fc01f3ad31ef11df0dd7",
+     "grade": 1,
+     "title": "Video triệu view chưa chắc ra đơn: cần đánh đúng nỗi đau khách hàng, không chỉ câu view hay giảm giá"
+    },
+    {
+     "id": "6ab730bae8a762a4385a536e",
+     "grade": 1,
+     "title": "Thuật toán TikTok/TikTok Shop ưu ái kênh và shop mới — không cần nhiều follow mới bán được hàng"
+    },
+    {
+     "id": "6ab6f92ef3ad31ef11df0d3d",
+     "grade": 1,
+     "title": "Không cần xây kênh triệu view rồi mới bán: đăng bán hàng ngay từ ngày đầu vẫn ra đơn đều đặn"
+    }
+   ],
+   "note": "3 thẻ g2 giải thích vì sao follow/view cao vẫn không bán; g1 là các thẻ lân cận (video triệu view không ra đơn, không cần nhiều follow)"
+  },
+  {
+   "id": "c-nen-02",
+   "query": "Mercedes GLC 300 đỗ qua đêm bị xệ đuôi, thay bầu hơi hết khoảng bao nhiêu tiền?",
+   "target": "cards",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6a12cf3ad31ef11df0c4e",
+     "grade": 2,
+     "title": "Bầu hơi treo khí nén Mercedes GLC hay bể sau khoảng 80.000km, chi phí thay 40-60 triệu/cặp"
+    }
+   ],
+   "note": "Chỉ một thẻ nói về bầu hơi GLC"
+  },
+  {
+   "id": "c-mkt-02",
+   "query": "Theo Nghị định 239/2026 chạy chương trình giảm giá có còn phải đăng ký Sở Công Thương không?",
+   "target": "cards",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "mkt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6938af3ad31ef11df0add",
+     "grade": 2,
+     "title": "Khuyến mại từ NĐ 239/2026: 6 trường hợp không phải đăng ký Sở Công Thương, mức giảm giá tối đa 50%/100% và rủi ro giảm giá ảo"
+    },
+    {
+     "id": "6ab68a85f3ad31ef11df09c4",
+     "grade": 1,
+     "title": "Chương trình khuyến mại: phải đăng ký/thông báo đúng thủ tục, đúng hạn mức 50%, nếu không bị loại chi phí"
+    }
+   ],
+   "note": "df0add là thẻ NĐ 239/2026; df09c4 (tckt) nói thủ tục đăng ký/thông báo khuyến mại theo NĐ128, có nhắc NĐ239"
+  },
+  {
+   "id": "c-bh-02",
+   "query": "Một bạn sale mang về 200 triệu/tháng thì là thấp hay ổn, quỹ lương đội sale nên bằng mấy % doanh thu?",
+   "target": "cards",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69e3af3ad31ef11df0bfa",
+     "grade": 2,
+     "title": "Benchmark doanh thu sale: dưới 200 triệu/tháng là thấp, ~350-500 triệu là tốt, và cách tính ngân sách đội sale ở mức 8% doanh thu"
+    }
+   ],
+   "note": "Chỉ df0bfa có benchmark 200/350/500 triệu và 8% doanh thu"
+  },
+  {
+   "id": "c-nen-03",
+   "query": "Kim phun máy M276 bị hỏng có súc rửa phục hồi được không hay phải thay?",
+   "target": "cards",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69e10f3ad31ef11df0bf1",
+     "grade": 2,
+     "title": "Kim phun động cơ Mercedes M276 dễ hư đột ngột, không thể vệ sinh phục hồi, phải thay đúng quy trình bằng đồ nghề chuyên dụng"
+    },
+    {
+     "id": "6ab69e51f3ad31ef11df0bfe",
+     "grade": 1,
+     "title": "Vệ sinh kim phun đúng chuẩn phải test lưu lượng sau vệ sinh; kim phun kẹt do xì ron cần dụng cụ chuyên dụng để nhổ"
+    }
+   ],
+   "note": "df0bf1 đúng M276; df0bfe là quy trình vệ sinh/test kim phun nói chung"
+  },
+  {
+   "id": "c-bh-03",
+   "query": "chia chi tieu thang cho sale ntn de ko bi don doanh so vao cuoi thang",
+   "target": "cards",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4ba62b1c921b0a784dc26",
+     "grade": 2,
+     "title": "Chống \"dồn toa\" cuối kỳ: chia chỉ tiêu tháng theo tuần/ngày và buộc sales outbound ngay đầu kỳ"
+    },
+    {
+     "id": "6ab4baebb1c921b0a784dc4c",
+     "grade": 1,
+     "title": "Nhịp làm việc ngày của sales theo PDCA: sáng kê việc, theo dõi tiến độ theo tỷ lệ thời gian, rút kinh nghiệm sau từng cuộc gặp, tối báo cáo lệch mục tiêu"
+    },
+    {
+     "id": "6ab4b9f6b1c921b0a784dc09",
+     "grade": 1,
+     "title": "Đặt KPI sales từ thống kê năng lực, sát ngưỡng khả năng và theo dõi bằng 3 màu xanh – vàng – đỏ"
+    }
+   ],
+   "note": "84dc26 chống dồn toa cuối kỳ; 84dc4c theo dõi tiến độ theo tỷ lệ thời gian; 84dc09 đặt KPI sales"
+  },
+  {
+   "id": "c-mkt-03",
+   "query": "vid tiktok moi dang bi 0 view la do dau, co nen xoa di dang lai ko",
+   "target": "cards",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "mkt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6fc6bf3ad31ef11df0de9",
+     "grade": 2,
+     "title": "3 nguyên nhân video TikTok bị \"0 view\": vi phạm chính sách, chất lượng kém, tài khoản mới cùng thiết bị với tài khoản đã bị phạt nặng"
+    },
+    {
+     "id": "6ab732fce8a762a4385a53bc",
+     "grade": 2,
+     "title": "3 nguyên nhân khiến video TikTok 0 view và cách dùng công cụ miễn phí \"Học hỏi từ nhà sáng tạo\" để tìm video triệu view tham khảo"
+    },
+    {
+     "id": "6ab6fca8f3ad31ef11df0df2",
+     "grade": 2,
+     "title": "Video 0 view đang \"xét duyệt\": nên kiên nhẫn chờ, chỉ xóa/đăng lại như phương án cuối"
+    },
+    {
+     "id": "6ab6fdacf3ad31ef11df0e03",
+     "grade": 1,
+     "title": "Chữa kênh \"flop\" ít view: đổi thiết bị/số nick/ID kênh không có tác dụng, cải thiện nội dung mới là gốc rễ"
+    }
+   ],
+   "note": "3 thẻ g2 nêu nguyên nhân 0 view và lời khuyên không xoá; df0e03 chữa kênh ít view"
+  },
+  {
+   "id": "c-nen-04",
+   "query": "rua khoang may oto co bi chap dien ko, co can thao cuc binh ko",
+   "target": "cards",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4ba34b1c921b0a784dc1c",
+     "grade": 2,
+     "title": "Rửa khoang máy an toàn: rủi ro nằm ở khâu làm khô, che chắn để giảm áp lực, áp lực 90–100 bar, không cần tháo cực ắc quy"
+    },
+    {
+     "id": "6ab4ba1bb1c921b0a784dc13",
+     "grade": 1,
+     "title": "Rửa xe chăm sóc khác rửa thường ở hai tiêu chí an toàn và tối ưu, thể hiện rõ nhất ở khâu lau khô bằng 6 loại khăn"
+    }
+   ],
+   "note": "84dc1c rửa khoang máy an toàn (không cần tháo cực ắc quy); 84dc13 khái niệm rửa chăm sóc"
+  },
+  {
+   "id": "c-bh-04",
+   "query": "gap kh b2b lam sao biet ai moi la nguoi quyet dinh mua",
+   "target": "cards",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4b951b1c921b0a784dbde",
+     "grade": 2,
+     "title": "Nhận diện người quyết định thật trong cuộc họp B2B và tránh bẫy \"giấu người quyết định\""
+    },
+    {
+     "id": "6ab4b978b1c921b0a784dbe9",
+     "grade": 2,
+     "title": "Bán B2B phải phủ cả vòng ảnh hưởng của người quyết định, tìm hiểu sơ đồ quyền lực từ trước và theo dõi tín hiệu thay đổi"
+    },
+    {
+     "id": "6ab4ad62b1c921b0a784dbbf",
+     "grade": 1,
+     "title": "B2B: người ra quyết định thường xuống tiền theo đề xuất của nhân viên dùng giải pháp — hãy nhắm cả người dùng"
+    },
+    {
+     "id": "6ab69e2df3ad31ef11df0bf6",
+     "grade": 1,
+     "title": "Khách hàng mục tiêu là người tiêu dùng sản phẩm, khác trung gian phân phối và các vai trò khác trong quyết định mua"
+    }
+   ],
+   "note": "84dbde/84dbe9 nhận diện người quyết định, sơ đồ quyền lực; 84dbbf, df0bf6 bàn về vai trò trong quyết định mua"
+  },
+  {
+   "id": "c-bh-05",
+   "query": "Nên làm cơ chế lương thưởng cho đội sale thế nào để anh em chịu chạy?",
+   "target": "cards",
+   "kind": "ghep-dieu-kien",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "bh",
+   "filters": {
+    "type": "lesson"
+   },
+   "expected": [
+    {
+     "id": "6ab4bb70b1c921b0a784dc6b",
+     "grade": 2,
+     "title": "Lương và KPI của sales phải tính theo cá nhân; thưởng đội chỉ cộng thêm khi từng người đạt chỉ tiêu của mình"
+    },
+    {
+     "id": "6ab4baf7b1c921b0a784dc4e",
+     "grade": 2,
+     "title": "Triển khai cơ chế lương cho đội sales: họp đầu tháng tính thử với từng người, chỉ rõ con đường đạt, công khai công thức và chỉ số KPI"
+    },
+    {
+     "id": "6ab4ba39b1c921b0a784dc1e",
+     "grade": 2,
+     "title": "Tăng lương sales theo luật công khai gắn KPI: tránh bậc thang doanh số tự chọn, tránh thâm niên \"sống lâu lên lão làng\", tăng dần để giữ người"
+    },
+    {
+     "id": "6ab4ba10b1c921b0a784dc0e",
+     "grade": 1,
+     "title": "KPI và cơ chế lương phải được đồng thuận hai chiều, không áp từ trên xuống"
+    },
+    {
+     "id": "6ab69d3bf3ad31ef11df0bcb",
+     "grade": 1,
+     "title": "Vẫn nên thưởng một phần khi nhân viên hụt KPI vì lý do khách quan như nghỉ lễ"
+    }
+   ],
+   "note": "Lọc type=lesson loại các framework (84dc43, 84dc5a, 84dc0c); còn các bài học về lương/KPI sales"
+  },
+  {
+   "id": "c-mkt-04",
+   "query": "Mấy giây đầu clip bán hàng nên nói gì để người xem không lướt qua?",
+   "target": "cards",
+   "kind": "ghep-dieu-kien",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "mkt",
+   "filters": {
+    "type": "hook"
+   },
+   "expected": [
+    {
+     "id": "6ab6fb22f3ad31ef11df0da8",
+     "grade": 2,
+     "title": "3-5 giây đầu video bán hàng TikTok phải vào thẳng sản phẩm, vấn đề và mức giá — câu kêu gọi mua hàng cuối video không còn quan trọng"
+    },
+    {
+     "id": "6ab6fb6ef3ad31ef11df0db9",
+     "grade": 2,
+     "title": "Mở đầu video bán hàng bằng lợi ích/công năng nổi bật thay vì khuyến mại, và diễn đạt bằng giọng điệu phấn khích thay vì liệt kê giá"
+    },
+    {
+     "id": "6ab6a1d1f3ad31ef11df0c57",
+     "grade": 2,
+     "title": "Viết hook mở đầu video viral: nguyên tắc tốc độ-cụ thể và 7 mẫu câu hook thông dụng"
+    }
+   ],
+   "note": "Chỉ 3 thẻ type hook, cả 3 đều về câu mở đầu video; lọc loại các framework kịch bản"
+  },
+  {
+   "id": "c-nen-05",
+   "query": "Máy hư nặng phải làm lại, có ca thực tế nào ở xưởng không?",
+   "target": "cards",
+   "kind": "ghep-dieu-kien",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "nen",
+   "filters": {
+    "type": "case_study",
+    "category": "nen.ky-thuat.sua-chua-bao-duong.dai-tu"
+   },
+   "expected": [
+    {
+     "id": "6ab6a1adf3ad31ef11df0c55",
+     "grade": 2,
+     "title": "Động cơ thủy kích: tắt máy ngay khi ngập nước, sửa đúng chuẩn hãng phải đo lại toàn bộ kích thước chứ không chỉ thay tay biên cong"
+    },
+    {
+     "id": "6ab6a296f3ad31ef11df0c66",
+     "grade": 2,
+     "title": "Lệch tâm lỗ cốt máy do quá nhiệt: sửa bằng máy phóng lóc hoặc mài đồng tâm (line honing), khác kỹ thuật doa và mài"
+    }
+   ],
+   "note": "Nhánh đại tu chỉ có 2 case_study (thuỷ kích, lệch tâm lỗ cốt máy); lọc loại các lesson đại tu và case hộp số"
+  },
+  {
+   "id": "c-bh-06",
+   "query": "Khách quay lại phàn nàn xe sửa xong vẫn lỗi thì xử lý ra sao?",
+   "target": "cards",
+   "kind": "ghep-dieu-kien",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "bh",
+   "filters": {
+    "division": "vcservice"
+   },
+   "expected": [
+    {
+     "id": "6ab4b928b1c921b0a784dbda",
+     "grade": 2,
+     "title": "Xử lý khiếu nại ở gara: gara nhận lỗi như một tổ chức, phân định trách nhiệm nội bộ sau, từ chối khéo khách ăn vạ"
+    },
+    {
+     "id": "6ab4bbcbb1c921b0a784dc82",
+     "grade": 1,
+     "title": "Quỹ bảo hành 1–2% doanh thu và nguyên tắc chia ba khi thợ làm hỏng: gara, bộ phận giám sát, người thi công — tính theo giá vốn"
+    },
+    {
+     "id": "6ab4b8c7b1c921b0a784dbcd",
+     "grade": 1,
+     "title": "Phiếu tiếp nhận xe: 5 phút ghi tình trạng xe để tránh tranh chấp, tăng doanh thu và chăm sóc khách"
+    }
+   ],
+   "note": "Lọc vcservice loại các thẻ khiếu nại TikTok Shop (vcpart) và CSKH chung; 84dbda khiếu nại ở gara; 84dc82 phân định lỗi thợ/quỹ bảo hành; 84dbcd phiếu tiếp nhận tránh tranh chấp"
+  },
+  {
+   "id": "c-mkt-05",
+   "query": "Chia tiền làm marketing cả năm sao cho hợp lý?",
+   "target": "cards",
+   "kind": "ghep-dieu-kien",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "mkt",
+   "filters": {
+    "category": "mkt.chien-luoc",
+    "level": "thiet-ke"
+   },
+   "expected": [
+    {
+     "id": "6ab73d38b43e7b02a2eab66d",
+     "grade": 2,
+     "title": "Lập ngân sách marketing: chia đều 12 tháng, tăng giảm theo mùa vụ, và trước hết phải đảm bảo công ty không lỗ"
+    },
+    {
+     "id": "6ab69c36f3ad31ef11df0b98",
+     "grade": 2,
+     "title": "Phân bổ chi phí marketing theo doanh thu phụ thuộc ngành nghề, quy mô và mục tiêu chiến lược, không có tỷ lệ cố định"
+    },
+    {
+     "id": "6ab6a312f3ad31ef11df0c6f",
+     "grade": 1,
+     "title": "Lập kế hoạch marketing online: quy trình 7 bước SMART, phễu marketing 3 tầng và cách suy ngược định mức chi phí"
+    },
+    {
+     "id": "6ab6a364f3ad31ef11df0c74",
+     "grade": 1,
+     "title": "3 điều cần chuẩn bị trước khi xây team marketing: mục tiêu, mô tả công việc, định mức chi phí"
+    },
+    {
+     "id": "6ab4b912b1c921b0a784dbd6",
+     "grade": 1,
+     "title": "Lịch mùa vụ gara: 3 thời điểm vắng khách trong năm và chiến dịch chạy trước để bù doanh thu"
+    }
+   ],
+   "note": "Lọc level thiet-ke loại các thẻ điều hành (df0bb4, df0bba, 84dbd8); eab66d/df0b98 trực tiếp về lập/phân bổ ngân sách"
+  },
+  {
+   "id": "c-bh-07",
+   "query": "Muốn khách tin lời mình thì người bán nên thừa nhận trước một hai nhược điểm của hàng rồi mới nói tới cái hay",
+   "target": "cards",
+   "kind": "tinh-che",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4bae2b1c921b0a784dc49",
+     "grade": 2,
+     "title": "Tạo niềm tin bằng cách chủ động nói điểm yếu trước khi khen – và cách bán lại sản phẩm từng mang tiếng"
+    },
+    {
+     "id": "6ab4bb01b1c921b0a784dc50",
+     "grade": 1,
+     "title": "Khách tin hành vi hơn lời nói: bộ chuẩn cử chỉ khi tiếp khách và phản xạ trả lời ngay câu hỏi khó mà không nổi cáu"
+    }
+   ],
+   "note": "Nháp trùng ý 84dc49; 84dc50 cũng về tạo lòng tin khi tư vấn"
+  },
+  {
+   "id": "c-mkt-06",
+   "query": "Tặng thêm hàng khi mua đủ mức làm người mua thấy được lợi nhiều hơn là giảm thẳng một tỷ lệ tương đương",
+   "target": "cards",
+   "kind": "tinh-che",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "mkt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6a32cf3ad31ef11df0c70",
+     "grade": 2,
+     "title": "Vì sao \"mua 300 tặng 100\" khiến khách cảm thấy hời hơn giảm giá trực tiếp 25%"
+    },
+    {
+     "id": "6ab6f8b2f3ad31ef11df0d23",
+     "grade": 1,
+     "title": "Case tăng hơn 6.000 đơn nhờ đổi cách xây combo khuyến mại theo 3 nguyên tắc tặng kèm và ngưỡng freeship"
+    },
+    {
+     "id": "6ab69f42f3ad31ef11df0c2d",
+     "grade": 1,
+     "title": "Hiệu chỉnh giá thay vì giảm giá trực tiếp: bảo vệ chiến lược thương hiệu và luôn đặt điểm kết thúc cho khuyến mãi"
+    }
+   ],
+   "note": "Nháp trùng ý df0c70; df0d23 combo tặng kèm, df0c2d hiệu chỉnh giá thay vì giảm giá trực tiếp"
+  },
+  {
+   "id": "c-nen-06",
+   "query": "Đưa xe máy dầu lên băng thử công suất cho thấy làm sạch muội than cổ hút khôi phục được lượng gió và áp suất tăng áp",
+   "target": "cards",
+   "kind": "tinh-che",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69d26f3ad31ef11df0bc8",
+     "grade": 2,
+     "title": "Đo dyno trước/sau vệ sinh carbon họng nạp: Ford Ranger Raptor giảm 5-10% lưu lượng gió nạp và áp suất turbo, Toyota Hilux cải thiện công suất dải vòng tua giữa"
+    },
+    {
+     "id": "6ab69c94f3ad31ef11df0bac",
+     "grade": 1,
+     "title": "Máy dầu tiêu chuẩn khí thải cao (Ford Ranger, Ranger Raptor) đóng carbon họng nạp dày 4-6mm chỉ sau 40.000-60.000km"
+    },
+    {
+     "id": "6ab69d76f3ad31ef11df0bd6",
+     "grade": 1,
+     "title": "Các phương pháp vệ sinh carbon họng nạp và buồng đốt: bắn đá khô, bắn trấu, hoá chất — chọn đúng phương pháp theo mức độ dơ"
+    }
+   ],
+   "note": "Nháp trùng ý df0bc8 (đo dyno trước/sau); df0bac, df0bd6 về carbon họng nạp máy dầu và cách vệ sinh"
+  },
+  {
+   "id": "c-nen-07",
+   "query": "Xưởng sửa xe không nên cho không phần công thợ để giữ khách; công sửa chữa phải tự sinh lãi và định giá theo giá trị việc làm",
+   "target": "cards",
+   "kind": "tinh-che",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4b8f4b1c921b0a784dbd3",
+     "grade": 2,
+     "title": "Tiền công gara phải tính riêng và có lãi: không miễn phí công, thu theo giá trị chứ không theo thời gian"
+    },
+    {
+     "id": "6ab4b8cbb1c921b0a784dbce",
+     "grade": 1,
+     "title": "Khách chê giá hoặc tự mang phụ tùng đến: vẫn nhận lắp, thu thêm 15–20% giá trị phụ tùng, chỉ bảo hành lắp đúng kỹ thuật"
+    },
+    {
+     "id": "6ab4b8d8b1c921b0a784dbcf",
+     "grade": 1,
+     "title": "Định giá phụ tùng và dịch vụ gara: công thức giá vốn + chi phí + lợi nhuận, đối chiếu đối thủ và cầu thị trường"
+    }
+   ],
+   "note": "Nháp trùng ý 84dbd3; 84dbce, 84dbcf về định giá công/phụ tùng ở gara"
+  },
+  {
+   "id": "c-mkt-07",
+   "query": "định vị thương hiệu",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "mkt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69edbf3ad31ef11df0c19",
+     "grade": 2,
+     "title": "Định vị thương hiệu là bản thiết kế, xây dựng thương hiệu là quá trình thi công lâu dài - không cần chọn phương án hoàn hảo"
+    },
+    {
+     "id": "6ab73d8bb43e7b02a2eab683",
+     "grade": 2,
+     "title": "Định vị bằng một keyword cốt lõi đúng insight khách hàng, lặp lại nhất quán để não bộ ghi nhớ"
+    },
+    {
+     "id": "6ab73da4b43e7b02a2eab689",
+     "grade": 2,
+     "title": "Định vị tâm trí: thương hiệu được nhớ đến trước quan trọng hơn sinh ra trước – case VinFast, Taco, Honda"
+    },
+    {
+     "id": "6ab73d0fb43e7b02a2eab669",
+     "grade": 1,
+     "title": "Vietjet định vị \"ai cũng có thể bay\" bằng giá trị nhân văn, còn BMW xây \"driving\" từ trải nghiệm lái thật"
+    },
+    {
+     "id": "6ab69ec4f3ad31ef11df0c16",
+     "grade": 1,
+     "title": "Bản chất thương hiệu là sự khác biệt: nguyên tắc Khác - Đúng - Đẹp khi xây dựng thương hiệu"
+    },
+    {
+     "id": "6ab69e16f3ad31ef11df0bf2",
+     "grade": 1,
+     "title": "Chiến lược STP: chia nhỏ thị trường, chọn đúng khúc theo nguồn lực, tuyên bố lời hứa giá trị riêng"
+    }
+   ],
+   "note": "Các thẻ định vị trong mkt.chien-luoc.dinh-vi-thong-diep; STP và bản chất thương hiệu là g1"
+  },
+  {
+   "id": "c-nen-08",
+   "query": "phiếu tiếp nhận xe",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab4b8c7b1c921b0a784dbcd",
+     "grade": 2,
+     "title": "Phiếu tiếp nhận xe: 5 phút ghi tình trạng xe để tránh tranh chấp, tăng doanh thu và chăm sóc khách"
+    },
+    {
+     "id": "6ab4bac6b1c921b0a784dc41",
+     "grade": 1,
+     "title": "Phiếu bảo dưỡng dạng checklist (KM, KT, VS, TT) và cách tư vấn chu kỳ 5.000 km hay 10.000 km theo tình trạng xe"
+    },
+    {
+     "id": "6ab6a23bf3ad31ef11df0c60",
+     "grade": 1,
+     "title": "Dùng điện thoại thay đèn pin khi kiểm tra xe: ưu tiên chụp ảnh/quay phim làm hồ sơ minh bạch cho khách hàng"
+    }
+   ],
+   "note": "84dbcd đúng phiếu tiếp nhận; 84dc41 phiếu bảo dưỡng, df0c60 chụp ảnh làm hồ sơ khi kiểm tra xe"
+  },
+  {
+   "id": "c-tckt-01",
+   "query": "Khách mua hàng mãi chưa chịu thanh toán, bên mình có được lập biên bản giảm lại số VAT đã khai cho đơn đó không?",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69156f3ad31ef11df0a7e",
+     "grade": 2,
+     "title": "Thuế GTGT tính theo hóa đơn, không theo dòng tiền: khách chưa trả tiền không phải lý do được giảm VAT đã kê khai"
+    },
+    {
+     "id": "6ab688e1f3ad31ef11df09bf",
+     "grade": 1,
+     "title": "Thời điểm xuất hóa đơn hàng hóa/dịch vụ: theo chuyển giao quyền sở hữu và hoàn thành dịch vụ, không theo dòng tiền"
+    },
+    {
+     "id": "6ab69376f3ad31ef11df0ad8",
+     "grade": 1,
+     "title": "Trích lập dự phòng giảm giá hàng tồn kho và phải thu khó đòi cuối năm: điều kiện, mức trích, và phân biệt 2 tài khoản dự phòng"
+    }
+   ],
+   "note": "Thẻ 0a7e trả lời thẳng: VAT theo hoá đơn, khách không trả tiền không được điều chỉnh giảm, xử lý bằng dự phòng nợ khó đòi; thời điểm xuất HĐ và trích dự phòng là liên quan."
+  },
+  {
+   "id": "c-tckt-02",
+   "query": "Nghị định 70/2025 cho phép ký số hóa đơn trễ hơn ngày lập trong những trường hợp nào?",
+   "target": "cards",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab68f03f3ad31ef11df0a30",
+     "grade": 2,
+     "title": "8 trường hợp được phép xuất hóa đơn lùi ngày/ký số trễ theo Nghị định 70/2025"
+    },
+    {
+     "id": "6ab68ddff3ad31ef11df09f7",
+     "grade": 1,
+     "title": "Xuất hóa đơn sai thời điểm: 5 nguyên nhân thường gặp và mức phạt theo NĐ125, NĐ310"
+    },
+    {
+     "id": "6ab688e1f3ad31ef11df09bf",
+     "grade": 1,
+     "title": "Thời điểm xuất hóa đơn hàng hóa/dịch vụ: theo chuyển giao quyền sở hữu và hoàn thành dịch vụ, không theo dòng tiền"
+    }
+   ],
+   "note": "0a30 liệt kê 8 trường hợp lùi ngày/ký số trễ theo NĐ70; 2 thẻ thời điểm lập HĐ là nền."
+  },
+  {
+   "id": "c-tckt-03",
+   "query": "Theo Thông tư 99/2025 thì doanh nghiệp phải tự ban hành những quy chế, chính sách nội bộ gì?",
+   "target": "cards",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab690b5f3ad31ef11df0a75",
+     "grade": 2,
+     "title": "Thông tư 99/2025 buộc doanh nghiệp tự xây quy chế quản trị nội bộ về chứng từ, phân quyền và kiểm soát"
+    },
+    {
+     "id": "6ab68cf8f3ad31ef11df09cd",
+     "grade": 1,
+     "title": "Một giao dịch ngoại tệ có 3 loại tỷ giá khác nhau (hải quan, hóa đơn, kế toán): doanh nghiệp phải ban hành chính sách tỷ giá kế toán riêng theo TT99/2025"
+    },
+    {
+     "id": "6ab68e59f3ad31ef11df0a10",
+     "grade": 1,
+     "title": "Khung quản trị khi thuê kế toán dịch vụ: đồng hành từ gốc, cập nhật theo ngày, bàn giao hồ sơ định kỳ"
+    }
+   ],
+   "note": "0a75 là thẻ TT99 về quy chế quản trị nội bộ; 09cd (chính sách tỷ giá theo TT99) và 0a10 (phân công ký chứng từ theo TT99) trả lời một phần."
+  },
+  {
+   "id": "c-tckt-04",
+   "query": "hkd dt tren 1 ty co bat buoc xuat hd tu mtt ko",
+   "target": "cards",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab68bd2f3ad31ef11df09c8",
+     "grade": 2,
+     "title": "Hộ kinh doanh doanh thu từ 1 tỷ/năm phải xuất hóa đơn điện tử từ máy tính tiền, nộp thuế khoán hay kê khai"
+    },
+    {
+     "id": "6ab68fe7f3ad31ef11df0a5b",
+     "grade": 2,
+     "title": "Ai phải xuất hóa đơn từ máy tính tiền, ai được dùng hóa đơn điện tử không mã"
+    },
+    {
+     "id": "6ab69460f3ad31ef11df0b10",
+     "grade": 1,
+     "title": "Nghĩa vụ xuất hóa đơn của hộ kinh doanh: ngưỡng 1 tỷ, thời điểm và rủi ro khi không xuất"
+    },
+    {
+     "id": "6ab692fef3ad31ef11df0abc",
+     "grade": 1,
+     "title": "Nghị định 141/2026 nâng ngưỡng miễn thuế hộ kinh doanh từ 500 triệu lên 1 tỷ, đổi ngưỡng xuất hóa đơn"
+    }
+   ],
+   "note": "09c8 và 0a5b nói HKD từ 1 tỷ dùng HĐ máy tính tiền; 0b10/0abc về ngưỡng 1 tỷ xuất HĐ nói chung."
+  },
+  {
+   "id": "c-tckt-05",
+   "query": "me gia ko co luong huu thi dang ky npt giam tru dc ko",
+   "target": "cards",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab68faaf3ad31ef11df0a50",
+     "grade": 2,
+     "title": "Điều kiện được tính là người phụ thuộc để giảm trừ gia cảnh: mốc 18 tuổi, mất khả năng lao động và thu nhập không quá 1 triệu đồng/tháng"
+    },
+    {
+     "id": "6ab68fdcf3ad31ef11df0a5a",
+     "grade": 1,
+     "title": "Thời hạn đăng ký người phụ thuộc: nhóm gia đình gần hạn 31/3 (hoặc 30/4 nếu tự đăng ký), nhóm nuôi dưỡng khác hạn chót 31/12"
+    },
+    {
+     "id": "6ab692d3f3ad31ef11df0ab3",
+     "grade": 1,
+     "title": "8 cập nhật thuế TNCN từ tiền lương theo Nghị định 253/2026 và Thông tư 87/2026"
+    }
+   ],
+   "note": "0a50 điều kiện người phụ thuộc (tuổi, thu nhập ≤1tr); 0a5a hạn đăng ký NPT; 0ab3 có cập nhật điều kiện NPT."
+  },
+  {
+   "id": "c-tckt-06",
+   "query": "Mỗi tháng phải bán được bao nhiêu mới đủ bù chi phí?",
+   "target": "cards",
+   "kind": "ghep-dieu-kien",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "tckt",
+   "filters": {
+    "division": "vcservice"
+   },
+   "expected": [
+    {
+     "id": "6ab4ba13b1c921b0a784dc12",
+     "grade": 2,
+     "title": "Tách chi phí gara thành cố định và biến đổi để tính doanh thu hòa vốn, giữ chi phí cố định dưới khoảng 20% doanh thu"
+    },
+    {
+     "id": "6ab4b975b1c921b0a784dbe8",
+     "grade": 1,
+     "title": "Chọn mặt bằng gara sửa chữa: diện tích theo doanh thu, trung tâm khu vực, tiền thuê 7–9% doanh thu, thuê tối thiểu 5 năm"
+    }
+   ],
+   "note": "Lọc vcservice: chỉ thẻ gara tách định phí/biến phí tính doanh thu hoà vốn; dbe8 có ví dụ số xe/ngày để hoà vốn. Loại 0ad7/0ac7 (không division)."
+  },
+  {
+   "id": "c-tckt-07",
+   "query": "Công ty bán hàng chỉ giữ hộ khoản VAT rồi nộp lại, khách mua sau cùng mới là bên gánh khoản thuế này",
+   "target": "cards",
+   "kind": "tinh-che",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab68f6af3ad31ef11df0a46",
+     "grade": 2,
+     "title": "Bản chất thuế GTGT: doanh nghiệp chỉ thu hộ nhà nước, người tiêu dùng cuối cùng mới thực sự chịu thuế"
+    },
+    {
+     "id": "6ab69035f3ad31ef11df0a67",
+     "grade": 1,
+     "title": "Quản trị thuế là gì: kiểm soát + điều chỉnh nghĩa vụ thuế, và doanh nghiệp mang 2 vai trò nộp thuế và thu hộ"
+    },
+    {
+     "id": "6ab68f14f3ad31ef11df0a34",
+     "grade": 1,
+     "title": "Hệ thống thuế phí cơ bản của doanh nghiệp: 4 loại chính, phân biệt trực thu/gián thu, và hành trình thuế trọn vòng đời"
+    }
+   ],
+   "note": "Phát biểu lại ý chính 0a46 (bản chất GTGT: DN thu hộ). 0a67 vai trò thu hộ, 0a34 trực thu/gián thu."
+  },
+  {
+   "id": "c-hcns-01",
+   "query": "Nhân viên hay đến trễ, công ty quy định mỗi lần trừ 50 nghìn vào lương cuối tháng thì có vi phạm gì không?",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "hcns",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69293f3ad31ef11df0aa8",
+     "grade": 2,
+     "title": "Cấm dùng phạt tiền, cắt lương thay kỷ luật lao động: phạt tới 80 triệu và buộc trả lại tiền"
+    },
+    {
+     "id": "6ab69205f3ad31ef11df0a8b",
+     "grade": 1,
+     "title": "NĐ 283/2026: rà 6 nhóm hồ sơ lao động (tuyển dụng, HĐLĐ, lương, nội quy, giờ làm, BHXH) để tránh bị phạt"
+    }
+   ],
+   "note": "0aa8 cấm phạt tiền/cắt lương thay kỷ luật (ví dụ đi muộn); 0a8b nhắc cùng lỗi trong nhóm nội quy NĐ283."
+  },
+  {
+   "id": "c-hcns-02",
+   "query": "NĐ 283/2026 phạt bao nhiêu nếu công ty chưa công khai thang bảng lương và quy chế thưởng?",
+   "target": "cards",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "hcns",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab691b1f3ad31ef11df0a80",
+     "grade": 2,
+     "title": "NĐ 283/2026: phải công khai thang bảng lương, quy chế thưởng trước khi áp dụng, phạt 10-20 triệu nếu thiếu"
+    },
+    {
+     "id": "6ab69205f3ad31ef11df0a8b",
+     "grade": 1,
+     "title": "NĐ 283/2026: rà 6 nhóm hồ sơ lao động (tuyển dụng, HĐLĐ, lương, nội quy, giờ làm, BHXH) để tránh bị phạt"
+    },
+    {
+     "id": "6ab69258f3ad31ef11df0a9e",
+     "grade": 1,
+     "title": "NĐ 283/2026: các mức phạt vi phạm lao động mới từ 10/9/2026 (HĐLĐ, nghỉ phép, nội quy, trả lương, sổ lao động)"
+    }
+   ],
+   "note": "0a80 nêu đúng mức phạt 10-20tr; 0a8b có nhóm tiền lương Điều 23; 0a9e tổng hợp mức phạt NĐ283 chung."
+  },
+  {
+   "id": "c-hcns-03",
+   "query": "cty ky hd thu viec rieng thi co phai trich bh cho nv ko",
+   "target": "cards",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "hcns",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6949cf3ad31ef11df0b1d",
+     "grade": 2,
+     "title": "Thử việc 2 tháng có phải đóng BHXH không: phụ thuộc loại hợp đồng ký kết"
+    },
+    {
+     "id": "6ab68ec9f3ad31ef11df0a27",
+     "grade": 1,
+     "title": "Đối tượng bắt buộc đóng BHXH: xác định theo bản chất quan hệ lao động, không theo tên hợp đồng hay chức danh"
+    }
+   ],
+   "note": "0b1d: đóng BHXH khi thử việc tuỳ loại HĐ; 0a27 nêu trường hợp thử việc ghi trong HĐLĐ phải đóng ngay."
+  },
+  {
+   "id": "c-hcns-04",
+   "query": "Trả lương khoán sao cho nhân viên hăng hái mà không vỡ quỹ lương?",
+   "target": "cards",
+   "kind": "ghep-dieu-kien",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "hcns",
+   "filters": {
+    "division": "vcservice"
+   },
+   "expected": [
+    {
+     "id": "6ab4badeb1c921b0a784dc47",
+     "grade": 2,
+     "title": "Xây lương khoán cho tổ kỹ thuật gara: quỹ lương theo % doanh thu tổ, định biên từ quỹ, chia phần vượt theo tỷ lệ"
+    },
+    {
+     "id": "6ab4bb06b1c921b0a784dc52",
+     "grade": 2,
+     "title": "Triển khai lương khoán cần chuẩn bị đồng bộ: đủ khách, quy trình chặt, cơ chế cho vị trí gián tiếp, trao quyền trưởng bộ phận"
+    },
+    {
+     "id": "6ab4b9c4b1c921b0a784dbfc",
+     "grade": 1,
+     "title": "Lập kế hoạch kinh doanh gara: từ số xe và giá trị bình quân mỗi nhóm dịch vụ đến định biên, quỹ lương và lợi nhuận, đối chiếu nhiều chiều"
+    }
+   ],
+   "note": "Lọc vcservice: lương khoán tổ kỹ thuật gara và điều kiện triển khai; dbfc có bước tính quỹ lương gara. Loại 0ac0 (không division)."
+  },
+  {
+   "id": "c-hcns-05",
+   "query": "Khai mức lương đóng bảo hiểm thấp hơn thực trả thì công ty gặp rủi ro gì?",
+   "target": "cards",
+   "kind": "ghep-dieu-kien",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "hcns",
+   "filters": {
+    "level": "dieu-hanh"
+   },
+   "expected": [
+    {
+     "id": "6ab68e02f3ad31ef11df09fd",
+     "grade": 2,
+     "title": "Khai lương thấp hơn thực tế để giảm BHXH bị coi là trốn đóng, kèm phạt tiền và mất chi phí được trừ"
+    },
+    {
+     "id": "6ab6908df3ad31ef11df0a70",
+     "grade": 1,
+     "title": "Hà Nội siết BHXH bằng dữ liệu liên ngành (Quy chế 3036): 8 cơ quan đối chiếu dữ liệu lao động, lương, thuế"
+    },
+    {
+     "id": "6ab68d52f3ad31ef11df09de",
+     "grade": 1,
+     "title": "Sổ sách gọn gàng chưa chắc an toàn thuế: cơ quan thuế soi bản chất giao dịch, không nhìn con số báo cáo"
+    }
+   ],
+   "note": "Lọc điều hành: 09fd đúng trọng tâm; 0a70 (đối chiếu dữ liệu liên ngành) và 09de (bị truy thu khi tách phụ cấp) liên quan. Loại 09e1/0a11 (thực thi/thiết kế)."
+  },
+  {
+   "id": "c-hcns-06",
+   "query": "Khoản trả đều hằng tháng dù đặt tên là hỗ trợ xăng xe hay điện thoại vẫn phải cộng vào mức lương làm căn cứ trích bảo hiểm",
+   "target": "cards",
+   "kind": "tinh-che",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "hcns",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab68d5cf3ad31ef11df09e1",
+     "grade": 2,
+     "title": "Căn cứ đóng BHXH: khoản trả thường xuyên ổn định vẫn phải tính, dù đặt tên là phụ cấp hay hỗ trợ"
+    },
+    {
+     "id": "6ab69460f3ad31ef11df0b0f",
+     "grade": 1,
+     "title": "Hơn 10 khoản phụ cấp, phúc lợi được miễn đóng BHXH theo Thông tư 10/2020"
+    },
+    {
+     "id": "6ab69527f3ad31ef11df0b2b",
+     "grade": 1,
+     "title": "Trả tiền theo bản chất, không theo tên gọi: cách phân loại đúng lương chức danh, phụ cấp, khoán công vụ, phúc lợi, thưởng"
+    }
+   ],
+   "note": "Ý chính 09e1 (thẻ trùng 09f0 đã gộp vào). 0b0f khoản được miễn, 0b2b trả theo bản chất."
+  },
+  {
+   "id": "c-hcns-07",
+   "query": "kinh phí công đoàn",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "hcns",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab690caf3ad31ef11df0a76",
+     "grade": 2,
+     "title": "Nghị định 105/2026: kinh phí công đoàn 2% quỹ lương là nghĩa vụ doanh nghiệp, không được trừ vào lương người lao động"
+    },
+    {
+     "id": "6ab69364f3ad31ef11df0ad3",
+     "grade": 2,
+     "title": "Kinh phí công đoàn 2026: đối tượng, mức đóng 2%/0,5%, thời hạn và mức phạt chậm nộp"
+    }
+   ],
+   "note": "Chỉ 2 thẻ nói KPCĐ."
+  },
+  {
+   "id": "c-qltt-01",
+   "query": "Vừa được đề bạt làm trưởng nhóm mà mấy anh làm lâu năm không phục, em phải làm sao để họ chịu nghe?",
+   "target": "cards",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "qltt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69f97f3ad31ef11df0c39",
+     "grade": 2,
+     "title": "Leader mới xây uy tín với nhân sự cũ: nể phục là kết quả chứng minh được, không phải đặc quyền đi kèm chức danh"
+    },
+    {
+     "id": "6ab6a3c6f3ad31ef11df0c76",
+     "grade": 2,
+     "title": "Quản lý mới nhậm chức: từ nhún nhường sang quyết đoán để xây uy quyền, quan sát trước khi hành động"
+    },
+    {
+     "id": "6ab69a3df3ad31ef11df0b59",
+     "grade": 1,
+     "title": "2 sai lầm khiến leader mất uy tín: quá hiền mất nể trọng, quá vội chứng minh bản thân mất công bằng"
+    },
+    {
+     "id": "6ab69aadf3ad31ef11df0b76",
+     "grade": 1,
+     "title": "Chuẩn bị khi tiếp quản vị trí mới: hiểu lý do được tuyển, quyền lực thực sự vận hành, phân loại đội ngũ"
+    },
+    {
+     "id": "6ab69ef3f3ad31ef11df0c1e",
+     "grade": 1,
+     "title": "Sếp không cần được nhân viên yêu quý, nhưng bắt buộc phải được tôn trọng — nhượng bộ quá mức chỉ mua được sự yêu quý ngắn hạn"
+    }
+   ],
+   "note": "0c39 (xây uy tín với nhân sự cũ) và 0c76 (người kỳ cựu bất mãn với quản lý mới) đúng trọng tâm; các thẻ giữ uy/tiếp quản vị trí là liên quan."
+  },
+  {
+   "id": "c-qltt-02",
+   "query": "Quyết định 33/2026/QĐ-TTg có bắt công ty mình phải làm gì khi đưa AI vào vận hành không?",
+   "target": "cards",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "qltt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69465f3ad31ef11df0b11",
+     "grade": 2,
+     "title": "Quyết định 33/2026/QĐ-TTg: doanh nghiệp dùng AI cần rà soát xem hệ thống có thuộc danh mục \"rủi ro cao\" không"
+    },
+    {
+     "id": "6ab7308fe8a762a4385a5365",
+     "grade": 1,
+     "title": "Human in the Loop: đặt con người vào điểm quyết định rủi ro cao (tiền, dữ liệu khách, quyết định khó hoàn tác)"
+    }
+   ],
+   "note": "Chỉ 0b11 nói QĐ33; Human in the Loop là thực hành giám sát con người liên quan."
+  },
+  {
+   "id": "c-qltt-03",
+   "query": "nv cai sep giua cuoc hop truoc ca team thi xu ly sao",
+   "target": "cards",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "qltt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab69b1cf3ad31ef11df0b89",
+     "grade": 2,
+     "title": "Vì sao nhân viên dám cãi sếp, và ranh giới giữa cãi xây dựng với làm mất mặt"
+    },
+    {
+     "id": "6ab69eebf3ad31ef11df0c1b",
+     "grade": 2,
+     "title": "Phân biệt nhân viên cãi vì kiến thức phản biện hay vì cái tôi: 4 câu hỏi để kiểm tra"
+    },
+    {
+     "id": "6ab69b4df3ad31ef11df0b8c",
+     "grade": 2,
+     "title": "Khi nhân viên cãi sếp không sợ hậu quả: leader cần đối thoại với sếp trên trước, làm rõ quyền hạn"
+    },
+    {
+     "id": "6ab4bbf5b1c921b0a784dc8c",
+     "grade": 1,
+     "title": "Xử lý nhân viên chống lệnh và bè phái: xin quyền kỷ luật kèm giải pháp, tìm chất kết dính của nhóm và giao đủ việc"
+    }
+   ],
+   "note": "3 thẻ về nhân viên cãi sếp (nguyên nhân, phân biệt phản biện/cái tôi, leader xử lý); dc8c về nhân viên chống lệnh."
+  },
+  {
+   "id": "c-qltt-04",
+   "query": "Mới lên quản lý nhóm thì quyền của mình tới đâu, có được tự quyết cho ai nghỉ việc không?",
+   "target": "cards",
+   "kind": "ghep-dieu-kien",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "qltt",
+   "filters": {
+    "level": "nhap-mon"
+   },
+   "expected": [
+    {
+     "id": "6ab69a52f3ad31ef11df0b60",
+     "grade": 2,
+     "title": "Team lead mới cần tách bạch 2 vai trò: 90% là phụ trách chuyên môn, quyết định nhân sự thuộc về cấp trên"
+    },
+    {
+     "id": "6ab69e09f3ad31ef11df0bf0",
+     "grade": 1,
+     "title": "Leader và Manager khác nhau về bản chất; chuyên môn giỏi cần thiết cho leader nhưng không phải bảo chứng cho một sếp tốt"
+    }
+   ],
+   "note": "Lọc nhập môn: 0b60 (team lead mới, quyết định nhân sự thuộc cấp trên) đúng trọng tâm; 0bf0 phân biệt leader/manager. Loại các thẻ vận hành như 0c39/0b62."
+  },
+  {
+   "id": "c-qltt-05",
+   "query": "Cân nhắc để trợ lý AI đảm nhận thử khối việc mới rồi hẵng quyết định có cần thêm người hay không",
+   "target": "cards",
+   "kind": "tinh-che",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "qltt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab73108e8a762a4385a537d",
+     "grade": 2,
+     "title": "Dùng AI Agent trước khi tuyển thêm người: kiểm tra AI xử lý được bao nhiêu phần việc trước khi quyết định tuyển"
+    },
+    {
+     "id": "6ab7314ae8a762a4385a538b",
+     "grade": 1,
+     "title": "Case thực tế: vận hành doanh nghiệp với 5 AI Agent trong 3 tháng không cần tuyển thêm người"
+    }
+   ],
+   "note": "Ý chính 537d; 538b là case 5 agent không tuyển thêm người."
+  },
+  {
+   "id": "c-qltt-06",
+   "query": "giải thể doanh nghiệp",
+   "target": "cards",
+   "kind": "tu-khoa-ngan",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "qltt",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab693fbf3ad31ef11df0af9",
+     "grade": 2,
+     "title": "Giải thể doanh nghiệp: rà soát sạch công nợ, tài sản, hồ sơ thuế theo 5 bước trước khi nộp hồ sơ giải thể"
+    },
+    {
+     "id": "6ab68f14f3ad31ef11df0a34",
+     "grade": 1,
+     "title": "Hệ thống thuế phí cơ bản của doanh nghiệp: 4 loại chính, phân biệt trực thu/gián thu, và hành trình thuế trọn vòng đời"
+    }
+   ],
+   "note": "0af9 quy trình giải thể; 0a34 nhắc thủ tục thuế khi tạm dừng/giải thể trong vòng đời thuế."
+  },
+  {
+   "id": "c-mh-01",
+   "query": "Hàng gửi đi hay bị giao chậm, thất lạc thì xử lý sao?",
+   "target": "cards",
+   "kind": "ghep-dieu-kien",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "mh",
+   "filters": {
+    "category": "mh"
+   },
+   "expected": [
+    {
+     "id": "6ab6fe86f3ad31ef11df0e07",
+     "grade": 2,
+     "title": "Đối xử tốt và chủ động với shipper/bưu cục là cách chống trễ đơn và mất hàng hiệu quả nhất"
+    }
+   ],
+   "note": "Lọc nhánh mh: chỉ 0e07 (shipper chậm, mất hàng). Loại thẻ bh 0e19 đối chiếu vận đơn thất lạc."
+  },
+  {
+   "id": "c-mh-02",
+   "query": "Nên cân và đo kích thước cả hộp sau khi đóng xong, khai theo khối lượng quy đổi chứ không phải theo sản phẩm bên trong",
+   "target": "cards",
+   "kind": "tinh-che",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "mh",
+   "filters": {},
+   "expected": [
+    {
+     "id": "6ab6fc4bf3ad31ef11df0de3",
+     "grade": 2,
+     "title": "Cách cân/khai trọng lượng đóng gói để tránh bị phạt cân nặng trên TikTok Shop"
+    },
+    {
+     "id": "6ab6fbf0f3ad31ef11df0dd3",
+     "grade": 1,
+     "title": "Cách tra cứu đơn hàng bị phạt cân nặng trong báo cáo quyết toán TikTok Shop"
+    }
+   ],
+   "note": "Ý chính 0de3 (cân nặng quy đổi theo thể tích hộp); 0dd3 tra cứu đơn bị phạt cân nặng."
+  },
+  {
+   "id": "d-01",
+   "query": "Xe đời cũ chuyển sang đổ xăng sinh học thì hệ thống nhiên liệu có bị ảnh hưởng gì không?",
+   "target": "documents",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab7740dae8dcc827e80e65c",
+     "grade": 2,
+     "start": 845,
+     "title": "Xe châu âu dùng xăng E10 cần chú ý làm ngay việc này! #carplus #XangE10 #MercedesGLC200 #VeSinhKimPhun"
+    },
+    {
+     "document_id": "6ab7747aae8dcc827e810f03",
+     "grade": 2,
+     "start": 888,
+     "title": "Xăng E10 khiến Mercedes S phải cứu hộ? Sự thật bất ngờ! #MercedesBenz #XangE10 #Carplus"
+    },
+    {
+     "document_id": "6ab76dcfae8dcc827e7d7194",
+     "grade": 2,
+     "start": 1077,
+     "title": "Xe BMW bị ì máy, đề dai? Có thể do bơm xăng của bạn! #bmw #suaxe #carplus"
+    },
+    {
+     "document_id": "6ab7746dae8dcc827e8107e0",
+     "grade": 2,
+     "start": 1352,
+     "title": "Volvo XC60 bảo dưỡng mốc 9 vạn km đúng cách"
+    },
+    {
+     "document_id": "6ab77173ae8dcc827e7f2b32",
+     "grade": 1,
+     "start": 1055,
+     "title": "Mer C300 bảo dưỡng cấp 11 vạn km: Vì sao hoá đơn phát sinh vài chục triệu? #carplus #mercedes #baoduongmercedes"
+    },
+    {
+     "document_id": "6ab771fbae8dcc827e7f6acb",
+     "grade": 1,
+     "start": 2737,
+     "title": "Dọn BMW 5 series F10 sau 10 năm: Loạt lỗi kinh niên trên BMW! #BMWF10 #BaoDuongBMW #SuaBMW #Carplus #bmw"
+    },
+    {
+     "document_id": "6ab772b5ae8dcc827e7ff625",
+     "grade": 1,
+     "start": 1104,
+     "title": "Mercedes S450 bảo dưỡng định kỳ: Tưởng bị đắt, ai ngờ còn tiết kiệm được vài chục triệu! #carplus #MercedesS450 #BaoDuongMercedes #SuaGamMercedes"
+    }
+   ],
+   "note": "Xăng sinh học = E10 (10% ethanol/cồn). 4 video Carplus giải thích cơ chế cặn bẩn bình/lọc xăng bị tẩy ra gây tắc kim phun, bơm xăng → grade 2. 3 video chỉ nhắc 'do chuyển sang E10 nên vệ sinh kim phun' → grade 1. Dò: e10|ethanol trên toàn kho."
+  },
+  {
+   "id": "d-02",
+   "query": "Hỏi ứng viên mục tiêu 6 tháng tới mà họ trả lời là 'làm quen với công việc' thì nên đánh giá thế nào?",
+   "target": "documents",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "hcns",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab4ea3557d199eea286c312",
+     "grade": 2,
+     "start": 446,
+     "title": "1 câu hỏi nhỏ nên chuẩn bị để ko bị mất điểm khi PV #TUDO"
+    }
+   ],
+   "note": "Chỉ video Anh Anh TUDO nói chi tiết này (trả lời 'làm quen công việc' = không có mục tiêu rõ). Dò 'lam quen (voi )?cong viec' chỉ ra thêm 1 video AI agent onboarding, không liên quan."
+  },
+  {
+   "id": "d-03",
+   "query": "Hợp đồng dịch vụ thu 2 đợt 50%, mình xuất hoá đơn đợt 1 để khách chuyển tiền nhưng khách chưa trả thì có bị coi là lập hoá đơn sớm không?",
+   "target": "documents",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab5267957d199eea2890ac1",
+     "grade": 2,
+     "start": 1325,
+     "title": "XUẤT HOÁ ĐƠN TRƯỚC KHI KHÁCH THANH TOÁN CÓ BỊ COI LÀ SAI THỜI ĐIỂM KHÔNG? #cochinhquantritaichinh #giamdoc #thue #kinhdoanh #khoinghiep"
+    },
+    {
+     "document_id": "6ab526c557d199eea2890b3e",
+     "grade": 1,
+     "start": 1309,
+     "title": "NHẬN TIỀN TẠM ỨNG HỢP ĐỒNG DỊCH VỤ CÓ PHẢI XUẤT HOÁ ĐƠN NGAY KHÔNG? #cochinhquantritaichinh #giamdoc #thue #kinhdoanh #khoinghiep"
+    },
+    {
+     "document_id": "6ab526ba57d199eea2890b29",
+     "grade": 1,
+     "start": 1797,
+     "title": "THỜI ĐIỂM LẬP HOÁ ĐƠN THEO NGHỊ ĐỊNH 254/2026/NĐ-CP CÓ GÌ GIỐNG VÀ KHÁC NGHỊ ĐỊNH 70/2025/NĐ-CP, NGHỊ ĐỊNH 123/2020/NĐ-CP ?#cochinhquantritaichinh #kinhdoanh #khoinghiep #thue   #Trending"
+    },
+    {
+     "document_id": "6ab5407457d199eea2892a5d",
+     "grade": 1,
+     "title": "Lớp 2 – Căn cứ pháp lý (đúng khoản/mục, trích cụ thể) 1.Thời điểm lập hóa đơn dịch vụ (nguyên tắc chung) •Điều 9 khoản 2 Nghị định 123/2020/NĐ-CP: - Hoàn thành dịch vụ → lập hóa đơn; - Nếu thu tiền tr"
+    },
+    {
+     "document_id": "6ab543c357d199eea2892e58",
+     "grade": 1,
+     "title": "Dịch vụ khác hàng hóa ở một điểm rất quan trọng:  👉 Hóa đơn dịch vụ gắn với “thời điểm hoàn thành nghĩa vụ dịch vụ”, không gắn với thời điểm giao vật chất. Vì vậy: 1. Nếu dịch vụ đã HOÀN THÀNH trước ,"
+    },
+    {
+     "document_id": "6ab5445a57d199eea2892f4c",
+     "grade": 1,
+     "title": "GIÁM ĐỐC HỎI:  \" Thời điểm nào được xem là đúng quy định khi xuất hóa đơn? Căn cứ theo NĐ 123 và NĐ 70, xuất sai sẽ bị xử phạt như thế nào? Cách quản trị để tránh rủi ro? \"  Căn cứ pháp lý  1. Thời đi"
+    },
+    {
+     "document_id": "6ab5263e57d199eea2890a6e",
+     "grade": 1,
+     "title": "DỊCH VỤ NHẬN TIỀN ĐẶT CỌC NHƯNG CHƯA XUẤT HOÁ ĐƠN. KHI THANH LÝ HỢP ĐỒNG , DN CÓ ĐƯỢC CẤN TRỪ TIỀN ĐẶT CỌC VÀO SỐ TIỀN KHÁCH PHẢI THANH TOÁN HAY BẮT BUỘC PHẢI THU ĐỦ RỒI MỚI HOÀN LẠI TIỀN ĐẶT CỌC #coc"
+    }
+   ],
+   "note": "Grade 2: video Cô Chinh đúng tình huống (dịch vụ 2 đợt 50%, xuất HĐ trước khi thu tiền → rủi ro lập trước thời điểm; phân biệt ứng trước/đặt cọc). Grade 1: các bài cùng kênh về thời điểm lập HĐ dịch vụ (khi hoàn thành hoặc khi thu tiền), tạm ứng, đặt cọc. Dò: dịch vụ + (thời điểm thu tiền|tạm ứng|ứng trước) + (lập|xuất) hoá đơn + thời điểm. Còn nhiều bài chung về 'xuất hoá đơn sai thời điểm' (hàng hoá, mức phạt) không chấm."
+  },
+  {
+   "id": "d-04",
+   "query": "Chủ gara chê van hằng nhiệt hàng Đức đắt, bảo mua hàng Trung Quốc rẻ hơn mà vẫn chạy tốt, sale nên đối đáp thế nào?",
+   "target": "documents",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab5b44b57d199eea289eeb2",
+     "grade": 2,
+     "start": 481,
+     "title": "Nhật ký đi thị trường gara Tới"
+    },
+    {
+     "document_id": "6ab4b33757d199eea2848f1d",
+     "grade": 1,
+     "title": "1790216806316_4818297194723379172_g7023001554246208588"
+    }
+   ],
+   "note": "Ghi âm nội bộ 'Nhật ký đi thị trường gara Tới': khách lọc lõi so giá van hằng nhiệt hàng Đức vs hàng TQ không hoá đơn; cách xử lý: không đối đầu trực diện, vòng qua chuyện khác rồi quay lại. Grade 1: ghi âm coaching sale nội bộ (file video 1790...) về hiểu khách gara, đặt câu hỏi mở. Các video dạy xử lý từ chối chung (dxtsales) không chấm vì không nói tình huống này."
+  },
+  {
+   "id": "d-05",
+   "query": "Thị trường tràn lan hàng nhái sản phẩm của mình, có nên dồn tiền đi truy quét không hay nên làm gì?",
+   "target": "documents",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "mkt",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab5c1db57d199eea28a1acd",
+     "grade": 2,
+     "start": 442,
+     "title": "Cuộc chiến hàng giả - hàng thật #vinhthaimarketing #marketingtongthe #omp"
+    }
+   ],
+   "note": "Trần Mạnh Hùng: sống chung với lũ, không chống tuyệt đối; làm hàng thật mạnh + quản lý kênh phân phối như nước ngọt đẩy nước mặn; bắt 1 ra 10. Dò (chong|danh|bat|dep) hang gia|song chung voi: chỉ tài liệu này bàn chiến lược đối phó (các bài 'hàng giả' khác nói vi phạm TikTok, nói không với hàng giả VC Parts — không trả lời)."
+  },
+  {
+   "id": "d-06",
+   "query": "Wiki nội bộ công ty có cơ chế thưởng cho người hay bình luận, chấm sao bài viết không?",
+   "target": "documents",
+   "kind": "dien-dat-khac",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "qltt",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab654048493a496901da205",
+     "grade": 2,
+     "start": 1706,
+     "title": "Demo VCWIKI (00:00–30:00)"
+    }
+   ],
+   "note": "Ghi âm 'Demo VCWIKI': mỗi bài có comment, chấm sao; cuối tháng bình chọn ai comment/được sao nhiều để trao giải. Dò wiki + (bình chọn|giải thưởng|khen thưởng|nhiều sao): chỉ tài liệu này."
+  },
+  {
+   "id": "d-07",
+   "query": "VC Parts có phân phối hàng Monroe với vòng bi FAG không?",
+   "target": "documents",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab784b3ae8dcc827e83358a",
+     "grade": 2,
+     "start": 1179,
+     "title": "VC Parts hợp tác với những thương hiệu phụ tùng nào các bác có biết không ? #phutungchinhhang #vcphonvinh #vcparts #phutungoto"
+    }
+   ],
+   "note": "Video kênh VC Parts đi dạo kho: Febi, Mahle, Monroe, FAG... Dò monroe|\\bfag\\b: chỉ 1 tài liệu."
+  },
+  {
+   "id": "d-08",
+   "query": "Tính năng Multi Warehouse trên TikTok Shop cho tạo tối đa bao nhiêu kho hàng?",
+   "target": "documents",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "mh",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab69413ae8dcc827e65617b",
+     "grade": 2,
+     "start": 522,
+     "title": "Hướng dẫn tạo nhiều kho hàng trên tiktok shop #damvantuan #quangcaotiktok #banhangtiktokshop"
+    },
+    {
+     "document_id": "6ab67da5ae8dcc827e63c0a7",
+     "grade": 2,
+     "start": 965,
+     "title": "TikTok Shop ra mắt tính năng Quản lý đa kho, các Shop đã thử tính năng mới này trên Seller Center chưa?"
+    }
+   ],
+   "note": "Cả 2 video nói tối đa 45 kho (Đàm Văn Tuấn: 'Martipo Warehouse' = Multi Warehouse; Hoàng COMME: 'quản lý đa kho'). Dò 45 kho|multi|warehouse|da kho."
+  },
+  {
+   "id": "d-09",
+   "query": "Video bị TikTok phạt 8 điểm vì nội dung không nguyên bản thì kháng nghị cần chuẩn bị gì?",
+   "target": "documents",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab70dc1ae8dcc827e68e2aa",
+     "grade": 2,
+     "start": 1067,
+     "title": "Cách kháng thành công vi phạm sao chép video bị phạt 8 điểm trên tiktok #damvantuan #banhangtiktokshop #quangcaotiktok #livestreambanhang #xaykenhtiktok"
+    },
+    {
+     "document_id": "6ab67b07ae8dcc827e63862e",
+     "grade": 1,
+     "start": 2172,
+     "title": "KOC ngại nhận video sản phẩm sức khỏe vì quy định mới yêu cầu xác minh thông tin chính xác, NBH nên xử lý thế nào? (P1)"
+    },
+    {
+     "document_id": "6ab68efcae8dcc827e64e70c",
+     "grade": 1,
+     "start": 585,
+     "title": "TikTok có đang “chấm điểm” từng loại tài khoản? Affiliate hay Kênh chính đều có cơ chế riêng cần hiểu rõ! #tiktokshop #kinhnghiembanhang #chaydontiktok #banhangonline2025"
+    }
+   ],
+   "note": "Grade 2: hướng dẫn kháng (ảnh + video dựng lại bối cảnh, đưa lên Drive, vào Tình trạng tài khoản → Khiếu nại). Grade 1: nhắc kháng vi phạm reup/không nguyên bản; cơ chế điểm vi phạm (8 điểm = 1 sao). Dò 8 diem|khong nguyen ban."
+  },
+  {
+   "id": "d-10",
+   "query": "TikTok Creative Center với Meta Ad Library dùng để research content như thế nào?",
+   "target": "documents",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "mkt",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab4a87557d199eea2842767",
+     "grade": 2,
+     "start": 916,
+     "title": "Tool nghiên cứu trong Marketing #marketing #researchtips #marketingtips #digitalmarketing Cre: tanthinhvnex"
+    },
+    {
+     "document_id": "6ab4a87557d199eea2842761",
+     "grade": 1,
+     "title": "Công cụ tìm content viral #marketing #contentmarketing #socialmediatips #researchtips"
+    },
+    {
+     "document_id": "6ab4a87557d199eea2842763",
+     "grade": 1,
+     "title": "Tool nghiên cứu cho các bạn làm Marketing #marketing #researchtips #marketingtips"
+    }
+   ],
+   "note": "Chỉ video 'Tool nghiên cứu trong Marketing' nhắc TikTok Creative Center + Meta Ad Library (miễn phí, xem nội dung đang chạy). Grade 1: 2 video Chuyện Mar khác liệt kê tool research (BuzzSumo, Google Trends...). Dò creative center|ad library|thu vien quang cao."
+  },
+  {
+   "id": "d-11",
+   "query": "Công ty thương mại 8 lao động đóng BHXH, doanh thu 9 tỷ thì có được áp chế độ kế toán theo Thông tư 58/2026 không?",
+   "target": "documents",
+   "kind": "so-hieu-ma-ten-rieng",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab57e2157d199eea2898b25",
+     "grade": 2,
+     "start": 1709,
+     "title": "🍀TÓM TẮT THÔNG TƯ 58/2026 - CHẾ ĐỘ KẾ TOÁN DOANH NGHIỆP SIÊU NHỎ🍀 -------------------------------------- 🍀 “Chị Gái Kế Toán” là kênh chia sẻ kiến thức và kinh nghiệm thực tế về lĩnh vực Kế toán, Thuế "
+    },
+    {
+     "document_id": "6ab530c557d199eea2891722",
+     "grade": 2,
+     "start": 2470,
+     "title": "GIÁM ĐỐC LƯU Ý THÔNG TƯ 58/2026/TT-BTC HƯỚNG DẪN CHẾ ĐỘ KẾ TOÁN ĐƠN GIẢN CHO DOANH NGHIỆP SIÊU NHỎ #cochinhquantritaichinh #thue #giamdoc #taichinh #doanhnghiep"
+    },
+    {
+     "document_id": "6ab57de457d199eea2898ac4",
+     "grade": 1,
+     "title": "🍀TOP 3 CÂU HỎI THƯỜNG GẶP LIÊN QUAN TỚI THÔNG TƯ 58/2026/TT-BTC🍀 -------------------------------------- 🍀 “Chị Gái Kế Toán” là kênh chia sẻ kiến thức và kinh nghiệm thực tế về lĩnh vực Kế toán, Thuế v"
+    },
+    {
+     "document_id": "6ab57e0457d199eea2898b01",
+     "grade": 1,
+     "title": "Bạn Bình ngâm cứu thông tư 58/2026/TT-BTC về chế độ kế toán doanh nghiệp siêu nhỏ. Bạn Bình up chia sẻ cho bạn đồng kế nào cần nhé 🍀🍀🍀 #Chigaiketoan #Ketoan #learnontiktok #xuhuong #daotaoketoan"
+    },
+    {
+     "document_id": "6ab599bd57d199eea289bd74",
+     "grade": 1,
+     "title": "9. Ai được tính là HKD, cá nhân kinh doanh lớn? Cùng xem có phải chúng ta không nhé! P1. HỘ KINH DOANH #chigaiketoan #MsBinhVu #learnontiktok #hoccungtiktok #Master2023byTikTok #tuvandaotaotckt #ketoa"
+    }
+   ],
+   "note": "Grade 2: nêu tiêu chí DN siêu nhỏ (≤10 lao động BHXH, doanh thu ≤10 tỷ hoặc nguồn vốn ≤3 tỷ với thương mại–dịch vụ) và TT58 áp cho DN siêu nhỏ. Grade 1: câu hỏi thường gặp TT58, bài caption TT58, tiêu chí HKD lớn tham chiếu mức siêu nhỏ. Dò (thong tu|tt) ?58|sieu nho + 10 người + 10 tỷ."
+  },
+  {
+   "id": "d-12",
+   "query": "sao phu tung nhap khau ve phai dan tem phu tieng viet vay",
+   "target": "documents",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "mh",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab784f8ae8dcc827e833831",
+     "grade": 2,
+     "start": 597,
+     "title": "Tại sao phải dán tem phụ? Các bác đã biết chưa ? #vcphonvinh #vcparts #phutungchinhhang #mahle #phutungoto"
+    },
+    {
+     "document_id": "6ab7850aae8dcc827e83389e",
+     "grade": 2,
+     "start": 731,
+     "title": "#vcparts #vcphonvinh #mahle #phutungchinhhang"
+    }
+   ],
+   "note": "2 video VC Parts: tem phụ theo quy định hàng nhập khẩu, ghi mã, tên, đơn vị nhập khẩu để bảo hành. Dò tem phu: thêm 1 video thehoangwork chỉ nhắc 'có tem phụ' — không chấm."
+  },
+  {
+   "id": "d-13",
+   "query": "dau nam ket chuyen 4212 sang 4211 but toan ntn",
+   "target": "documents",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "tckt",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab5952b57d199eea289b4a0",
+     "grade": 2,
+     "start": 3058,
+     "title": "11. Nói về bạn 421 - LỢI NHUẬN SAU THUẾ CHƯA PHÂN PHỐI và việc kết chuyển Lỗ/Lãi đầu năm nhé.   P4. NGUYÊN LÝ CHUNG ##chigaiketoan##MsBinhVu##learnontiktok##ketoan##xuhuong##daotaoketoantonghop##damme"
+    }
+   ],
+   "note": "Chỉ 1 tài liệu có 4212 với nội dung (các hit khác là số trong link video). Bút toán: lãi Nợ 4212/Có 4211; lỗ ngược lại."
+  },
+  {
+   "id": "d-14",
+   "query": "tiktok shop ko rut dc tien co phai do chua doi cmnd sang cccd k",
+   "target": "documents",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "bh",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab70f01ae8dcc827e68e669",
+     "grade": 2,
+     "start": 718,
+     "title": "Cách xử lý tiktok shop không rút được T.IỀ.N #damvantuan #quangcaotiktok #banhangtiktokshop #livestreambanhang #xaykenhtiktok"
+    },
+    {
+     "document_id": "6ab6d040ae8dcc827e672f52",
+     "grade": 1,
+     "title": "Trả lời @TheBoy Store Vì sao nhập mã số thuế rồi mà vẫn không rút được tiềnn? #thehoangwork #taodongluc"
+    },
+    {
+     "document_id": "6ab70e37ae8dcc827e68e3cd",
+     "grade": 1,
+     "title": "Lý do không cập nhật được mã số thuế trên tiktok shop #damvantuan #banhangtiktokshop #quangcaotiktok #livestreambanhang #xaykenhtiktok"
+    }
+   ],
+   "note": "Grade 2: 2 nguyên nhân (chưa nâng CMND→căn cước, chưa nhập MST) + cách cập nhật. Grade 1: lỗi rút tiền do xác minh người rút / chưa cập nhật MST. Dò (khong|ko|chua) rut (duoc )?tien|loi rut tien."
+  },
+  {
+   "id": "d-16",
+   "query": "nhoi het vao 1 prompt dai thi agent hay bi loan, nen tach ra ntn",
+   "target": "documents",
+   "kind": "khong-dau-viet-tat",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "qltt",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab713b6ae8dcc827e693861",
+     "grade": 2,
+     "start": 1022,
+     "title": "Đừng biến AI Agent của bạn thành một mớ hỗn độn!  Sai lầm lớn nhất khi làm AI Agent là cái gì cũng nhồi hết vào Prompt. Kết quả là Agent phản hồi chậm, hay \"bịa\" và loay hoay không rõ vai trò. Muốn Ag"
+    },
+    {
+     "document_id": "6ab71224ae8dcc827e692a65",
+     "grade": 2,
+     "start": 856,
+     "title": "Đừng nhồi mọi thứ vào một prompt rồi kỳ vọng AI Agent nhớ mãi. Muốn Agent làm đúng và ổn định, hãy xây dựng Knowledge Vault – nơi lưu trữ tri thức để Agent tra cứu khi cần. Follow để hiểu cách xây AI "
+    },
+    {
+     "document_id": "6ab713daae8dcc827e69393a",
+     "grade": 2,
+     "title": "Đừng cố nhét mọi thứ vào một cái Prompt nữa! Prompt quá dài chỉ làm AI dễ bị \"loạn\" và giảm chất lượng câu trả lời. Bí quyết của một AI Agent thực thụ nằm ở hệ thống Memory (Trí nhớ) và Kho tri thức t"
+    }
+   ],
+   "note": "3 video Origin AI Agent: không nhồi mọi thứ vào prompt; tách vai trò/skill/tool/memory, dùng knowledge vault tra cứu. Dò \\bprompt: các hit khác chỉ nhắc prompt thoáng qua."
+  },
+  {
+   "id": "d-17",
+   "query": "phạt cân nặng",
+   "target": "documents",
+   "kind": "tu-khoa-ngan",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "mh",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab6eaa0ae8dcc827e6776cf",
+     "grade": 2,
+     "title": "Phạtt cân nặng và cách né phạtt cân nặng #thehoangwork #marketing #banhang #tiktokshop"
+    },
+    {
+     "document_id": "6ab6cf28ae8dcc827e672c24",
+     "grade": 2,
+     "title": "Lưu ý khi gửi hàng trên Top top shop #thehoangwork #taodongluc #freeship"
+    },
+    {
+     "document_id": "6ab6ed88ae8dcc827e677f0e",
+     "grade": 2,
+     "title": "Hết sạch lãi khi bị trừ phí cân nặng, cách khắc phục như thế nào? #thehoangwork  #marketing #banhang #tiktokshop"
+    },
+    {
+     "document_id": "6ab6eea4ae8dcc827e678242",
+     "grade": 2,
+     "title": "Cách tránh bị phạtt cân nặng khi bánn hàngg trên Top Top Shop #thehoangwork #tiktokshop #marketing #banhang #nguyenthehoang"
+    },
+    {
+     "document_id": "6ab6ed7bae8dcc827e677eeb",
+     "grade": 2,
+     "title": "Trả lời @Tổng Kho Băng Dính - HNC   CÁCH ĐỂ XEM đơn hàng bị phạt CÂN NẶNG #thehoangwork  #marketing #banhang #tiktokshop"
+    },
+    {
+     "document_id": "6ab6ed69ae8dcc827e677ea0",
+     "grade": 2,
+     "title": "Cách tìm đơn hàng bị ph*t cân nặng #thehoangwork"
+    },
+    {
+     "document_id": "6ab6e3e4ae8dcc827e67654e",
+     "grade": 2,
+     "title": "Trả lời @Giangmit283.1 Nên để trọng lượng kích thước sản phẩm như thế nào? #thehoangwork #nguyenthehoang #tiktokshop #banhangtiktokshop #GamingOnTikTok"
+    },
+    {
+     "document_id": "6ab6da20ae8dcc827e674bda",
+     "grade": 1,
+     "title": "Hiểu sai về cân nặng mà mọi người chưa biết #thehoangwork #tiktokshop #livestreamtiktok"
+    },
+    {
+     "document_id": "6ab6e402ae8dcc827e67658b",
+     "grade": 1,
+     "title": "Tin vui cho ae bị tụt đơn vì shipp tăng cao #thehoangwork #ffws2023 #nguyenthehoang #tiktokshop #chinhsachtiktok #freeship"
+    }
+   ],
+   "note": "Video thehoangwork về phạt/phí cân nặng TikTok Shop (6ab6eaa0 và 6ab6cf28 gần như trùng lời). Grade 1: cân nặng combo, tiền ship/cân chỉnh cân nặng. Dò phat+ can nang|can nang (loại các hit 'can nang luc/luong')."
+  },
+  {
+   "id": "d-18",
+   "query": "doanh nghiệp một người",
+   "target": "documents",
+   "kind": "tu-khoa-ngan",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "qltt",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab71351ae8dcc827e693183",
+     "grade": 2,
+     "title": "Rất nhiều người đang nhầm lẫn. OPC (One Person Company) không có nghĩa là một mình làm tất cả. Đó là một người điều hành cả một hệ thống, nơi AI Agent và quy trình làm việc thay con người xử lý phần l"
+    },
+    {
+     "document_id": "6ab71343ae8dcc827e69315d",
+     "grade": 2,
+     "title": "OCP không phải là một mình làm tất cả. Đó là mô hình xây dựng một hệ thống đủ tốt để 1 người vẫn có thể vận hành và mở rộng doanh nghiệp. Đừng xây OCP chỉ vì nó đang hot. Hãy xây khi bạn đã có quy trì"
+    },
+    {
+     "document_id": "6ab713f6ae8dcc827e6939a4",
+     "grade": 2,
+     "title": "Kỷ nguyên AI Agent: Khi doanh nghiệp 1 người vận hành mạnh mẽ như một tập đoàn! Làm chủ một mình có thật sự \"ngon\" như bạn nghĩ? Freelancer, MMO, Creator... bản chất đều là Doanh nghiệp một người. Như"
+    },
+    {
+     "document_id": "6ab7140eae8dcc827e6939d2",
+     "grade": 2,
+     "title": "Vận hành doanh nghiệp 1 người nhưng có hẳn... 1 bộ sậu phía sau? Muốn khởi nghiệp làm riêng nhưng thiếu vốn, thiếu nhân sự? Đọc ngay!  Trước đây, một mình cân cả một doanh nghiệp là điều không tưởng v"
+    },
+    {
+     "document_id": "6ab7134aae8dcc827e693170",
+     "grade": 2,
+     "title": "OCP không bùng nổ vì làm việc nhiều hơn. OCP bùng nổ vì có một đội ngũ AI Agent làm việc cùng mình. Khi AI không chỉ trả lời, mà biết lập kế hoạch, thực thi và phối hợp, một người có thể vận hành cả m"
+    },
+    {
+     "document_id": "6ab4a87557d199eea2842289",
+     "grade": 1,
+     "title": "Trào lưu one person company và chính sách phát triển nhân sự đội sales! :) #change #sale #ceo #management#dxtsalesacademy"
+    },
+    {
+     "document_id": "6ab7133bae8dcc827e69314c",
+     "grade": 1,
+     "title": "Càng nhiều AI Agent, càng phải quản trị tốt. AI không thay thế người điều hành, AI khuếch đại năng lực của họ. #AIAgent #DoanhNghiep #AI #OriginAI"
+    },
+    {
+     "document_id": "6ab7130bae8dcc827e69309e",
+     "grade": 1,
+     "title": "Có một điều mình nhận ra sau thời gian xây AI Agent cho doanh nghiệp: vấn đề chưa bao giờ là thiếu AI. Vấn đề là nhiều người dùng AI sai cách. Cứ nghĩ thêm vài Agent là doanh nghiệp sẽ chạy nhanh hơn,"
+    },
+    {
+     "document_id": "6ab71302ae8dcc827e69308a",
+     "grade": 1,
+     "title": "AI Agent không chỉ là để hỏi đáp. Mình xem AI Agent như một phòng ban thực sự trong doanh nghiệp. Mỗi Agent có một vai trò, một nhiệm vụ và phối hợp với nhau để hoàn thành mục tiêu. Khi đó, AI không c"
+    }
+   ],
+   "note": "One Person Company (OPC). Grade 2: video giải thích khái niệm/điều kiện OPC. Grade 1: nhắc OPC khi bàn quản trị AI agent, trào lưu OPC với đội sales. Các video chỉ có hashtag #onepersoncompany không chấm. Dò one ?person|\\bopc\\b|doanh nghiep mot nguoi."
+  },
+  {
+   "id": "d-19",
+   "query": "động cơ thủy kích",
+   "target": "documents",
+   "kind": "tu-khoa-ngan",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "nen",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab4d23b57d199eea284fca5",
+     "grade": 2,
+     "title": "Động cơ BMW bị thủy kích và cách hồi phục tại CCMFast.  #ccmfast  #ccm  #ravenol_vietnam  #ravenol"
+    },
+    {
+     "document_id": "6ab7810fae8dcc827e83115c",
+     "grade": 2,
+     "title": "Xử lý Mercedes GLC300 bị thủy kích và cái kết! #carplus #sửachữaôtô #GLC300 #đại_tu_oto"
+    },
+    {
+     "document_id": "6ab4d3d357d199eea2850ecc",
+     "grade": 2,
+     "title": "BMW bị thuỷ kích, vấn đề rất khó tránh khỏi khi đi vào vùng ngập nước. "
+    }
+   ],
+   "note": "Dò thuy kich: đúng 3 tài liệu (CCMFast ×2, Carplus ×1), đều về xe bị thuỷ kích và cách xử lý."
+  },
+  {
+   "id": "d-20",
+   "query": "content pillar",
+   "target": "documents",
+   "kind": "tu-khoa-ngan",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "mkt",
+   "filters": {},
+   "expected": [
+    {
+     "document_id": "6ab57a6c57d199eea28984c5",
+     "grade": 2,
+     "title": "Bí quyết xác định Content Pillar chuẩn #nghecontent #contentviral #marketing #nvnm #content"
+    },
+    {
+     "document_id": "6ab579cb57d199eea2898373",
+     "grade": 2,
+     "start": 582,
+     "title": "Cách làm content plan chuẩn nè các cụ ơi #nvnm #bdpun #contentviral #tienhocmkt #content"
+    },
+    {
+     "document_id": "6ab4a87557d199eea284274f",
+     "grade": 1,
+     "start": 1174,
+     "title": "Chuyện nghề social. #marketing #digitalmarketing #contentmarketing #socialmediamarketing #socialmediatips"
+    },
+    {
+     "document_id": "6ab4a87557d199eea284276b",
+     "grade": 1,
+     "start": 1409,
+     "title": "Chuyện nghề Content #marketing #contentmarketing #socialmediatips  Cre: alex.thanhh"
+    },
+    {
+     "document_id": "6ab4a87557d199eea284275b",
+     "grade": 1,
+     "start": 1136,
+     "title": "Tips để có content idea. #marketingtips #digitalmarketing #contentmarketing #socialmediamarketing #copywriter"
+    }
+   ],
+   "note": "Grade 2: cách xác định content pillar; content plan bắt đầu từ pillar. Grade 1: nhắc pillar trong quy trình làm content. Dò content pillar|pillar: 5 tài liệu."
+  },
+  {
+   "id": "d-21",
+   "query": "Làm C/O form E thế nào để lô phụ tùng nhập từ Trung Quốc được hưởng thuế nhập khẩu ưu đãi?",
+   "target": "documents",
+   "kind": "khong-co-dap-an",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "mh",
+   "filters": {},
+   "expected": [],
+   "note": "Dò trên title+text (không dấu): c/o|form e|chung nhan xuat xu|xuat xu hang hoa → 1 hit không liên quan (chứng minh xuất xứ bằng hoá đơn); \\bfta\\b|acfta|hiep dinh thuong mai|uu dai thue nhap khau|thue suat uu dai dac biet → 0; 'xuat xu' 37 hit đều nói nguồn gốc/hoá đơn chung chung. Có bài thuế nhập khẩu 'chồng thuế' nhưng không nói C/O."
+  },
+  {
+   "id": "d-22",
+   "query": "Thủ tục nhập khẩu và đăng kiểm xe điện nguyên chiếc từ Trung Quốc về bán gồm những bước gì?",
+   "target": "documents",
+   "kind": "khong-co-dap-an",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "nen",
+   "filters": {},
+   "expected": [],
+   "note": "Dò nhap khau (xe|o ?to)|nguyen chiec|\\bcbu\\b|dang kiem xe nhap → 1 hit ('Mở gara xe điện' nhắc tuổi thọ đơn vị nhập khẩu xe điện, không phải thủ tục); o to dien → 1 hit không liên quan; 'xe dien' 16 hit đều bàn xu hướng/gara."
+  },
+  {
+   "id": "d-23",
+   "query": "Thuê kỹ thuật viên người nước ngoài thì xin giấy phép lao động cho họ thế nào?",
+   "target": "documents",
+   "kind": "khong-co-dap-an",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "hcns",
+   "filters": {},
+   "expected": [],
+   "note": "Dò giay phep lao dong|work permit|cap phep lao dong → 0. 'nguoi nuoc ngoai|lao dong nuoc ngoai' 21 hit: sếp người nước ngoài, thuế TNDN với lao động nước ngoài, phim — không có thủ tục cấp phép."
+  },
+  {
+   "id": "d-24",
+   "query": "Công ty thuê tài chính (leasing) xe tải giao hàng thì hạch toán tài sản và tiền thuê thế nào?",
+   "target": "documents",
+   "kind": "khong-co-dap-an",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "tckt",
+   "filters": {},
+   "expected": [],
+   "note": "Dò cho thue tai chinh|leasing|thue mua tai chinh|tai san thue tai chinh|di thue tai chinh → 3 hit: 1 liệt kê ngành 'cho thuê tài chính' trong ngưỡng báo cáo giao dịch 400tr, 2 bài tiếng Anh về Obsidian ('leasing' trong chữ 'pleasing'). Cũng thử \\b212\\b|\\b2412\\b: chỉ là số lượt chia sẻ trong metadata."
+  },
+  {
+   "id": "c-none-01",
+   "query": "Cài VPN thế nào để làm ở nhà vẫn truy cập được ERP nội bộ?",
+   "target": "cards",
+   "kind": "khong-co-dap-an",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "qltt",
+   "filters": {},
+   "expected": [],
+   "note": "wiki_cards (title/summary/body/key_points/example/when_to_use/evidence, không dấu): vpn|mang rieng ao|truy cap tu xa|remote desktop|teamviewer|anydesk → 0. 'erp' có 5 thẻ nhưng nói tư duy quản trị/triển khai phần mềm, không có hướng dẫn truy cập từ xa."
+  },
+  {
+   "id": "c-none-02",
+   "query": "Hộp số ly hợp kép DSG bao nhiêu km thì phải thay dầu?",
+   "target": "cards",
+   "kind": "khong-co-dap-an",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "nen",
+   "filters": {},
+   "expected": [],
+   "note": "wiki_cards: \\bdsg\\b|ly hop kep|hop so kep → 0; 'dau hop so' → 1 thẻ (gửi báo giá bổ sung, chỉ liệt kê hạng mục); 'hop so' 29 hit chủ yếu là 'khớp số' (kế toán) và 1 thẻ gara ngoài sửa hộp số — không có chu kỳ thay dầu DSG."
+  },
+  {
+   "id": "c-none-03",
+   "query": "Hạch toán xe tải đi thuê tài chính (leasing) vào tài khoản nào?",
+   "target": "cards",
+   "kind": "khong-co-dap-an",
+   "source": "ai_seed",
+   "split": "dev",
+   "block": "tckt",
+   "filters": {},
+   "expected": [],
+   "note": "wiki_cards: cho thue tai chinh|leasing|thue mua tai chinh|tai san thue tai chinh|di thue tai chinh → 1 thẻ (ngưỡng báo cáo giao dịch NHNN, chỉ liệt kê ngành cho thuê tài chính). \\b212\\b chỉ xuất hiện trong thẻ phân biệt TSCĐ/CCDC (211/212/213) — không nói hạch toán thuê tài chính."
+  },
+  {
+   "id": "c-none-04",
+   "query": "Xin C/O form E cho hàng nhập từ Trung Quốc cần hồ sơ gì để được giảm thuế?",
+   "target": "cards",
+   "kind": "khong-co-dap-an",
+   "source": "ai_seed",
+   "split": "test",
+   "block": "mh",
+   "filters": {},
+   "expected": [],
+   "note": "wiki_cards: form e|chung nhan xuat xu|c/o\\b|giay chung nhan nguon goc → 1 thẻ 'Phân loại VCwiki v2' (thẻ cấu trúc cây, chỉ liệt kê 'po, c/o, hai quan' là phạm vi nhánh mh.nhap-khau — không có nội dung). fta|acfta|uu dai thue nhap khau → 0. Thẻ 'Thuế hàng nhập khẩu chồng thuế' không nhắc C/O."
+  }
+ ]
+}

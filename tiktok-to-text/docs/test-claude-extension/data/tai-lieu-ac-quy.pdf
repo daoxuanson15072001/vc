@@ -1,0 +1,32 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 295 >>
+stream
+BT /F1 14 Tf 50 780 Td 20 TL (Quy trinh kiem tra ac quy 12V tai xuong) Tj T* (Buoc 1: Tat may, do dien ap khi nghi (chuan >= 12.4V).) Tj T* (Buoc 2: Do khi de may (chuan 9.6V tro len).) Tj T* (Buoc 3: Do khi may chay (13.8 - 14.7V).) Tj T* (Ket luan: ac quy duoi 12V can sac hoac thay.) Tj T* ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000587 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+657
+%%EOF

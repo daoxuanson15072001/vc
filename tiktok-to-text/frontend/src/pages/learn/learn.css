@@ -1,0 +1,84 @@
+/* Trang Học tập (luồng E) — chỉ thêm lớp riêng tiền tố lrn-, dùng biến màu của styles.css */
+.lrn-picked { margin: 0 0 8px; padding-left: 22px; }
+.lrn-picked li { padding: 2px 0; align-items: center; }
+.lrn-picked-actions { display: inline-flex; gap: 2px; }
+.lrn-picked-actions .btn { padding: 2px 8px; }
+.lrn-options { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.lrn-qpick { max-height: 260px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; }
+.lrn-qpick li { padding: 4px 0; }
+.lrn-qpick label, .lrn-choice { align-items: center; cursor: pointer; }
+.lrn-opt { align-items: center; margin-bottom: 6px; }
+.lrn-qrow { margin-bottom: 10px; }
+.lrn-tile .actions { margin-top: 4px; }
+.lrn-q .list li { padding: 4px 0; }
+.lrn-q textarea { width: 100%; margin-top: 8px; }
+.lrn-q .panel { margin-top: 10px; }
+.lrn-score { border-color: var(--primary); }
+/* Luồng I — lộ trình, giao bài, thi, chấm */
+.lrn-assignment .card-head { align-items: flex-start; }
+.lrn-progress { min-width: 160px; }
+.lrn-week { margin: 8px 0; }
+.lrn-week .list li { padding: 3px 0; align-items: center; gap: 8px; }
+.lrn-exam { margin-top: 10px; }
+.lrn-timer { position: sticky; top: 0; z-index: 2; }
+.lrn-essay { white-space: pre-wrap; }
+.lrn-rubric { margin: 8px 0; }
+.lrn-blueprint select, .lrn-blueprint input { max-width: 240px; }
+.lrn-assign .field { max-height: 220px; overflow-y: auto; }
+.lrn-prompt { white-space: pre-wrap; }
+/* Khoá mẫu / tự ghi danh (F2) */
+.lrn-bulkq { align-items: center; gap: 12px; margin: 8px 0; }
+.lrn-qcheck { margin: 4px 10px 0 0; align-self: flex-start; }
+.lrn-optlist { list-style: none; padding: 0; margin: 6px 0; }
+.lrn-optlist li { padding: 1px 0; }
+.lrn-sample { margin-bottom: 12px; }
+.lrn-continue { margin-top: 8px; width: 100%; text-align: center; }
+/* 400 px: .row thành cột (styles.css) — giữ ô tick cạnh tên, dấu ○ / ✓ cùng dòng tên bài (QA vòng 2, L14) */
+@media (max-width: 720px) {
+  .lrn-assign label.row, .lrn-choice, .lrn-week .list li.row { flex-direction: row; align-items: center; gap: 8px; }
+  .lrn-week .list li.row { flex-wrap: wrap; }
+  .lrn-assignment .card-head { flex-direction: column; gap: 8px; }
+  .lrn-progress { min-width: 0; width: 100%; }
+}
+
+/* Ô chọn thẻ căn cứ (CardPicker): chip đủ tiêu đề, trạng thái đang tìm, nhãn Đã duyệt */
+.lrn-picker input { width: 100%; }
+.lrn-picker-state { font-size: 12px; color: var(--muted); margin-top: 4px; min-height: 16px; }
+.lrn-options .chip-btn { white-space: normal; text-align: left; max-width: 100%; line-height: 1.3; padding: 3px 10px; }
+.lrn-options .chip-btn .chip-ok { font-size: 10px; opacity: .8; margin-left: 6px; white-space: nowrap; }
+.lrn-picker-hint { font-size: 12px; color: var(--muted); }
+.lrn-import pre { max-height: 240px; overflow: auto; font-size: 12px; }
+.lrn-import textarea { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+.lrn-saved { background: var(--good-soft); color: var(--good); padding: 8px 12px; border-radius: 8px; margin: 8px 0; }
+.course-library { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(0, 3fr); gap: 20px; align-items: start; }
+.course-library-nav { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow: auto; }
+.course-library-nav > button { width: 100%; justify-content: space-between; margin-bottom: 8px; }
+.course-library-content { min-width: 0; }
+.course-heading { align-items: flex-start; margin-bottom: 12px; }
+.course-heading h2 { margin: 0; }
+.course-lesson-list { padding-left: 2rem; }
+.course-lesson-list > li { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--border); padding: 10px 0; }
+.course-lesson-no { font-weight: 700; min-width: 2ch; }
+.course-move-actions { display: inline-flex; gap: 4px; }
+.course-exam { margin-top: 16px; }
+.course-exam h3 { margin: 0; }
+.path-builder-category { padding-left: calc(var(--depth, 0) * 20px); margin: 8px 0; }
+.path-builder-category label { display: flex; align-items: center; gap: 8px; }
+.path-builder-course { margin: 10px 0; }
+.path-builder-lessons { padding-left: 24px; }
+.path-builder-lessons li { display: flex; align-items: center; gap: 6px; margin: 6px 0; }
+.path-builder-footer { display: flex; gap: 8px; align-items: center; margin-top: 20px; }
+.path-builder-name { max-width: 720px; margin: 16px auto; }
+@media (max-width: 720px) {
+  .course-library { grid-template-columns: 1fr; }
+  .course-library-nav { position: static; max-height: 32vh; }
+  .course-lesson-list > li { align-items: flex-start; }
+}
+/* Câu hỏi làm bài là fieldset + legend (máy đọc: nhóm đáp án có tên = đề bài). float + width 100% để legend không
+   nằm đè viền thẻ như legend mặc định, phần sau clear lại. */
+fieldset.lrn-q { margin: 0; min-width: 0; }
+.lrn-legend { float: left; width: 100%; padding: 0; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.lrn-legend + * { clear: both; }
+.lrn-qnav { display: flex; flex-wrap: wrap; gap: 4px; }
+.lrn-qnav .btn { min-width: 32px; }
+.lrn-qnav-done { border-color: var(--primary); color: var(--primary); }

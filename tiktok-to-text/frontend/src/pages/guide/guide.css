@@ -1,0 +1,32 @@
+/* Trang Hướng dẫn sử dụng (/guide) — tiền tố guide-, dùng biến màu của styles.css */
+.guide-tools { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.guide-search { max-width: 520px; }
+.guide-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.guide-chip {
+  border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px;
+  padding: 4px 12px; font: inherit; font-size: 13px; cursor: pointer;
+}
+.guide-chip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.guide-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 20px; align-items: start; }
+.guide-toc { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow-y: auto; }
+.guide-toc ol { margin: 6px 0 0; padding-left: 28px; }
+.guide-toc li { padding: 3px 0; font-size: 14px; }
+.guide-toc a { color: var(--text); text-decoration: none; }
+.guide-toc a:hover { color: var(--primary); }
+.guide-body { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.guide-section { scroll-margin-top: 12px; }
+.guide-section-head { display: flex; align-items: baseline; gap: 8px; }
+.guide-section-head h2 { margin: 0; }
+.guide-anchor { color: var(--muted); text-decoration: none; opacity: 0; }
+.guide-section:hover .guide-anchor, .guide-anchor:focus { opacity: 1; }
+.guide-md { margin-top: 8px; line-height: 1.6; }
+.guide-md table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 14px; }
+.guide-md th, .guide-md td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+.guide-snippet { border: 1px solid var(--border); border-radius: 8px; margin: 10px 0; background: var(--surface); }
+.guide-snippet-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 10px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.guide-snippet pre { margin: 0; padding: 10px 12px; font-size: 12.5px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; max-height: 360px; overflow: auto; }
+@media (max-width: 720px) {
+  .guide-layout { grid-template-columns: 1fr; }
+  .guide-toc { position: static; max-height: none; }
+  .guide-md table { display: block; overflow-x: auto; }
+}

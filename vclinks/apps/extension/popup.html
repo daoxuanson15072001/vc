@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <title>VClinks</title>
+    <style>
+      :root { --fg: #1f2329; --muted: #646a73; --line: #e5e6eb; --blue: #0068ff; --red: #d4380d; --amber: #ad6800; --green: #237804; }
+      * { box-sizing: border-box; }
+      body { margin: 0; width: 420px; font: 13px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--fg); background: #fff; }
+      header { padding: 10px 14px; background: var(--blue); color: #fff; font-weight: 600; font-size: 15px; }
+      section { padding: 10px 14px; border-bottom: 1px solid var(--line); }
+      h2 { font-size: 13px; margin: 0 0 6px; }
+      label { display: block; margin: 6px 0 2px; color: var(--muted); }
+      input { width: 100%; padding: 5px 7px; border: 1px solid #c9cdd4; border-radius: 4px; font: inherit; }
+      button { padding: 6px 10px; border: 1px solid var(--blue); border-radius: 4px; background: var(--blue); color: #fff; font: inherit; cursor: pointer; }
+      button.secondary { background: #fff; color: var(--blue); }
+      button:disabled { opacity: .5; cursor: default; }
+      .row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+      .msg { margin-top: 6px; min-height: 1em; }
+      .err { color: var(--red); } .warn { color: var(--amber); } .ok { color: var(--green); }
+      .muted { color: var(--muted); }
+      details { margin-top: 6px; }
+      table { width: 100%; border-collapse: collapse; margin-top: 4px; font-size: 12px; }
+      th, td { text-align: right; padding: 2px 3px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+      th:first-child, td:first-child { text-align: left; }
+      .account { margin-top: 8px; }
+      .account b { font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <header>VClinks — Zalo Web và Facebook cá nhân</header>
+
+    <section>
+      <details id="settings">
+        <summary><b>Cài đặt kết nối</b></summary>
+        <div id="pair-box" style="margin-top:6px">
+          <div class="muted">Cách dễ nhất: điền địa chỉ API, bấm "Lấy mã ghép", rồi đọc mã 6 số cho Admin nhập trên VClinks.</div>
+          <div class="row"><button id="pair-start" type="button" class="secondary">Lấy mã ghép</button></div>
+          <div id="pair-code" style="font-size:26px;font-weight:700;letter-spacing:4px;margin-top:6px"></div>
+          <div id="pair-msg" class="msg"></div>
+        </div>
+        <form id="settings-form">
+          <label for="apiBaseUrl">Địa chỉ API</label>
+          <input id="apiBaseUrl" type="url" placeholder="https://xxx.trycloudflare.com hoặc http://localhost:3000" required />
+          <label for="token">Token thiết bị (scope ingest)</label>
+          <input id="token" type="password" autocomplete="off" required />
+          <div class="row"><button type="submit">Lưu và kiểm tra</button></div>
+          <div id="settings-msg" class="msg"></div>
+        </form>
+      </details>
+    </section>
+
+    <section>
+      <div class="row">
+        <button id="sync-now">Đồng bộ ngay</button>
+        <button id="sync-full" class="secondary" title="Bỏ qua checkpoint, gửi lại toàn bộ dữ liệu">Đồng bộ lại toàn bộ</button>
+      </div>
+      <div id="sync-msg" class="msg"></div>
+      <div class="row">
+        <button id="capture-now" class="secondary" title="Đọc nội dung các tin đang hiển thị trong hội thoại đang mở">Lấy nội dung màn hình</button>
+        <button id="capture-names" class="secondary" title="Đọc tên các hội thoại từ danh sách bên trái (không mở hội thoại nào)">Lấy tên hội thoại</button>
+      </div>
+      <div id="capture-msg" class="msg"></div>
+      <div class="row">
+        <button id="backfill-start" class="secondary" title="Cuộn lên trong hội thoại bạn đang mở để lấy nội dung các tin cũ (không mở hội thoại khác, tối đa 20 hội thoại/giờ)">Lấy tin cũ trong hội thoại đang mở</button>
+        <button id="backfill-stop" class="secondary" disabled>Dừng</button>
+      </div>
+      <div id="backfill-msg" class="msg"></div>
+      <div class="muted" style="font-size:12px;margin-top:4px">Tự động: khi bạn mở một hội thoại trên Zalo, extension tự lấy nội dung các tin đang hiển thị.</div>
+    </section>
+
+    <section id="sender-section">
+      <h2>Gửi tin từ Dashboard (Zalo)</h2>
+      <label style="display:flex;gap:6px;align-items:center;color:inherit;margin:0">
+        <input id="sender-enabled" type="checkbox" style="width:auto" />
+        Cho phép gửi tin từ Dashboard
+      </label>
+      <label for="sender-uid">Tài khoản Zalo đang đăng nhập trên tab chat.zalo.me</label>
+      <select id="sender-uid" style="width:100%;padding:5px 7px;border:1px solid #c9cdd4;border-radius:4px;font:inherit"></select>
+      <div class="muted" style="font-size:12px;margin-top:4px">Chỉ gửi tin đã được duyệt trên Dashboard, từng tin một. Extension sẽ mở đúng hội thoại, gõ, đối chiếu nội dung rồi mới nhấn Enter. Tin nhiều dòng được gửi thành nhiều tin, mỗi dòng một tin. Tạm dừng khi bạn đang gõ trên Zalo.</div>
+      <div id="sender-msg" class="msg"></div>
+    </section>
+
+    <section id="fb-section">
+      <h2>Facebook cá nhân (Messenger)</h2>
+      <div id="fb-status" class="msg muted"></div>
+      <label for="fb-owner">ID Facebook của anh (chỉ cần khi extension không tự nhận ra)</label>
+      <div class="row" style="margin-top:0;flex-wrap:nowrap">
+        <input id="fb-owner" inputmode="numeric" autocomplete="off" placeholder="ví dụ 100012345678901" />
+        <button id="fb-owner-save" class="secondary">Lưu</button>
+      </div>
+      <div id="fb-owner-msg" class="msg"></div>
+      <label style="display:flex;gap:6px;align-items:center;color:inherit;margin:8px 0 0">
+        <input id="fb-sender-enabled" type="checkbox" style="width:auto" />
+        Cho phép gửi tin trên Facebook
+      </label>
+      <div class="warn" style="font-size:12px;margin-top:4px">Facebook cá nhân không có API chính thức. Tự động gửi tin trái điều khoản của Meta và có thể khiến tài khoản bị khóa. Extension chỉ gửi tin đã duyệt, từng tin một, chậm như người gõ (tối đa 20 tin/giờ), và dừng khi anh đang thao tác trên tab Messenger.</div>
+      <div id="fb-sender-msg" class="msg"></div>
+    </section>
+
+    <section>
+      <h2>Trạng thái</h2>
+      <div id="run"></div>
+      <div id="accounts"></div>
+    </section>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

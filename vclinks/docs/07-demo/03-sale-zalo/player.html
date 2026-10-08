@@ -1,0 +1,182 @@
+<title>VClinks Sale Zalo — mô phỏng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: screen stage left, chapter rail right; subtitle strip under the stage like a training video */
+:root {
+  --bg: #eef1f4; --panel: #ffffff; --ink: #18202a; --muted: #5b6673; --line: #d5dbe2;
+  --accent: #0b63ce; --accent-ink: #ffffff; --mark: #f5a524; --stage: #1d2733; --sub-bg: #18202a; --sub-ink: #f4f7fa;
+  --chip: #e3ecf8; --chip-ink: #0b4a99; --warn: #9a3412; --warn-bg: #fff1e6;
+  --f-body: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif; --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f141a; --panel: #18202a; --ink: #e8edf2; --muted: #9aa6b2; --line: #2b3642;
+  --accent: #5aa2ff; --accent-ink: #0b1420; --mark: #ffb84d; --stage: #0a0e13; --sub-bg: #05080b; --sub-ink: #f4f7fa;
+  --chip: #1d3350; --chip-ink: #a9cbff; --warn: #ffb38a; --warn-bg: #3a2216; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f141a; --panel: #18202a; --ink: #e8edf2; --muted: #9aa6b2; --line: #2b3642;
+  --accent: #5aa2ff; --accent-ink: #0b1420; --mark: #ffb84d; --stage: #0a0e13; --sub-bg: #05080b; --sub-ink: #f4f7fa;
+  --chip: #1d3350; --chip-ink: #a9cbff; --warn: #ffb38a; --warn-bg: #3a2216; color-scheme: dark }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; padding-inline: 16px; padding-block: 12px; box-sizing: border-box; }
+.app { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; max-width: 1500px; margin: 0 auto; height: 100%; }
+.main { display: flex; flex-direction: column; gap: 10px; min-width: 0; min-height: 0; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+h1 { font-size: 19px; font-weight: 700; margin: 0; text-wrap: balance; }
+.meta { color: var(--muted); font-size: 13px; }
+.stage { position: relative; flex: 1 1 auto; min-height: 260px; background: var(--stage); border-radius: 10px; overflow: hidden; }
+.stage img { position: absolute; left: 0; top: 0; transform-origin: 0 0; max-width: none; transition: transform .9s cubic-bezier(.4,.1,.2,1); box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+.box { position: absolute; border: 3px solid var(--mark); border-radius: 8px; box-shadow: 0 0 0 9999px rgba(10,14,19,.38); transition: all .9s cubic-bezier(.4,.1,.2,1); pointer-events: none; }
+.box::after { content: ""; position: absolute; inset: -9px; border: 2px solid var(--mark); border-radius: 12px; opacity: 0; animation: ping 1.6s ease-out infinite; }
+@keyframes ping { 0% { opacity: .9; transform: scale(.97) } 100% { opacity: 0; transform: scale(1.04) } }
+.mock { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; overflow: auto; }
+.mock-card { background: #fff; color: #18202a; border-radius: 10px; width: min(860px, 100%); padding: 22px 24px; font-size: 14px; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+.mock-card .tag { display: inline-block; background: #fff4d6; color: #7a4b00; border: 1px dashed #c58a00; border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+.mock-card pre { font-family: var(--f-mono); font-size: 12.5px; line-height: 1.55; white-space: pre-wrap; margin: 0; background: #f4f6f9; border-radius: 8px; padding: 14px; }
+.badge-code { position: absolute; left: 12px; top: 12px; background: #000; color: #fff; font-family: var(--f-mono); font-size: 12px; padding: 4px 8px; border-radius: 5px; opacity: .85; }
+.sub { background: var(--sub-bg); color: var(--sub-ink); border-radius: 10px; padding: 12px 16px; min-height: 64px; font-size: 17px; line-height: 1.5; }
+.sub .who { color: var(--mark); font-weight: 600; margin-right: 6px; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+button, select { font: inherit; font-size: 14px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 7px 12px; cursor: pointer; min-height: 38px; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; min-width: 112px; }
+button:focus-visible, select:focus-visible, .rail a:focus-visible { outline: 3px solid var(--mark); outline-offset: 2px; }
+.bar { flex: 1 1 200px; height: 8px; background: var(--line); border-radius: 4px; position: relative; cursor: pointer; min-width: 120px; }
+.bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); border-radius: 4px; transition: width .3s; }
+.count { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; min-width: 64px; text-align: right; }
+.rail { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: auto; min-height: 0; padding: 8px 0; }
+.rail h2 { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 12px 14px 4px; font-weight: 600; }
+.rail a { display: grid; grid-template-columns: 28px 1fr; gap: 6px; padding: 6px 14px; color: var(--ink); text-decoration: none; font-size: 13.5px; line-height: 1.35; }
+.rail a span:first-child { color: var(--muted); font-variant-numeric: tabular-nums; }
+.rail a:hover { background: var(--chip); }
+.rail a.on { background: var(--chip); color: var(--chip-ink); font-weight: 600; }
+.lot { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 6px; border-radius: 4px; margin-left: 4px; background: var(--chip); color: var(--chip-ink); }
+.lot.d9 { background: var(--warn-bg); color: var(--warn); }
+.note { font-size: 12.5px; color: var(--muted); }
+@media (max-width: 900px) {
+  html, body { height: auto; }
+  .app { grid-template-columns: minmax(0, 1fr); height: auto; }
+  .stage { flex: none; aspect-ratio: 4 / 3; min-height: 0; }
+  .rail { max-height: 50vh; }
+  .sub { font-size: 15.5px; }
+}
+@media (prefers-reduced-motion: reduce) { .stage img, .box { transition: none; } .box::after { animation: none; } }
+</style>
+
+<div class="app">
+  <div class="main">
+    <header>
+      <h1>Sale Zalo cá nhân trên VClinks: một ngày làm việc</h1>
+      <span class="meta">Đặc tả 03 (v1.5) ghép canvas VClinks UI Design · TK1 + TK2 + D9 · dữ liệu mẫu TD, giờ mẫu 29/09/2026</span>
+    </header>
+    <div class="stage" id="stage" aria-live="off">
+      <img id="shot" alt="">
+      <div class="box" id="box" hidden></div>
+      <div class="mock" id="mock" hidden></div>
+      <div class="badge-code" id="code"></div>
+    </div>
+    <div class="sub" id="sub" aria-live="polite"></div>
+    <div class="controls">
+      <button id="prev" aria-label="Cảnh trước">◀</button>
+      <button id="play" class="primary">▶ Phát</button>
+      <button id="next" aria-label="Cảnh sau">▶▶</button>
+      <div class="bar" id="bar" role="progressbar" aria-label="Tiến độ"><i id="fill"></i></div>
+      <span class="count" id="count"></span>
+      <label class="note" for="speed">Tốc độ</label>
+      <select id="speed"><option value="1">1×</option><option value="1.25">1,25×</option><option value="1.5">1,5×</option></select>
+      <button id="mute" aria-pressed="false">Tiếng: bật</button>
+    </div>
+    <p class="note">Phím tắt: Space phát/dừng · ← → chuyển cảnh. Khung vàng là chỗ người dùng thao tác. Màn có nhãn <span class="lot d9">D9</span> chưa có trên canvas, đây là minh họa theo đặc tả.</p>
+  </div>
+  <nav class="rail" id="rail" aria-label="Chương"></nav>
+</div>
+
+<script>
+const SCENES = /*SCENES*/[];
+const IMG = /*IMGSIZES*/{};
+const $ = id => document.getElementById(id);
+let i = 0, playing = false, timer = null, muted = false;
+const audio = new Audio();
+
+function buildRail() {
+  let html = '', ch = null;
+  SCENES.forEach((s, k) => {
+    if (s.ch !== ch) { ch = s.ch; html += `<h2>${ch}</h2>`; }
+    const lot = s.lot ? `<span class="lot${s.lot === 'D9' ? ' d9' : ''}">${s.lot}</span>` : '';
+    html += `<a href="#" data-k="${k}"><span>${k + 1}</span><span>${s.t}${lot}</span></a>`;
+  });
+  $('rail').innerHTML = html;
+  $('rail').addEventListener('click', e => { const a = e.target.closest('a'); if (!a) return; e.preventDefault(); go(+a.dataset.k, playing); });
+}
+
+function layout() {
+  const s = SCENES[i]; if (!s || s.mock) return;
+  const st = $('stage').getBoundingClientRect();
+  const [vx, vy, vw, vh] = s.view;
+  const sc = Math.min(st.width / vw, st.height / vh);
+  const ox = (st.width - vw * sc) / 2 - vx * sc, oy = (st.height - vh * sc) / 2 - vy * sc;
+  $('shot').style.transform = `translate(${ox}px, ${oy}px) scale(${sc})`;
+  const b = $('box');
+  if (s.box) {
+    const [bx, by, bw, bh] = s.box;
+    b.hidden = false;
+    Object.assign(b.style, { left: (ox + bx * sc - 5) + 'px', top: (oy + by * sc - 5) + 'px', width: (bw * sc + 10) + 'px', height: (bh * sc + 10) + 'px' });
+  } else b.hidden = true;
+}
+
+function show() {
+  const s = SCENES[i];
+  const img = $('shot');
+  if (s.mock) {
+    img.hidden = true; $('box').hidden = true; $('mock').hidden = false;
+    $('mock').innerHTML = `<div class="mock-card"><div class="tag">Chưa vẽ trên canvas · minh họa theo đặc tả 03 ${s.code}</div><pre></pre></div>`;
+    $('mock').querySelector('pre').textContent = s.mock;
+  } else {
+    $('mock').hidden = true; img.hidden = false;
+    const src = 'img/' + s.board + '.jpg';
+    if (!img.src.endsWith(src)) { img.src = src; const z = IMG[s.board]; if (z) { img.width = z[0]; img.height = z[1]; } }
+    layout();
+  }
+  $('code').textContent = s.code || '';
+  $('code').hidden = !s.code;
+  $('sub').innerHTML = (s.who ? `<span class="who">${s.who}:</span>` : '') + s.sub;
+  $('count').textContent = `${i + 1} / ${SCENES.length}`;
+  $('fill').style.width = ((i + 1) / SCENES.length * 100) + '%';
+  document.querySelectorAll('.rail a').forEach(a => a.classList.toggle('on', +a.dataset.k === i));
+  const on = document.querySelector('.rail a.on'); if (on) on.scrollIntoView({ block: 'nearest' });
+}
+
+function speak() {
+  clearTimeout(timer); audio.pause();
+  if (!playing) return;
+  const rate = +$('speed').value;
+  const advance = () => { timer = setTimeout(() => { if (i < SCENES.length - 1) { go(i + 1, true); } else { setPlaying(false); } }, 700 / rate); };
+  if (muted) { timer = setTimeout(advance, SCENES[i].sub.length * 62 / rate); return; }
+  audio.src = 'audio/' + String(i + 1).padStart(3, '0') + '.mp3';
+  audio.playbackRate = rate;
+  audio.onended = advance;
+  audio.play().catch(() => { timer = setTimeout(advance, SCENES[i].sub.length * 62 / rate); });
+}
+
+function go(k, keepPlaying) {
+  i = Math.max(0, Math.min(SCENES.length - 1, k));
+  show();
+  if (keepPlaying) speak(); else { audio.pause(); clearTimeout(timer); }
+}
+function setPlaying(p) { playing = p; $('play').textContent = p ? '❚❚ Dừng' : '▶ Phát'; if (p) speak(); else { audio.pause(); clearTimeout(timer); } }
+
+$('play').onclick = () => setPlaying(!playing);
+$('prev').onclick = () => go(i - 1, playing);
+$('next').onclick = () => go(i + 1, playing);
+$('mute').onclick = () => { muted = !muted; $('mute').textContent = muted ? 'Tiếng: tắt' : 'Tiếng: bật'; $('mute').setAttribute('aria-pressed', muted); if (playing) speak(); };
+$('speed').onchange = () => { audio.playbackRate = +$('speed').value; };
+$('bar').onclick = e => { const r = e.currentTarget.getBoundingClientRect(); go(Math.floor((e.clientX - r.left) / r.width * SCENES.length), playing); };
+document.addEventListener('keydown', e => {
+  if (e.target.closest('select')) return;
+  if (e.code === 'Space') { e.preventDefault(); setPlaying(!playing); }
+  else if (e.key === 'ArrowRight') go(i + 1, playing);
+  else if (e.key === 'ArrowLeft') go(i - 1, playing);
+});
+$('shot').addEventListener('load', layout);
+new ResizeObserver(layout).observe($('stage'));
+buildRail(); show();
+</script>

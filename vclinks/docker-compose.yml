@@ -1,0 +1,104 @@
+# VClinks — local stack (phase 1).
+#   docker compose up -d                         # mongo, redis, minio, api, web (http://localhost:8080)
+#   docker compose --profile tunnel up -d        # + Cloudflare quick tunnel (public HTTPS URL in `docker compose logs tunnel`)
+#   docker compose up -d mongo redis minio       # infra only, run api/web with pnpm dev
+# Only `web` is meant to be exposed: it serves the dashboard and proxies /api and /mcp.
+
+name: vclinks
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    ports: ["127.0.0.1:27017:27017"]
+    volumes: [mongo-data:/data/db]
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports: ["127.0.0.1:6379:6379"]
+    volumes: [redis-data:/data]
+
+  # Object storage for attachments / voice notes (phase 2). SSE-KMS auto-encrypts every object at rest.
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    ports: ["127.0.0.1:9000:9000", "127.0.0.1:9001:9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-vclinks}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?set MINIO_ROOT_PASSWORD in .env}
+      MINIO_KMS_SECRET_KEY: ${MINIO_KMS_SECRET_KEY:?set MINIO_KMS_SECRET_KEY in .env}
+      MINIO_KMS_AUTO_ENCRYPTION: "on"
+    volumes: [minio-data:/data]
+
+  api:
+    build: { context: ., dockerfile: apps/api/Dockerfile }
+    restart: unless-stopped
+    depends_on:
+      mongo: { condition: service_healthy }
+    environment:
+      PORT: 3000
+      MONGO_URI: mongodb://mongo:27017/vclinks
+      REDIS_URL: redis://redis:6379
+      TZ: Asia/Ho_Chi_Minh
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
+      CREDENTIALS_KEY: ${CREDENTIALS_KEY:-}
+      CUSTOMER_KEK: ${CUSTOMER_KEK:-}
+      CUSTOMER_ENCRYPTION: ${CUSTOMER_ENCRYPTION:-0}
+      ERASURE_LEDGER_DB: ${ERASURE_LEDGER_DB:-}
+      FB_APP_ID: ${FB_APP_ID:-}
+      FB_APP_SECRET: ${FB_APP_SECRET:-}
+      FB_VERIFY_TOKEN: ${FB_VERIFY_TOKEN:-}
+      ZALO_OA_APP_ID: ${ZALO_OA_APP_ID:-}
+      ZALO_OA_SECRET_KEY: ${ZALO_OA_SECRET_KEY:-}
+      ZALO_OA_WEBHOOK_SECRET: ${ZALO_OA_WEBHOOK_SECRET:-}
+      # M1c-04: live = jobs wait for the asr worker; mock = the API fills a fixed text (tests only).
+      ASR_MODE: ${ASR_MODE:-live}
+      ATTACHMENT_SIGNING_KEY: ${ATTACHMENT_SIGNING_KEY:-}
+      ATTACHMENT_FETCH_HOSTS: ${ATTACHMENT_FETCH_HOSTS:-}
+    ports: ["127.0.0.1:3000:3000"]
+
+  # Voice-to-text worker (M1c-04). Opt-in: docker compose --profile asr up -d asr
+  # ASR_API_TOKEN = an ingest-scope token created on the Dashboard. CPU model `small` by default; ASR_MODEL=large-v3 once the ASR machine exists.
+  asr:
+    profiles: [asr]
+    build: { context: ., dockerfile: workers/asr/Dockerfile }
+    restart: unless-stopped
+    depends_on: [api]
+    environment:
+      ASR_API_URL: http://api:3000
+      ASR_API_TOKEN: ${ASR_API_TOKEN:?set ASR_API_TOKEN in .env}
+      ASR_MODEL: ${ASR_MODEL:-small}
+      ASR_DEVICE: ${ASR_DEVICE:-cpu}
+      TZ: Asia/Ho_Chi_Minh
+    volumes: [asr-models:/models]
+
+  web:
+    build: { context: ., dockerfile: apps/web/Dockerfile }
+    restart: unless-stopped
+    depends_on: [api]
+    ports: ["127.0.0.1:8080:80"]
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    profiles: [tunnel]
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --url http://web:80
+    depends_on: [web]
+
+# Volumes keep their pre-rename names (project was "vczalo" until 28/09/2026)
+# so existing data stays attached after the rename to VClinks.
+volumes:
+  mongo-data:
+    name: vczalo_mongo-data
+  redis-data:
+    name: vczalo_redis-data
+  minio-data:
+    name: vczalo_minio-data
+  asr-models:
+    name: vclinks_asr-models

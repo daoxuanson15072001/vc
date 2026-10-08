@@ -1,0 +1,24 @@
+# Starts every Chrome profile of fleet.json, then watches them: restart when down or hung,
+# reopen a missing Zalo tab, report session lost/restored to the API (POST /api/accounts/:uid/session).
+[Unit]
+Description=VClinks Chrome driver fleet + watchdog
+After=vclinks-xvfb.service network-online.target
+Requires=vclinks-xvfb.service
+
+[Service]
+User=vclinks
+WorkingDirectory=/opt/vclinks
+Environment=DISPLAY=:99
+Environment=TZ=Asia/Ho_Chi_Minh
+# VCLINKS_API, VCLINKS_TOKEN (ingest scope), WATCHDOG_SOURCE; file mode 600, never in git.
+EnvironmentFile=/etc/vclinks/driver.env
+# '-': one profile failing to start must not stop the watchdog (it retries that profile).
+ExecStartPre=-/usr/bin/node tools/chrome-driver/fleet.js start --no-build
+ExecStart=/usr/bin/node tools/chrome-driver/watchdog.js
+Restart=always
+RestartSec=10
+# Chrome processes started by fleet.js belong to this unit; keep them across watchdog restarts.
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

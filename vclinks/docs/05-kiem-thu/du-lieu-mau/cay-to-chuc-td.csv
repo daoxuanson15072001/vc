@@ -1,0 +1,13 @@
+﻿ma_don_vi,ten,loai,ma_cha,email_quan_ly
+TD-DV-VCP,Division VCparts,division,,
+TD-DV-HN1,Tổ HN1,to_ban_hang,TD-DV-VCP,huong.uat@vcprosperous.com
+TD-DV-HN2,Tổ HN2,to_ban_hang,TD-DV-VCP,duc.uat@vcprosperous.com
+TD-DV-HCM1,Tổ HCM1,to_ban_hang,TD-DV-VCP,duc.uat@vcprosperous.com
+TD-DV-CS,Nhóm CSKH VCparts,nhom_cskh,TD-DV-VCP,yen.uat@vcprosperous.com
+TD-DV-MK,Nhóm Marketing VCparts,nhom_marketing,TD-DV-VCP,nhung.uat@vcprosperous.com
+TD-DV-SA,Nhóm Sale admin VCparts,nhom_sale_admin,TD-DV-VCP,ngoc.uat@vcprosperous.com
+TD-DV-KT,Nhóm Kế toán VCparts,nhom_ke_toan,TD-DV-VCP,
+TD-DV-TT,Nhóm Thị trường VCparts,nhom_thi_truong,TD-DV-VCP,
+TD-DV-VCE,Division VCedu,division,,loc.uat@vcprosperous.com
+TD-DV-TVTS,Tổ Tư vấn tuyển sinh,to_ban_hang,TD-DV-VCE,
+TD-DV-KTE,Nhóm Kế toán VCedu,nhom_ke_toan,TD-DV-VCE,

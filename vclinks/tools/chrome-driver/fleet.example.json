@@ -1,0 +1,14 @@
+{
+  "api": "http://localhost:3000",
+  "fleetDir": "~/.vclinks-fleet",
+  "intervalSec": 60,
+  "confirmRounds": 2,
+  "syncPeriodMin": 15,
+  "silentMin": 10,
+  "maxRestartsPerHour": 3,
+  "profiles": [
+    { "name": "nick-01", "port": 9341, "uid": "000000000000000001" },
+    { "name": "nick-02", "port": 9342, "uid": "000000000000000002" },
+    { "name": "nick-03", "port": 9343 }
+  ]
+}

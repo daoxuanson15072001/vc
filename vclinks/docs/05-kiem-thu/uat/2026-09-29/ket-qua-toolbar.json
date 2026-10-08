@@ -1,0 +1,43 @@
+[
+  {
+    "id": "TC17",
+    "title": "Gửi Sticker: chọn sticker #3 bộ \"Củ hành\" trên Dashboard → tiện ích gửi trên Zalo Web, có bong bóng sticker, IDB msgType 4",
+    "pass": null,
+    "skipped": true
+  },
+  {
+    "id": "TC18",
+    "title": "Tin nhắn nhanh: tạo mẫu /uatbh, gõ \"/uatbh\" + Enter trong ô soạn → nội dung thay {ten_khach}; gửi → hiện trên Zalo",
+    "pass": true,
+    "detail": {
+      "suggestions": [
+        "/uatbh"
+      ],
+      "inserted": "Dạ Kiểm thử vclink, sản phẩm được bảo hành 12 tháng ạ (UAT 06:31:25).",
+      "outbox": {
+        "cliMsgId": "1790638288159",
+        "ms": 524
+      }
+    },
+    "ms": 4317
+  },
+  {
+    "id": "TC19",
+    "title": "Gửi nhanh số tài khoản: mẫu loại \"bank\" hiện trong nút → chèn → gửi → hiện trên Zalo",
+    "pass": true,
+    "detail": {
+      "inserted": "Vietcombank 0011 0022 3344 - CTCP VC Phồn Vinh (UAT 06:31:25)",
+      "outbox": {
+        "cliMsgId": "1790638292796",
+        "ms": 893
+      }
+    },
+    "ms": 7041
+  },
+  {
+    "id": "TC20",
+    "title": "Hộp \"Tin nhắn nhanh\": liệt kê mẫu, sửa tên mẫu, danh sách cập nhật",
+    "pass": null,
+    "skipped": true
+  }
+]

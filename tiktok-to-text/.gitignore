@@ -1,0 +1,27 @@
+.venv/
+output/
+service_account.json
+cookies.txt
+__pycache__/
+node_modules/
+# worktree trỏ symlink node_modules / .venv về cây chính: chặn cả symlink (mẫu có "/" chỉ khớp thư mục)
+node_modules
+.venv
+frontend/dist/
+models/
+.DS_Store
+data/raw/
+*.log
+.env
+data/raw/
+data/tts/
+.pytest_cache/
+.claude/worktrees/
+data/qdrant/
+data/preview/
+# khoá ai_slot giữa tiến trình (kb/ai_slot.py)
+data/ai_slot-*.lock
+data/ai_slot-*.wait
+
+# Worktree Codex trong repo, không đưa checkout lồng vào commit
+.worktrees/

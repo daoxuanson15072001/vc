@@ -1,0 +1,155 @@
+/* Token giao diện (DESIGN Phần V mục 4, SYS-26) — nguồn: canvas "VC Content Engine — Giao diện mới", bảng Main.
+   CSS mới chỉ dùng var(--…); đổi màu / cỡ chữ / khoảng cách là đổi ở đây.
+   Tối: theo máy (prefers-color-scheme) trừ khi người dùng chọn Sáng; hoặc người dùng chọn Tối (data-theme trên <html>, theme.js). */
+
+:root {
+  /* TOK-COLOR — mọi cặp chữ / nền đã đo WCAG 2.2 AA (bảng mục 4.1) */
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #f1f3f6;
+  --border: #e3e6eb;
+  --border-strong: #8b93a1;   /* viền ô nhập, checkbox: 3,10:1 trên --surface */
+  --text: #1b1f27;
+  --muted: #5b6472;
+  --primary: #c81e4a;         /* 5,61:1 với chữ trắng */
+  --primary-hover: #a8173d;
+  --on-primary: #ffffff;
+  --primary-soft: #fde8ed;
+  /* good / bad / warn chỉ vừa sát 4,5:1 trên nền soft — đừng làm nhạt thêm */
+  --good: #15803d;
+  --good-soft: #dcfce7;
+  --bad: #c62828;
+  --bad-soft: #fde2e2;
+  --warn: #b45309;
+  --warn-soft: #fef3c7;
+  --info: #1d4ed8;
+  --info-soft: #dbeafe;
+  --focus: #2563eb;
+  --overlay: rgba(16, 24, 40, 0.45);
+  --brand-tiktok: #fe2c55;
+  --brand-tiktok-2: #25f4ee;
+  --chart-1: #c81e4a;
+  --chart-2: #1d4ed8;
+  --chart-3: #15803d;
+  --chart-4: #b45309;
+  --chart-5: #7c3aed;
+  --chart-6: #0e7490;
+  --chart-7: #be185d;
+  --chart-8: #4d7c0f;
+
+  /* TOK-TYPE — cỡ / dòng */
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --fs-xs: 12px;   --lh-xs: 16px;
+  --fs-sm: 13px;   --lh-sm: 18px;
+  --fs-md: 14px;   --lh-md: 20px;
+  --fs-base: 15px; --lh-base: 24px;
+  --fs-lg: 18px;   --lh-lg: 26px;
+  --fs-xl: 22px;   --lh-xl: 30px;
+  --fs-2xl: 28px;  --lh-2xl: 36px;
+
+  /* TOK-SPACE — thang 4 */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 48px;
+
+  /* TOK-SHAPE */
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-pill: 999px;
+  --shadow-1: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
+  --shadow-2: 0 4px 12px rgba(16, 24, 40, 0.12);
+  --shadow-3: 0 12px 32px rgba(16, 24, 40, 0.22);
+
+  /* TOK-LAYER — Chat nhanh nằm dưới popup */
+  --z-sticky: 10;
+  --z-dropdown: 100;
+  --z-quickchat: 200;
+  --z-overlay: 300;
+  --z-dialog: 400;
+  --z-toast: 500;
+
+  /* TOK-MOTION */
+  --dur-fast: 120ms;
+  --dur: 200ms;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Vùng bấm tối thiểu (WCAG 2.5.8): 32px máy tính, 44px ≤ 640px */
+  --hit: 32px;
+
+  /* Bí danh giai đoạn chuyển — CSS cũ còn dùng; CSS mới dùng tên mới */
+  --radius: var(--r-lg);
+  --shadow: var(--shadow-1);
+
+  color-scheme: light;
+}
+
+/* TOK-BP: 640px (điện thoại) · 1000px (cửa sổ hẹp) · 1400px (vùng nội dung tối đa) */
+@media (max-width: 640px) {
+  :root { --hit: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur: 0ms; }
+}
+
+/* Bộ màu tối — viết hai lần vì CSS không gộp được media query với selector thuộc tính */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0f1115;
+    --surface: #171a21;
+    --surface-2: #1f232c;
+    --border: #2a2f3a;
+    --border-strong: #626b7a;
+    --text: #e6e8ec;
+    --muted: #9099a8;
+    --primary: #ff5c80;
+    --primary-hover: #ff7a97;
+    --on-primary: #1b0a10;
+    --primary-soft: #3a1a24;
+    --good: #4ade80;
+    --good-soft: #14301f;
+    --bad: #f87171;
+    --bad-soft: #3a1818;
+    --warn: #fbbf24;
+    --warn-soft: #3a2c10;
+    --info: #60a5fa;
+    --info-soft: #172a4a;
+    --focus: #93c5fd;
+    --overlay: rgba(0, 0, 0, 0.6);
+    --shadow-1: none;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #0f1115;
+  --surface: #171a21;
+  --surface-2: #1f232c;
+  --border: #2a2f3a;
+  --border-strong: #626b7a;
+  --text: #e6e8ec;
+  --muted: #9099a8;
+  --primary: #ff5c80;
+  --primary-hover: #ff7a97;
+  --on-primary: #1b0a10;
+  --primary-soft: #3a1a24;
+  --good: #4ade80;
+  --good-soft: #14301f;
+  --bad: #f87171;
+  --bad-soft: #3a1818;
+  --warn: #fbbf24;
+  --warn-soft: #3a2c10;
+  --info: #60a5fa;
+  --info-soft: #172a4a;
+  --focus: #93c5fd;
+  --overlay: rgba(0, 0, 0, 0.6);
+  --shadow-1: none;
+  color-scheme: dark;
+}
