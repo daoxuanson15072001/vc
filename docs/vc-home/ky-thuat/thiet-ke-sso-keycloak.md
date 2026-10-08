@@ -1,6 +1,6 @@
 # Kế hoạch code: đăng nhập một lần (SSO) bằng Keycloak và cổng VC Home
 
-Phiên bản 0.5 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 và 6 điểm vá bảo mật (chờ đầu vào I1–I9)
+Phiên bản 0.6 · 08/10/2026 · Trạng thái: Đã code SSO-00…04 với thông số giả lập (chờ đầu vào I1–I9 để lên thật)
 
 ## Tóm tắt
 
@@ -13,6 +13,7 @@ Phiên bản 0.5 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 và 6 đi�
 - **Quay lui được ở mọi bước:** mỗi app có cờ (`AUTH_PROVIDER` ở VClinks, `AUTH_PASSWORD_LOGIN` ở VCwiki). Dữ liệu chỉ thêm trường, không xoá.
 - **Có mail công ty chỉ là qua cổng** (VH-BR-26, D-BA-37…40): vào app phải là tài khoản cá nhân đủ điều kiện (bật xác thực 2 bước, không thuộc danh sách loại trừ như hộp thư dùng chung). `vc-provisioner` chạy mỗi 15 phút, cấp và gỡ nhóm app, tạo sẵn user VC ID; app kiểm nhóm ngay từ ngày bật.
 - **Việc còn mở:** 9 đầu vào từ người có quyền (I1–I9, mục 4.3). Q1–Q5 (mục 4.1) đã chốt theo đề xuất ngày 08/10/2026 ([12](../12-cau-hoi-rui-ro.md) mục 4).
+- **Đã code (08/10/2026, thông số giả lập):** SSO-00…04 trong `vc-platform/`: realm dạng code, theme, VC Home, `vc-provisioner`, compose production, sao lưu. Quyết định phát sinh khi code ở [12](../12-cau-hoi-rui-ro.md) D-BA-49…54, đã ghi vào các mục dưới. Có I3, I4, I6 thì chỉ đổi biến môi trường.
 - **Người duyệt xem kỹ:** mục 4 (quyết định), mục 5.2 (hợp đồng tích hợp app), mục 8 (các phiên và lịch), mục 10 (chuyển đổi và quay lui).
 
 ## Mục lục
@@ -197,7 +198,7 @@ Bàn giao khách khi nghỉ việc (VClinks M1b-11) vẫn là quy trình riêng 
 | Mã | Nội dung | Chọn |
 |---|---|---|
 | D1 | Bản Keycloak | Bản 26.x mới nhất tại thời điểm SSO-00, ghim đúng số bản trong `compose.yml`; nâng bản theo quý |
-| D2 | Cấu hình Keycloak | Dạng code: file YAML realm + `keycloak-config-cli` (áp lại được nhiều lần, không sửa tay trên màn quản trị) |
+| D2 | Cấu hình Keycloak | Dạng code: file YAML realm + công cụ áp `@vc/realm-apply` (áp lại được nhiều lần, có `--dry-run`, không sửa tay trên màn quản trị; D-BA-49) |
 | D3 | VC Home giữ phiên? | Không. SPA public client + PKCE, token trong bộ nhớ (`oidc-client-ts`, `InMemoryWebStorage`) |
 | D4 | Phạm vi đăng xuất | Đăng xuất một app = đăng xuất mọi app |
 | D5 | Khoá người dùng trong app | Theo `sub` của VC ID, không theo email; lần đầu gắn theo email một lần |
@@ -234,13 +235,15 @@ Bàn giao khách khi nghỉ việc (VClinks M1b-11) vẫn là quy trình riêng 
 | Chống dò mật khẩu | Bật | Mặc định an toàn |
 | Nhật ký đăng nhập, nhật ký quản trị | Bật, giữ 24 tháng | QĐ-70 của VClinks |
 | Ngôn ngữ | `vi` mặc định, `en` phụ | Giao diện tiếng Việt |
-| Nhóm mặc định | `/app-vclinks`, `/app-vcwiki` | Q3 |
+| Nhóm mặc định | Không có | D-BA-37: `vc-provisioner` cấp nhóm app theo điều kiện vào app |
 | Khoá ký | RS256, xoay vòng mỗi năm (giữ khoá cũ song song 1 tuần) | App lấy khoá qua JWKS nên xoay không cần sửa app |
 
 #### 5.1.2 Nối Google
 
 - Identity provider `google` (loại Google có sẵn), "Trust email" bật, "Sync mode" `FORCE` (đổi tên, ảnh trên Google thì VC ID cập nhật ở lần đăng nhập sau). Áp dụng ở GĐ A. Từ GĐ B, VC People là nguồn sự thật (VH-BR-03): đổi sang chế độ chỉ nhập lần đầu (`IMPORT`) và để VC Home đẩy tên, email, ảnh sang VC ID.
-- **Giới hạn domain:** khai cả hai domain ở mục "Hosted domain". Phiên SSO-00 phải kiểm bản Keycloak đã ghim có nhận nhiều domain không. Nếu không nhận: để trống mục này và chặn bằng luồng "first broker login" có bước kiểm domain (cấu hình điều kiện trên thuộc tính `hd`); app vẫn kiểm lại domain như hiện nay, nên luôn có ít nhất hai lớp chặn.
+- **Giới hạn domain** (D-BA-50), ba lớp: (1) mục "Hosted domain" khai cả hai domain (còn kiểm với Google thật khi có I3); (2) **bộ lọc claim** của chỗ nối Google: chỉ nhận token có `hd` khớp `^(vcprosperous\.com|vcpart\.vn)$`, chặn trước khi tạo user, hiện câu tiếng Việt ở mục 5.1.6. Kiểm mẫu email ở user profile **không** chặn được (SSO-00: vẫn tạo user); (3) app kiểm lại `hd` và domain email.
+- **Danh sách tài khoản:** nối Google đặt `prompt=select_account` để Google luôn hiện danh sách tài khoản. Trang đăng nhập của realm `vc` chuyển thẳng sang Google (bước "Identity Provider Redirector" mặc định `google`), không có form mật khẩu (D-BA-53).
+- Mapper `picture`: ảnh Google vào thuộc tính `picture` cho VC Home.
 - Mapper của Google: lấy claim `hd` thành thuộc tính user `hd`.
 - Luồng "first broker login": bỏ bước "Review profile", tạo user nếu chưa có, không cho gắn với user cục bộ (realm không có user cục bộ). **Từ GĐ C** (quyết định BA khi soát chéo 08/10/2026): VC Home tạo sẵn user trên VC ID ngay khi hồ sơ có hiệu lực (để có `sub` trong `vh.person.joined` và đẩy vai trò trước lần đăng nhập đầu); luồng này đổi sang tự gắn tài khoản Google vào user có sẵn khi trùng email đã xác minh.
 - Mọi app gửi `kc_idp_hint=google` để Keycloak chuyển thẳng sang Google, người dùng không thấy trang đăng nhập của Keycloak.
@@ -282,7 +285,7 @@ Gắn mặc định cho mọi client. Claim trong `id_token`:
 | `vc-provisioner` | Confidential, chỉ service account | — | — | Vai trò `realm-management`: `view-users`, `manage-users`, `query-groups`, `view-events` |
 | `*-dev` | Như bản chính | `http://localhost:<cổng>/…` | Theo cổng dev | Chỉ có ở realm của môi trường dev và staging |
 
-Mọi client: tắt "Consent required", tắt "Full scope allowed", chỉ khai đúng redirect URI (không dùng `*`).
+Mọi client: tắt "Consent required", tắt "Full scope allowed", chỉ khai đúng redirect URI (không dùng `*`). Riêng `vc-provisioner` bật "Full scope allowed" và scope `roles` để token máy mang 4 vai trò đã cấp (thiếu thì Admin API trả 403; D-BA-54).
 
 #### 5.1.6 Theme `vc`
 
@@ -299,7 +302,7 @@ Người dùng chỉ thấy vài trang của Keycloak; viết `messages_vi.prope
 #### 5.1.7 Cấu hình dạng code (phác thảo, tên khoá chính xác chốt ở SSO-00)
 
 ```yaml
-# vc-platform/keycloak/realm/vc.yaml — áp bằng keycloak-config-cli, biến lấy từ môi trường
+# vc-platform/keycloak/realm/vc.yaml — áp bằng @vc/realm-apply, biến lấy từ môi trường (bản đầy đủ nằm trong repo)
 realm: vc
 displayName: VC Phồn Vinh
 enabled: true
@@ -419,9 +422,13 @@ Không bắt buộc ở đợt này: endpoint `GET /api/vc-app/status` (trạng 
 
 Header: logo VC Phồn Vinh · menu ảnh đại diện (Hồ sơ, Đăng xuất). Trạng thái rỗng: "Bạn chưa được cấp ứng dụng nào. Liên hệ quản trị viên." Nếu claim `vc_trang_thai` là `chua_bat_2_buoc`, `loai_tru` hoặc trống thì hiện câu riêng theo 06 VH-MH-02. Giao diện dùng token màu và component antd giống VClinks; chạy tốt trên điện thoại (lưới 1 cột dưới 600 px).
 
-Cấu hình `oidc-client-ts`: `authority = https://id.vcprosperous.com/realms/vc`, `client_id = vchome`, `response_type = code`, `scope = openid profile email`, `extraQueryParams = { kc_idp_hint: 'google' }`, `userStore = InMemoryWebStorage`, `automaticSilentRenew` chỉ làm mới khi người dùng có thao tác trong 30 phút gần nhất (VH-AUT-05; để tab mở không giữ phiên chung sống mãi). Đăng xuất gọi `signoutRedirect()` (có `id_token_hint` nên không hiện trang xác nhận).
+Cấu hình `oidc-client-ts`: `authority = https://id.vcprosperous.com/realms/vc`, `client_id = vchome`, `response_type = code`, `scope = openid profile email`, `extraQueryParams = { kc_idp_hint: 'google' }`, `userStore = InMemoryWebStorage`, `automaticSilentRenew = false`. Đăng xuất gọi `signoutRedirect()` (có `id_token_hint` nên không hiện trang xác nhận). Cấu hình chạy đọc từ `/config.json` do container ghi lúc khởi động (một ảnh cho staging và production).
 
-Header bảo mật của nginx: `Content-Security-Policy` chỉ cho `self` và `id.vcprosperous.com`, `Strict-Transport-Security`, `X-Frame-Options: DENY`, `Referrer-Policy: same-origin`.
+Phiên (D-BA-52): tải lại trang thì đăng nhập im lặng (`prompt=none`). Gia hạn token và kiểm phiên mỗi 60 giây **chỉ khi tab đang hiện và người dùng có thao tác trong 30 phút gần nhất** (VH-AUT-05; tab bỏ quên không giữ phiên chung sống mãi). VC Home không có back-channel nên dùng hai đường: iframe kiểm phiên OIDC thấy đăng xuất ở app khác trong vài giây (UAT-SSO-07); khoá do quản trị trên máy chủ thì lượt kiểm 60 giây sau làm VC Home về trang "Phiên đăng nhập đã hết hạn" (UAT-SSO-09).
+
+"Chọn tài khoản khác" (trang lỗi `outside_domain`, D-BA-53): nếu đang có phiên VC ID thì đăng xuất phiên đó (không hỏi lại) rồi sang Google; không có phiên thì sang Google với `prompt=login`.
+
+Header bảo mật của nginx: `Content-Security-Policy` chỉ cho `self` và `id.vcprosperous.com` (`style-src` thêm `'unsafe-inline'` vì antd chèn CSS lúc chạy; ảnh thêm `*.googleusercontent.com`), `Strict-Transport-Security`, `X-Frame-Options: DENY` và `frame-ancestors 'none'` (riêng `/silent`: `SAMEORIGIN` vì nằm trong iframe của chính VC Home), `X-Content-Type-Options: nosniff`, `Referrer-Policy: same-origin`. Kiểm ở e2e: không có vi phạm CSP, không lỗi truy cập nghiêm trọng (axe); Lighthouse trên điện thoại: truy cập 100.
 
 ### 5.4 VClinks: thay đổi theo file
 
@@ -523,7 +530,7 @@ async verifyLogoutToken(token: string): Promise<{ sid?: string; sub?: string; jt
 | Hạng mục | Cách làm |
 |---|---|
 | Truyền tải | HTTPS mọi nơi qua Cloudflare; HSTS; Keycloak `KC_PROXY_HEADERS=xforwarded`, `KC_HOSTNAME` đúng tên miền |
-| Màn quản trị Keycloak | Tách tên miền `id-admin.vcprosperous.com` (`KC_HOSTNAME_ADMIN`), chặn bằng Cloudflare Access hoặc danh sách IP văn phòng; tên miền công khai không mở `/admin` |
+| Màn quản trị Keycloak | Tách tên miền `id-admin.vcprosperous.com` (`KC_HOSTNAME_ADMIN`), chặn bằng Cloudflare Access hoặc danh sách IP văn phòng; tên miền công khai không mở `/admin`: nginx "edge" trước Keycloak chỉ mở `/realms/`, `/resources/` ở `id.` và chặn realm `master` (D-BA-51) |
 | Tài khoản khẩn cấp | Hai admin realm `master` có mật khẩu dài + TOTP, cất offline (I5); dùng khi Google sập hoặc cấu hình Google hỏng |
 | Bí mật | Client secret, mật khẩu PostgreSQL, khoá Google chỉ nằm trong file `.env` trên máy chủ (quyền 600) hoặc kho bí mật; **không vào git** (bài học lộ khoá ở vccar-service); có `.env.example`; quét bí mật trong CI của `vc-platform` |
 | Xoay khoá | Client secret xoay 6 tháng một lần; khoá ký realm xoay mỗi năm |
@@ -540,7 +547,7 @@ async verifyLogoutToken(token: string): Promise<{ sid?: string; sub?: string; jt
 ```
 vc-platform/
 ├─ README.md                    tóm tắt, cách chạy dev, link tài liệu
-├─ compose.yml                  production: postgres, keycloak, keycloak-config-cli, home (nginx), provisioner, cloudflared, backup
+├─ compose.yml                  production: postgres, keycloak, edge (nginx trước Keycloak), home (nginx), provisioner, realm-apply, backup, cloudflared
 ├─ compose.dev.yml              dev: postgres + keycloak + config-cli, client *-dev trỏ localhost
 ├─ .env.example
 ├─ keycloak/
@@ -595,7 +602,7 @@ Chạy `start --optimized` sau bước `kc.sh build` trong Dockerfile.
 
 **Thứ tự lên production:**
 1. Máy I1 + DNS I2.
-2. `compose up` PostgreSQL + Keycloak; `keycloak-config-cli` áp `vc.yaml`.
+2. `compose up` PostgreSQL + Keycloak + edge; `docker compose run --rm realm-apply` áp `vc.yaml` (xem trước bằng `--dry-run`).
 3. Kiểm `/health/ready` ở cổng quản lý 9000.
 4. Một admin đăng nhập thử bằng Google.
 5. VC Home.
@@ -649,7 +656,7 @@ Mỗi phiên có Đầu vào, Việc, Đầu ra, Xong khi. Model theo CLAUDE.md 
 | Gắn user | Mới, theo email, theo `sub`, xung đột, khoá, thiếu nhóm, tự tạo bật/tắt | Như VClinks | — |
 | Back-channel | Hợp lệ theo `sid`; chỉ `sub`; thiếu `events`; có `nonce`; `jti` lặp; `iat` cũ; sai chữ ký; sai `aud`; body không phải form | Như VClinks | — |
 | End-to-end | Issuer giả trong test (discovery + JWKS + token) → đăng nhập → gọi API → back-channel → API trả 401 | Tương tự bằng `TestClient` | Playwright: VC Home với Keycloak dev (đăng nhập bằng user thử của realm dev) |
-| Cấu hình | — | — | `keycloak-config-cli` áp `vc.yaml` trong CI; kiểm schema `apps.yaml`; quét bí mật |
+| Cấu hình | — | — | `@vc/realm-apply` áp `vc.yaml` hai lần (lần hai 0 thay đổi); kiểm schema `apps.yaml`; quét bí mật; `scripts/thu-production.sh` dựng cụm production và kiểm 16 bước |
 | Hồi quy | Toàn bộ `pnpm ci:local` | Toàn bộ test hiện có | — |
 
 ### 9.2 Ca UAT
@@ -774,6 +781,7 @@ Mỗi file sửa theo quy định §13 của VClinks: tăng phiên bản một l
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.6 | 08/10/2026 15:52 | Claude Code (code GĐ A với thông số giả lập) | Ghi quyết định phát sinh khi code: công cụ áp realm, chặn domain bằng bộ lọc claim `hd`, Google luôn hiện danh sách tài khoản, realm chuyển thẳng sang Google, quyền `vc-provisioner`, phiên và "Chọn tài khoản khác" của VC Home, header nginx, edge trước Keycloak; sửa bảng 5.1.1 (không có nhóm mặc định) | [12](../12-cau-hoi-rui-ro.md) D-BA-49…54; code `vc-platform` |
 | 0.5 | 08/10/2026 14:31 | Claude Code (vai BA trưởng, soát chéo) | Mã VCwiki đổi SYS-60 thành SYS-43 (BA.md hiện tới SYS-42; SYS-59 là mã ca UAT); bỏ `defaultGroups` trong phác thảo `vc.yaml`, sửa Q3 và sơ đồ đăng nhập theo D-BA-37 | Soát chéo kế hoạch code ngày 08/10/2026; [12](../12-cau-hoi-rui-ro.md) D-BA-44…48 |
 | 0.4 | 08/10/2026 13:50 | Claude Code (vai BA trưởng) | 6 điểm vá bảo mật: điều kiện vào app ở GĐ A–B (không nhóm mặc định, bật 2 bước, danh sách loại trừ, tạo sẵn user), `vc-provisioner` mỗi 15 phút (khoá ≤ 20 phút), I8–I9, mục 11.1 quy trình nghỉ việc tay, UAT-SSO-21…23, mục 14; 65 giờ | [12](../12-cau-hoi-rui-ro.md) D-BA-37…42; người dùng đồng ý 08/10/2026 |
 | 0.3 | 08/10/2026 11:31 | Claude Code (vai BA) | Ghi Q1–Q5 đã chốt theo đề xuất (mục 4.1, tóm tắt, lịch); thêm kiểm (7) mapper `vh_roles` vào SSO-00 | [12](../12-cau-hoi-rui-ro.md) mục 4; [07](../07-tich-hop.md) mục 11 đề xuất 8 |

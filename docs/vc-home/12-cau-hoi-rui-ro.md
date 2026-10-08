@@ -1,6 +1,6 @@
 # VC Home — Quyết định, giả định và rủi ro
 
-Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đã chốt (người dùng uỷ quyền BA)
+Phiên bản 0.5 · 08/10/2026 · Trạng thái: Đã chốt (người dùng uỷ quyền BA)
 
 ## Tóm tắt
 
@@ -195,6 +195,12 @@ Bộ tài liệu do nhiều người viết song song. Khi soát chéo ngày 08/
 | D-BA-46 | "Lỗi mức cao" của đối chiếu Google (tiêu chí lên R2) | Nhóm 1 (có Google, không có hồ sơ), nhóm 4 (Google khoá mà hồ sơ đang làm) và nhóm "hồ sơ đã nghỉ, Google còn hoạt động" của VH-IMP-02 | 10 mục 6; kế hoạch GĐ B |
 | D-BA-47 | Khoảng R3 → R4 (khoảng 42 ngày) chưa có xin quyền; VClinks nhận sự kiện nghỉ dài | Bộ luật bản đầu (N8) phủ vai trò theo chức danh; trường hợp còn lại quản trị hệ thống cấp khẩn cấp (tối đa 7 ngày, ghi lý do). Thêm 2 giờ VClinks ở R4 (D-L-02) cho `vh.person.leave_started` / `returned` | 10 R4; kế hoạch GĐ C, D |
 | D-BA-48 | Giả định kỹ thuật trong kế hoạch code (GĐ B mục 3.4, GĐ C mục 3.11 GT-01…27, GĐ D mục 3.4 GA-01…33) | Có hiệu lực như quyết định soát chéo. Khi tài liệu nghiệp vụ ghi khác thì theo giả định; BA sửa 04, 05, 06, 07, 11 theo đó trước phiên đầu của mỗi giai đoạn (điều kiện sẵn sàng) | 10 mục 5; mọi tài liệu nghiệp vụ |
+| D-BA-49 | Công cụ áp cấu hình realm (thiết kế SSO D2) | Tự viết `@vc/realm-apply` (Node, trong `vc-platform/keycloak/apply`) thay `keycloak-config-cli`: áp lại được, `--dry-run`, chỉ phần realm cần dùng, không thêm ảnh JVM. Lần áp thứ hai báo 0 thay đổi là tiêu chí kiểm | Thiết kế SSO 0.6 (D2, 5.1.7, 6, 7, 9.1) |
+| D-BA-50 | Chặn tài khoản ngoài 2 domain ở VC ID | Bộ lọc claim `hd` ở chỗ nối Google (`filteredByClaim`, `^(vcprosperous\.com\|vcpart\.vn)$`), chặn trước khi tạo user; kiểm mẫu email ở user profile **không** chặn (thử ở SSO-00: vẫn tạo user). Ba lớp: Google `hosted domain` → bộ lọc claim → app kiểm `hd` | Thiết kế SSO 0.6 (5.1.2) |
+| D-BA-51 | Tên miền công khai không mở `/admin` | nginx "edge" đứng trước Keycloak: `id.` chỉ mở `/realms/`, `/resources/`, chặn realm `master`; `id-admin.` mở màn quản trị sau Cloudflare Access; tên miền lạ bị đóng kết nối. Keycloak chỉ tin header chuyển tiếp từ mạng nội bộ của compose | Thiết kế SSO 0.6 (5.7, 6, 7) |
+| D-BA-52 | Phiên của VC Home (không có back-channel) | Token chỉ trong bộ nhớ; tải lại trang thì đăng nhập im lặng. Gia hạn và kiểm phiên mỗi 60 giây **chỉ khi người dùng có thao tác trong 30 phút** (khoá do quản trị mất hiệu lực ở lượt kiểm sau); iframe kiểm phiên OIDC thấy đăng xuất ở app khác trong vài giây. `/silent` là đường duy nhất được nhúng khung (cùng site) | Thiết kế SSO 0.6 (5.3) |
+| D-BA-53 | "Chọn tài khoản khác" | Keycloak chỉ hỗ trợ `prompt` = none, login, consent. Nối Google đặt `prompt=select_account` (Google luôn hiện danh sách tài khoản); trang đăng nhập của realm `vc` chuyển thẳng sang Google; nút "Chọn tài khoản khác" ở VC Home đóng phiên VC ID đang có (không hỏi lại) rồi sang Google | Thiết kế SSO 0.6 (5.1.2, 5.1.6, 5.3) |
+| D-BA-54 | Client `vc-provisioner` | Bật "Full scope allowed" và scope `roles` để token máy mang vai trò `realm-management` đã cấp (thiếu thì Admin API trả 403); client chỉ có 4 vai trò khai ở `vc.yaml` nên không rộng hơn | Thiết kế SSO 0.6 (5.1.5) |
 
 ## 6. Xử lý các đề xuất bổ sung
 
@@ -253,6 +259,7 @@ Nhiều đề xuất trùng nhau giữa các tài liệu (ví dụ "báo trướ
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.5 | 08/10/2026 15:51 | Claude Code (code GĐ A với thông số giả lập) | Thêm D-BA-49…54: quyết định kỹ thuật phát sinh khi code SSO-00…04 (công cụ áp realm, chặn domain bằng bộ lọc claim, edge trước Keycloak, phiên VC Home, chọn tài khoản khác, quyền `vc-provisioner`) | Code `vc-platform` ngày 08/10/2026; e2e 32 ca, kiểm production 16 bước |
 | 0.4 | 08/10/2026 14:31 | Claude Code (vai BA trưởng, soát chéo) | Thêm D-BA-44…48 (mã VCwiki, cách đếm ngày, lỗi mức cao của đối chiếu Google, khoảng R3–R4, giả định kỹ thuật của kế hoạch code) | Soát chéo 3 kế hoạch code ngày 08/10/2026 |
 | 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | Thêm D-BA-37…42 (6 điểm vá sau đánh giá bảo mật luồng đăng nhập) và D-BA-43 (nâng máy chủ trước R2); sửa SSO Q3 theo D-BA-37; RR-07 | Người dùng đồng ý 6 điểm vá ngày 08/10/2026 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA) | Chốt toàn bộ Q-01…Q-15, SSO Q1–Q5, người làm VC Home, repo public (mục 4, thêm 4.2 danh mục chức năng, 4.3 người giữ vai trò); đổi mục 1 thành "đã cân nhắc"; thêm mục 6 xử lý 89 đề xuất bổ sung; cập nhật RR-02, RR-13 và tóm tắt | Người dùng uỷ quyền BA chốt ngày 08/10/2026 ("không cần phải t quyết định nữa") |

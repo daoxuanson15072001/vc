@@ -1,6 +1,6 @@
 # Kế hoạch code GĐ B: hồ sơ và tổ chức (R2)
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -145,7 +145,7 @@ R1 đã lên (31/10) với các đầu ra của [thiết kế SSO](thiet-ke-sso-
 
 | Đầu ra R1 | GĐ B dùng để |
 |---|---|
-| Repo `vc-platform`, `keycloak/realm/vc.yaml`, CI áp `keycloak-config-cli` | Thêm client, mapper, client role (mục 8.1) |
+| Repo `vc-platform`, `keycloak/realm/vc.yaml`, CI áp bằng `@vc/realm-apply` (D-BA-49) | Thêm client, mapper, client role (mục 8.1) |
 | SPA `home/` (React, antd, `oidc-client-ts`), `home/apps.yaml` → `catalog.json` | Thêm màn GĐ B; `apps.yaml` thành dữ liệu khởi đầu của `apps` |
 | `vc-provisioner` chạy mỗi 15 phút, thuộc tính `vc_trang_thai`, `loai-tru.yaml` | Đổi nguồn danh sách loại trừ (D-BA-37), thêm thuộc tính `vc_khoa` (mục 8.2) |
 | Tài khoản dịch vụ Google đọc Directory API (I4, I6) | VC Home API đọc Google khi đối chiếu (VH-IMP-02) |
@@ -942,5 +942,6 @@ Mọi yêu cầu của GĐ B có ít nhất một phiên. Ba yêu cầu mức S 
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 15:52 | Claude Code (code GĐ A) | Công cụ áp realm là `@vc/realm-apply` thay `keycloak-config-cli` | [12](../12-cau-hoi-rui-ro.md) D-BA-49 |
 | 0.2 | 08/10/2026 14:28 | Claude Code (vai BA trưởng, soát chéo) | Soát chéo với GĐ C, D: ghi chú hai nguồn ghi `google_status` từ GĐ C | Soát chéo 3 kế hoạch code ngày 08/10/2026; [12](../12-cau-hoi-rui-ro.md) D-BA-44…48 |
 | 0.1 | 08/10/2026 14:07 | Claude Code (vai trưởng nhóm kỹ thuật) | Tạo kế hoạch code GĐ B: phạm vi, điều kiện, thiết kế module và luồng, 22 giả định kỹ thuật, dữ liệu, API nội bộ và API cho app, quyền `@Can`, job, giao diện, thay đổi ở VC ID và `vc-provisioner`, 25 phiên 142 giờ, kiểm thử và ca UAT, lên bản và quay lui, rủi ro, truy vết | [Khung chung](ke-hoach-code-tong-quan.md) 0.1; README, 02, 04 (gồm mục 14), 05, 06, 07, 08, 10, 11, 12 bản ngày 08/10/2026; [thiết kế SSO](thiet-ke-sso-keycloak.md) 0.4 |

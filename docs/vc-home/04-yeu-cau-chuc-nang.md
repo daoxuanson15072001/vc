@@ -1,6 +1,6 @@
 # VC Home — Yêu cầu chức năng chi tiết
 
-Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
+Phiên bản 0.5 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -266,7 +266,7 @@ Phân hệ VC ID lo câu hỏi "người này là ai". Nhân viên chỉ đăng 
 |---|---|---|---|---|
 | VC ID ngừng (Keycloak, PostgreSQL hoặc đường hầm Cloudflare hỏng) | Không đăng nhập mới được; phiên riêng đang có vẫn chạy | VClinks: `AUTH_TOKEN_LOGIN` (dán token nội bộ gắn với một admin trong danh sách). VCwiki: `AUTH_PASSWORD_LOGIN=admin` | Quản trị hệ thống, báo chủ dự án | VClinks tắt (đặt rõ `AUTH_TOKEN_LOGIN=0`, vì code hiện coi biến trống là bật). VCwiki ở chế độ `admin` sau SSO-12 (theo thiết kế SSO) |
 | Google không trả lời hoặc OAuth client Google hỏng | VC ID chạy nhưng không ai qua được bước Google; realm `vc` không có mật khẩu | Như dòng trên. Người giữ tài khoản realm `master` vào `id-admin.vcprosperous.com` để sửa cấu hình (không dùng để vào app) | Quản trị hệ thống | Tắt |
-| Cấu hình VC ID sai sau khi áp | Đăng nhập lỗi hàng loạt | Áp lại bản `vc.yaml` trước đó bằng `keycloak-config-cli` | Quản trị hệ thống | — |
+| Cấu hình VC ID sai sau khi áp | Đăng nhập lỗi hàng loạt | Áp lại bản `vc.yaml` trước đó bằng `@vc/realm-apply` | Quản trị hệ thống | — |
 | Dữ liệu VC ID hỏng nặng | Mất user, phiên | Khôi phục PostgreSQL từ bản sao lưu đêm trước; trong lúc chờ dùng dòng đầu | Quản trị hệ thống | — |
 | Cần quay về cách đăng nhập cũ | — | VClinks `AUTH_PROVIDER=google` (giữ tới phiên SSO-12); VCwiki `AUTH_PASSWORD_LOGIN=on` | Chủ dự án quyết | Tắt |
 
@@ -2584,6 +2584,7 @@ Người dùng uỷ quyền cho BA trưởng chốt các đề xuất bổ sung.
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.5 | 08/10/2026 15:52 | Claude Code (code GĐ A) | Công cụ áp cấu hình VC ID là `@vc/realm-apply` | [12](12-cau-hoi-rui-ro.md) D-BA-49 |
 | 0.4 | 08/10/2026 14:31 | Claude Code (vai BA trưởng, soát chéo) | VH-ACC-07 bước 10 theo D-BA-37 (không còn nhóm mặc định của realm); VH-ORG-08 bước 3 và tiêu chí 1: chỉ trừ ngày nghỉ công ty, Chủ nhật vẫn đếm (D-BA-45) | Soát chéo kế hoạch code ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-44…48 |
 | 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | VH-AUT-07: `vc-provisioner` chạy mỗi 15 phút, khoá theo Google ≤ 20 phút; 14.2 thêm điều kiện vào app ở GĐ A–B (VH-BR-26) cho VH-AUT-01, 03 | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Mục 13 ghi trạng thái cả 34 đề xuất (không còn "Mở"); thêm mục 14: 12 yêu cầu mới (14.1) và phần bổ sung cho 11 yêu cầu có sẵn (14.2) | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |

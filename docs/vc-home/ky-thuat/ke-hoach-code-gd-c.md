@@ -1,6 +1,6 @@
 # Kế hoạch code GĐ C: quyền theo luật và vòng đời (R3)
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -704,7 +704,7 @@ Thiết kế giao diện trên [canvas](https://claude.ai/artifact/J8DUrr6ueZMwQ
 | `realm/vc.yaml`: client `vc-home-api` | Bảo đảm vai trò `manage-users`, `view-users`, `query-groups`, `manage-clients` (khung chung mục 7) | C-13 |
 | Hồ sơ người dùng (Keycloak ≥ 24) | Thuộc tính `vh_roles_*`, `vh_roles_overflow` chỉ quản trị sửa, người dùng không thấy | C-13 |
 | `defaultGroups` | Xoá nếu còn (GT-14) | C-13 |
-| Cấu hình `keycloak-config-cli` | Chế độ không xoá (`no-delete`) cho client role và nhóm, để áp lại `vc.yaml` không xoá client role, nhóm do VC Home tạo (tên khoá chính xác kiểm ở bản đã ghim) | C-13 |
+| Cấu hình `@vc/realm-apply` | Công cụ không bao giờ xoá nhóm và client role (nhóm không khai trong `vc.yaml` chỉ được báo), nên áp lại `vc.yaml` không xoá thứ VC Home tạo; C-13 giữ ca test áp hai lần để khoá hành vi này | C-13 |
 | CI | Job dựng Keycloak dev, áp `vc.yaml`, cấp token cho người mẫu (3 vị trí, 10 app, 5 vai trò mỗi app), kiểm `id_token` và access token < 4 KB và danh sách claim cho phép (VH-INT-01 tiêu chí 4, 5) | C-13 |
 
 ### 8.2 `vc-provisioner` (`vc-platform/provisioner/`)
@@ -976,7 +976,7 @@ Theo 10 mục 6, cộng phần kỹ thuật:
 |---|---|---|---|
 | R-01 | Bộ tính hoặc luật sai làm nhiều người mất quyền cùng lúc | Cao | Test thuộc tính so với bộ tính mẫu; xem trước bắt buộc; người thứ hai (VH-BR-25); chạy ngầm 1 tuần; cầu dao; chuyển tiếp theo app; cờ quay lui |
 | R-02 | Vai trò chỉ cấp qua yêu cầu (ví dụ `vclinks:admin`) không có đường cấp từ R3 tới R4 (GT-18) | Cao | N8 phủ bằng luật theo chức danh (người thứ hai duyệt); danh sách người còn thiếu lập trong tuần ngầm; phần còn lại cấp khẩn cấp có lý do mới mỗi lần (kiểm soát được báo); chủ dự án biết khoảng 42 ngày này |
-| R-03 | `keycloak-config-cli` xoá client role, nhóm do VC Home tạo khi áp lại `vc.yaml` | Cao nếu xảy ra | Chế độ không xoá cho client role và nhóm; test áp hai lần trong C-13; đối chiếu đêm phát hiện "Thiếu trên VC ID" |
+| R-03 | Công cụ áp realm xoá client role, nhóm do VC Home tạo khi áp lại `vc.yaml` | Cao nếu xảy ra | `@vc/realm-apply` không xoá nhóm, client role (D-BA-49); test áp hai lần trong C-13; đối chiếu đêm phát hiện "Thiếu trên VC ID" |
 | R-04 | Mapper `vh_roles` JSON nhiều giá trị không chạy trên bản Keycloak đã ghim | Trung bình | Kết quả SSO-00 (7); phương án dự phòng: mapper kịch bản, hoặc app đọc VH-API-06 (07 mục 2.5) |
 | R-05 | Giao dịch đổi cơ cấu lớn quá thời hạn giao dịch MongoDB (GT-11) | Trung bình | Giới hạn 1.000 vị trí mỗi nhóm; đo ở C-23; HC-NS tách nhóm khi lớn hơn |
 | R-06 | N8 hoặc người duyệt luật trễ làm tuần ngầm ngắn hơn 7 ngày | Cao | N8 hạn 27/11; `seed:rules` ghi duyệt theo biên bản; nếu trễ: lên R3 với `FEATURE_GRANTS_PUSH=off` (code đã chạy, VC ID giữ nhóm GĐ A) và bật thật khi đủ 7 ngày |
@@ -1028,5 +1028,6 @@ Mọi yêu cầu của GĐ C ở mục 1.1 đều có phiên.
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 15:52 | Claude Code (code GĐ A) | Công cụ áp realm là `@vc/realm-apply` (không xoá nhóm, client role) thay `keycloak-config-cli`; sửa cấu hình C-13 và R-03 | [12](../12-cau-hoi-rui-ro.md) D-BA-49 |
 | 0.2 | 08/10/2026 14:28 | Claude Code (vai BA trưởng, soát chéo) | Soát chéo với GĐ B, D: mã VCwiki SYS-44, SYS-45 (BA.md hiện tới SYS-42; GĐ A dùng SYS-43, D-BA-44); đường dẫn `/my-team` theo GĐ B; hai nguồn ghi `google_status` (bản mới hơn thắng) | Soát chéo 3 kế hoạch code ngày 08/10/2026; [12](../12-cau-hoi-rui-ro.md) D-BA-44…48 |
 | 0.1 | 08/10/2026 14:10 | Claude Code (vai trưởng nhóm kỹ thuật) | Tạo kế hoạch code GĐ C: phạm vi 23 yêu cầu, thiết kế bộ tính quyền, luật, đẩy VC ID, vòng đời, sự kiện; dữ liệu, API, job; thay đổi ở VC ID, `vc-provisioner`, VClinks, VCwiki; 24 phiên VC Home (112 giờ) và 10 phiên app (40 giờ), tổng 152 giờ; chạy ngầm và bật thật; 27 giả định kỹ thuật | Brief kế hoạch code GĐ B–D ngày 08/10/2026; [khung chung](ke-hoach-code-tong-quan.md) 0.1; README, 02, 04, 05, 06, 07, 08, 10, 11, 12 bản 08/10/2026; đọc `tiktok-to-text/docs/BA.md` v0.62 |

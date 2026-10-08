@@ -1,6 +1,6 @@
 # Bộ tài liệu VC Home — Cổng nhân viên, hồ sơ nhân sự và quyền truy cập tập trung
 
-Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
+Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đã chốt nội dung; GĐ A đã code với thông số giả lập
 
 ## Tóm tắt
 
@@ -20,6 +20,7 @@ Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ �
   Lịch và khối lượng ở [10-ke-hoach-trien-khai.md](10-ke-hoach-trien-khai.md).
 - **Quy mô bộ tài liệu:** 13 file nghiệp vụ, 1 thiết kế kỹ thuật GĐ A và 4 kế hoạch code (tổng quan, GĐ B, C, D), gồm 90 yêu cầu, 26 quy tắc, 12 quy trình, 21 màn hình, 28 collection, 13 sự kiện, 10 API, 100 câu chuyện người dùng, 59 ca UAT. Đã soát chéo toàn bộ mã và liên kết; 36 điểm lệch được BA trưởng chốt ở [12](12-cau-hoi-rui-ro.md) mục 5. Khi hai tài liệu ghi khác nhau thì theo mục đó.
 - **Quyết định:** cả 15 câu hỏi, 5 câu của thiết kế SSO và toàn bộ đề xuất bổ sung đã được chốt theo khuyến nghị BA (người dùng uỷ quyền ngày 08/10/2026), ghi ở [12-cau-hoi-rui-ro.md](12-cau-hoi-rui-ro.md) mục 4 và 6. **Việc còn mở** chỉ là đầu vào từ bên ngoài (máy chủ, DNS, Google Admin, file Excel của HC-NS) và người làm VC Home ([10](10-ke-hoach-trien-khai.md) mục 4, 5). Repo `vc` cần đổi sang private ngay (RR-13).
+- **Code:** GĐ A (SSO-00…04) đã code với thông số giả lập ở `vc-platform/` (xem README ở đó): Google giả, Directory giả, bí mật giả. Lên thật cần I1–I6, I8, I9 ([thiết kế SSO](ky-thuat/thiet-ke-sso-keycloak.md) mục 4.3); quyết định phát sinh khi code ở [12](12-cau-hoi-rui-ro.md) D-BA-49…54.
 - **Người duyệt xem kỹ:**
   - tác động tới VClinks và VCwiki ([01](01-tam-nhin-pham-vi.md) mục 7);
   - quy tắc nghiệp vụ ([02](02-tac-nhan-quy-tac.md) mục 4);
@@ -399,6 +400,7 @@ VH-API-01…07 và VH-API-10 nằm trên VC Home API với tiền tố `/api/v1`
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.4 | 08/10/2026 15:52 | Claude Code (code GĐ A) | Thêm dòng trạng thái code GĐ A; thiết kế SSO lên 0.6, 12 lên 0.5 (D-BA-49…54), 04 lên 0.5, kế hoạch GĐ B, C lên 0.3 | Code `vc-platform` ngày 08/10/2026 |
 | 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | Thêm VH-BR-26 (26 quy tắc); thêm 3 kế hoạch code GĐ B, C, D trong `ky-thuat/` | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Thêm 12 yêu cầu nhận thêm vào sổ mã (tổng 90), collection `company_holidays` (tổng 28), 2 sự kiện `vh.person.change_scheduled`, `vh.test.ping` (tổng 13), VH-API-10; ghi trạng thái: mọi câu hỏi và đề xuất đã chốt, chỉ còn đầu vào bên ngoài | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
 | 0.1 | 08/10/2026 10:04 → 11:16 | Claude Code (vai BA trưởng, 5 người viết song song) | Tạo bộ tài liệu: khung chung, quy ước mã, thuật ngữ, giai đoạn, danh mục 78 yêu cầu, 25 quy tắc, 12 quy trình, 21 màn hình, dữ liệu, sự kiện, API, 12 nhóm câu chuyện | Yêu cầu người dùng 08/10/2026; thiết kế SSO 0.1; khảo sát Okta, Microsoft Entra, MISA AMIS, Base.vn; đọc code VClinks và VCwiki |
