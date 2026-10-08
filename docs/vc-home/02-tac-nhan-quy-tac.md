@@ -140,7 +140,7 @@ Ghi chú:
 - Quản lý trực tiếp nghỉ việc thì các vị trí đang trỏ tới người đó hiện cảnh báo "thiếu quản lý" cho HC-NS. Trong lúc chờ, **trưởng đơn vị** tạm làm quản lý cho việc duyệt.
 
 ### VH-BR-06 — Cây đơn vị
-- Cây không có vòng. Đơn vị loại Tổ / Nhóm không có đơn vị con.
+- Cây không có vòng. Đơn vị loại Tổ / Nhóm chỉ chứa được Tổ / Nhóm con một cấp (như tổ bán hàng lồng một cấp của VClinks).
 - Đơn vị còn vị trí đang hiệu lực thì **không xoá được**, chỉ chuyển sang "Ngừng" sau khi đã chuyển hết người.
 - Mỗi đơn vị có tối đa **1 trưởng đơn vị**. Trưởng đơn vị phải có vị trí (chính hoặc kiêm nhiệm) thuộc đơn vị đó hoặc đơn vị cha trực tiếp.
 
@@ -200,12 +200,12 @@ Cùng một cặp (app, vai trò) có thể đến từ nhiều nguồn. Quyền
   2. Gỡ mọi quyền (mọi nguồn).
   3. Gửi sự kiện `vh.person.left` để app làm bàn giao (VClinks: bàn giao khách M1b-11).
   4. Đóng các vị trí; ai đang trỏ quản lý tới người này thì báo HC-NS.
-- **Hồ sơ không xoá:** chuyển trạng thái "Đã nghỉ", giữ theo thời hạn lưu (08 mục dữ liệu cá nhân).
+- **Hồ sơ không xoá:** chuyển trạng thái "Đã nghỉ", giữ theo thời hạn lưu ([05](05-du-lieu.md) mục thời hạn lưu; VH-NFR-08).
 - **Khoá gấp trước ngày nghỉ:** dùng VH-AUT-06.
 - **Tài khoản Google** do admin Google khoá. Nếu khoá Google trước, VH-AUT-07 cũng khoá VC ID. Bên nào khoá trước thì khoá.
 
 ### VH-BR-15 — Nghỉ dài ngày
-- Nghỉ thai sản, nghỉ ốm dài, đi học (từ 7 ngày): **giữ quyền, không khoá tài khoản**.
+- Nghỉ dài ngày từ 7 ngày trở lên: **giữ quyền, không khoá tài khoản**. VC Home **không ghi lý do nghỉ** (lý do có thể là dữ liệu sức khoẻ, VH-BR-19), chỉ ghi từ ngày, đến ngày.
 - Gửi `vh.person.leave_started` để app không chia việc mới (VClinks đặt người đó "Vắng").
 - Hết thời gian nghỉ gửi `vh.person.returned`.
 - HC-NS chọn có khoá đăng nhập trong thời gian nghỉ hay không. Mặc định không khoá.
@@ -255,11 +255,12 @@ Mọi ngày giờ lưu theo UTC, hiển thị và tính hiệu lực theo `Asia/
 - Ví dụ: chị Hoa là NVKD VCparts kiêm CSKH VCservice thì có vai trò NVKD trong VClinks tại VCparts và vai trò CSKH tại VCservice.
 - Token ghi đơn vị của từng vai trò (07 mục token) để app tính đúng phạm vi.
 
-### VH-BR-25 — Luật lớn phải xem trước và duyệt hai người
+### VH-BR-25 — Luật lớn hoặc nhạy cảm phải xem trước và duyệt hai người
 - Thêm, sửa hoặc tắt một luật mà làm **thêm hoặc mất quyền của trên 20 người** thì:
   - người soạn phải xem danh sách người bị ảnh hưởng (VH-ACC-03);
   - người thứ hai (quản trị hệ thống khác, hoặc chủ app của app đó) phải duyệt trước khi luật có hiệu lực.
 - Dưới 20 người: một người soạn và áp được, vẫn ghi nhật ký.
+- **Luật cấp vai trò nhạy cảm** (VH-APP-05) luôn cần người thứ hai duyệt, bất kể bao nhiêu người bị ảnh hưởng (khớp quy định duyệt hai người với vai trò nhạy cảm của VClinks, PQ-42).
 
 ## 5. RACI theo quy trình
 

@@ -640,6 +640,8 @@ Theo README mục 10. **Luồng** là đơn vị giữ thứ tự (mục 6.5).
 | `vh.person.leave_started` | Bắt đầu nghỉ dài ngày | `person` | D | Mọi app đăng ký |
 | `vh.person.returned` | Kết thúc nghỉ dài ngày | `person` | D | Mọi app đăng ký |
 | `vh.person.left` | Nghỉ việc có hiệu lực | `person` | C | Mọi app đăng ký |
+| `vh.person.locked` | Tài khoản bị khoá tạm: khoá khẩn cấp (VH-AUT-06), khoá do Google (VH-AUT-07), HC-NS đặt trạng thái tạm khoá | `person` | C | Mọi app đăng ký |
+| `vh.person.unlocked` | Mở khoá | `person` | C | Mọi app đăng ký |
 | `vh.grant.added` | Thêm một quyền hiệu lực (app, vai trò, đơn vị) | `grant` của app đó | C | **Chỉ** app của quyền |
 | `vh.grant.removed` | Gỡ một quyền hiệu lực | `grant` của app đó | C | **Chỉ** app của quyền |
 | `vh.org.unit_changed` | Thêm, đổi tên, chuyển, gộp, ngừng đơn vị; đổi trưởng đơn vị | `org_unit` | C | Mọi app đăng ký |
@@ -861,6 +863,20 @@ Không bao giờ có lý do nghỉ ([05](05-du-lieu.md) mục 6).
 - Tới sau khi VC ID đã khoá và đăng xuất người đó, và mọi quyền đã gỡ (VH-BR-14). App vẫn nhận `vh.grant.removed` cho từng vai trò.
 - `last_manager`, `last_unit_head` để app chọn người nhận bàn giao mặc định; app tự quyết bàn giao.
 
+**`vh.person.locked`** và **`vh.person.unlocked`**
+
+```json
+{
+  "person": { "…": "ảnh chụp người, status = tam_khoa (hoặc dang_lam khi mở khoá)" },
+  "source": "khan_cap",
+  "locked_until": null
+}
+```
+
+- `source`: `khan_cap` (VH-AUT-06), `google` (VH-AUT-07) hoặc `hcns` (trạng thái tạm khoá trên hồ sơ). Không có lý do chi tiết; lý do nằm trong nhật ký của VC Home.
+- Khoá: VC ID đã đăng xuất người đó trước khi sự kiện đi. Quyền **không** bị gỡ (khác `vh.person.left`); app chỉ chặn đăng nhập và dừng các việc đang chờ của người đó.
+- Mở khoá: app cho đăng nhập lại; không tự khôi phục việc đã dừng.
+
 **`vh.grant.added`** và **`vh.grant.removed`**
 
 ```json
@@ -1052,6 +1068,8 @@ Mỗi dòng `vh_roles.vclinks` (hoặc dòng VH-API-06) thành một **gán vai 
 | `vh.grant.removed` | Gỡ gán vai trò. Nếu bàn giao `doi_don_vi` chưa xong: khách còn lại về "Chưa phân công" của tổ cũ, báo GS và GĐ (giống PQ-34; đề xuất, chủ VClinks chốt). `roles` rỗng: thu hồi mọi phiên |
 | `vh.person.left` | Chạy tự động bước ① "Khóa ngay" của PQ-33 với người làm là `vchome`: trạng thái `nghi_viec`, huỷ phiên, thu hồi token MCP cá nhân, quyền tạm thời, trực thay; thu hồi token thiết bị gắn nick người đó giữ (trừ máy "dùng chung"); lệnh gửi đã duyệt chuyển `Cần duyệt lại`. Mở **bàn giao** MH-PQ-04 cho GS / GĐ (người nhận gợi ý từ `last_manager`). **Không tự chia khách**; đồng hồ nhắc 4 giờ, 20 giờ, 24 giờ của PQ-34 chạy như cũ |
 | `vh.person.leave_started` | Đặt cờ vắng; nhắc GS tạo trực thay (PQ-32); "Chia đều" khi bàn giao bỏ người này |
+| `vh.person.locked` | Đặt trạng thái tạm khoá, huỷ phiên; lệnh gửi đã duyệt của người đó chuyển `Cần duyệt lại` (PQ-51); không chia lại khách |
+| `vh.person.unlocked` | Bỏ tạm khoá; lệnh `Cần duyệt lại` giữ nguyên chờ người duyệt |
 | `vh.person.returned` | Bỏ cờ vắng; nhắc GS kết thúc trực thay |
 | `vh.org.unit_changed` | Cập nhật `org_units` theo mục 8.2; gộp, ngừng thì liệt kê gán kênh cần chuyển cho Admin |
 
@@ -1149,6 +1167,7 @@ Người có `grants` cục bộ mà không còn vai trò VC Home nào cho VCwik
 | `vh.grant.added` / `removed` | Đặt `users.role`; thêm, gỡ dòng `grants` `editor` nguồn `vchome`. `roles` rỗng: thu hồi phiên |
 | `vh.person.left` | Chạy ORG-08: khoá, thu hồi phiên và mọi token `vcmcp_`, chuyển vai trò và nhánh đang sở hữu cho quản lý trực tiếp (`last_manager`), giữ tên trong lịch sử |
 | `vh.person.leave_started` / `returned` | Không bắt buộc; có thể hiện nhãn vắng ở danh sách người duyệt |
+| `vh.person.locked` / `unlocked` | Khoá: thu hồi phiên, tạm ngưng token `vcmcp_` của người đó; mở khoá: bật lại token |
 | `vh.org.unit_changed` | Cập nhật bản sao `org_units`; xử lý chia sẻ kho như mục 9.4 |
 
 ### 9.6 Chuyển đổi dữ liệu
@@ -1176,13 +1195,13 @@ Vào ở GĐ E theo mục 7. Tên vai trò dưới đây chỉ là ví dụ; ch�
 
 | # | Đề xuất | Lý do | Ai quyết |
 |---|---|---|---|
-| 1 | Sự kiện cho **tạm khoá / mở khoá** (`people.status = tam_khoa`) và **khoá khẩn cấp** VH-AUT-06, hoặc thêm `status` vào các trường của `vh.person.updated` | README mục 10 chưa có. App chỉ biết qua đăng xuất phía máy chủ, không biết là "bị khoá" để, ví dụ, VClinks chuyển lệnh gửi sang "Cần duyệt lại" (PQ-51) | Chủ dự án, BA |
+| 1 | ~~Sự kiện tạm khoá / mở khoá~~ | **Đã đưa vào** README mục 10 và mục 6 của file này (`vh.person.locked`, `vh.person.unlocked`) ngày 08/10/2026 | — |
 | 2 | Sự kiện **báo trước ngày nghỉ** khi HC-NS đặt `left_on` ở tương lai | VClinks cần cho cờ "Sắp nghỉ" (PQ-82). Hiện phải dò bằng VH-API-02 | BA, chủ VClinks |
 | 3 | Báo khi quyền **vào chuyển tiếp** (ví dụ thêm `roles_in_transition` trong một sự kiện) | App bắt đầu bàn giao ngay lúc chuyển, không phải gọi thêm VH-API-06 | BA |
 | 4 | Sự kiện thử `vh.app.ping` và nút "Gửi thử" ở màn quản trị app | Kiểm nhận endpoint lúc đưa app vào mà không cần người thử | Trưởng nhóm dev |
 | 5 | API đọc danh sách vai trò app của chính mình | App tự kiểm bảng ánh xạ còn đủ khi chủ app thêm vai trò | BA |
-| 6 | Luật cho **vai trò nhạy cảm** luôn cần người thứ hai duyệt, không phụ thuộc ngưỡng 20 người | Khớp PQ-42 của VClinks; VH-BR-25 hiện chỉ bắt khi trên 20 người | Chủ dự án |
-| 7 | Từ GĐ B đổi cách đồng bộ tên của Google sang VC ID: chỉ lấy lần đầu, sau đó VC People ghi | Thiết kế SSO mục 5.1.2 đặt "Sync mode FORCE" (tên lấy từ Google mỗi lần đăng nhập) và trang `/ho-so` ghi "sửa ở Google", lệch với VH-BR-03 | Trưởng nhóm dev |
+| 6 | ~~Luật cho vai trò nhạy cảm luôn cần người thứ hai duyệt~~ | **Đã đưa vào** VH-BR-25 ngày 08/10/2026 | — |
+| 7 | ~~Từ GĐ B đổi cách đồng bộ tên của Google sang VC ID~~ | **Đã ghi** vào thiết kế SSO mục 5.1.2 (bản 0.2) ngày 08/10/2026 | — |
 | 8 | Phiên thử kỹ thuật cho mapper `vh_roles` kiểu JSON theo từng client trên bản Keycloak đã ghim | Chưa thử ở SSO-00; nếu không được thì dùng mapper kịch bản hoặc chỉ dùng VH-API-06 | Trưởng nhóm dev |
 | 9 | Đưa **quản lý chuyên môn** và **cấp bậc** vào VC People | VCwiki đang dùng; tránh hai nơi giữ | Chủ dự án, HC-NS |
 | 10 | Gửi sự kiện theo lô khi số app hoặc số thay đổi lớn | Giảm số yêu cầu khi đổi cơ cấu lớn | Trưởng nhóm dev (khi có số đo) |
@@ -1191,4 +1210,4 @@ Vào ở GĐ E theo mục 7. Tên vai trò dưới đây chỉ là ví dụ; ch�
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 10:16 | Claude Code (vai BA) | Tạo tài liệu: nguyên tắc, claim theo GĐ A/B/C có ví dụ, `resource_access` và `vh_roles`, danh sách kiểm token, đăng xuất phía máy chủ, token máy, VH-API-01…09, 9 loại sự kiện kèm phong bì, chữ ký HMAC, gửi lại, thứ tự, kéo dự phòng; danh sách kiểm đưa app vào; hướng dẫn riêng VClinks, VCwiki; ghi chú VCsale, VCgarage, VC AI; 10 đề xuất | README bộ tài liệu 0.1 |
+| 0.1 | 08/10/2026 10:16 | Claude Code (vai BA) | Tạo tài liệu: nguyên tắc, claim theo GĐ A/B/C có ví dụ, `resource_access` và `vh_roles`, danh sách kiểm token, đăng xuất phía máy chủ, token máy, VH-API-01…09, 11 loại sự kiện (gồm khoá, mở khoá do BA trưởng thêm sau khi soát) kèm phong bì, chữ ký HMAC, gửi lại, thứ tự, kéo dự phòng; danh sách kiểm đưa app vào; hướng dẫn riêng VClinks, VCwiki; ghi chú VCsale, VCgarage, VC AI; 10 đề xuất | README bộ tài liệu 0.1 |

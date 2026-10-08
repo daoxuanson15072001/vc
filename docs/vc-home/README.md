@@ -108,7 +108,7 @@ Không xoá mã đã cấp, không dùng lại mã. Yêu cầu bỏ thì đổi 
 | **Chức danh** | Tên vị trí (Nhân viên kinh doanh, Trưởng phòng CSKH…) |
 | **Chức năng** | Mảng việc (Bán hàng, CSKH, Sale admin, Kế toán, Kỹ thuật, Marketing, Nhân sự, IT…); dùng để cấp quyền theo luật |
 | **Vị trí công tác** | Bộ (đơn vị, chức danh, chức năng, quản lý trực tiếp, từ ngày, đến ngày). Mỗi nhân viên đang làm có đúng 1 vị trí chính và có thể kiêm nhiệm thêm |
-| **Vai trò app** | Vai trò thô mà một app công bố (VClinks: `nvkd`, `cskh`, `giam_sat`…). VC Home cấp vai trò app; app tự ánh xạ sang quyền chi tiết |
+| **Vai trò app** | Vai trò thô mà một app công bố (VClinks: `nvkd`, `cskh`, `giam_sat_bh`…). VC Home cấp vai trò app; app tự ánh xạ sang quyền chi tiết |
 | **Quyền (grant)** | Một dòng "nhân viên X có vai trò R trong app A", kèm nguồn (luật / yêu cầu / khẩn cấp), hạn dùng, trạng thái |
 | **Luật cấp quyền** | Điều kiện trên hồ sơ (division, đơn vị, chức danh, chức năng, loại nhân viên) → vai trò app. Quyền từ luật gọi là **quyền mặc định** |
 | **Quyền ngoại lệ** | Quyền có được qua yêu cầu được duyệt hoặc cấp khẩn cấp; luôn có hạn |
@@ -254,7 +254,7 @@ Chi tiết và ví dụ ở [02-tac-nhan-quy-tac.md](02-tac-nhan-quy-tac.md) m�
 | VH-BR-22 | Mọi ngày giờ theo `Asia/Ho_Chi_Minh` |
 | VH-BR-23 | Quản lý và trưởng đơn vị xem được hồ sơ công việc và quyền của cả cây dưới quyền |
 | VH-BR-24 | Vị trí kiêm nhiệm cũng sinh quyền mặc định như vị trí chính |
-| VH-BR-25 | Luật ảnh hưởng trên 20 người phải xem trước và được người thứ hai duyệt (quản trị hệ thống + chủ app) |
+| VH-BR-25 | Luật ảnh hưởng trên 20 người, hoặc luật cấp vai trò nhạy cảm, phải xem trước và được người thứ hai duyệt (quản trị hệ thống + chủ app) |
 
 ## 7. Danh mục quy trình
 
@@ -311,7 +311,7 @@ Chi tiết ở [05-du-lieu.md](05-du-lieu.md). Tên collection theo quy ước M
 | `org_units` | Đơn vị: mã, tên, loại, đơn vị cha, pháp nhân, trưởng đơn vị, trạng thái, hiệu lực | B |
 | `job_titles`, `job_functions`, `legal_entities`, `work_locations` | Danh mục | B |
 | `scheduled_changes` | Thay đổi hồ sơ hoặc cơ cấu hẹn ngày hiệu lực | B |
-| `apps` | Danh mục app: khoá, tên, URL, biểu tượng, trạng thái, chủ app, thời gian chuyển tiếp, URL nhận sự kiện | A (tệp), B |
+| `apps` | Danh mục app: khoá, tên, URL, biểu tượng, trạng thái, chủ app, thời gian chuyển tiếp, URL nhận sự kiện | A (tệp `catalog.json`), B (collection) |
 | `app_roles` | Vai trò app: app, khoá, tên, mô tả, nhạy cảm | C |
 | `access_rules` | Luật: điều kiện → (app, vai trò), trạng thái, người duyệt | C |
 | `access_grants` | Quyền: nhân viên, app, vai trò, nguồn, luật/yêu cầu gốc, hạn, trạng thái | C |
@@ -319,7 +319,7 @@ Chi tiết ở [05-du-lieu.md](05-du-lieu.md). Tên collection theo quy ước M
 | `delegations` | Uỷ quyền duyệt khi vắng | D |
 | `review_campaigns`, `review_items` | Đợt rà soát và từng dòng xác nhận | D |
 | `event_outbox`, `event_deliveries` | Sự kiện gửi app và lần gửi | C |
-| `audit_log` | Nhật ký | A trở đi |
+| `audit_log` | Nhật ký của VC Home (ở GĐ A nhật ký đăng nhập nằm trong VC ID) | B |
 | `import_batches` | Lô nhập Excel, kết quả đối chiếu | B |
 | `notifications` | Thông báo trong VC Home | D |
 
@@ -334,6 +334,7 @@ Chi tiết ở [07-tich-hop.md](07-tich-hop.md).
 | `vh.person.moved` | Đổi vị trí chính, thêm hoặc bỏ kiêm nhiệm, đổi quản lý | C |
 | `vh.person.leave_started` / `vh.person.returned` | Bắt đầu, kết thúc nghỉ dài ngày | D |
 | `vh.person.left` | Nghỉ việc có hiệu lực | C |
+| `vh.person.locked` / `vh.person.unlocked` | Khoá tạm (gồm khoá khẩn cấp VH-AUT-06, khoá do Google) và mở khoá | C |
 | `vh.grant.added` / `vh.grant.removed` | Thêm, gỡ vai trò app (gửi cho đúng app đó) | C |
 | `vh.org.unit_changed` | Thêm, đổi tên, chuyển, gộp, ngừng đơn vị | C |
 
@@ -348,6 +349,8 @@ Chi tiết ở [07-tich-hop.md](07-tich-hop.md).
 | VH-API-07 | Kéo sự kiện từ một mốc (dự phòng khi nhận sự kiện bị gián đoạn) | C |
 | VH-API-08 | Danh mục app công khai (`catalog.json`) | A |
 | VH-API-09 | Trạng thái app cho ô app (do app cung cấp, VC Home gọi) | E |
+
+VH-API-01…07 nằm trên VC Home API với tiền tố `/api/v1`. VH-API-08 là tệp tĩnh `catalog.json` của trang VC Home. VH-API-09 do từng app cung cấp (`GET /api/vc-app/status`).
 
 ## 11. Danh mục nhóm câu chuyện người dùng
 

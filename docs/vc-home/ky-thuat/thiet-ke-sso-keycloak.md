@@ -234,7 +234,7 @@ Bàn giao khách khi nghỉ việc (VClinks M1b-11) vẫn là quy trình riêng 
 
 #### 5.1.2 Nối Google
 
-- Identity provider `google` (loại Google có sẵn), "Trust email" bật, "Sync mode" `FORCE` (đổi tên, ảnh trên Google thì VC ID cập nhật ở lần đăng nhập sau).
+- Identity provider `google` (loại Google có sẵn), "Trust email" bật, "Sync mode" `FORCE` (đổi tên, ảnh trên Google thì VC ID cập nhật ở lần đăng nhập sau). Áp dụng ở GĐ A. Từ GĐ B, VC People là nguồn sự thật (VH-BR-03): đổi sang chế độ chỉ nhập lần đầu (`IMPORT`) và để VC Home đẩy tên, email, ảnh sang VC ID.
 - **Giới hạn domain:** khai cả hai domain ở mục "Hosted domain". Phiên SSO-00 phải kiểm bản Keycloak đã ghim có nhận nhiều domain không. Nếu không nhận: để trống mục này và chặn bằng luồng "first broker login" có bước kiểm domain (cấu hình điều kiện trên thuộc tính `hd`); app vẫn kiểm lại domain như hiện nay, nên luôn có ít nhất hai lớp chặn.
 - Mapper của Google: lấy claim `hd` thành thuộc tính user `hd`.
 - Luồng "first broker login": bỏ bước "Review profile", tạo user nếu chưa có, không cho gắn với user cục bộ (realm không có user cục bộ).
@@ -404,7 +404,7 @@ Không bắt buộc ở đợt này: endpoint `GET /api/vc-app/status` (trạng 
 |---|---|---|
 | `/` | Lưới app | Lời chào, ô app theo `groups` (ô `coming_soon` hiện mờ cho mọi người); bấm ô mở app trong cùng tab; ô có biểu tượng, tên, mô tả một dòng |
 | `/callback`, `/silent` | (không giao diện) | Nhận `code`, đổi token bằng PKCE; `silent` dùng khi tải lại trang (`prompt=none`) |
-| `/ho-so` | Hồ sơ | Ảnh, tên, email, domain, danh sách app được dùng; dòng "Thông tin lấy từ Google Workspace, sửa ở Google" |
+| `/ho-so` | Hồ sơ | Ảnh, tên, email, domain, danh sách app được dùng; dòng "Thông tin lấy từ Google Workspace, sửa ở Google" (GĐ A; từ GĐ B lấy từ VC People, đề nghị sửa gửi HC-NS qua VH-NSU-06) |
 | `/da-dang-xuat` | Đã đăng xuất | "Bạn đã đăng xuất khỏi mọi ứng dụng" · nút "Đăng nhập lại" |
 | `/loi` | Lỗi | Theo mã lỗi ở mục 5.2; có nút thử lại và email hỗ trợ |
 | `/catalog.json` | (dữ liệu) | Phục vụ với `Access-Control-Allow-Origin: *`, `Cache-Control: max-age=300` |
