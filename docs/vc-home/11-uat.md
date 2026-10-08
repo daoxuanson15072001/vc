@@ -1,6 +1,6 @@
 # VC Home — Kế hoạch và kịch bản UAT
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -11,7 +11,7 @@ Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ �
 - **Điều kiện kết thúc:** 100% ca có yêu cầu mức M đạt; không còn lỗi Nghiêm trọng hay Cao.
 - **Việc cần chuẩn bị** (quyết định ở [12](12-cau-hoi-rui-ro.md) mục 6): admin Google tạo 6 tài khoản thử (mỗi vai trò chính một tài khoản); dev dựng app giả lập nhận sự kiện và đồng hồ thử (đã có giờ ở [10](10-ke-hoach-trien-khai.md) R2); bảng C0/C1 dùng bản ở [05](05-du-lieu.md) mục 6.
 - **Người duyệt xem kỹ:** bộ dữ liệu (mục 6); ca nghỉ việc VH-UAT-33; ca luật trên 20 người VH-UAT-36; ca không tự duyệt VH-UAT-47, VH-UAT-48; ca rà soát VH-UAT-53; mục 13 (6 đề xuất, trong đó lệch giai đoạn của VH-ACC-04 và VH-ACC-05).
-- **Liên hệ với thiết kế SSO:** 20 ca UAT-SSO ở `ky-thuat/thiet-ke-sso-keycloak.md` mục 9.2 được phủ lại trong các ca GĐ A và B (bảng đối chiếu ở mục 12).
+- **Liên hệ với thiết kế SSO:** 23 ca UAT-SSO ở `ky-thuat/thiet-ke-sso-keycloak.md` mục 9.2 được phủ lại trong các ca GĐ A và B (bảng đối chiếu ở mục 12).
 
 ## Mục lục
 
@@ -275,7 +275,7 @@ Các quyền trên nạp khi dựng staging, nhật ký ghi "nạp dữ liệu U
 | VH-UAT-07 | Đăng xuất từ một app là ra mọi app trong ≤ 10 giây | Hoa mở VC Home, VClinks, VCwiki ở 3 tab | 1. Bấm Đăng xuất trong VClinks, xác nhận<br>2. Bấm giờ; tải lại tab VCwiki, VC Home | Trang xác nhận "Đăng xuất khỏi mọi ứng dụng VC Phồn Vinh?"; trong ≤ 10 giây VCwiki và VC Home mất phiên; về trang "Đã đăng xuất" | VH-AUT-04, VH-INT-04 | A |
 | VH-UAT-08 | Đăng xuất từ VC Home | Như VH-UAT-07 | Bấm Đăng xuất ở VC Home | Không có trang xác nhận; mọi app mất phiên trong ≤ 10 giây | VH-AUT-04, VH-INT-04 | A |
 | VH-UAT-09 | Khoá khẩn cấp trong ≤ 1 phút | `thu.khoa@vcprosperous.com` đang mở 3 app | 1. Sơn khoá tài khoản, lý do "UAT"<br>2. Bấm giờ<br>3. Người bị khoá thử đăng nhập lại<br>4. Sơn mở khoá | (2) Mọi app mất phiên ≤ 1 phút; (3) thấy "Tài khoản đã bị khoá. Liên hệ quản trị viên."; nhật ký có người khoá, giờ, lý do; (4) đăng nhập lại được, quyền app không đổi | VH-AUT-06, VH-BR-18 | A |
-| VH-UAT-10 | Khoá trên Google thì VC ID khoá trong ≤ 65 phút | Như VH-UAT-09, tài khoản đang mở app | 1. Admin Google tạm ngưng tài khoản<br>2. Chờ lượt chạy `vc-provisioner` (hoặc chạy tay)<br>3. Admin Google mở lại tài khoản; chạy lại | (2) ≤ 65 phút mọi app mất phiên, VC ID khoá, nhóm `vc-id-admin` nhận thông báo; (3) VC ID **vẫn khoá**, chỉ có thông báo cho admin | VH-AUT-07, VH-ADM-04, VH-BR-14 | A |
+| VH-UAT-10 | Khoá trên Google thì VC ID khoá trong ≤ 20 phút | Như VH-UAT-09, tài khoản đang mở app | 1. Admin Google tạm ngưng tài khoản<br>2. Chờ lượt chạy `vc-provisioner` (hoặc chạy tay)<br>3. Admin Google mở lại tài khoản; chạy lại | (2) ≤ 65 phút mọi app mất phiên, VC ID khoá, nhóm `vc-id-admin` nhận thông báo; (3) VC ID **vẫn khoá**, chỉ có thông báo cho admin | VH-AUT-07, VH-ADM-04, VH-BR-14 | A |
 | VH-UAT-11 | Đồng bộ Google dừng khi danh sách bất thường | Dev giả lập Google trả ít hơn 50% số tài khoản lần trước | Chạy `vc-provisioner` | Dừng, không khoá ai; cảnh báo gửi admin | VH-AUT-07, VH-ADM-04 | A |
 | VH-UAT-12 | Gắn đúng tài khoản cũ trong app; xung đột định danh | Khoa có user cũ trong VClinks (vai trò, khách, phiếu) và VCwiki (kho, lịch sử học); một user VCwiki thử đã gắn `sub` khác | 1. Khoa đăng nhập SSO lần đầu vào VClinks, rồi VCwiki<br>2. Đăng nhập bằng tài khoản có email trùng user đã gắn `sub` khác | (1) Giữ nguyên vai trò, khách, phiếu, kho, lịch sử học; nhật ký `user.idp_linked`; (2) bị từ chối `identity_conflict`; admin app được báo | VH-AUT-01, VH-AUT-03, VH-BR-01 | A |
 | VH-UAT-13 | VC ID ngừng chạy | Hoa đang có phiên ở VClinks, VCwiki; Lan chưa có phiên | 1. Dev tắt Keycloak staging<br>2. Hoa tiếp tục dùng VClinks<br>3. Lan mở VClinks<br>4. QTHT bật `AUTH_PASSWORD_LOGIN=admin` ở VCwiki; admin VCwiki đăng nhập bằng mật khẩu | (2) Dùng bình thường; (3) câu dễ hiểu theo mã `idp_unreachable`, có nút thử lại; (4) admin vào được, người thường không; cảnh báo vận hành gửi trong 2 phút | VH-AUT-09, VH-ADM-04 | A |
@@ -400,5 +400,6 @@ Các quyền trên nạp khi dựng staging, nhật ký ghi "nạp dữ liệu U
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | VH-UAT-10: khoá theo Google ≤ 20 phút | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Ghi kết quả xử lý 6 đề xuất: công cụ kiểm thử trên staging, 6 tài khoản Google thử | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
 | 0.1 | 08/10/2026 10:18 | Claude Code (vai BA) | Tạo tài liệu: phạm vi, môi trường staging, vai trò người thử, điều kiện bắt đầu và kết thúc, mức độ lỗi, bộ dữ liệu thử (16 đơn vị, 15 nhân viên, 30 hồ sơ số đông, 5 app, 13 luật), 59 ca VH-UAT-01 đến VH-UAT-59 theo GĐ A–E, ma trận truy vết về VH-QT và về UAT-SSO, 6 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |

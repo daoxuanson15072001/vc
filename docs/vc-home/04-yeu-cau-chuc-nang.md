@@ -1,6 +1,6 @@
 # VC Home — Yêu cầu chức năng chi tiết
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -205,9 +205,9 @@ Phân hệ VC ID lo câu hỏi "người này là ai". Nhân viên chỉ đăng 
 |---|---|
 | Ưu tiên · GĐ | M · A |
 | Tác nhân | Job `vc-provisioner`; admin Google Workspace; quản trị hệ thống |
-| Mô tả | Nghỉ việc thường bắt đầu bằng việc admin Google khoá tài khoản. Job `vc-provisioner` mỗi giờ đọc trạng thái tài khoản ở từng Workspace; tài khoản bị khoá, lưu trữ hoặc xoá trên Google thì bị khoá trên VC ID và mất phiên ở mọi app trong ≤ 65 phút. Chiều ngược lại không tự làm: Google mở lại thì VC ID vẫn khoá cho tới khi người quyết. |
+| Mô tả | Nghỉ việc thường bắt đầu bằng việc admin Google khoá tài khoản. Job `vc-provisioner` mỗi 15 phút đọc trạng thái tài khoản ở từng Workspace; tài khoản bị khoá, lưu trữ hoặc xoá trên Google thì bị khoá trên VC ID và mất phiên ở mọi app trong ≤ 65 phút. Chiều ngược lại không tự làm: Google mở lại thì VC ID vẫn khoá cho tới khi người quyết. |
 | Điều kiện trước | Tài khoản dịch vụ Google có uỷ quyền toàn miền, phạm vi `admin.directory.user.readonly`, cho từng Workspace (I4). Client `vc-provisioner` có quyền `view-users`, `manage-users`, `query-groups`, `view-events`. |
-| Xử lý chính | 1. Chạy mỗi giờ. Với mỗi Workspace, đọc toàn bộ user qua Directory API, gồm cả user `suspended` và `archived`.<br>2. Kiểm an toàn trước khi làm gì: Google trả lỗi, hoặc số user ít hơn 50% lần chạy trước, thì dừng, không khoá ai, báo nhóm `vc-id-admin`.<br>3. So với user realm `vc` theo email:<br>• Google `suspended`, `archived` hoặc không còn: khoá trên VC ID, đăng xuất mọi phiên (back-channel tới mọi app), thêm cờ khoá `google`, báo nhóm.<br>• VC ID đang khoá vì cờ `google` mà Google đã hoạt động lại: không tự mở; báo quản trị hệ thống quyết.<br>• Có trên Google, chưa có trên VC ID: bỏ qua (user tự được tạo ở lần đăng nhập đầu).<br>4. Tuần đầu chạy ở chế độ thử `--dry-run`: chỉ báo danh sách sẽ khoá, không khoá.<br>5. Lệnh `vc-provisioner report` in danh sách lệch. Từ GĐ B, kết quả đẩy vào VH-MH-14 để HC-NS và quản trị hệ thống đối chiếu (VH-IMP-02).<br>6. Mỗi lần chạy ghi: thời điểm, số user đọc được ở từng Workspace, số tài khoản bị khoá, lỗi.<br>7. Thời gian tối đa: chờ tới lượt chạy ≤ 60 phút cộng thời gian chạy ≤ 5 phút, tổng ≤ 65 phút. |
+| Xử lý chính | 1. Chạy mỗi 15 phút. Với mỗi Workspace, đọc toàn bộ user qua Directory API, gồm cả user `suspended` và `archived`.<br>2. Kiểm an toàn trước khi làm gì: Google trả lỗi, hoặc số user ít hơn 50% lần chạy trước, thì dừng, không khoá ai, báo nhóm `vc-id-admin`.<br>3. So với user realm `vc` theo email:<br>• Google `suspended`, `archived` hoặc không còn: khoá trên VC ID, đăng xuất mọi phiên (back-channel tới mọi app), thêm cờ khoá `google`, báo nhóm.<br>• VC ID đang khoá vì cờ `google` mà Google đã hoạt động lại: không tự mở; báo quản trị hệ thống quyết.<br>• Có trên Google, chưa có trên VC ID: bỏ qua (user tự được tạo ở lần đăng nhập đầu).<br>4. Tuần đầu chạy ở chế độ thử `--dry-run`: chỉ báo danh sách sẽ khoá, không khoá.<br>5. Lệnh `vc-provisioner report` in danh sách lệch. Từ GĐ B, kết quả đẩy vào VH-MH-14 để HC-NS và quản trị hệ thống đối chiếu (VH-IMP-02).<br>6. Mỗi lần chạy ghi: thời điểm, số user đọc được ở từng Workspace, số tài khoản bị khoá, lỗi.<br>7. Thời gian tối đa: chờ tới lượt chạy ≤ 60 phút cộng thời gian chạy ≤ 5 phút, tổng ≤ 65 phút. |
 | Ngoại lệ, thông báo lỗi | Báo khi khoá: "[VC ID] Đã khoá {email}: tài khoản Google bị {khoá/xoá} lúc {hh:mm dd/mm}."<br>Báo khi dừng: "[VC ID] Dừng đồng bộ: Google trả về {n} tài khoản, ít hơn 50% lần trước ({m}). Không khoá ai."<br>Báo khi Google mở lại: "[VC ID] {email} đã hoạt động lại trên Google nhưng vẫn khoá trên VC ID. Cần quản trị hệ thống quyết định mở."<br>Directory API hết hạn mức hoặc lỗi mạng: thử lại 3 lần, cách nhau 1 phút, rồi báo.<br>Job không chạy quá 2 giờ: cảnh báo vận hành (VH-ADM-04). |
 | Dữ liệu | User VC ID; `accounts` (cờ khoá `google`, từ GĐ B); log của job; `audit_log` (`account.locked`, nguồn "Đồng bộ Google"). |
 | Quy tắc | VH-BR-02, VH-BR-14, VH-BR-18, VH-BR-22 |
@@ -215,7 +215,7 @@ Phân hệ VC ID lo câu hỏi "người này là ai". Nhân viên chỉ đăng 
 | Phụ thuộc | Đầu vào I4, I6; VH-AUT-06 (cùng cơ chế khoá); VH-IMP-02; VH-ADM-04; VH-LCM-03. |
 
 **Tiêu chí nghiệm thu:**
-1. Khoá một tài khoản thử trên Google Admin: trong ≤ 65 phút mọi app mất phiên và đăng nhập lại bị chặn; nhóm `vc-id-admin` nhận thông báo đúng mẫu.
+1. Khoá một tài khoản thử trên Google Admin: trong ≤ 20 phút mọi app mất phiên và đăng nhập lại bị chặn; nhóm `vc-id-admin` nhận thông báo đúng mẫu.
 2. Xoá một tài khoản thử trên Google: kết quả như mục 1.
 3. Mở lại tài khoản trên Google: sau 2 lần chạy, VC ID vẫn khoá; quản trị hệ thống nhận báo "cần quyết định mở".
 4. Giả lập Google trả về danh sách rỗng: job dừng, không khoá ai, có cảnh báo.
@@ -2567,6 +2567,7 @@ Người dùng uỷ quyền cho BA trưởng chốt các đề xuất bổ sung.
 
 | Yêu cầu | Bổ sung |
 |---|---|
+| VH-AUT-01, VH-AUT-03 | GĐ A–B: chỉ tài khoản đủ điều kiện (bật xác thực 2 bước, không thuộc danh sách loại trừ) mới có nhóm app; tài khoản khác vào được VC Home nhưng không có ô app, mở thẳng app thì nhận `app_not_granted` (VH-BR-26). App bật `OIDC_REQUIRE_APP_GROUP=1` ngay từ ngày bật SSO |
 | VH-HOM-02 | Người đăng nhập trước ngày vào làm thấy "Bạn bắt đầu làm từ {dd/mm/yyyy}." thay cho trang trống |
 | VH-HOM-05 | Thanh chuyển app hiện vai trò của người dùng trong từng app (lấy từ token) |
 | VH-HOM-06 | Liên kết ngoài giới hạn được theo pháp nhân hoặc chức năng |
@@ -2583,5 +2584,6 @@ Người dùng uỷ quyền cho BA trưởng chốt các đề xuất bổ sung.
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | VH-AUT-07: `vc-provisioner` chạy mỗi 15 phút, khoá theo Google ≤ 20 phút; 14.2 thêm điều kiện vào app ở GĐ A–B (VH-BR-26) cho VH-AUT-01, 03 | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Mục 13 ghi trạng thái cả 34 đề xuất (không còn "Mở"); thêm mục 14: 12 yêu cầu mới (14.1) và phần bổ sung cho 11 yêu cầu có sẵn (14.2) | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
 | 0.1 | 08/10/2026 11:16 | Claude Code (vai BA, hai người viết phần 1–5 và 6–12, BA trưởng gộp và soát chéo) | Tạo tài liệu: 78 yêu cầu đủ mẫu và tiêu chí nghiệm thu; gộp đề xuất bổ sung; áp quyết định soát chéo (loại đơn vị có pháp nhân, trạng thái app có `beta`, `paused` và loại `lien_ket_ngoai`, hồ sơ không vào làm chuyển Đã nghỉ, client `vchome`, VH-ACC-03 nâng lên M) | README bộ tài liệu 0.1; 02, 05, 07, 08; thiết kế SSO 0.2 |

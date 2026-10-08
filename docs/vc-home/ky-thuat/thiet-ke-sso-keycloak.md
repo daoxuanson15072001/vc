@@ -1,6 +1,6 @@
 # Kế hoạch code: đăng nhập một lần (SSO) bằng Keycloak và cổng VC Home
 
-Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 (chờ đầu vào I1–I7)
+Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 và 6 điểm vá bảo mật (chờ đầu vào I1–I9)
 
 ## Tóm tắt
 
@@ -8,10 +8,11 @@ Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 (chờ đ�
 - **Tài liệu nói gì:** kế hoạch code đầy đủ để VClinks, VCwiki và các app sau này dùng chung một cửa đăng nhập. Nhân viên đăng nhập một lần bằng tài khoản Google Workspace công ty (`@vcprosperous.com`, `@vcpart.vn`), vào trang **VC Home** thấy lưới app mình được dùng, bấm app nào vào thẳng app đó.
 - **Kiến trúc:** Keycloak làm máy chủ định danh (gọi tắt **VC ID**) đứng giữa Google và các app. VC Home là trang tĩnh React + antd, không giữ phiên riêng. Các app là "app khách" theo chuẩn OpenID Connect (OIDC). Thêm một job nhỏ `vc-provisioner` đồng bộ trạng thái tài khoản từ Google.
 - **Nguyên tắc:** VC ID chỉ trả lời "người này là ai, được vào app nào". Quyền chi tiết (vai trò, kho, mức mật) **vẫn nằm trong từng app**. Token cho máy (MCP, thiết bị, extension, agent máy Zalo) **không đổi**.
-- **Khối lượng:** 13 phiên, khoảng 60 giờ dev (≈ 7,5 ngày công), cộng việc của người có quyền (máy chủ, DNS, Google Admin).
+- **Khối lượng:** 13 phiên, khoảng 65 giờ dev (≈ 8 ngày công), cộng việc của người có quyền (máy chủ, DNS, Google Admin).
 - **Lịch đề xuất:** dựng VC ID, VC Home và chuyển VCwiki từ 13/10 đến 24/10, không đụng VClinks. VClinks chuyển **sau mốc M1 26/10** (27/10–31/10). Tắt đăng nhập mật khẩu VCwiki khoảng 10/11.
 - **Quay lui được ở mọi bước:** mỗi app có cờ (`AUTH_PROVIDER` ở VClinks, `AUTH_PASSWORD_LOGIN` ở VCwiki). Dữ liệu chỉ thêm trường, không xoá.
-- **Việc còn mở:** 7 đầu vào từ người có quyền (I1–I7, mục 4.3). Q1–Q5 (mục 4.1) đã chốt theo đề xuất ngày 08/10/2026 ([12](../12-cau-hoi-rui-ro.md) mục 4).
+- **Có mail công ty chỉ là qua cổng** (VH-BR-26, D-BA-37…40): vào app phải là tài khoản cá nhân đủ điều kiện (bật xác thực 2 bước, không thuộc danh sách loại trừ như hộp thư dùng chung). `vc-provisioner` chạy mỗi 15 phút, cấp và gỡ nhóm app, tạo sẵn user VC ID; app kiểm nhóm ngay từ ngày bật.
+- **Việc còn mở:** 9 đầu vào từ người có quyền (I1–I9, mục 4.3). Q1–Q5 (mục 4.1) đã chốt theo đề xuất ngày 08/10/2026 ([12](../12-cau-hoi-rui-ro.md) mục 4).
 - **Người duyệt xem kỹ:** mục 4 (quyết định), mục 5.2 (hợp đồng tích hợp app), mục 8 (các phiên và lịch), mục 10 (chuyển đổi và quay lui).
 
 ## Mục lục
@@ -42,7 +43,7 @@ Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 (chờ đ�
 2. Bấm VClinks → vào thẳng `/conversations`, không hỏi gì thêm. Mở thẳng một link sâu của VClinks hay VCwiki cũng vào thẳng (nếu đã có phiên) hoặc chỉ một lần chọn tài khoản Google (nếu chưa).
 3. Trong VClinks và VCwiki có nút 9 chấm ở header để chuyển sang app khác.
 4. Đăng xuất ở bất kỳ đâu → đăng xuất mọi app.
-5. Bị khoá trên VC ID hoặc bị khoá trên Google → mất quyền ở mọi app trong ≤ 1 phút (khoá trên VC ID) hoặc ≤ 65 phút (khoá trên Google, qua job đồng bộ).
+5. Bị khoá trên VC ID hoặc bị khoá trên Google → mất quyền ở mọi app trong ≤ 1 phút (khoá trên VC ID) hoặc ≤ 20 phút (khoá trên Google, qua job đồng bộ).
 
 ### 1.2 Trong phạm vi
 
@@ -50,7 +51,7 @@ Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 (chờ đ�
 |---|---|
 | VC ID (Keycloak) | Realm `vc`, nối Google, chỉ nhận 2 domain công ty, nhóm theo app, đăng xuất phía máy chủ, giao diện tiếng Việt cho các trang người dùng thấy, cấu hình dạng code |
 | VC Home | Trang tĩnh: đăng nhập, lưới app theo nhóm, hồ sơ, đăng xuất, trang lỗi; file danh mục app `catalog.json` |
-| `vc-provisioner` | Job hằng giờ: tài khoản bị khoá hoặc xoá trên Google → khoá trên VC ID và đăng xuất mọi app |
+| `vc-provisioner` | Job mỗi 15 phút: tài khoản bị khoá hoặc xoá trên Google → khoá trên VC ID và đăng xuất mọi app; cấp và gỡ nhóm app theo điều kiện vào app (VH-BR-26) |
 | VCwiki | Đăng nhập OIDC thay mật khẩu, gắn tài khoản cũ theo email, nhận thông báo đăng xuất, thanh chuyển app; băm token phiên và bật cờ `secure` cho cookie |
 | VClinks | Đăng nhập OIDC thay Google trực tiếp, gắn tài khoản cũ, nhận thông báo đăng xuất, thanh chuyển app |
 | Vận hành | Máy chủ production, sao lưu, giám sát, sổ tay sự cố |
@@ -101,7 +102,7 @@ Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 (chờ đ�
 
 ```
                          ┌────────────────────────────────────────┐
-  Google Workspace  ◄────┤  VC ID — Keycloak (realm "vc")         │◄──── vc-provisioner (job hằng giờ)
+  Google Workspace  ◄────┤  VC ID — Keycloak (realm "vc")         │◄──── vc-provisioner (mỗi 15 phút)
   @vcprosperous.com      │  id.vcprosperous.com                   │      đọc Google Directory, khoá + đăng xuất
   @vcpart.vn             │  · ai là ai (sub)  · được vào app nào   │
                          │  · phiên chung     · đăng xuất phía máy │
@@ -172,7 +173,7 @@ Ghi chú: app **không lưu `id_token`** để làm `id_token_hint` (tránh lưu
 | Tình huống | Ai làm | Hệ thống làm | Thời gian mất quyền |
 |---|---|---|---|
 | Khoá tạm, nghi lộ tài khoản | Admin VC ID | `vc-provisioner disable <email>` (hoặc màn quản trị Keycloak): khoá user + gọi API đăng xuất user → Keycloak gửi back-channel tới mọi app | ≤ 1 phút |
-| Nghỉ việc | Admin Google Workspace khoá hoặc xoá tài khoản Google | Job `vc-provisioner` hằng giờ thấy `suspended` / không còn → khoá trên VC ID + đăng xuất | ≤ 65 phút |
+| Nghỉ việc | Admin Google Workspace khoá hoặc xoá tài khoản Google | Job `vc-provisioner` (mỗi 15 phút) thấy `suspended` / không còn → khoá trên VC ID + đăng xuất | ≤ 20 phút |
 | Khoá riêng trong một app | Admin app (VClinks: `tam_khoa`, `nghi_viec`; VCwiki: `active=false`) | App tự chặn như hiện nay; không ảnh hưởng app khác | Ngay |
 
 Bàn giao khách khi nghỉ việc (VClinks M1b-11) vẫn là quy trình riêng của VClinks.
@@ -214,6 +215,8 @@ Bàn giao khách khi nghỉ việc (VClinks M1b-11) vẫn là quy trình riêng 
 | I5 | Hai người giữ tài khoản quản trị khẩn cấp của VC ID (có TOTP) | Chủ dự án | 17/10 | SSO-10 |
 | I6 | Xác nhận `vcpart.vn` là domain phụ trong cùng Workspace với `vcprosperous.com` hay một Workspace riêng | Admin Google Workspace | 10/10 | SSO-00 |
 | I7 | Danh sách người dùng VCwiki có email ngoài 2 domain công ty (sẽ mất quyền khi tắt mật khẩu) | Admin VCwiki (dev chạy truy vấn, người duyệt quyết) | 22/10 | SSO-07 |
+| I8 | Bật **bắt buộc** xác thực 2 bước trong Google Admin cho cả 2 domain (có thời gian cho người dùng đăng ký, ví dụ 1 tuần) | Admin Google Workspace (chủ dự án) | 24/10 | Lên R1 |
+| I9 | Danh sách loại trừ: hộp thư dùng chung, tài khoản dịch vụ, tài khoản thử; rồi duyệt danh sách "ai được vào app" do `vc-provisioner report` sinh ra | Chủ dự án + IT | 24/10 | SSO-07, SSO-10 |
 
 ## 5. Thiết kế chi tiết
 
@@ -251,6 +254,8 @@ Bàn giao khách khi nghỉ việc (VClinks M1b-11) vẫn là quy trình riêng 
 /vc-id-admin        quản trị VC ID qua vc-provisioner, không phải quản trị Keycloak
 ```
 
+**Realm không có nhóm mặc định** (D-BA-37). `vc-provisioner` cấp `/app-vclinks`, `/app-vcwiki` cho tài khoản đủ điều kiện và gỡ khi hết điều kiện (mục 5.6). Thuộc tính user `vc_trang_thai` (`du_dieu_kien` · `chua_bat_2_buoc` · `loai_tru`; trống là chưa xét) do `vc-provisioner` ghi, đưa vào claim cùng tên để VC Home báo đúng lý do (06 VH-MH-02).
+
 Bỏ một người khỏi `/app-vcwiki` → VC Home không hiện ô VCwiki, VCwiki từ chối đăng nhập với mã `app_not_granted` (nếu bật `OIDC_REQUIRE_APP_GROUP`).
 
 #### 5.1.4 Client scope dùng chung `vc-basic`
@@ -265,6 +270,7 @@ Gắn mặc định cho mọi client. Claim trong `id_token`:
 | `hd` | Thuộc tính user `hd` | `vcpart.vn` |
 | `groups` | Mapper "Group membership", tắt đường dẫn đầy đủ | `["app-vclinks","app-vcwiki"]` |
 | `sid` | Keycloak (mặc định) | `b2a9…` |
+| `vc_trang_thai` | Thuộc tính user do `vc-provisioner` ghi | `du_dieu_kien` |
 
 #### 5.1.5 Client
 
@@ -411,7 +417,7 @@ Không bắt buộc ở đợt này: endpoint `GET /api/vc-app/status` (trạng 
 | `/loi` | Lỗi | Theo mã lỗi ở mục 5.2; có nút thử lại và email hỗ trợ |
 | `/catalog.json` | (dữ liệu) | Phục vụ với `Access-Control-Allow-Origin: *`, `Cache-Control: max-age=300` |
 
-Header: logo VC Phồn Vinh · menu ảnh đại diện (Hồ sơ, Đăng xuất). Trạng thái rỗng: "Bạn chưa được cấp ứng dụng nào. Liên hệ quản trị viên." Giao diện dùng token màu và component antd giống VClinks; chạy tốt trên điện thoại (lưới 1 cột dưới 600 px).
+Header: logo VC Phồn Vinh · menu ảnh đại diện (Hồ sơ, Đăng xuất). Trạng thái rỗng: "Bạn chưa được cấp ứng dụng nào. Liên hệ quản trị viên." Nếu claim `vc_trang_thai` là `chua_bat_2_buoc`, `loai_tru` hoặc trống thì hiện câu riêng theo 06 VH-MH-02. Giao diện dùng token màu và component antd giống VClinks; chạy tốt trên điện thoại (lưới 1 cột dưới 600 px).
 
 Cấu hình `oidc-client-ts`: `authority = https://id.vcprosperous.com/realms/vc`, `client_id = vchome`, `response_type = code`, `scope = openid profile email`, `extraQueryParams = { kc_idp_hint: 'google' }`, `userStore = InMemoryWebStorage`, `automaticSilentRenew` chỉ làm mới khi người dùng có thao tác trong 30 phút gần nhất (VH-AUT-05; để tab mở không giữ phiên chung sống mãi). Đăng xuất gọi `signoutRedirect()` (có `id_token_hint` nên không hiện trang xác nhận).
 
@@ -436,7 +442,7 @@ Làm **sau 26/10**, sau cờ `AUTH_PROVIDER=google|oidc` (mặc định `google`
 | `apps/web/src/pages/LoginPage.tsx` | Nút "Đăng nhập bằng tài khoản công ty"; khi `provider=oidc` và không có lỗi thì tự chuyển sang VC ID (người dùng không phải bấm); thêm câu tiếng Việt cho mã lỗi mới (cập nhật đặc tả 00 MH-UI-02) |
 | `apps/web/src/api.ts` | `logout()`: sau khi server thu hồi phiên, nếu có `redirect` thì chuyển trình duyệt tới đó |
 | `apps/web/src/components/AppSwitcher.tsx` (mới) | Nút 9 chấm ở header (antd `Dropdown`), đọc `/api/platform/apps`, mục đầu "VC Home" |
-| `.env.example` | `AUTH_PROVIDER`, `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`, `OIDC_IDP_HINT=google`, `OIDC_REQUIRE_APP_GROUP=0`, `VC_HOME_URL` |
+| `.env.example` | `AUTH_PROVIDER`, `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`, `OIDC_IDP_HINT=google`, `OIDC_REQUIRE_APP_GROUP=1` (bật ngay từ ngày bật SSO, D-BA-37), `VC_HOME_URL` |
 
 Không đổi: token `vcz_`, `/mcp`, `/mcp/dev`, ingest, webhook, outbox, agent máy Zalo, `AUTH_TOKEN_LOGIN` (đăng nhập bằng token nội bộ, giữ làm đường khẩn cấp; **phải đặt rõ `AUTH_TOKEN_LOGIN=0` ở production**, vì trong code giá trị mặc định đang bật và `.env.example` đặt `1`).
 
@@ -488,21 +494,29 @@ async verifyLogoutToken(token: string): Promise<{ sid?: string; sub?: string; jt
 
 ### 5.6 `vc-provisioner`
 
-- Chạy mỗi giờ, cộng một lệnh tay.
-- Với **mỗi Workspace** (I4, I6): đọc danh sách user (Directory API, `admin.directory.user.readonly`), gồm cả `suspended` và `archived`.
+- **Chạy mỗi 15 phút** (D-BA-40), cộng một lệnh tay. Khoá theo Google vì vậy ≤ 20 phút.
+- Với **mỗi Workspace** (I4, I6): đọc danh sách user (Directory API, `admin.directory.user.readonly`), gồm cả `suspended`, `archived` và trường `isEnrolledIn2Sv`.
+- Đọc danh sách loại trừ `provisioner/loai-tru.yaml` (GĐ A–B; từ GĐ B chuyển sang collection `directory_exclusions` của VC Home API). Mỗi dòng: email, loại (`hop_thu_chung` · `dich_vu` · `thu` · `chua_ro_chu`), lý do, người thêm.
+- **Điều kiện vào app ở GĐ A–B** (VH-BR-26): tài khoản đang hoạt động trên Google **và** đã bật 2 bước **và** không thuộc danh sách loại trừ.
 - Đối chiếu với user của realm `vc` (Admin API, client `vc-provisioner`):
 
 | Trường hợp | Làm gì |
 |---|---|
+| Đủ điều kiện, VC ID chưa có user | **Tạo sẵn user** (email, tên, ảnh) và gắn liên kết `google` với `userId` = `id` của Directory (chính là `sub` của Google, kiểm ở SSO-00); cấp nhóm app mặc định; `vc_trang_thai = du_dieu_kien`. Lần đăng nhập đầu vào thẳng, có ngay ô app |
+| Đủ điều kiện, VC ID đã có user | Bảo đảm có nhóm app mặc định; `vc_trang_thai = du_dieu_kien` |
+| Chưa bật 2 bước, hoặc thuộc danh sách loại trừ | Gỡ nhóm app mặc định, gọi đăng xuất user; `vc_trang_thai = chua_bat_2_buoc` hoặc `loai_tru`. Không khoá user: vẫn vào được VC Home để đọc lý do |
 | Có trên VC ID, trên Google bị `suspended` / `archived` / đã xoá | Khoá user trên VC ID, gọi `POST /admin/realms/vc/users/{id}/logout` (Keycloak gửi back-channel tới mọi app), ghi log, gửi thông báo cho nhóm `vc-id-admin` |
 | Có trên VC ID đang khoá, trên Google hoạt động lại | **Không tự mở**; chỉ báo admin (mở khoá là quyết định của người) |
-| Trên Google có, VC ID chưa có | Bỏ qua (user tự được tạo ở lần đăng nhập đầu) |
+| User do đăng nhập lần đầu tự tạo (tài khoản không đủ điều kiện) | Xét ở lượt chạy kế tiếp như các dòng trên |
 
+- Nhóm app khác (không phải mặc định, ví dụ `/app-vcsale`) do người cấp; `vc-provisioner` không đụng tới, trừ khi khoá user.
 - Lệnh tay:
   - `vc-provisioner disable <email> --reason "…"`, `vc-provisioner enable <email>`: khoá tức thời và mở khoá.
-  - `vc-provisioner report`: danh sách lệch.
+  - `vc-provisioner report`: danh sách lệch, và danh sách **"ai được vào app"** chia theo trạng thái để chủ dự án duyệt trước R1 (I9).
+  - `vc-provisioner sync`: chạy ngay một lượt (dùng khi có người mới).
 - Chế độ `--dry-run` là mặc định trong tuần đầu.
-- An toàn: nếu Google trả lỗi hoặc danh sách rỗng bất thường (ít hơn 50% lần trước) thì **dừng, không khoá ai**, và báo admin.
+- An toàn: nếu Google trả lỗi hoặc danh sách rỗng bất thường (ít hơn 50% lần trước) thì **dừng, không khoá ai, không gỡ nhóm của ai**, và báo admin. Một lượt gỡ nhóm của hơn 20 người cũng dừng và chờ admin xác nhận (khớp VH-BR-25).
+- Từ GĐ C, điều kiện "đủ điều kiện" chuyển sang VC Home API (có hồ sơ "Đang làm"); `vc-provisioner` chỉ còn việc đối chiếu trạng thái Google (kế hoạch code GĐ C).
 
 ### 5.7 Bảo mật
 
@@ -516,7 +530,8 @@ async verifyLogoutToken(token: string): Promise<{ sid?: string; sub?: string; jt
 | Luồng OIDC | `state` một lần, `nonce`, PKCE S256, redirect URI chính xác, `next` chỉ nhận đường dẫn cùng app (VClinks đã có `safeNext`) |
 | Token | `id_token` chỉ dùng lúc đăng nhập rồi bỏ; app không lưu `id_token`, access token, refresh token; log không chứa token hay `code` |
 | Chống gửi lại | `jti` của `logout_token` lưu 10 phút |
-| Xác thực 2 bước | Bắt buộc trong Google Admin cho cả 2 domain (I3) |
+| Xác thực 2 bước | Bắt buộc trong Google Admin cho cả 2 domain (I8), là **điều kiện lên R1**; tài khoản chưa bật không có nhóm app (mục 5.6). Xác thực lại khi dùng vai trò nhạy cảm: mục 14 |
+| Tài khoản dùng chung | Không vào app nghiệp vụ (VH-BR-26); nằm trong danh sách loại trừ |
 | Dữ liệu cá nhân | VC ID chỉ giữ email, tên, ảnh, `hd`, nhóm; máy chủ đặt tại Việt Nam (Q2); nhật ký giữ 24 tháng |
 | Cookie | VCwiki: `HttpOnly`, `Secure`, `SameSite=Lax`, giữ tên `vc_session`. VClinks giữ token Bearer như hiện nay; chuyển sang cookie httpOnly là việc để sau (mục 14) |
 
@@ -594,20 +609,20 @@ Mỗi phiên có Đầu vào, Việc, Đầu ra, Xong khi. Model theo CLAUDE.md 
 
 | Phiên | Việc | Đầu vào | Đầu ra / Xong khi | Giờ | Model |
 |---|---|---|---|---:|---|
-| **SSO-00** Thử kỹ thuật | Chạy Keycloak bản mới nhất trên máy dev. Kiểm: (1) Google IdP nhận 2 hosted domain; (2) `kc_idp_hint` bỏ qua trang Keycloak; (3) claim `groups`, `hd`, `sid`; (4) back-channel gửi tới một endpoint thử; (5) `jose` build được trong `apps/api` của VClinks với Node trên máy 129; (6) `PyJWKClient` trong VCwiki; (7) mapper `vh_roles` kiểu JSON theo từng client chạy được trên bản đã ghim (không được thì dùng mapper kịch bản, hoặc app đọc vai trò qua VH-API-06 của [07](../07-tich-hop.md)) | I3 (client Google thử), I6 | Ghi chú thử nghiệm trong `vc-platform/docs`; số bản ghim; tên khoá cấu hình chính xác cho `vc.yaml` | 3 | Opus |
+| **SSO-00** Thử kỹ thuật | Chạy Keycloak bản mới nhất trên máy dev. Kiểm: (1) Google IdP nhận 2 hosted domain; (2) `kc_idp_hint` bỏ qua trang Keycloak; (3) claim `groups`, `hd`, `sid`; (4) back-channel gửi tới một endpoint thử; (5) `jose` build được trong `apps/api` của VClinks với Node trên máy 129; (6) `PyJWKClient` trong VCwiki; (7) mapper `vh_roles` kiểu JSON theo từng client chạy được trên bản đã ghim (không được thì dùng mapper kịch bản, hoặc app đọc vai trò qua VH-API-06 của [07](../07-tich-hop.md)); (8) tạo sẵn user có liên kết `google` bằng `id` của Directory API rồi đăng nhập Google vào thẳng user đó (nếu không được: `vc-provisioner` cấp nhóm theo email sau lần đăng nhập đầu, người mới chờ tối đa 15 phút) | I3 (client Google thử), I6 | Ghi chú thử nghiệm trong `vc-platform/docs`; số bản ghim; tên khoá cấu hình chính xác cho `vc.yaml` | 3 | Opus |
 | **SSO-01** Hạ tầng | Repo `vc-platform`; `compose.dev.yml`, `compose.yml`, Dockerfile Keycloak, `.env.example`, script sao lưu và khôi phục | SSO-00 | `docker compose up` trên máy dev chạy Keycloak + PostgreSQL; sao lưu và khôi phục thử thành công | 6 | Sonnet |
-| **SSO-02** Realm và theme | `vc.yaml` đủ mục 5.1; theme `vc` với 5 trang mục 5.1.6; client `*-dev` | SSO-01, I3 | Áp `vc.yaml` hai lần không lỗi (áp lại được); đăng nhập Google domain công ty được, Gmail cá nhân bị chặn với câu tiếng Việt | 5 | Opus |
-| **SSO-03** VC Home | SPA mục 5.3; `apps.yaml` → `catalog.json` có kiểm schema; nginx | SSO-02 | Đăng nhập, lưới 2 app, hồ sơ, đăng xuất, tải lại trang không phải đăng nhập lại; Lighthouse truy cập ≥ 90 trên điện thoại | 6 | Sonnet |
-| **SSO-04** `vc-provisioner` | Mục 5.6; test với Google và Keycloak giả | SSO-02, I4 | `report` và `sync --dry-run` đúng trên dữ liệu thật; khoá thử một tài khoản test thì app thử nhận back-channel | 5 | Opus |
+| **SSO-02** Realm và theme | `vc.yaml` đủ mục 5.1 (không có nhóm mặc định, mapper `vc_trang_thai`); theme `vc` với 5 trang mục 5.1.6; client `*-dev` | SSO-01, I3 | Áp `vc.yaml` hai lần không lỗi (áp lại được); đăng nhập Google domain công ty được, Gmail cá nhân bị chặn với câu tiếng Việt | 6 | Opus |
+| **SSO-03** VC Home | SPA mục 5.3; 3 câu trạng thái theo `vc_trang_thai`; `apps.yaml` → `catalog.json` có kiểm schema; nginx | SSO-02 | Đăng nhập, lưới 2 app, hồ sơ, đăng xuất, tải lại trang không phải đăng nhập lại; Lighthouse truy cập ≥ 90 trên điện thoại | 7 | Sonnet |
+| **SSO-04** `vc-provisioner` | Mục 5.6: khoá theo Google, điều kiện vào app (2 bước, danh sách loại trừ), tạo sẵn user, cấp và gỡ nhóm, chạy mỗi 15 phút; test với Google và Keycloak giả | SSO-02, I4, I9 | `report` và `sync --dry-run` đúng trên dữ liệu thật; danh sách "ai được vào app" gửi chủ dự án; khoá thử một tài khoản test thì app thử nhận back-channel | 8 | Opus |
 | **SSO-05** VCwiki BA + DESIGN | SYS-60, TK-35, mã SCR, ca UAT | Bản kế hoạch này | Người duyệt VCwiki duyệt BA và DESIGN | 2 | Sonnet |
 | **SSO-06** VCwiki code | Mục 5.5 | SSO-02, SSO-05 | Test mới xanh, test cũ xanh; trên staging: đăng nhập SSO, gắn đúng user cũ, back-channel thu hồi phiên | 8 | Opus |
 | **SSO-07** VCwiki chuyển | Bật `AUTH_SSO` trên production với `AUTH_PASSWORD_LOGIN=on`; theo dõi 2 tuần; rồi đổi sang `admin` | SSO-06, SSO-10, I7 | Mọi người dùng thường đã đăng nhập ít nhất 1 lần bằng SSO; danh sách I7 đã xử lý | 3 | Sonnet |
 | **SSO-08** VClinks code | Mục 5.4 (sau 26/10) | SSO-02, mốc M1 xong | `pnpm ci:local` xanh; e2e mới: đăng nhập OIDC với issuer giả (server test sinh khoá bằng `jose`), back-channel, xung đột `idpSub`, thiếu nhóm | 8 | Opus |
 | **SSO-09** VClinks giao diện | LoginPage, thanh chuyển app, đăng xuất, câu lỗi MH-UI-02 | SSO-08 | Thử tay trên staging với tài khoản thử theo vai trò | 3 | Sonnet |
 | **SSO-10** Production | Lên production theo mục 7; giám sát; sổ tay vận hành | I1, I2, I5, SSO-03, SSO-04 | Health xanh; cảnh báo thử gửi được; khôi phục thử đạt | 5 | Sonnet |
-| **SSO-11** UAT tổng | Chạy 20 ca mục 9.2 với người dùng thật (NVKD, CSKH, biên tập VCwiki, admin) | SSO-07, SSO-09 | 20/20 ca đạt; biên bản UAT trong `vc-platform/docs/uat/<ngày>/` | 4 | Sonnet |
+| **SSO-11** UAT tổng | Chạy 23 ca mục 9.2 với người dùng thật (NVKD, CSKH, biên tập VCwiki, admin) | SSO-07, SSO-09 | 23/23 ca đạt; biên bản UAT trong `vc-platform/docs/uat/<ngày>/` | 4 | Sonnet |
 | **SSO-12** Dọn | Bỏ nhánh Google trực tiếp ở VClinks (`google.client.ts`) sau 2 tuần ổn định; VCwiki giữ `AUTH_PASSWORD_LOGIN=admin`; cập nhật tài liệu cuối | SSO-11 + 2 tuần | Không còn đường đăng nhập ngoài VC ID trừ đường khẩn cấp | 2 | Sonnet |
-| | **Tổng** | | | **60** | |
+| | **Tổng** | | | **65** | |
 
 **Lịch đề xuất** (giả định có một dev làm làn SSO không trùng việc M1; nếu cùng hai dev đang dồn cho M1 thì chỉ làm SSO-00 và chốt Q, I trước 26/10, phần còn lại dời sau):
 
@@ -650,7 +665,7 @@ Mỗi phiên có Đầu vào, Việc, Đầu ra, Xong khi. Model theo CLAUDE.md 
 | UAT-SSO-07 | Đăng xuất ở VClinks | Trang xác nhận tiếng Việt; sau đó VCwiki và VC Home đều mất phiên trong ≤ 10 giây |
 | UAT-SSO-08 | Đăng xuất ở VC Home | Không có trang xác nhận; mọi app mất phiên |
 | UAT-SSO-09 | Admin `vc-provisioner disable` | Mọi app mất phiên ≤ 1 phút; đăng nhập lại bị chặn |
-| UAT-SSO-10 | Khoá tài khoản thử trên Google | Mất quyền ≤ 65 phút; admin nhận thông báo |
+| UAT-SSO-10 | Khoá tài khoản thử trên Google | Mất quyền ≤ 20 phút; admin nhận thông báo |
 | UAT-SSO-11 | Người dùng VCwiki cũ (mật khẩu) đăng nhập SSO lần đầu | Gắn đúng tài khoản cũ, giữ vai trò, kho, lịch sử học |
 | UAT-SSO-12 | Người dùng VClinks cũ | Giữ vai trò, khách đang phụ trách, phiếu |
 | UAT-SSO-13 | Email đã gắn với `sub` khác | Từ chối `identity_conflict`, admin được báo |
@@ -661,6 +676,9 @@ Mỗi phiên có Đầu vào, Việc, Đầu ra, Xong khi. Model theo CLAUDE.md 
 | UAT-SSO-18 | Để yên 12 giờ | Phải đăng nhập lại (một lần chọn tài khoản) |
 | UAT-SSO-19 | Đổi tên trên Google rồi đăng nhập lại | Tên mới hiện ở VC Home, VClinks, VCwiki |
 | UAT-SSO-20 | Trên điện thoại | VC Home dùng được, lưới 1 cột, đăng nhập và đăng xuất được |
+| UAT-SSO-21 | Hộp thư dùng chung (ví dụ `cskh.test@vcpart.vn`, có trong danh sách loại trừ) đăng nhập | Vào được VC Home, không có ô app, câu "tài khoản dùng chung…"; mở thẳng VClinks báo `app_not_granted` |
+| UAT-SSO-22 | Tài khoản chưa bật 2 bước đăng nhập; sau đó bật 2 bước | Lúc đầu không có ô app, câu "chưa bật xác thực 2 bước…"; bật xong, sau ≤ 15 phút tải lại thì có 2 ô app |
+| UAT-SSO-23 | Admin Google tạo tài khoản mới đủ điều kiện, chạy `vc-provisioner sync` | Người mới đăng nhập lần đầu có ngay 2 ô app, vào VClinks không phải chờ |
 
 ## 10. Chuyển đổi dữ liệu và quay lui
 
@@ -684,7 +702,7 @@ Trước khi bật ở mỗi app: chạy báo cáo user có email ngoài 2 domai
 | `/health/ready` của Keycloak, `/` của VC Home | Lỗi 2 lần liên tiếp (kiểm 1 phút/lần) | Telegram hoặc email nhóm vận hành |
 | Tỉ lệ đăng nhập lỗi (sự kiện `LOGIN_ERROR`, `IDENTITY_PROVIDER_LOGIN_ERROR`) | > 20% trong 15 phút | Như trên |
 | Back-channel gửi lỗi | Bất kỳ, gom theo giờ | Như trên |
-| `vc-provisioner` | Không chạy quá 2 giờ, hoặc dừng vì danh sách bất thường | Như trên |
+| `vc-provisioner` | Không chạy quá 45 phút, dừng vì danh sách bất thường, hoặc chờ xác nhận gỡ nhóm hàng loạt | Như trên |
 | Ổ đĩa, RAM máy chủ | > 80% | Như trên |
 | Sao lưu | Không có bản mới trong 26 giờ | Như trên |
 
@@ -699,16 +717,29 @@ Trước khi bật ở mỗi app: chạy báo cáo user có email ngoài 2 domai
 | Xoay khoá ký | Thêm khoá mới (ưu tiên cao hơn), chờ 1 tuần, tắt khoá cũ; app tự lấy khoá mới qua JWKS |
 | Nâng bản Keycloak | Đọc ghi chú phát hành, thử trên staging bằng bản sao lưu production, rồi nâng production ngoài giờ |
 
+### 11.1 Quy trình nghỉ việc trước GĐ C (D-BA-40)
+
+Trước R3 VC People chưa có ngày nghỉ, nên khoá vẫn làm tay. Gửi HC-NS và IT cùng lúc lên R1.
+
+1. **HC-NS** báo IT ít nhất 1 ngày làm việc trước ngày nghỉ (email tới it@vcprosperous.com, tiêu đề "Nghỉ việc: {họ tên} – {email} – {ngày nghỉ}"); báo thêm chủ app VClinks nếu người đó đang phụ trách khách (bàn giao M1b-11).
+2. **Người nắm dữ liệu nhạy cảm** (quản trị, kế toán, giám đốc bán hàng, người có vai trò nhạy cảm) hoặc nghỉ do kỷ luật: IT chạy `vc-provisioner disable <email> --reason "Nghỉ việc"` **ngay khi nhận báo** (≤ 1 phút mọi app).
+3. **Người khác:** IT tạm ngưng tài khoản Google đầu giờ ngày đầu tiên không còn làm; `vc-provisioner` khoá VC ID và mọi app trong ≤ 20 phút.
+4. IT kiểm `vc-provisioner report` cuối ngày: người đã nghỉ không còn phiên nào.
+5. Không xoá tài khoản Google ngay: chuyển dữ liệu Gmail, Drive cho quản lý theo quy định của công ty rồi mới xoá.
+
+Từ GĐ C, VC Home tự khoá theo ngày nghỉ HC-NS nhập (VH-LCM-03), quy trình này chỉ còn là dự phòng.
+
 ## 12. Rủi ro
 
 | Rủi ro | Mức | Cách giảm |
 |---|---|---|
 | Đội chưa quen Keycloak, cấu hình sai | Trung bình | Cấu hình dạng code, có CI áp thử; SSO-00 thử kỹ trước; phiên đụng bảo mật dùng Opus |
-| Keycloak là điểm hỏng đơn | Trung bình | App giữ phiên riêng 12 giờ; sao lưu và khôi phục thử hằng tháng; đường khẩn cấp ở từng app; chạy 2 bản khi có trên 5 app (mục 14) |
+| Keycloak là điểm hỏng đơn | Trung bình | App giữ phiên riêng 12 giờ; sao lưu và khôi phục thử hằng tháng; đường khẩn cấp ở từng app; chạy 2 bản trước khi VCsale nối vào (mục 14) |
 | Hai domain là 2 Workspace riêng | Trung bình | I6 trả lời sớm; Google IdP dùng màn đồng ý "External"; `vc-provisioner` dùng thông tin đăng nhập riêng cho từng Workspace |
 | Keycloak không nhận 2 hosted domain | Thấp | Phương án dự phòng ở mục 5.1.2; app luôn kiểm lại domain |
 | Tranh sức với mốc M1 | Cao | Không đụng VClinks trước 26/10; nếu cùng dev thì dời toàn bộ sau 26/10 |
 | Người dùng VCwiki có email ngoài công ty mất quyền | Trung bình | I7 xử lý trước SSO-07; giữ mật khẩu cho admin |
+| Lộ mật khẩu Google của một người là lộ mọi app (một chìa mở mọi cửa) | Trung bình | 2 bước bắt buộc (I8); không cấp app cho tài khoản chưa bật; tài khoản dùng chung bị loại trừ |
 | Lộ bí mật | Cao nếu xảy ra | Không đưa vào git, quét bí mật trong CI, xoay định kỳ |
 | Cấu hình redirect URI sai làm lộ `code` | Thấp | Chỉ khai URI chính xác, PKCE bắt buộc |
 | Repo `vc` đang public chứa tài liệu này và code hai app | Cao | Đổi repo `vc` sang private trước khi đưa thông tin máy chủ, tên miền quản trị vào |
@@ -734,14 +765,16 @@ Mỗi file sửa theo quy định §13 của VClinks: tăng phiên bản một l
 - **Danh bạ tổ chức một nguồn:** đồng bộ đơn vị và chức danh từ HR hoặc Google vào nhóm Keycloak (`/org/vcparts/to-ban-hang-1`…), hai app đọc để tự gán đơn vị. Đây là bước giải quyết ba cây tổ chức đang lệch nhau.
 - **Gatekeeper:** dùng cơ chế đổi token (Token Exchange, RFC 8693) của Keycloak để AI hành động thay người với quyền hẹp; bỏ bảng `identity_links` vì mọi app đã chung `sub`.
 - **Bán cho doanh nghiệp ngoài:** dùng tính năng Organizations của Keycloak, mỗi khách một tổ chức với Google hoặc Microsoft riêng.
-- **VClinks chuyển token sang cookie httpOnly** để chống đánh cắp qua XSS.
-- **Chạy Keycloak 2 bản** (cluster) khi có trên 5 app hoặc trên 500 người dùng.
+- ~~**VClinks chuyển token sang cookie httpOnly**~~: đã đưa vào R4 (D-BA-42, kế hoạch code GĐ D).
+- **Xác thực lại khi dùng vai trò nhạy cảm** (step-up): Keycloak yêu cầu xác thực lại hoặc khoá bảo mật khi mở màn quản trị hay dùng vai trò nhạy cảm (D-BA-38).
+- **Chạy Keycloak 2 bản** (cluster) khi có trên 5 app hoặc trên 500 người dùng, và **bắt buộc trước khi VCsale hoặc app vận hành khác nối vào** (D-BA-41).
 - **App điện thoại:** client public riêng với PKCE và mở trình duyệt hệ thống.
 
 ## Lịch sử cập nhật
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.4 | 08/10/2026 13:50 | Claude Code (vai BA trưởng) | 6 điểm vá bảo mật: điều kiện vào app ở GĐ A–B (không nhóm mặc định, bật 2 bước, danh sách loại trừ, tạo sẵn user), `vc-provisioner` mỗi 15 phút (khoá ≤ 20 phút), I8–I9, mục 11.1 quy trình nghỉ việc tay, UAT-SSO-21…23, mục 14; 65 giờ | [12](../12-cau-hoi-rui-ro.md) D-BA-37…42; người dùng đồng ý 08/10/2026 |
 | 0.3 | 08/10/2026 11:31 | Claude Code (vai BA) | Ghi Q1–Q5 đã chốt theo đề xuất (mục 4.1, tóm tắt, lịch); thêm kiểm (7) mapper `vh_roles` vào SSO-00 | [12](../12-cau-hoi-rui-ro.md) mục 4; [07](../07-tich-hop.md) mục 11 đề xuất 8 |
 | 0.2 | 08/10/2026 10:04 | Claude Code (vai BA) | Chuyển file từ `docs/sso/ke-hoach-sso-keycloak.md` vào bộ tài liệu VC Home (`docs/vc-home/ky-thuat/`), đổi tên; ghi rõ đây là thiết kế GĐ A; VC Home có thêm backend từ GĐ B; thêm thư mục `api/` vào cấu trúc repo `vc-platform` | Bộ tài liệu VC Home 0.1 |
 | 0.1 | 08/10/2026 09:46 | Claude Code | Tạo kế hoạch: hiện trạng code hai app, kiến trúc VC ID (Keycloak) + VC Home + vc-provisioner, hợp đồng tích hợp app, thay đổi theo file ở VClinks và VCwiki, repo `vc-platform`, môi trường, 13 phiên 60 giờ, 20 ca UAT, chuyển đổi và quay lui, vận hành, rủi ro | Yêu cầu người dùng 08/10/2026 ("lên bản plan code đầy đủ nhất… dựng keycloak"); đọc code `vclinks/apps/api/src/auth`, `tiktok-to-text/backend/app/auth.py` |

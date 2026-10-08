@@ -1,6 +1,6 @@
 # VC Home — Quy trình nghiệp vụ
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -8,7 +8,7 @@ Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ �
 - **Nguyên tắc xuyên suốt:** HC-NS chỉ sửa hồ sơ; quyền tự tính theo luật; app nhận sự kiện để tự cập nhật; mọi thay đổi có ngày hiệu lực, áp lúc 00:00 giờ Việt Nam.
 - **Ba điểm quyền đổi tự động:** vào làm (thêm quyền theo luật), chuyển vị trí (quyền mới có ngay, quyền cũ gỡ sau thời gian chuyển tiếp của app), nghỉ việc (khoá, đăng xuất, gỡ hết, báo app theo đúng thứ tự VH-BR-14).
 - **Quyền ngoại lệ:** xin, duyệt 1 hoặc 2 bước, không ai tự duyệt, có hạn, rà soát mỗi quý; quá 14 ngày không xác nhận thì tự gỡ.
-- **Thời gian đích:** đăng xuất chung ≤ 10 giây; khoá khẩn cấp ≤ 1 phút; khoá theo Google ≤ 65 phút; tính lại quyền ≤ 5 phút.
+- **Thời gian đích:** đăng xuất chung ≤ 10 giây; khoá khẩn cấp ≤ 1 phút; khoá theo Google ≤ 20 phút; tính lại quyền ≤ 5 phút.
 - **Quyết định liên quan** (đã chốt ngày 08/10/2026, [12](12-cau-hoi-rui-ro.md) mục 4, 6): Q-13 khoá lúc 00:00 ngày đầu không còn làm; Q-14 giữ nhóm mặc định 30 ngày sau R3; 19 đề xuất ở mục 15 và 5 điểm lệch đã xử lý hết.
 - **Người duyệt xem kỹ:**
   - VH-QT-05: thời gian chuyển tiếp và bàn giao khách của VClinks;
@@ -202,8 +202,8 @@ Cách nối kỹ thuật giữa VC ID và VC Home API ở bước gắn hồ sơ
 | Mục đích | Đăng xuất một nơi là ra khỏi mọi app. Khi nghi lộ hoặc cần chặn gấp, khoá một tài khoản và cắt mọi phiên trong 1 phút. Tài khoản Google bị khoá thì VC ID cũng khoá |
 | Kích hoạt | (1) Nhân viên bấm Đăng xuất ở VC Home hoặc bất kỳ app nào; (2) QTHT nhận báo nghi lộ, mất máy, tranh chấp, hoặc yêu cầu chặn trước ngày nghỉ; (3) admin Google khoá, lưu trữ hoặc xoá tài khoản Google; (4) (GĐ D) nhân viên tự đăng xuất một phiên lạ |
 | Tác nhân | Nhân viên; QTHT (R/A); admin Google Workspace; VC ID; `vc-provisioner`; app; quản lý (C); HC-NS, chủ app, kiểm soát (I) |
-| Điều kiện trước | App đã khai endpoint back-channel; `vc-provisioner` chạy hằng giờ và đọc được Google Directory của từng Workspace |
-| Kết quả mong đợi | Đăng xuất: mọi app mất phiên ≤ 10 giây. Khoá khẩn cấp: ≤ 1 phút, đăng nhập lại bị chặn. Khoá Google: ≤ 65 phút. Mở khoá luôn do người quyết |
+| Điều kiện trước | App đã khai endpoint back-channel; `vc-provisioner` chạy mỗi 15 phút và đọc được Google Directory của từng Workspace |
+| Kết quả mong đợi | Đăng xuất: mọi app mất phiên ≤ 10 giây. Khoá khẩn cấp: ≤ 1 phút, đăng nhập lại bị chặn. Khoá Google: ≤ 20 phút. Mở khoá luôn do người quyết |
 | GĐ | A; màn khoá trên VC Home từ GĐ B; tự xem và đăng xuất phiên ở GĐ D |
 
 ### 4.2 Sơ đồ
@@ -222,7 +222,7 @@ flowchart TD
     G1["Khoá, lưu trữ hoặc xoá<br/>tài khoản Google"]
   end
   subgraph PRL["vc-provisioner"]
-    P1["Chạy hằng giờ<br/>đọc Google Directory"]
+    P1["Chạy mỗi 15 phút<br/>đọc Google Directory"]
     P2{"Danh sách<br/>bình thường?"}
     P3["Dừng, không khoá ai<br/>báo admin"]
   end
@@ -303,7 +303,7 @@ Khoá khẩn cấp **không** gỡ quyền app. Quyền giữ nguyên để mở
 |---|---|---|
 | Thời gian đăng xuất chung | Từ bấm Đăng xuất tới khi app cuối cùng mất phiên | ≤ 10 giây |
 | Thời gian khoá khẩn cấp | Từ lệnh khoá tới khi mọi app mất phiên | ≤ 1 phút |
-| Độ trễ khoá theo Google | Từ lúc Google khoá tới lúc VC ID khoá | ≤ 65 phút |
+| Độ trễ khoá theo Google | Từ lúc Google khoá tới lúc VC ID khoá | ≤ 20 phút |
 | Tỉ lệ back-channel gửi thành công | Lần gửi đạt / tổng lần gửi | ≥ 99,5% |
 | Số lần `vc-provisioner` dừng vì danh sách bất thường | Đếm theo tháng | Mỗi lần có kết luận |
 | Tài khoản khoá quá 30 ngày chưa có quyết định | Đếm | 0 |
@@ -594,6 +594,8 @@ flowchart TD
 
 ## 8. VH-QT-06 Nghỉ việc
 
+**Trước GĐ C** (chưa có ngày nghỉ trên VC People): làm theo quy trình tay ở [thiết kế SSO](ky-thuat/thiet-ke-sso-keycloak.md) mục 11.1. HC-NS báo IT, IT khoá Google, `vc-provisioner` khoá mọi app trong ≤ 20 phút; người nắm dữ liệu nhạy cảm thì khoá khẩn cấp ngay (≤ 1 phút).
+
 ### 8.1 Tổng quan
 
 | Mục | Nội dung |
@@ -632,7 +634,7 @@ flowchart TD
   end
   subgraph GGL["Admin Google, vc-provisioner"]
     G1["Khoá tài khoản Google"]
-    G2["Thấy Google khoá<br/>khoá VC ID ≤ 65 phút"]
+    G2["Thấy Google khoá<br/>khoá VC ID ≤ 20 phút"]
   end
   H1 --> Q1
   Q1 -->|"Có"| Q2 --> V1
@@ -659,7 +661,7 @@ flowchart TD
 | 10 | VC Home API | Huỷ yêu cầu người này đang xin; yêu cầu người này đang phải duyệt chuyển cho trưởng đơn vị; uỷ quyền liên quan hết hiệu lực | VH-REQ-02, VH-REQ-03 | VH-BR-05, VH-BR-12 |
 | 11 | HC-NS | Đổi quản lý cho người dưới quyền; đặt trưởng đơn vị mới nếu người nghỉ là trưởng | VH-NSU-03, VH-ORG-04 | VH-BR-05, VH-BR-06 |
 | 12 | QTHT | Người nghỉ là chủ app: chỉ định chủ app mới | VH-APP-03 | VH-BR-17 |
-| 13 | Admin Google | Khoá tài khoản Google (ngoài VC Home). Khoá trước 00:00 thì `vc-provisioner` khoá VC ID trong ≤ 65 phút. Bên nào khoá trước thì khoá | VH-AUT-07 | VH-BR-14 |
+| 13 | Admin Google | Khoá tài khoản Google (ngoài VC Home). Khoá trước 00:00 thì `vc-provisioner` khoá VC ID trong ≤ 20 phút. Bên nào khoá trước thì khoá | VH-AUT-07 | VH-BR-14 |
 | 14 | VC Home API | Đối chiếu Google liệt kê "đã nghỉ nhưng Google còn mở" để admin Google xử lý | VH-IMP-02 | VH-BR-14 |
 | 15 | VC Home API | Nhật ký từng bước có giờ; báo cáo người nghỉ cho kiểm soát | VH-ADM-01, VH-ADM-02, VH-MH-19 | VH-BR-18 |
 
@@ -1287,5 +1289,6 @@ Các điểm dưới đây chưa có mã trong README. Người duyệt chọn: 
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | Khoá theo Google ≤ 20 phút (`vc-provisioner` mỗi 15 phút); VH-QT-06 thêm quy trình tay trước GĐ C | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Ghi kết quả xử lý 19 đề xuất ở mục 15 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
 | 0.1 | 08/10/2026 10:18 | Claude Code (vai BA) | Tạo tài liệu: bức tranh vòng đời, quy ước chung, 12 quy trình VH-QT-01 đến VH-QT-12 (tổng quan, sơ đồ Mermaid, bảng bước truy về VH-xxx và VH-BR, ngoại lệ, chỉ số đo), checklist hợp đồng tích hợp, 19 đề xuất chưa cấp mã, 5 điểm lệch ở README và 02 | README bộ tài liệu 0.1 |

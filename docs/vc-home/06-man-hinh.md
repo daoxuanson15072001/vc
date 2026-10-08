@@ -1,6 +1,6 @@
 # VC Home — Đặc tả màn hình
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -419,6 +419,9 @@ Dưới 600 px: lời chào → thẻ hồ sơ (ảnh nhỏ, 2 dòng) → ô app
 | Trạng thái | Hiển thị |
 |---|---|
 | Đang tải | Thẻ hồ sơ khung xương; 4 ô app khung xương |
+| GĐ A–B, tài khoản chưa bật xác thực 2 bước (claim `vc_trang_thai = chua_bat_2_buoc`) | Không có ô app. Dải vàng: "Tài khoản của bạn chưa bật xác thực 2 bước nên chưa vào được ứng dụng. Bật tại myaccount.google.com/security, sau 15 phút tải lại trang." (VH-BR-26) |
+| GĐ A–B, tài khoản thuộc danh sách loại trừ (`loai_tru`) | Không có ô app. "Tài khoản này là tài khoản dùng chung hoặc tài khoản dịch vụ, không dùng để vào ứng dụng. Hãy đăng nhập bằng tài khoản cá nhân." |
+| GĐ A–B, tài khoản mới chưa được xét (`chua_xet`) | Không có ô app. "Tài khoản của bạn đang được kiểm tra. Thử lại sau 15 phút hoặc liên hệ it@vcprosperous.com." |
 | Không có ô app nào | "Bạn chưa được cấp ứng dụng nào. Liên hệ quản trị viên." Từ GĐ D thêm nút "Xin quyền" |
 | Từ GĐ B, tài khoản chưa gắn hồ sơ | Không có thẻ hồ sơ, lưới trống, dòng "Tài khoản chưa có hồ sơ nhân sự, liên hệ HC-NS". "Sắp có" và liên kết ngoài vẫn hiện (VH-BR-02) |
 | Tài khoản khớp nhiều hồ sơ | "Tài khoản của bạn khớp với nhiều hồ sơ nhân sự. HC-NS đã được báo để sửa." (04 VH-AUT-08) |
@@ -1853,5 +1856,6 @@ Các đề xuất màn khác đã có ở 04 mục 13 (ví dụ màn "Tài kho�
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | VH-MH-02 thêm 3 trạng thái GĐ A–B theo điều kiện vào app (VH-BR-26) | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Ghi kết quả xử lý 8 đề xuất ở mục 10 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
 | 0.1 | 08/10/2026 11:06 | Claude Code (vai BA) | Tạo tài liệu: quy ước chung, sơ đồ trang, menu theo vai trò, khung chung (header, thông báo, menu), đặc tả 21 màn VH-MH-01…21 kèm khung dây cho 6 màn chính; đồng bộ câu chữ và giới hạn với 04; 12 điểm lệch với README, 02, 04; 8 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |

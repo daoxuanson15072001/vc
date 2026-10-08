@@ -1,6 +1,6 @@
 # VC Home — Quyết định, giả định và rủi ro
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt (người dùng uỷ quyền BA)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt (người dùng uỷ quyền BA)
 
 ## Tóm tắt
 
@@ -20,7 +20,7 @@ Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt (người dùng u�
   - RR-01: dữ liệu nhân sự đầu vào không đủ hoặc không sạch.
   - RR-02: chưa có dev làm VC Home toàn thời gian.
   - RR-13: repo đang public.
-- **Sổ quyết định soát chéo** (mục 5): 36 điểm lệch giữa các tài liệu đã được BA trưởng chốt; khi tài liệu còn ghi khác thì theo mục 5.
+- **Sổ quyết định soát chéo** (mục 5): 42 điểm (36 điểm lệch giữa tài liệu và 6 điểm vá bảo mật D-BA-37…42) giữa các tài liệu đã được BA trưởng chốt; khi tài liệu còn ghi khác thì theo mục 5.
 - **Người duyệt xem kỹ:** mục 4 (quyết định), mục 6 (đề xuất để sau và không làm), các rủi ro mức Cao ở mục 3.
 
 ## Mục lục
@@ -79,7 +79,7 @@ Xem [01-tam-nhin-pham-vi.md](01-tam-nhin-pham-vi.md) mục 6 (GĐ-1 … GĐ-6). 
 | VH-RR-04 | Luật viết sai làm nhiều người mất quyền cùng lúc | Trung bình | Cao | Xem trước bắt buộc, duyệt hai người khi > 20 người (VH-BR-25); thời gian chuyển tiếp; nhật ký và hoàn tác luật | Quản trị hệ thống |
 | VH-RR-05 | Cơ cấu tổ chức đổi thường xuyên, HC-NS không kịp cập nhật | Trung bình | Trung bình | Ngày hiệu lực hẹn trước; nhắc HC-NS các vị trí thiếu quản lý; báo cáo hồ sơ chưa đủ hằng tuần | HC-NS |
 | VH-RR-06 | Quản lý không duyệt kịp, người dùng thiếu công cụ | Trung bình | Trung bình | Nhắc ngày 2 và 5; uỷ quyền; ít ngoại lệ nhờ luật tốt (đích ≥ 90% quyền từ luật) | Quản lý |
-| VH-RR-07 | VC ID là điểm hỏng đơn | Thấp | Cao | Phiên app giữ 12 giờ; đường khẩn cấp; sao lưu và khôi phục thử hằng tháng (VH-NFR-10, 11) | Quản trị hệ thống |
+| VH-RR-07 | VC ID là điểm hỏng đơn | Thấp | Cao | Phiên app giữ 12 giờ; đường khẩn cấp; sao lưu và khôi phục thử hằng tháng (VH-NFR-10, 11); chạy 2 máy trước khi VCsale nối vào (D-BA-41) | Quản trị hệ thống |
 | VH-RR-08 | Sự kiện gửi app bị mất hoặc sai thứ tự | Thấp | Trung bình | Gửi ít nhất một lần, có số thứ tự theo người, kéo dự phòng (VH-INT-05), đối chiếu hằng đêm | Dev |
 | VH-RR-09 | Vướng pháp lý dữ liệu cá nhân nhân viên | Thấp | Cao | Chỉ thông tin công việc; máy chủ tại Việt Nam; thông báo xử lý dữ liệu do pháp chế duyệt trước R2 (VH-NFR-08) | Pháp chế |
 | VH-RR-10 | Hai Workspace Google riêng làm đồng bộ phức tạp | Trung bình | Thấp | Thiết kế SSO I6; bộ đồng bộ chạy theo từng Workspace | Quản trị hệ thống |
@@ -113,7 +113,7 @@ Ngày 08/10/2026 người dùng (chủ dự án) uỷ quyền cho BA trưởng c
 | Q-15 | **Có.** Ô "Liên kết" mở tab mới, không đăng nhập một lần (VH-BR-21; `apps.kind = lien_ket_ngoai`) | 08/10/2026 | BA trưởng (uỷ quyền) | Không cần sửa |
 | SSO Q1 | `id.vcprosperous.com` (VC ID), `home.vcprosperous.com` (VC Home), `id-admin.vcprosperous.com` (màn quản trị Keycloak, chỉ mở cho IP công ty hoặc VPN) | 08/10/2026 | BA trưởng (uỷ quyền) | Thiết kế SSO mục 4.1 |
 | SSO Q2 | Một máy ảo tại Việt Nam, 2 vCPU / 4 GB RAM / 40 GB SSD, Ubuntu 24.04, không đặt trên máy 129; sao lưu hằng đêm ra nơi khác | 08/10/2026 | BA trưởng (uỷ quyền) | Thiết kế SSO mục 4.1; 01 GĐ-6 |
-| SSO Q3 | GĐ A: mọi tài khoản công ty thấy cả VClinks và VCwiki (nhóm mặc định); quyền bên trong app giữ như hiện nay | 08/10/2026 | BA trưởng (uỷ quyền) | Thiết kế SSO mục 4.1 |
+| SSO Q3 | GĐ A: mọi **tài khoản cá nhân đủ điều kiện** (bật 2 bước, không thuộc danh sách loại trừ; sửa theo D-BA-37) thấy cả VClinks và VCwiki; quyền bên trong app giữ như hiện nay | 08/10/2026 | BA trưởng (uỷ quyền) | Thiết kế SSO mục 4.1 |
 | SSO Q4 | **Có.** VCwiki tự tạo tài khoản ở lần đăng nhập đầu qua VC ID, vai trò `member`, chỉ thấy kho công khai; tắt đăng ký bằng mật khẩu | 08/10/2026 | BA trưởng (uỷ quyền) | Thiết kế SSO mục 4.1 |
 | SSO Q5 | Phiên VC ID và phiên app: hết sau 12 giờ không dùng, tối đa 7 ngày (VCwiki giảm từ 14 xuống 7 ngày) | 08/10/2026 | BA trưởng (uỷ quyền) | Thiết kế SSO mục 4.1; 07 |
 | Nhân sự | **1 dev Platform toàn thời gian từ 02/11/2026**, giữ VC ID + VC Home, sau đó Gatekeeper của lộ trình AI. Ưu tiên điều chuyển nội bộ; không có thì tuyển 1 dev fullstack NestJS + React (≥ 3 năm, biết OIDC là lợi thế) hoặc thuê hợp đồng 4 tháng (11/2026–02/2027). Dev002 làm GĐ A như kế hoạch. **Hạn có người: 30/10.** Quá hạn thì R1 vẫn lên (dùng được độc lập); R2–R4 dời sang sau Tết (từ 22/02/2027), giữ nguyên thứ tự | 08/10/2026 | BA trưởng (uỷ quyền) | 10 mục 5; 01 GĐ-5; RR-02 |
@@ -183,6 +183,12 @@ Bộ tài liệu do nhiều người viết song song. Khi soát chéo ngày 08/
 | D-BA-34 | Nơi xem báo cáo | Mọi người xem báo cáo (BGĐ, trưởng đơn vị, HC-NS, chủ app, kiểm soát) vào VH-MH-17 trong phạm vi của mình; VH-MH-09 chỉ tóm tắt đội | README mục 8, 04 VH-ADM-02 |
 | D-BA-35 | Người dùng các màn quản trị | VH-MH-08 thêm trưởng đơn vị, quản trị hệ thống, người được uỷ quyền; VH-MH-15 thêm kiểm soát (chỉ đọc); VH-MH-19 thêm HC-NS và chủ app trong phạm vi; ngoại lệ tách nhiệm quản lý ở VH-MH-17 | README mục 8 |
 | D-BA-36 | App `beta` | Được xin quyền như app `live` | 04 VH-REQ-01 |
+| D-BA-37 | Có mail công ty là vào app (GĐ A–B) | Không. Realm không có nhóm mặc định; `vc-provisioner` chỉ cấp nhóm app cho tài khoản đủ điều kiện (đang hoạt động, bật 2 bước, không thuộc danh sách loại trừ), tạo sẵn user VC ID gắn Google cho họ; app bật `OIDC_REQUIRE_APP_GROUP=1` từ ngày đầu. Quy tắc VH-BR-26 | Thiết kế SSO 5.1.3, 5.6; 04 mục 14.2; 06 VH-MH-02; README |
+| D-BA-38 | Xác thực 2 bước | Bắt buộc trong Google Admin cho cả 2 domain trước R1 (điều kiện lên bản); tài khoản chưa bật không có nhóm app. Xác thực lại khi dùng vai trò nhạy cảm: để sau (GĐ E) | 10 mục 6; thiết kế SSO 5.7, 14 |
+| D-BA-39 | Hộp thư dùng chung, tài khoản dịch vụ | Không bao giờ vào app nghiệp vụ; nằm trong danh sách loại trừ; hộp thư chung chuyển thành nhóm thư | 02 VH-BR-26 |
+| D-BA-40 | Nghỉ việc trước GĐ C | Quy trình tay 1 trang (thiết kế SSO 11.1); `vc-provisioner` chạy mỗi 15 phút (trước là mỗi giờ), khoá theo Google ≤ 20 phút | Thiết kế SSO 3.4, 5.6, 11; 03, 04, 07, 09, 11 |
+| D-BA-41 | VC ID một máy chủ | Giữ 1 máy cho tới GĐ D; giám sát và khôi phục thử là điều kiện R1; chạy 2 máy trước khi VCsale hoặc app vận hành khác nối vào | Thiết kế SSO 14; RR-07 |
+| D-BA-42 | Phiên VClinks trong `localStorage` | Chuyển sang cookie httpOnly, Secure, SameSite=Lax + chống CSRF; làm trong R4 (≤ 22/01/2027), trước khi nối VC AI | 10 R4; kế hoạch code GĐ D |
 
 ## 6. Xử lý các đề xuất bổ sung
 
@@ -241,5 +247,6 @@ Nhiều đề xuất trùng nhau giữa các tài liệu (ví dụ "báo trướ
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | Thêm D-BA-37…42 (6 điểm vá sau đánh giá bảo mật luồng đăng nhập); sửa SSO Q3 theo D-BA-37; RR-07 | Người dùng đồng ý 6 điểm vá ngày 08/10/2026 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA) | Chốt toàn bộ Q-01…Q-15, SSO Q1–Q5, người làm VC Home, repo public (mục 4, thêm 4.2 danh mục chức năng, 4.3 người giữ vai trò); đổi mục 1 thành "đã cân nhắc"; thêm mục 6 xử lý 89 đề xuất bổ sung; cập nhật RR-02, RR-13 và tóm tắt | Người dùng uỷ quyền BA chốt ngày 08/10/2026 ("không cần phải t quyết định nữa") |
 | 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo tài liệu: 15 câu hỏi có đề xuất và hạn, 14 rủi ro | README bộ tài liệu 0.1; câu hỏi người dùng 08/10/2026 |

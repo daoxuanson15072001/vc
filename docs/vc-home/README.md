@@ -1,6 +1,6 @@
 # Bộ tài liệu VC Home — Cổng nhân viên, hồ sơ nhân sự và quyền truy cập tập trung
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -18,7 +18,7 @@ Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ �
   - E Mở rộng sang các app khác
   
   Lịch và khối lượng ở [10-ke-hoach-trien-khai.md](10-ke-hoach-trien-khai.md).
-- **Quy mô bộ tài liệu:** 13 file nghiệp vụ và 1 thiết kế kỹ thuật GĐ A, gồm 90 yêu cầu, 25 quy tắc, 12 quy trình, 21 màn hình, 28 collection, 13 sự kiện, 10 API, 100 câu chuyện người dùng, 59 ca UAT. Đã soát chéo toàn bộ mã và liên kết; 36 điểm lệch được BA trưởng chốt ở [12](12-cau-hoi-rui-ro.md) mục 5. Khi hai tài liệu ghi khác nhau thì theo mục đó.
+- **Quy mô bộ tài liệu:** 13 file nghiệp vụ và 1 thiết kế kỹ thuật GĐ A, gồm 90 yêu cầu, 26 quy tắc, 12 quy trình, 21 màn hình, 28 collection, 13 sự kiện, 10 API, 100 câu chuyện người dùng, 59 ca UAT. Đã soát chéo toàn bộ mã và liên kết; 36 điểm lệch được BA trưởng chốt ở [12](12-cau-hoi-rui-ro.md) mục 5. Khi hai tài liệu ghi khác nhau thì theo mục đó.
 - **Quyết định:** cả 15 câu hỏi, 5 câu của thiết kế SSO và toàn bộ đề xuất bổ sung đã được chốt theo khuyến nghị BA (người dùng uỷ quyền ngày 08/10/2026), ghi ở [12-cau-hoi-rui-ro.md](12-cau-hoi-rui-ro.md) mục 4 và 6. **Việc còn mở** chỉ là đầu vào từ bên ngoài (máy chủ, DNS, Google Admin, file Excel của HC-NS) và người làm VC Home ([10](10-ke-hoach-trien-khai.md) mục 4, 5). Repo `vc` cần đổi sang private ngay (RR-13).
 - **Người duyệt xem kỹ:**
   - tác động tới VClinks và VCwiki ([01](01-tam-nhin-pham-vi.md) mục 7);
@@ -268,6 +268,7 @@ Chi tiết và ví dụ ở [02-tac-nhan-quy-tac.md](02-tac-nhan-quy-tac.md) m�
 | VH-BR-23 | Quản lý và trưởng đơn vị xem được hồ sơ công việc và quyền của cả cây dưới quyền |
 | VH-BR-24 | Vị trí kiêm nhiệm cũng sinh quyền mặc định như vị trí chính |
 | VH-BR-25 | Luật, lô nhập, đổi cơ cấu hay sửa hồ sơ hàng loạt làm thay đổi quyền của từ 21 người trở lên, hoặc luật cấp vai trò nhạy cảm, phải xem trước và có người thứ hai xác nhận (quản trị hệ thống khác, hoặc chủ app của app đó) |
+| VH-BR-26 | Có mail công ty chỉ là qua cổng; vào app phải là tài khoản cá nhân đủ điều kiện (bật xác thực 2 bước, không thuộc danh sách loại trừ như hộp thư dùng chung, tài khoản dịch vụ) |
 
 ## 7. Danh mục quy trình
 
@@ -394,5 +395,6 @@ VH-API-01…07 và VH-API-10 nằm trên VC Home API với tiền tố `/api/v1`
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | Thêm VH-BR-26 (26 quy tắc); thêm 3 kế hoạch code GĐ B, C, D trong `ky-thuat/` | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Thêm 12 yêu cầu nhận thêm vào sổ mã (tổng 90), collection `company_holidays` (tổng 28), 2 sự kiện `vh.person.change_scheduled`, `vh.test.ping` (tổng 13), VH-API-10; ghi trạng thái: mọi câu hỏi và đề xuất đã chốt, chỉ còn đầu vào bên ngoài | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
 | 0.1 | 08/10/2026 10:04 → 11:16 | Claude Code (vai BA trưởng, 5 người viết song song) | Tạo bộ tài liệu: khung chung, quy ước mã, thuật ngữ, giai đoạn, danh mục 78 yêu cầu, 25 quy tắc, 12 quy trình, 21 màn hình, dữ liệu, sự kiện, API, 12 nhóm câu chuyện | Yêu cầu người dùng 08/10/2026; thiết kế SSO 0.1; khảo sát Okta, Microsoft Entra, MISA AMIS, Base.vn; đọc code VClinks và VCwiki |

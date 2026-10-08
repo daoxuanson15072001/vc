@@ -1,6 +1,6 @@
 # VC Home — Kế hoạch triển khai
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ có người làm)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ có người làm)
 
 ## Tóm tắt
 
@@ -15,9 +15,10 @@ Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ c
 | R4 | D: xin quyền, duyệt, rà soát | 22/01/2027 |
 | R5 | E: mở rộng | từ 22/02/2027, sau Tết |
 
-- **Khối lượng:** khoảng **470 giờ dev** cho A–D (420 giờ bản đầu, thêm 44 giờ cho 12 yêu cầu nhận ngày 08/10/2026 và 6 giờ công cụ kiểm thử).
-  - VC Home: 430 giờ.
-  - Sửa ở VClinks và VCwiki: 40 giờ.
+- **Khối lượng:** khoảng **485 giờ dev** cho A–D (420 giờ bản đầu, thêm 44 giờ cho 12 yêu cầu nhận ngày 08/10/2026, 6 giờ công cụ kiểm thử, 5 giờ điều kiện vào app ở GĐ A và 8 giờ VClinks chuyển phiên sang cookie).
+  - VC Home: 435 giờ.
+  - Kế hoạch code từng giai đoạn: GĐ A ở [thiết kế SSO](ky-thuat/thiet-ke-sso-keycloak.md); GĐ B, C, D ở [ky-thuat/ke-hoach-code-gd-b.md](ky-thuat/ke-hoach-code-gd-b.md), [gd-c](ky-thuat/ke-hoach-code-gd-c.md), [gd-d](ky-thuat/ke-hoach-code-gd-d.md).
+  - Sửa ở VClinks và VCwiki: 48 giờ.
   - Ước theo cách làm có Claude Code hỗ trợ như thiết kế SSO.
   - Nút thắt thật thường là đầu vào bên ngoài (dữ liệu HC-NS, quyết định, UAT), không phải tốc độ code.
 - **Nhân sự (đã chốt, [12](12-cau-hoi-rui-ro.md) mục 4):** 1 dev Platform toàn thời gian từ 02/11, giữ VC ID và VC Home, sau đó Gatekeeper. **Hạn có người: 30/10**; quá hạn thì R1 vẫn lên, R2–R4 dời sang sau Tết (từ 22/02/2027). Dev VClinks và dev VCwiki mỗi người khoảng 3 ngày ở GĐ C; HC-NS khoảng 5 ngày chuẩn bị dữ liệu.
@@ -60,7 +61,7 @@ Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ c
 - **Phạm vi:**
   - VH-AUT-01…07, 09; VH-HOM-01, 05, 06; VH-APP-01 (tệp tĩnh).
   - VH-INT-01 (claim GĐ A), VH-INT-04; VH-ADM-01 (nhật ký của VC ID), VH-ADM-04.
-- **Chi tiết kỹ thuật:** [ky-thuat/thiet-ke-sso-keycloak.md](ky-thuat/thiet-ke-sso-keycloak.md). Có 13 phiên SSO-00 … SSO-12, khoảng **60 giờ**.
+- **Chi tiết kỹ thuật:** [ky-thuat/thiet-ke-sso-keycloak.md](ky-thuat/thiet-ke-sso-keycloak.md). Có 13 phiên SSO-00 … SSO-12, khoảng **65 giờ** (thêm 5 giờ cho điều kiện vào app, D-BA-37, 38).
 - **Thứ tự:** VCwiki chuyển trước (22–24/10), VClinks sau mốc M1 (27–29/10).
 
 ### R2: GĐ B, hồ sơ và tổ chức (02/11 → 20/11/2026)
@@ -110,7 +111,9 @@ R2 có 3 tuần (khoảng 120 giờ của một người). Phần vượt dùng 
 | Cài đặt, xem phiên của mình | VH-ADM-05, VH-AUT-10 | 6 |
 | Yêu cầu nhận thêm: lịch ngày nghỉ (5); "cho phép xin" (2); tự trả quyền (3); duyệt nhiều yêu cầu (4); rà soát luật nửa năm (6); cảnh báo quyền không dùng (3); dải việc chờ (5) | VH-ORG-08, VH-APP-07, VH-ACC-09, VH-REQ-07, VH-REV-04, VH-ADM-06, VH-HOM-09 | 28 |
 | Test, UAT | — | 12 |
-| **Cộng** | | **116** |
+| **Cộng phần VC Home** | | **116** |
+| VClinks: chuyển phiên từ `localStorage` sang cookie httpOnly + chống CSRF (dev VClinks, D-BA-42) | — | 8 |
+| **Cộng** | | **124** |
 
 ### R5: GĐ E, mở rộng (từ 22/02/2027)
 
@@ -147,6 +150,7 @@ R2 có 3 tuần (khoảng 120 giờ của một người). Phần vượt dùng 
 
 | Mã | Việc | Ai | Hạn | Chặn |
 |---|---|---|---|---|
+| N0 | Bật bắt buộc xác thực 2 bước trong Google Admin (2 domain); danh sách loại trừ (hộp thư dùng chung, tài khoản dịch vụ, tài khoản thử) | Chủ dự án (admin Google) | 24/10 | R1 |
 | N1 | File Excel nhân sự và cơ cấu theo mẫu VH-IMP-01 | HC-NS | 30/10 | R2 (T4) |
 | N2 | HC-NS rà danh mục 10 chức năng khởi tạo (Q-02 đã chốt, [12](12-cau-hoi-rui-ro.md) mục 4.2) | HC-NS | 24/10 | Không chặn (dùng bản khởi tạo nếu chưa rà) |
 | N3 | Ghi tên người theo bảng chức vụ ở [12](12-cau-hoi-rui-ro.md) mục 4.3 (Q-07 đã chốt) | Chủ dự án | 24/10 | R2 |
@@ -175,7 +179,7 @@ R2 có 3 tuần (khoảng 120 giờ của một người). Phần vượt dùng 
 
 | Bản | Tiêu chí lên bản (tất cả phải đạt) | Chuyển đổi và quay lui |
 |---|---|---|
-| R1 | UAT-SSO-01…20 của thiết kế SSO đạt; sao lưu và khôi phục thử đạt; cảnh báo chạy | Cờ ở từng app (thiết kế SSO mục 10) |
+| R1 | UAT-SSO-01…23 của thiết kế SSO đạt; sao lưu và khôi phục thử đạt; cảnh báo chạy; **Google Admin bắt buộc xác thực 2 bước cho cả 2 domain**; chủ dự án duyệt danh sách loại trừ và danh sách "ai được vào app" do `vc-provisioner report` sinh ra; quy trình nghỉ việc trước GĐ C (thiết kế SSO mục 11.1) đã gửi HC-NS và IT | Cờ ở từng app (thiết kế SSO mục 10) |
 | R2 | Các ca UAT của GĐ B trong [11](11-uat.md) đạt; ≥ 98% nhân viên đang làm có hồ sơ đủ; báo cáo đối chiếu Google còn 0 lỗi mức cao; pháp chế duyệt N4 | App chưa dùng dữ liệu VC People; tắt được màn mới mà không ảnh hưởng đăng nhập |
 | R3 | Các ca UAT của GĐ C đạt; **chạy ngầm 1 tuần**: quyền tính từ luật khớp ≥ 98% với vai trò đang dùng thật ở VClinks, VCwiki, phần lệch đã được chủ app xác nhận; đối chiếu VC Home ↔ VC ID bằng 0 lệch; diễn tập nghỉ việc trên staging đạt ≤ 1 phút | Cờ `access_push` tắt thì VC ID giữ nhóm mặc định GĐ A; app có cờ dùng vai trò cũ trong 30 ngày đầu (Q-14) |
 | R4 | Các ca UAT của GĐ D đạt; thử đủ luồng duyệt 1 và 2 bước với người thật; thông báo tới đúng người | Tắt được việc xin quyền mà không ảnh hưởng quyền theo luật |
@@ -241,5 +245,6 @@ Bảng dưới là truy vết theo phân hệ.
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | R1 thêm điều kiện lên bản (2 bước bắt buộc, duyệt danh sách loại trừ, quy trình nghỉ việc tay); GĐ A 65 giờ; R4 thêm 8 giờ VClinks chuyển phiên sang cookie; tổng khoảng 485 giờ; thêm đầu vào N0; trỏ tới kế hoạch code GĐ B, C, D | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA) | Ghi quyết định nhân sự (1 dev Platform từ 02/11, hạn có người 30/10, phương án dời sau Tết); thêm giờ cho 12 yêu cầu mới (R2 +10, R3 +6, R4 +28) và công cụ kiểm thử (R2 +6), tổng khoảng 470 giờ; N2, N3, N9 đổi theo quyết định; thêm N10, N11; cập nhật ma trận truy vết; việc cần làm ngay | [12](12-cau-hoi-rui-ro.md) mục 4, 6; 04 mục 14 |
 | 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo kế hoạch: nguyên tắc chia bản, phạm vi và giờ theo bản (khoảng 420 giờ A–D), việc theo tuần tới R4, 9 đầu vào bên ngoài, nhân sự, tiêu chí lên bản có chạy ngầm, định nghĩa sẵn sàng và xong, ma trận truy vết | README bộ tài liệu 0.1; thiết kế SSO 0.1 mục 8 |

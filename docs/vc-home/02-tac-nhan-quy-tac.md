@@ -1,10 +1,10 @@
 # VC Home — Tác nhân, vai trò và quy tắc nghiệp vụ
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
-- **Tài liệu nói gì:** ai dùng VC Home, mỗi vai trò được làm gì trong chính VC Home (ma trận quyền), ai chịu trách nhiệm việc gì (RACI), và 25 quy tắc nghiệp vụ VH-BR áp cho mọi phân hệ.
+- **Tài liệu nói gì:** ai dùng VC Home, mỗi vai trò được làm gì trong chính VC Home (ma trận quyền), ai chịu trách nhiệm việc gì (RACI), và 26 quy tắc nghiệp vụ VH-BR áp cho mọi phân hệ.
 - **Vai trò của VC Home có hai loại:**
   - **Suy ra từ hồ sơ**, không ai gán tay: Nhân viên, Quản lý trực tiếp, Trưởng đơn vị.
   - **Gán làm vai trò app của chính VC Home** (VC Home cũng là một app trong danh mục): HC-NS, Quản trị hệ thống, Kiểm soát, Ban giám đốc. Chủ app được gán trong danh mục app.
@@ -276,6 +276,13 @@ Mọi ngày giờ lưu theo UTC, hiển thị và tính hiệu lực theo `Asia/
 - **Người thứ hai thay thế:** luôn có ít nhất 2 quản trị hệ thống (Q-07). Khi cả hai và chủ app đều vắng quá 2 ngày làm việc, chủ dự án duyệt thay.
 - **Lúc áp lệch bản đã duyệt:** khi áp, nếu số người bị ảnh hưởng lệch quá 20% so với bản xem trước đã duyệt thì phải xem trước và duyệt lại.
 
+### VH-BR-26 — Chỉ tài khoản cá nhân, đủ điều kiện mới vào app
+- **Có mail công ty chỉ là qua cổng.** Tài khoản Google công ty đăng nhập được VC Home (xem hồ sơ, danh bạ), nhưng **vào app** thì phải đủ điều kiện.
+- **Đủ điều kiện ở GĐ A–B** (trước khi quyền đi theo hồ sơ): tài khoản đang hoạt động trên Google, **đã bật xác thực 2 bước**, không nằm trong danh sách loại trừ. `vc-provisioner` cấp và gỡ nhóm app theo điều kiện này (thiết kế SSO mục 5.6).
+- **Từ GĐ C:** điều kiện là có hồ sơ VC People "Đang làm" (VH-BR-02); vẫn giữ điều kiện 2 bước và danh sách loại trừ.
+- **Danh sách loại trừ** (`directory_exclusions`; GĐ A là tệp `provisioner/loai-tru.yaml` của `vc-platform`): hộp thư dùng chung (`cskh@`, `kho@`…), tài khoản dịch vụ, tài khoản thử, tài khoản chưa rõ chủ. Các tài khoản này **không bao giờ** được vào app nghiệp vụ. Hộp thư chung chuyển thành nhóm thư Google; máy dùng token máy riêng của app.
+- Thêm hoặc bỏ một tài khoản khỏi danh sách loại trừ: quản trị hệ thống làm, ghi lý do, ghi nhật ký.
+
 ## 5. RACI theo quy trình
 
 Ký hiệu:
@@ -315,5 +322,6 @@ Hệ thống chặn các tổ hợp sau. Nếu một người buộc phải gi�
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | Thêm VH-BR-26: có mail công ty chỉ là qua cổng; vào app phải là tài khoản cá nhân đủ điều kiện (bật 2 bước, không thuộc danh sách loại trừ) | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Sửa VH-BR-09 (vai trò nhạy cảm tối đa 90 ngày), VH-BR-11 (nhập muộn), VH-BR-12 (chuyển người duyệt), VH-BR-16 (đơn vị không có trưởng, uỷ quyền, ngày nghỉ), VH-BR-25 (thay đổi hàng loạt, người duyệt thay, lệch > 20%); ma trận cho kiểm soát xem luật; RACI thêm VH-QT-01 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
 | 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo tài liệu: tác nhân, vai trò, ma trận quyền, 25 quy tắc, RACI, tách nhiệm | README bộ tài liệu 0.1 |

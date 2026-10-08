@@ -1,6 +1,6 @@
 # VC Home — Câu chuyện người dùng
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -77,7 +77,7 @@ Câu chuyện chỉ xong khi mọi tiêu chí đạt trên môi trường thử.
 
 | Mã | Nhóm | GĐ | Mục tiêu | Thước đo thành công (đề xuất) | Dải mã | Số câu chuyện |
 |---|---|---|---|---|---|---|
-| VH-E-01 | Đăng nhập một lần và đăng xuất chung | A | Một tài khoản Google công ty vào mọi app; đăng xuất một nơi là ra hết; khoá được ngay | 20/20 ca UAT-SSO đạt; khoá trên VC ID mất quyền ≤ 1 phút, khoá trên Google ≤ 65 phút; 0 tài khoản ngoài hai domain đăng nhập được | 001–020 | 9 |
+| VH-E-01 | Đăng nhập một lần và đăng xuất chung | A | Một tài khoản Google công ty vào mọi app; đăng xuất một nơi là ra hết; khoá được ngay | 23/23 ca UAT-SSO đạt; khoá trên VC ID mất quyền ≤ 1 phút, khoá trên Google ≤ 65 phút; 0 tài khoản ngoài hai domain đăng nhập được | 001–020 | 9 |
 | VH-E-02 | Trang chủ và chuyển app | A, B | Trang chủ là chỗ bắt đầu ngày làm việc; chuyển app một lần bấm | Sau 1 tháng ≥ 80% lượt mở VClinks, VCwiki đi qua VC Home hoặc thanh chuyển app; trang chủ hiện xong < 2 giây trên 4G; điểm truy cập Lighthouse ≥ 90 trên điện thoại | 021–040 | 8 |
 | VH-E-03 | Hồ sơ nhân sự và danh bạ | B | VC People là nguồn sự thật về "ai là ai"; ai cũng tìm được đồng nghiệp | 100% nhân viên đang làm có hồ sơ và vị trí chính trước 20/11/2026; ≤ 2% hồ sơ có đề nghị sửa trong tháng đầu; tìm danh bạ ≤ 1 giây | 041–060 | 9 |
 | VH-E-04 | Cơ cấu tổ chức | B | Một cây tổ chức chung cho mọi app; đổi cơ cấu có ngày hiệu lực | Màn nhập cây tổ chức của VClinks, VCwiki chuyển sang chỉ đọc trước 11/12/2026; 100% đơn vị đang hoạt động có trưởng đơn vị; 0 vòng trong cây | 061–080 | 7 |
@@ -133,7 +133,7 @@ Câu chuyện chỉ xong khi mọi tiêu chí đạt trên môi trường thử.
 - Cho trước tài khoản còn cờ khoá `google` / Khi quản trị bấm "Mở khoá" / Thì chỉ gỡ cờ khẩn cấp và báo "Đã gỡ khoá khẩn cấp. Tài khoản vẫn bị khoá vì: {lý do còn lại}."
 
 **VH-US-006 — Tiêu chí nghiệm thu**
-- Cho trước admin Google khoá một tài khoản / Khi job đồng bộ hằng giờ chạy / Thì trong ≤ 65 phút tài khoản bị khoá trên VC ID, mất phiên ở mọi app, nhóm quản trị nhận "[VC ID] Đã khoá {email}: tài khoản Google bị khoá lúc {hh:mm dd/mm}."
+- Cho trước admin Google khoá một tài khoản / Khi job đồng bộ (mỗi 15 phút) chạy / Thì trong ≤ 20 phút tài khoản bị khoá trên VC ID, mất phiên ở mọi app, nhóm quản trị nhận "[VC ID] Đã khoá {email}: tài khoản Google bị khoá lúc {hh:mm dd/mm}."
 - Cho trước Google trả số tài khoản ít hơn 50% lần trước / Khi job chạy / Thì job dừng, không khoá ai, nhóm quản trị nhận "[VC ID] Dừng đồng bộ: Google trả về {n} tài khoản, ít hơn 50% lần trước ({m}). Không khoá ai."
 - Cho trước tài khoản được mở lại trên Google / Khi job chạy / Thì VC ID không tự mở khoá, chỉ báo quản trị.
 
@@ -904,5 +904,6 @@ Các câu chuyện dưới đây **chưa có mã yêu cầu** ở README mục 5
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | VH-US khoá theo Google: ≤ 20 phút | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:30 | Claude Code (vai BA) | Thêm 12 câu chuyện cho 12 yêu cầu nhận thêm (VH-US-029, 050, 068, 069, 086, 107, 131, 170, 186, 208, 209, 227), mỗi câu chuyện 2–3 tiêu chí; thêm 12 dòng độ phủ (90/90); cập nhật phân bố; ghi kết quả xử lý mục 16. | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; 04 mục 14; 12 mục 4, 6 |
 | 0.1 | 08/10/2026 11:14 | Claude Code (vai BA) | Tạo tài liệu: cách đọc, 12 nhóm câu chuyện có mục tiêu, giai đoạn, thước đo; 88 câu chuyện VH-US kèm tiêu chí "Cho trước / Khi / Thì" đồng bộ câu chữ với 04 và 06; bảng độ phủ 78/78 yêu cầu; 7 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |
