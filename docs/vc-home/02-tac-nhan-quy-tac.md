@@ -91,7 +91,7 @@ Ký hiệu:
 | Xin quyền cho mình | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Xin quyền thay người dưới quyền | — | (p) | (p) | — | — | — | — | — |
 | Duyệt bước 1 (quản lý) | — | (p) | — | — | — | — | — | — |
-| Duyệt bước 2 (vai trò nhạy cảm) | — | — | — | — | — | (p) | — | — |
+| Duyệt bước 2 (vai trò nhạy cảm) | — | — | — | — | ✓ (chỉ khi người xin là chủ app của chính app đó, VH-BR-12) | (p) | — | — |
 | Xem quyền của người khác | — | (p) | (p) | — | ✓ | (p: app mình) | (đ) | — |
 | Rà soát (xác nhận, gỡ) | — | — | (p) | — | — | — | (đ) | — |
 | Danh mục app, URL, cấu hình | — | — | — | — | ✓ | (đ: app mình) | (đ) | — |

@@ -18,6 +18,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
   - E Mở rộng sang các app khác
   
   Lịch và khối lượng ở [10-ke-hoach-trien-khai.md](10-ke-hoach-trien-khai.md).
+- **Quy mô bộ tài liệu:** 13 file nghiệp vụ và 1 thiết kế kỹ thuật GĐ A, gồm 78 yêu cầu, 25 quy tắc, 12 quy trình, 21 màn hình, 27 collection, 11 sự kiện, 9 API, 88 câu chuyện người dùng, 59 ca UAT. Đã soát chéo toàn bộ mã và liên kết; 36 điểm lệch được BA trưởng chốt ở [12](12-cau-hoi-rui-ro.md) mục 5. Khi hai tài liệu ghi khác nhau thì theo mục đó.
 - **Việc còn mở:** 15 câu hỏi ở [12-cau-hoi-rui-ro.md](12-cau-hoi-rui-ro.md). Năm câu cần chốt trước khi bắt đầu GĐ B là Q-01, Q-02, Q-05, Q-06, Q-07.
 - **Người duyệt xem kỹ:**
   - tác động tới VClinks và VCwiki ([01](01-tam-nhin-pham-vi.md) mục 7);
@@ -284,18 +285,18 @@ Chi tiết và ví dụ ở [02-tac-nhan-quy-tac.md](02-tac-nhan-quy-tac.md) m�
 | VH-MH-05 | Ngăn gửi yêu cầu quyền | Mọi người | D |
 | VH-MH-06 | Danh bạ công ty | Mọi người | B |
 | VH-MH-07 | Sơ đồ tổ chức | Mọi người | B |
-| VH-MH-08 | Hộp duyệt (có ngăn Uỷ quyền) | Quản lý, chủ app | D |
+| VH-MH-08 | Hộp duyệt (có ngăn Uỷ quyền) | Quản lý, trưởng đơn vị (duyệt thay), chủ app, quản trị hệ thống (bước 2 thay), người được uỷ quyền | D |
 | VH-MH-09 | Đội của tôi | Quản lý, trưởng đơn vị | B (hồ sơ), C (quyền) |
 | VH-MH-10 | Rà soát quyền | Trưởng đơn vị | D |
 | VH-MH-11 | Quản trị: Nhân sự (ngăn Tài khoản: khoá, mở khoá, gắn lại — chỉ quản trị hệ thống) | HC-NS, quản trị hệ thống | B |
 | VH-MH-12 | Quản trị: Cơ cấu tổ chức | HC-NS | B |
 | VH-MH-13 | Quản trị: Danh mục (chức danh, chức năng, pháp nhân, nơi làm việc) | HC-NS | B |
 | VH-MH-14 | Quản trị: Nhập dữ liệu và đối chiếu | HC-NS, quản trị hệ thống | B |
-| VH-MH-15 | Quản trị: App và vai trò app | Quản trị hệ thống, chủ app | B (app), C (vai trò) |
+| VH-MH-15 | Quản trị: App và vai trò app | Quản trị hệ thống, chủ app, kiểm soát (chỉ đọc) | B (app), C (vai trò) |
 | VH-MH-16 | Quản trị: Luật cấp quyền và xem trước | Quản trị hệ thống, chủ app | C |
-| VH-MH-17 | Quản trị: Tra cứu quyền và báo cáo | Quản trị hệ thống, kiểm soát, chủ app; BGĐ và trưởng đơn vị xem báo cáo trong phạm vi | C |
+| VH-MH-17 | Quản trị: Tra cứu quyền và báo cáo | Quản trị hệ thống, kiểm soát, chủ app; BGĐ, trưởng đơn vị, HC-NS xem báo cáo trong phạm vi; ngoại lệ tách nhiệm quản lý ở đây | C |
 | VH-MH-18 | Quản trị: Đợt rà soát | Quản trị hệ thống, kiểm soát | D |
-| VH-MH-19 | Quản trị: Nhật ký | Quản trị hệ thống, kiểm soát | B |
+| VH-MH-19 | Quản trị: Nhật ký | Quản trị hệ thống, kiểm soát; HC-NS (hồ sơ) và chủ app (app mình) trong phạm vi | B |
 | VH-MH-20 | Quản trị: Cài đặt | Quản trị hệ thống | D |
 | VH-MH-21 | Thanh chuyển app (thành phần nằm trong từng app) | Mọi người | A |
 
@@ -377,4 +378,4 @@ VH-API-01…07 nằm trên VC Home API với tiền tố `/api/v1`. VH-API-08 l�
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo bộ tài liệu: khung chung, quy ước mã, thuật ngữ, giai đoạn, danh mục 78 yêu cầu, 25 quy tắc, 12 quy trình, 21 màn hình, dữ liệu, sự kiện, API, 12 nhóm câu chuyện | Yêu cầu người dùng 08/10/2026; thiết kế SSO 0.1; khảo sát Okta, Microsoft Entra, MISA AMIS, Base.vn; đọc code VClinks và VCwiki |
+| 0.1 | 08/10/2026 10:04 → 11:16 | Claude Code (vai BA trưởng, 5 người viết song song) | Tạo bộ tài liệu: khung chung, quy ước mã, thuật ngữ, giai đoạn, danh mục 78 yêu cầu, 25 quy tắc, 12 quy trình, 21 màn hình, dữ liệu, sự kiện, API, 12 nhóm câu chuyện | Yêu cầu người dùng 08/10/2026; thiết kế SSO 0.1; khảo sát Okta, Microsoft Entra, MISA AMIS, Base.vn; đọc code VClinks và VCwiki |

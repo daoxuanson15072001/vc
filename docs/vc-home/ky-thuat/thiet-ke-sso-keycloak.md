@@ -728,7 +728,7 @@ Mỗi file sửa theo quy định §13 của VClinks: tăng phiên bản một l
 ## 14. Để sau (không làm trong kế hoạch này)
 
 - **Ô app có số việc chờ:** mỗi app thêm `GET /api/vc-app/status` nhận access token của VC Home (thêm mapper `audience`), trả `{access: granted|pending, badges}`.
-- **Màn quản trị danh mục app và nhóm** trong VC Home thay cho sửa `apps.yaml` và màn quản trị Keycloak.
+- **Màn quản trị danh mục app và nhóm** trong VC Home thay cho sửa `apps.yaml` và màn quản trị Keycloak. Đã đưa vào lộ trình: danh mục app quản trị trên màn từ GĐ B (VH-APP-01), quyền và nhóm theo luật từ GĐ C (VH-ACC-01, 07).
 - **Danh bạ tổ chức một nguồn:** đồng bộ đơn vị và chức danh từ HR hoặc Google vào nhóm Keycloak (`/org/vcparts/to-ban-hang-1`…), hai app đọc để tự gán đơn vị. Đây là bước giải quyết ba cây tổ chức đang lệch nhau.
 - **Gatekeeper:** dùng cơ chế đổi token (Token Exchange, RFC 8693) của Keycloak để AI hành động thay người với quyền hẹp; bỏ bảng `identity_links` vì mọi app đã chung `sub`.
 - **Bán cho doanh nghiệp ngoài:** dùng tính năng Organizations của Keycloak, mỗi khách một tổ chức với Google hoặc Microsoft riêng.

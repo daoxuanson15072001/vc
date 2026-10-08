@@ -16,7 +16,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
   - RR-01: dữ liệu nhân sự đầu vào không đủ hoặc không sạch.
   - RR-02: thiếu dev làm VC Home toàn thời gian.
   - RR-03: hai app phải đổi mô hình tổ chức đang chạy.
-- **Sổ quyết định soát chéo** (mục 5): 29 điểm lệch giữa các tài liệu đã được BA trưởng chốt; khi tài liệu còn ghi khác thì theo mục 5.
+- **Sổ quyết định soát chéo** (mục 5): 36 điểm lệch giữa các tài liệu đã được BA trưởng chốt; khi tài liệu còn ghi khác thì theo mục 5.
 - **Người duyệt xem kỹ:** bảng câu hỏi ở mục 1, các rủi ro mức Cao ở mục 3, và mục 5.
 
 ## Mục lục
@@ -129,6 +129,13 @@ Bộ tài liệu do nhiều người viết song song. Khi soát chéo ngày 08/
 | D-BA-27 | Tạo sẵn tài khoản VC ID | Từ GĐ C, VC Home tạo sẵn user trên VC ID khi hồ sơ có hiệu lực, để có `sub` trong `vh.person.joined` và đẩy vai trò trước lần đăng nhập đầu | Thiết kế SSO mục 5.1.2 |
 | D-BA-28 | Nghỉ dài ngày | Không ghi lý do nghỉ (có thể là dữ liệu sức khoẻ) | 02 VH-BR-15, 05 |
 | D-BA-29 | Token chứa gì | C0, mã đơn vị và vai trò của chính app nhận token | 08 VH-NFR-07 |
+| D-BA-30 | Quản trị hệ thống ở bước 2 | Duyệt bước 2 thay chủ app khi người xin là chủ app của chính app đó | 02 ma trận mục 3 |
+| D-BA-31 | Tên nút trên hồ sơ | "Không nhận việc" (người mới không đến), "Nhận lại" (người đã nghỉ quay lại), "Đặt ngày nghỉ việc" | 04 VH-NSU-01, 04, VH-LCM-05 |
+| D-BA-32 | Nhãn nguồn quyền | "Luật", "Được duyệt", "Khẩn cấp" | 04 VH-HOM-03; 06; 09 |
+| D-BA-33 | Danh bạ khi nghỉ dài ngày | Hiện "Tạm vắng", không ghi ngày | 04 VH-LCM-04 |
+| D-BA-34 | Nơi xem báo cáo | Mọi người xem báo cáo (BGĐ, trưởng đơn vị, HC-NS, chủ app, kiểm soát) vào VH-MH-17 trong phạm vi của mình; VH-MH-09 chỉ tóm tắt đội | README mục 8, 04 VH-ADM-02 |
+| D-BA-35 | Người dùng các màn quản trị | VH-MH-08 thêm trưởng đơn vị, quản trị hệ thống, người được uỷ quyền; VH-MH-15 thêm kiểm soát (chỉ đọc); VH-MH-19 thêm HC-NS và chủ app trong phạm vi; ngoại lệ tách nhiệm quản lý ở VH-MH-17 | README mục 8 |
+| D-BA-36 | App `beta` | Được xin quyền như app `live` | 04 VH-REQ-01 |
 
 ## Lịch sử cập nhật
 
