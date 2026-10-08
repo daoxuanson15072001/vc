@@ -18,7 +18,7 @@ Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ �
   - E Mở rộng sang các app khác
   
   Lịch và khối lượng ở [10-ke-hoach-trien-khai.md](10-ke-hoach-trien-khai.md).
-- **Quy mô bộ tài liệu:** 13 file nghiệp vụ và 1 thiết kế kỹ thuật GĐ A, gồm 90 yêu cầu, 26 quy tắc, 12 quy trình, 21 màn hình, 28 collection, 13 sự kiện, 10 API, 100 câu chuyện người dùng, 59 ca UAT. Đã soát chéo toàn bộ mã và liên kết; 36 điểm lệch được BA trưởng chốt ở [12](12-cau-hoi-rui-ro.md) mục 5. Khi hai tài liệu ghi khác nhau thì theo mục đó.
+- **Quy mô bộ tài liệu:** 13 file nghiệp vụ, 1 thiết kế kỹ thuật GĐ A và 4 kế hoạch code (tổng quan, GĐ B, C, D), gồm 90 yêu cầu, 26 quy tắc, 12 quy trình, 21 màn hình, 28 collection, 13 sự kiện, 10 API, 100 câu chuyện người dùng, 59 ca UAT. Đã soát chéo toàn bộ mã và liên kết; 36 điểm lệch được BA trưởng chốt ở [12](12-cau-hoi-rui-ro.md) mục 5. Khi hai tài liệu ghi khác nhau thì theo mục đó.
 - **Quyết định:** cả 15 câu hỏi, 5 câu của thiết kế SSO và toàn bộ đề xuất bổ sung đã được chốt theo khuyến nghị BA (người dùng uỷ quyền ngày 08/10/2026), ghi ở [12-cau-hoi-rui-ro.md](12-cau-hoi-rui-ro.md) mục 4 và 6. **Việc còn mở** chỉ là đầu vào từ bên ngoài (máy chủ, DNS, Google Admin, file Excel của HC-NS) và người làm VC Home ([10](10-ke-hoach-trien-khai.md) mục 4, 5). Repo `vc` cần đổi sang private ngay (RR-13).
 - **Người duyệt xem kỹ:**
   - tác động tới VClinks và VCwiki ([01](01-tam-nhin-pham-vi.md) mục 7);
@@ -61,6 +61,10 @@ Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ �
 | [11-uat.md](11-uat.md) | Kịch bản UAT, dữ liệu thử | Kiểm thử, người dùng thử |
 | [12-cau-hoi-rui-ro.md](12-cau-hoi-rui-ro.md) | Quyết định đã chốt, giả định, rủi ro, xử lý đề xuất | Chủ dự án |
 | [ky-thuat/thiet-ke-sso-keycloak.md](ky-thuat/thiet-ke-sso-keycloak.md) | Thiết kế kỹ thuật GĐ A: Keycloak, VC Home, thay đổi theo file ở VClinks và VCwiki | Dev |
+| [ky-thuat/ke-hoach-code-tong-quan.md](ky-thuat/ke-hoach-code-tong-quan.md) | Khung chung kế hoạch code GĐ A–D: công nghệ, repo `vc-platform`, module theo giai đoạn, quy ước code, xác thực và phân quyền | Dev |
+| [ky-thuat/ke-hoach-code-gd-b.md](ky-thuat/ke-hoach-code-gd-b.md) | Kế hoạch code GĐ B (R2) theo phiên | Dev |
+| [ky-thuat/ke-hoach-code-gd-c.md](ky-thuat/ke-hoach-code-gd-c.md) | Kế hoạch code GĐ C (R3) theo phiên, gồm phần VClinks và VCwiki | Dev, đội app |
+| [ky-thuat/ke-hoach-code-gd-d.md](ky-thuat/ke-hoach-code-gd-d.md) | Kế hoạch code GĐ D (R4) theo phiên | Dev |
 
 **Đọc theo vai trò:**
 

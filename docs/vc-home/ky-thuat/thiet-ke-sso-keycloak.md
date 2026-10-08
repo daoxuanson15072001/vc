@@ -4,7 +4,7 @@ Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 và 6 đi�
 
 ## Tóm tắt
 
-- **Vị trí trong bộ tài liệu:** đây là thiết kế kỹ thuật của **GĐ A (bản R1)** trong bộ tài liệu VC Home ([../README.md](../README.md)). Yêu cầu nghiệp vụ, quy tắc và các giai đoạn B–E nằm ở các file `01`–`12`; khi lệch nhau thì bộ tài liệu nghiệp vụ thắng.
+- **Vị trí trong bộ tài liệu:** khung chung của mọi giai đoạn ở [ke-hoach-code-tong-quan.md](ke-hoach-code-tong-quan.md); đây là thiết kế kỹ thuật của **GĐ A (bản R1)** trong bộ tài liệu VC Home ([../README.md](../README.md)). Yêu cầu nghiệp vụ, quy tắc và các giai đoạn B–E nằm ở các file `01`–`12`; khi lệch nhau thì bộ tài liệu nghiệp vụ thắng.
 - **Tài liệu nói gì:** kế hoạch code đầy đủ để VClinks, VCwiki và các app sau này dùng chung một cửa đăng nhập. Nhân viên đăng nhập một lần bằng tài khoản Google Workspace công ty (`@vcprosperous.com`, `@vcpart.vn`), vào trang **VC Home** thấy lưới app mình được dùng, bấm app nào vào thẳng app đó.
 - **Kiến trúc:** Keycloak làm máy chủ định danh (gọi tắt **VC ID**) đứng giữa Google và các app. VC Home là trang tĩnh React + antd, không giữ phiên riêng. Các app là "app khách" theo chuẩn OpenID Connect (OIDC). Thêm một job nhỏ `vc-provisioner` đồng bộ trạng thái tài khoản từ Google.
 - **Nguyên tắc:** VC ID chỉ trả lời "người này là ai, được vào app nào". Quyền chi tiết (vai trò, kho, mức mật) **vẫn nằm trong từng app**. Token cho máy (MCP, thiết bị, extension, agent máy Zalo) **không đổi**.

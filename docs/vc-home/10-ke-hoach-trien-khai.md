@@ -160,6 +160,7 @@ R2 có 3 tuần (khoảng 120 giờ của một người). Phần vượt dùng 
 | N7 | Bảng ánh xạ mã đơn vị cũ của VClinks, VCwiki sang mã đơn vị mới | HC-NS + chủ app | 20/11 | R3 |
 | N8 | Bộ luật cấp quyền bản đầu | Chủ dự án + chủ app duyệt | 27/11 | R3 |
 | N9 | ~~Chốt Q-03, Q-08, Q-09~~ Đã chốt ngày 08/10/2026 | — | — | Không chặn |
+| N12 | Nâng máy chủ production lên 4 vCPU / 8 GB RAM, 80 GB SSD (D-BA-43) | Chủ dự án | 30/10 | R2 |
 | N10 | Có dev Platform toàn thời gian (RR-02) | Chủ dự án | 30/10 | R2–R4 |
 | N11 | Lịch ngày nghỉ năm 2027 của từng pháp nhân (VH-ORG-08) | HC-NS | 11/12 | R4 |
 

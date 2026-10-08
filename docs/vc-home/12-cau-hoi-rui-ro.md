@@ -20,7 +20,7 @@ Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt (người dùng u�
   - RR-01: dữ liệu nhân sự đầu vào không đủ hoặc không sạch.
   - RR-02: chưa có dev làm VC Home toàn thời gian.
   - RR-13: repo đang public.
-- **Sổ quyết định soát chéo** (mục 5): 42 điểm (36 điểm lệch giữa tài liệu và 6 điểm vá bảo mật D-BA-37…42) giữa các tài liệu đã được BA trưởng chốt; khi tài liệu còn ghi khác thì theo mục 5.
+- **Sổ quyết định soát chéo** (mục 5): 43 điểm (36 điểm lệch giữa tài liệu, 6 điểm vá bảo mật D-BA-37…42, nâng máy chủ D-BA-43) giữa các tài liệu đã được BA trưởng chốt; khi tài liệu còn ghi khác thì theo mục 5.
 - **Người duyệt xem kỹ:** mục 4 (quyết định), mục 6 (đề xuất để sau và không làm), các rủi ro mức Cao ở mục 3.
 
 ## Mục lục
@@ -189,6 +189,7 @@ Bộ tài liệu do nhiều người viết song song. Khi soát chéo ngày 08/
 | D-BA-40 | Nghỉ việc trước GĐ C | Quy trình tay 1 trang (thiết kế SSO 11.1); `vc-provisioner` chạy mỗi 15 phút (trước là mỗi giờ), khoá theo Google ≤ 20 phút | Thiết kế SSO 3.4, 5.6, 11; 03, 04, 07, 09, 11 |
 | D-BA-41 | VC ID một máy chủ | Giữ 1 máy cho tới GĐ D; giám sát và khôi phục thử là điều kiện R1; chạy 2 máy trước khi VCsale hoặc app vận hành khác nối vào | Thiết kế SSO 14; RR-07 |
 | D-BA-42 | Phiên VClinks trong `localStorage` | Chuyển sang cookie httpOnly, Secure, SameSite=Lax + chống CSRF; làm trong R4 (≤ 22/01/2027), trước khi nối VC AI | 10 R4; kế hoạch code GĐ D |
+| D-BA-43 | Máy chủ production từ GĐ B | Nâng từ 2 vCPU / 4 GB (Q2, đủ cho GĐ A) lên **4 vCPU / 8 GB RAM, 80 GB SSD trước R2**, vì từ GĐ B máy chạy thêm MongoDB và VC Home API. Chủ dự án duyệt chi phí | Kế hoạch code tổng quan mục 8; 10 mục 4 |
 
 ## 6. Xử lý các đề xuất bổ sung
 
@@ -247,6 +248,6 @@ Nhiều đề xuất trùng nhau giữa các tài liệu (ví dụ "báo trướ
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | Thêm D-BA-37…42 (6 điểm vá sau đánh giá bảo mật luồng đăng nhập); sửa SSO Q3 theo D-BA-37; RR-07 | Người dùng đồng ý 6 điểm vá ngày 08/10/2026 |
+| 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | Thêm D-BA-37…42 (6 điểm vá sau đánh giá bảo mật luồng đăng nhập) và D-BA-43 (nâng máy chủ trước R2); sửa SSO Q3 theo D-BA-37; RR-07 | Người dùng đồng ý 6 điểm vá ngày 08/10/2026 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA) | Chốt toàn bộ Q-01…Q-15, SSO Q1–Q5, người làm VC Home, repo public (mục 4, thêm 4.2 danh mục chức năng, 4.3 người giữ vai trò); đổi mục 1 thành "đã cân nhắc"; thêm mục 6 xử lý 89 đề xuất bổ sung; cập nhật RR-02, RR-13 và tóm tắt | Người dùng uỷ quyền BA chốt ngày 08/10/2026 ("không cần phải t quyết định nữa") |
 | 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo tài liệu: 15 câu hỏi có đề xuất và hạn, 14 rủi ro | README bộ tài liệu 0.1; câu hỏi người dùng 08/10/2026 |
