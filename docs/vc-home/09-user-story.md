@@ -770,7 +770,7 @@ Bảng dưới liệt kê **mọi** yêu cầu ở README mục 5 (78 mã) và c
 - Mọi mã yêu cầu dùng trong câu chuyện đều có trong README mục 5.
 - Ghi chú: README mục 5 ghi "Tổng: 75 yêu cầu (M: 44 · S: 25 · C: 5 · W: 1)" nhưng bảng thực có 78 dòng (M 45 · S 25 · C 7 · W 1). Bảng trên theo 78 dòng thực. Xem [06](06-man-hinh.md) mục 9.
 
-**Yêu cầu có nhiều câu chuyện** (vì có nhiều vai trò hoặc nhiều tình huống): .
+**Yêu cầu có nhiều câu chuyện** (vì có nhiều vai trò hoặc nhiều tình huống): VH-HOM-03 (023, 130), VH-NSU-03 (043, 145), VH-NSU-06 (046, 047), VH-ORG-05 (065, 066), VH-APP-05 (104, 163), VH-APP-06 (105, 143), VH-ACC-01 (121, 123), VH-ACC-03 (122, 123), VH-ACC-08 (129, 130), VH-REQ-02 (162, 163, 164, 165), VH-REV-01 (181, 185), VH-REV-02 (182, 183), VH-REV-03 (184, 185), VH-LCM-02 (142, 143), VH-LCM-03 (144, 145), VH-ADM-03 (223, 224), VH-IMP-01 (081, 082).
 
 ## 16. Đề xuất bổ sung (chưa cấp mã)
 
