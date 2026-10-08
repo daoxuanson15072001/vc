@@ -61,11 +61,12 @@ test('(4) Đăng xuất phía máy chủ: khoá phiên ở VC ID thì app nhận
   await page.goto(APP);
   await loginFakeGoogle(page, LAN);
   await expect(page.locator('#xin-chao')).toBeVisible();
-  const before = (await appState()).sessions.filter((s) => s.email === LAN).length;
-  expect(before).toBeGreaterThan(0);
   const u = (await findUser('vc', LAN))!;
+  // Đếm theo sub: app mẫu có thể còn phiên của user cùng email đã bị xoá ở lượt chạy trước.
+  const before = (await appState()).sessions.filter((s) => s.sub === u.id).length;
+  expect(before).toBeGreaterThan(0);
   await admin('POST', `/vc/users/${u.id}/logout`);
-  await expect.poll(async () => (await appState()).sessions.filter((s) => s.email === LAN).length, { timeout: 10_000 }).toBe(0);
+  await expect.poll(async () => (await appState()).sessions.filter((s) => s.sub === u.id).length, { timeout: 10_000 }).toBe(0);
   const ev = (await appState()).events.filter((e) => e.type === 'backchannel_logout');
   expect(ev.length).toBeGreaterThan(0);
   expect((await page.request.get(`${APP}/api/me`)).status()).toBe(401);

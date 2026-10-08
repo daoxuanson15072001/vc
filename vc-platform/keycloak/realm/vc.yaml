@@ -140,6 +140,8 @@ clients:
     secret: ${PROVISIONER_CLIENT_SECRET}
     standardFlowEnabled: false
     serviceAccountsEnabled: true
-    defaultClientScopes: [basic]
+    # Token máy phải mang vai trò realm-management (scope "roles"); client chỉ có các vai trò khai dưới đây
+    fullScopeAllowed: true
+    defaultClientScopes: [basic, roles]
     serviceAccountRoles:
       realm-management: [view-users, manage-users, query-groups, view-events]

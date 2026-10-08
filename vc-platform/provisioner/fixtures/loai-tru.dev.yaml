@@ -1,0 +1,4 @@
+# Danh sách loại trừ (D-BA-39, VH-BR-26): tài khoản không phải của một người thì không vào app.
+# Production: provisioner/loai-tru.yaml (GĐ A–B), từ GĐ B do VC Home API sinh từ collection directory_exclusions.
+loai_tru:
+  - { email: cskh.test@vcpart.vn, loai: hop_thu_chung, ly_do: Hộp thư CSKH dùng chung, nguoi_them: hung.qtht@vcprosperous.com }

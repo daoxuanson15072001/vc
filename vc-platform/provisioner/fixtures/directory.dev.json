@@ -1,0 +1,9 @@
+[
+  { "email": "lan.nguyen@vcprosperous.com", "id": "auto", "givenName": "Lan", "familyName": "Nguyễn Thị", "isEnrolledIn2Sv": true },
+  { "email": "binh.tran@vcpart.vn", "id": "auto", "givenName": "Bình", "familyName": "Trần Văn", "isEnrolledIn2Sv": true },
+  { "email": "hung.qtht@vcprosperous.com", "id": "auto", "givenName": "Hùng", "familyName": "Nguyễn", "isEnrolledIn2Sv": true },
+  { "email": "cskh.test@vcpart.vn", "id": "auto", "givenName": "CSKH", "familyName": "Hộp thư chung", "isEnrolledIn2Sv": true },
+  { "email": "moi.chua2buoc@vcprosperous.com", "id": "auto", "givenName": "Mới", "familyName": "Chưa bật 2 bước", "isEnrolledIn2Sv": false },
+  { "email": "da.nghi@vcprosperous.com", "id": "auto", "givenName": "Đã", "familyName": "Nghỉ", "isEnrolledIn2Sv": true, "suspended": true },
+  { "email": "nguoi.moi@vcpart.vn", "id": "auto", "givenName": "Người", "familyName": "Mới", "isEnrolledIn2Sv": true }
+]

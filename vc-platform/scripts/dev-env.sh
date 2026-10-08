@@ -15,3 +15,9 @@ export GIA_GOOGLE_SECRET=dev-gia-google-secret
 # Google thật chưa dùng ở dev (Google giả thay thế), nhưng vc.yaml đòi biến này
 export GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-chua-dung-o-dev}
 export GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-chua-dung-o-dev}
+# vc-provisioner ở dev: Directory giả từ tệp, nhóm app mặc định gồm cả app mẫu
+export DIRECTORY_MODE=file
+export DIRECTORY_FILE=${DIRECTORY_FILE:-fixtures/directory.dev.json}
+export EXCLUSIONS_FILE=${EXCLUSIONS_FILE:-fixtures/loai-tru.dev.yaml}
+export DEFAULT_APP_GROUPS=app-vclinks,app-vcwiki,app-app-mau
+export PROVISIONER_STATE_FILE=${PROVISIONER_STATE_FILE:-/tmp/vc-provisioner-state.dev.json}

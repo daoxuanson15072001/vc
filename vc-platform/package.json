@@ -13,6 +13,7 @@
     "test": "pnpm -r test",
     "ci:local": "pnpm typecheck && pnpm test",
     "e2e": "pnpm --filter @vc/e2e test:e2e",
-    "app-mau": "pnpm --filter @vc/app-mau start"
+    "app-mau": "pnpm --filter @vc/app-mau start",
+    "provisioner": "pnpm --filter @vc/provisioner start --"
   }
 }
