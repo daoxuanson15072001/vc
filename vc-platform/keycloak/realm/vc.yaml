@@ -93,6 +93,12 @@ authenticatorConfigs:
     provider: idp-review-profile
     alias: review profile config
     config: { update.profile.on.first.login: missing }
+  # Trang đăng nhập của VC ID chuyển thẳng sang Google: nhân viên không có mật khẩu ở VC ID, form mật khẩu vô dụng.
+  # Quản trị khẩn cấp đăng nhập ở realm master (id-admin.), không qua đây.
+  - flow: browser
+    provider: identity-provider-redirector
+    alias: chuyen thang google
+    config: { defaultProvider: google }
 
 clients:
   - clientId: vchome

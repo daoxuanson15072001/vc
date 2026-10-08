@@ -1,0 +1,8 @@
+# Danh sách loại trừ (D-BA-39, đầu vào I9): hộp thư dùng chung, tài khoản dịch vụ, tài khoản thử.
+# Người trong danh sách vẫn đăng nhập được VC ID nhưng không có nhóm app. Sửa xong: vc-provisioner tự đọc ở lượt sau.
+# loai: hop_thu_chung · dich_vu · thu · chua_ro_chu
+loai_tru: []
+#  - email: cskh@vcpart.vn
+#    loai: hop_thu_chung
+#    ly_do: Hộp thư CSKH dùng chung
+#    nguoi_them: hung.qtht@vcprosperous.com

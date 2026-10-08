@@ -29,6 +29,20 @@ export class KcAdmin {
     return this.auth.baseUrl.replace(/\/$/, '');
   }
 
+  /** Waits until Keycloak serves the auth realm (it answers 503 while it is still starting). */
+  async waitReady(timeoutMs = 180_000): Promise<void> {
+    const until = Date.now() + timeoutMs;
+    for (;;) {
+      const status = await fetch(`${this.baseUrl}/realms/${this.auth.authRealm ?? 'master'}`).then(
+        (r) => r.status,
+        () => 0,
+      );
+      if (status === 200) return;
+      if (Date.now() > until) throw new Error(`Keycloak ở ${this.baseUrl} chưa sẵn sàng sau ${timeoutMs / 1000} giây (lần cuối: ${status || 'không kết nối được'})`);
+      await new Promise((r) => setTimeout(r, 2000));
+    }
+  }
+
   private async getToken(): Promise<string> {
     if (this.token && this.token.exp - 30_000 > Date.now()) return this.token.value;
     const a = this.auth;

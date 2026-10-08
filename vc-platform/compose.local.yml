@@ -1,0 +1,8 @@
+# Chạy thử bản production trên máy dev: mở cổng ra localhost, không có cloudflared.
+#   docker compose --env-file scripts/local-prod.env -f compose.yml -f compose.local.yml up -d --build --scale cloudflared=0
+# id.vc.localhost và id-admin.vc.localhost tự trỏ về 127.0.0.1 trong trình duyệt và curl.
+services:
+  edge:
+    ports: ["127.0.0.1:8088:8080"]
+  home:
+    ports: ["127.0.0.1:8089:8080"]

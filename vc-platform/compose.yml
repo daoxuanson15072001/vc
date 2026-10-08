@@ -1,0 +1,170 @@
+# Production của VC ID và VC Home (thiết kế SSO mục 7). Bí mật đọc từ .env (quyền 600), mẫu ở .env.example.
+#   docker compose up -d --build                      chạy mọi dịch vụ
+#   docker compose run --rm realm-apply               áp keycloak/realm/vc.yaml (thêm --dry-run để xem trước)
+#   docker compose run --rm provisioner report        ai được vào app (I9)
+#   docker compose run --rm provisioner disable <email> --reason "…"
+#   docker compose exec backup backup.sh              sao lưu ngay; restore.sh: xem backup/restore.sh
+# Không mở cổng nào ra máy chủ: cloudflared nối Cloudflare với edge (id., id-admin.) và home (home.).
+name: vc-platform
+
+x-tools: &tools
+  build:
+    context: .
+    dockerfile: provisioner/Dockerfile
+    args: { NODE_IMAGE: "${NODE_IMAGE:-node:22-alpine}" }
+  image: vc-tools:${VC_TOOLS_TAG:-latest}
+  networks: [vc]
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: ${KC_DB_PASSWORD:?Thiếu KC_DB_PASSWORD trong .env}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    networks: [vc]
+
+  keycloak:
+    build:
+      context: keycloak
+      args: { KEYCLOAK_IMAGE: "${KEYCLOAK_IMAGE:-quay.io/keycloak/keycloak:26.7.5}" }
+    image: vc-keycloak:26.7.5
+    restart: unless-stopped
+    depends_on: { postgres: { condition: service_healthy } }
+    environment:
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+      KC_HOSTNAME: ${KC_HOSTNAME:-https://id.vcprosperous.com}
+      KC_HOSTNAME_ADMIN: ${KC_HOSTNAME_ADMIN:-https://id-admin.vcprosperous.com}
+      # Công cụ trong mạng compose gọi http://keycloak:8080 (Admin API, đổi token).
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY_HEADERS: xforwarded
+      KC_PROXY_TRUSTED_ADDRESSES: 10.89.0.0/24
+      # Chỉ dùng ở lần khởi động đầu: tạo client quản trị tạm để realm-apply chạy; sau khi có 2 admin khẩn cấp (I5)
+      # thì đổi sang client riêng và xoá client tạm (README mục Lên production).
+      KC_BOOTSTRAP_ADMIN_CLIENT_ID: ${KC_ADMIN_CLIENT_ID:-vc-bootstrap}
+      KC_BOOTSTRAP_ADMIN_CLIENT_SECRET: ${KC_ADMIN_CLIENT_SECRET:?Thiếu KC_ADMIN_CLIENT_SECRET trong .env}
+      JAVA_OPTS_KC_HEAP: -Xms512m -Xmx1024m
+      TZ: Asia/Ho_Chi_Minh
+      # Theme vc: đường về VC Home trên trang đã đăng xuất, trang lỗi.
+      VCHOME_URL: ${VCHOME_URL:-https://home.vcprosperous.com}
+    networks: [vc]
+
+  edge:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on: [keycloak]
+    environment:
+      KC_PUBLIC_HOST: ${KC_PUBLIC_HOST:-id.vcprosperous.com}
+      KC_ADMIN_HOST: ${KC_ADMIN_HOST:-id-admin.vcprosperous.com}
+      VCHOME_URL: ${VCHOME_URL:-https://home.vcprosperous.com}
+    volumes: [./edge/templates:/etc/nginx/templates:ro]
+    networks: [vc]
+
+  home:
+    build:
+      context: .
+      dockerfile: home/Dockerfile
+      args: { NODE_IMAGE: "${NODE_IMAGE:-node:22-alpine}", VCLINKS_URL: "${VCLINKS_URL:-}", VCWIKI_URL: "${VCWIKI_URL:-}" }
+    image: vc-home:${VC_HOME_TAG:-latest}
+    restart: unless-stopped
+    environment:
+      VC_ID_ISSUER: ${KC_HOSTNAME:-https://id.vcprosperous.com}/realms/vc
+      VCHOME_SUPPORT_EMAIL: ${VCHOME_SUPPORT_EMAIL:-it@vcprosperous.com}
+      COMPANY_DOMAINS: ${COMPANY_DOMAINS:-vcprosperous.com,vcpart.vn}
+    networks: [vc]
+
+  provisioner:
+    <<: *tools
+    restart: unless-stopped
+    depends_on: [keycloak]
+    command: ["provisioner", "loop"]
+    environment:
+      KC_URL: http://keycloak:8080
+      PROVISIONER_CLIENT_SECRET: ${PROVISIONER_CLIENT_SECRET:?Thiếu PROVISIONER_CLIENT_SECRET trong .env}
+      # Tuần đầu để trống (chỉ chạy thử, ghi log việc sẽ làm); đặt "apply" khi chủ dự án đã duyệt báo cáo I9.
+      PROVISIONER_MODE: ${PROVISIONER_MODE:-}
+      PROVISIONER_INTERVAL_MIN: ${PROVISIONER_INTERVAL_MIN:-15}
+      PROVISIONER_STATE_FILE: /state/state.json
+      DIRECTORY_MODE: google
+      GOOGLE_SA_KEY_FILE: /run/secrets/google-directory.json
+      GOOGLE_ADMIN_SUBJECT: ${GOOGLE_ADMIN_SUBJECT:-}
+      GOOGLE_WORKSPACES: ${GOOGLE_WORKSPACES:-vcprosperous.com,vcpart.vn}
+      COMPANY_DOMAINS: ${COMPANY_DOMAINS:-vcprosperous.com,vcpart.vn}
+      DEFAULT_APP_GROUPS: ${DEFAULT_APP_GROUPS:-app-vclinks,app-vcwiki}
+      EXCLUSIONS_FILE: /config/loai-tru.yaml
+      ALERT_WEBHOOK_URL: ${ALERT_WEBHOOK_URL:-}
+    volumes:
+      - provisioner-state:/state
+      # config/: loai-tru.yaml (trong git). secrets/: google-directory.json (đầu vào I4, quyền 600, không vào git).
+      - ${CONFIG_DIR:-./config}:/config:ro
+      - ${SECRETS_DIR:-./secrets}:/run/secrets:ro
+
+  realm-apply:
+    <<: *tools
+    profiles: [tools]
+    depends_on: [keycloak]
+    command: ["realm-apply", "--file", "/app/keycloak/realm/vc.yaml"]
+    environment:
+      KC_URL: http://keycloak:8080
+      KC_ADMIN_CLIENT_ID: ${KC_ADMIN_CLIENT_ID:-vc-bootstrap}
+      KC_ADMIN_CLIENT_SECRET: ${KC_ADMIN_CLIENT_SECRET}
+      KC_SSL_REQUIRED: ${KC_SSL_REQUIRED:-external}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      VCHOME_URL: ${VCHOME_URL:-https://home.vcprosperous.com}
+      VCLINKS_URL: ${VCLINKS_URL:-https://vclink.tramaphutung.com}
+      VCWIKI_URL: ${VCWIKI_URL:-https://vcwiki.tramaphutung.com}
+      VCLINKS_CLIENT_SECRET: ${VCLINKS_CLIENT_SECRET:-}
+      VCWIKI_CLIENT_SECRET: ${VCWIKI_CLIENT_SECRET:-}
+      PROVISIONER_CLIENT_SECRET: ${PROVISIONER_CLIENT_SECRET}
+
+  backup:
+    build: backup
+    image: vc-backup:latest
+    restart: unless-stopped
+    depends_on: { postgres: { condition: service_healthy } }
+    environment:
+      PGHOST: postgres
+      PGUSER: keycloak
+      PGPASSWORD: ${KC_DB_PASSWORD}
+      PGDATABASE: keycloak
+      BACKUP_HOUR: ${BACKUP_HOUR:-2}
+      BACKUP_KEEP_DAILY: ${BACKUP_KEEP_DAILY:-14}
+      BACKUP_KEEP_MONTHLY: ${BACKUP_KEEP_MONTHLY:-6}
+      BACKUP_RCLONE_REMOTE: ${BACKUP_RCLONE_REMOTE:-}
+      # Cấu hình nơi lưu ngoài máy (tạo bằng `rclone config`), đặt ở secrets/rclone.conf.
+      RCLONE_CONFIG: /run/secrets/rclone.conf
+      ALERT_WEBHOOK_URL: ${ALERT_WEBHOOK_URL:-}
+    volumes:
+      - ${BACKUP_PATH:-./backups}:/backups
+      - ${SECRETS_DIR:-./secrets}:/run/secrets:ro
+    networks: [vc]
+
+  cloudflared:
+    image: cloudflare/cloudflared:2025.9.1
+    restart: unless-stopped
+    command: ["tunnel", "--no-autoupdate", "run"]
+    environment:
+      # Tunnel quản lý trên Cloudflare (I2): id. và id-admin. → http://edge:8080, home. → http://home:8080
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?Thiếu CLOUDFLARE_TUNNEL_TOKEN trong .env}
+    depends_on: [edge, home]
+    networks: [vc]
+
+volumes:
+  pgdata:
+  provisioner-state:
+
+networks:
+  vc:
+    ipam:
+      config: [{ subnet: 10.89.0.0/24 }]

@@ -194,7 +194,10 @@ try {
     case 'loop': {
       const minutes = Number(env.PROVISIONER_INTERVAL_MIN ?? 15);
       for (;;) {
-        await sync(apply, false).catch((e) => notify([`vc-provisioner lỗi: ${(e as Error).message}`]));
+        await kc
+          .waitReady(60_000)
+          .then(() => sync(apply, false))
+          .catch((e) => notify([`vc-provisioner lỗi: ${(e as Error).message}`]));
         await new Promise((r) => setTimeout(r, minutes * 60_000));
       }
     }

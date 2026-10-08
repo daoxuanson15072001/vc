@@ -1,6 +1,8 @@
 # VC Home: build SPA và catalog.json, phục vụ bằng nginx. Ngữ cảnh build: thư mục gốc vc-platform.
 #   docker build -f home/Dockerfile -t vc-home .
-FROM node:22-alpine AS build
+# NODE_IMAGE: đổi sang bản sao trong kho nội bộ nếu máy build không ra được Docker Hub.
+ARG NODE_IMAGE=node:22-alpine
+FROM ${NODE_IMAGE} AS build
 RUN corepack enable
 WORKDIR /src
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./

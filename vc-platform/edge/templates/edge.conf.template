@@ -1,0 +1,61 @@
+# Cổng vào VC ID (thiết kế SSO mục 5.7). cloudflared gửi id. và id-admin. tới đây.
+# - id.: chỉ mở đường dẫn người dùng và app cần (/realms/<realm>/, /resources/); không mở /admin, realm master.
+# - id-admin.: màn quản trị, đặt sau Cloudflare Access (cấu hình trên Cloudflare, xem README).
+# Biến: KC_PUBLIC_HOST, KC_ADMIN_HOST, VCHOME_URL.
+
+map $http_x_forwarded_proto $vc_proto {
+    default $http_x_forwarded_proto;
+    ""      $scheme;
+}
+
+upstream keycloak {
+    server keycloak:8080;
+    keepalive 16;
+}
+
+server {
+    listen 8080 default_server;
+    server_name _;
+    return 444;
+}
+
+server {
+    listen 8080;
+    server_name ${KC_PUBLIC_HOST};
+    server_tokens off;
+    client_max_body_size 1m;
+    include /etc/nginx/conf.d/keycloak-proxy.inc;
+
+    location = / {
+        return 302 ${VCHOME_URL}/;
+    }
+    location = /robots.txt {
+        add_header Content-Type text/plain;
+        return 200 "User-agent: *\nDisallow: /\n";
+    }
+    # Realm master chỉ dành cho quản trị khẩn cấp, đi qua id-admin.
+    location /realms/master/ {
+        return 404;
+    }
+    location /realms/ {
+        proxy_pass http://keycloak;
+    }
+    location /resources/ {
+        proxy_pass http://keycloak;
+    }
+    location / {
+        return 404;
+    }
+}
+
+server {
+    listen 8080;
+    server_name ${KC_ADMIN_HOST};
+    server_tokens off;
+    client_max_body_size 10m;
+    include /etc/nginx/conf.d/keycloak-proxy.inc;
+
+    location / {
+        proxy_pass http://keycloak;
+    }
+}

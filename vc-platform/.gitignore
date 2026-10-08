@@ -10,3 +10,6 @@ playwright-report/
 test-results/
 .nginx-local/
 home/public/catalog.json
+.local-prod/
+backups/
+secrets/

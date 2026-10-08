@@ -89,7 +89,34 @@ test('Gmail cá nhân bị chặn ở VC ID với câu tiếng Việt, không t�
   await page.goto(APP);
   await loginFakeGoogle(page, GMAIL);
   await expect(page.getByText('Tài khoản này không thuộc công ty')).toBeVisible();
+  // Trang lỗi của theme vc (thiết kế SSO 5.1.6): nút chọn tài khoản khác, thời điểm để báo IT.
+  await expect(page.getByRole('link', { name: 'Chọn tài khoản khác' })).toBeVisible();
+  await expect(page.locator('#vc-thoi-diem')).toHaveText(/^Thời điểm: \d{2}:\d{2} \d{2}\/\d{2}\/\d{4}/);
   expect(await findUser('vc', GMAIL)).toBeUndefined();
+});
+
+test('Trang đăng nhập VC ID chuyển thẳng sang Google, không có form mật khẩu', async ({ page }) => {
+  const q = new URLSearchParams({
+    client_id: 'vchome',
+    redirect_uri: `${process.env.VCHOME_URL ?? 'http://localhost:5173'}/callback`,
+    response_type: 'code',
+    scope: 'openid',
+    code_challenge: 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM',
+    code_challenge_method: 'S256',
+  });
+  await page.goto(`${KC}/realms/vc/protocol/openid-connect/auth?${q}`);
+  await expect(page).toHaveURL(/\/realms\/gia-google\//);
+});
+
+test('Đăng xuất thẳng ở VC ID (không có app gửi về): "Bạn đã đăng xuất." và link về VC Home', async ({ page }) => {
+  await page.goto(APP);
+  await loginFakeGoogle(page, LAN);
+  await expect(page.locator('#xin-chao')).toBeVisible();
+  await page.goto(`${KC}/realms/vc/protocol/openid-connect/logout`);
+  await page.locator('#kc-logout').click();
+  await expect(page.getByRole('heading', { name: 'Bạn đã đăng xuất.' })).toBeVisible();
+  await expect(page.getByText('Phiên ở VC Home, VClinks, VCwiki và các ứng dụng khác đã đóng.')).toBeVisible();
+  await expect(page.getByRole('link', { name: '« Về VC Home' })).toHaveAttribute('href', process.env.VCHOME_URL ?? 'http://localhost:5173');
 });
 
 test('(8) Tạo sẵn user có liên kết Google: đăng nhập vào thẳng user đó, không tạo user mới', async ({ page }) => {

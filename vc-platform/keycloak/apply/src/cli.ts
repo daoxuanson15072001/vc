@@ -23,8 +23,10 @@ if (!files.length) {
 }
 
 const spec = loadSpec(files);
-const applier = new RealmApplier(new KcAdmin(kcAuthFromEnv()), spec, values['dry-run'], values['force-secrets']);
+const kc = new KcAdmin(kcAuthFromEnv());
+const applier = new RealmApplier(kc, spec, values['dry-run'], values['force-secrets']);
 try {
+  await kc.waitReady();
   const log = await applier.run();
   const changes = log.filter((l) => l.action !== 'giu');
   for (const l of values.quiet ? changes : log) console.log(`${LABEL[l.action]}  ${l.what}`);

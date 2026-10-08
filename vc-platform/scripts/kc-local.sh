@@ -23,4 +23,5 @@ ln -sfn "$ROOT/keycloak/themes/vc" "$KC_HOME/themes/vc"
 
 export KC_BOOTSTRAP_ADMIN_USERNAME="${KC_ADMIN_USER:-admin}"
 export KC_BOOTSTRAP_ADMIN_PASSWORD="${KC_ADMIN_PASSWORD:-admin-dev-only}"
+export VCHOME_URL="${VCHOME_URL:-http://localhost:5173}"  # theme vc: link về VC Home
 exec "$KC_HOME/bin/kc.sh" start-dev --http-port="${KC_PORT:-8180}" --http-management-port="${KC_MGMT_PORT:-9100}" --health-enabled=true
