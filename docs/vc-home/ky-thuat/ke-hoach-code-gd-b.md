@@ -1,6 +1,6 @@
 # Kế hoạch code GĐ B: hồ sơ và tổ chức (R2)
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -669,6 +669,8 @@ Cách chọn cho D-BA-37: **VC Home API cấp lại tệp**. VC Home API ghi `lo
 | `provisioner/src/sync.ts` | Khi khoá theo Google: thêm `google` vào thuộc tính `vc_khoa`; lệnh `disable` thêm `khan_cap`, `enable` chỉ gỡ `khan_cap`; không bật user khi `vc_khoa` còn phần tử; bỏ cảnh báo "Google hoạt động lại" khi `vc_khoa` không có `google` | B-08 |
 | `compose.yml` | Volume `vchome-shared` gắn ghi vào `api`, chỉ đọc vào `provisioner` | B-16 |
 
+Từ GĐ C, `vc-provisioner` còn gửi trạng thái Google mỗi 15 phút sang VC Home API (kế hoạch GĐ C mục 8.2); `accounts.google_status` nhận bản có `checked_at` mới hơn từ job `google.reconcile` hoặc từ `vc-provisioner`.
+
 Điều kiện vào app ở GĐ B **giữ như GĐ A**: tài khoản đang hoạt động trên Google, đã bật 2 bước, không thuộc danh sách loại trừ (VH-BR-26). Từ GĐ C điều kiện chuyển sang VC Home API.
 
 ### 8.3 VClinks và VCwiki
@@ -940,4 +942,5 @@ Mọi yêu cầu của GĐ B có ít nhất một phiên. Ba yêu cầu mức S 
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.2 | 08/10/2026 14:28 | Claude Code (vai BA trưởng, soát chéo) | Soát chéo với GĐ C, D: ghi chú hai nguồn ghi `google_status` từ GĐ C | Soát chéo 3 kế hoạch code ngày 08/10/2026; [12](../12-cau-hoi-rui-ro.md) D-BA-44…48 |
 | 0.1 | 08/10/2026 14:07 | Claude Code (vai trưởng nhóm kỹ thuật) | Tạo kế hoạch code GĐ B: phạm vi, điều kiện, thiết kế module và luồng, 22 giả định kỹ thuật, dữ liệu, API nội bộ và API cho app, quyền `@Can`, job, giao diện, thay đổi ở VC ID và `vc-provisioner`, 25 phiên 142 giờ, kiểm thử và ca UAT, lên bản và quay lui, rủi ro, truy vết | [Khung chung](ke-hoach-code-tong-quan.md) 0.1; README, 02, 04 (gồm mục 14), 05, 06, 07, 08, 10, 11, 12 bản ngày 08/10/2026; [thiết kế SSO](thiet-ke-sso-keycloak.md) 0.4 |

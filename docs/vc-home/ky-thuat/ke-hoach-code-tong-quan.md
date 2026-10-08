@@ -1,11 +1,11 @@
 # Kế hoạch code VC Home: khung chung GĐ A–D
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
 
 ## Tóm tắt
 
 - **Tài liệu nói gì:** khung chung để code VC Home từ GĐ A tới GĐ D: công nghệ đã chọn, cấu trúc repo `vc-platform`, các module của VC Home API và giai đoạn thêm từng module, quy ước code dùng chung (lỗi, thời gian, nhật ký, mức mật, đồng thời), cách xác thực và phân quyền, môi trường, kiểm thử, cách chia phiên làm việc.
-- **Bộ kế hoạch code gồm 4 phần:** GĐ A ở [thiet-ke-sso-keycloak.md](thiet-ke-sso-keycloak.md) (65 giờ). GĐ B ở [ke-hoach-code-gd-b.md](ke-hoach-code-gd-b.md) (142 giờ). GĐ C ở [ke-hoach-code-gd-c.md](ke-hoach-code-gd-c.md) (112 giờ VC Home + 40 giờ hai app). GĐ D ở [ke-hoach-code-gd-d.md](ke-hoach-code-gd-d.md) (116 giờ VC Home + 8 giờ VClinks). Tổng khoảng **483 giờ**, khớp [10](../10-ke-hoach-trien-khai.md).
+- **Bộ kế hoạch code gồm 4 phần:** GĐ A ở [thiet-ke-sso-keycloak.md](thiet-ke-sso-keycloak.md) (65 giờ). GĐ B ở [ke-hoach-code-gd-b.md](ke-hoach-code-gd-b.md) (142 giờ). GĐ C ở [ke-hoach-code-gd-c.md](ke-hoach-code-gd-c.md) (112 giờ VC Home + 40 giờ hai app). GĐ D ở [ke-hoach-code-gd-d.md](ke-hoach-code-gd-d.md) (116 giờ VC Home + 10 giờ VClinks). Tổng **485 giờ**, khớp [10](../10-ke-hoach-trien-khai.md).
 - **Quyết định kỹ thuật chính:**
   - VC Home API dùng **cùng stack với VClinks**: NestJS 10, TypeScript, driver MongoDB gốc (không mongoose), zod, jest + mongodb-memory-server + supertest. Đội không phải học thêm.
   - MongoDB 7 chạy **replica set một node** để có transaction: ghi dữ liệu, nhật ký và sự kiện trong cùng một transaction (mẫu outbox).
@@ -51,7 +51,7 @@ flowchart LR
   A["GĐ A · R1 31/10<br/>VC ID, VC Home tĩnh<br/>provisioner, 2 app nối SSO<br/>65 giờ"]
   B["GĐ B · R2 20/11<br/>VC Home API, VC People<br/>cơ cấu, danh bạ, nhập Excel<br/>142 giờ"]
   C["GĐ C · R3 11/12<br/>vai trò app, luật, quyền<br/>vòng đời, sự kiện, đẩy VC ID<br/>112 + 40 giờ"]
-  D["GĐ D · R4 22/01/2027<br/>xin, duyệt, rà soát<br/>thông báo, cài đặt<br/>116 + 8 giờ"]
+  D["GĐ D · R4 22/01/2027<br/>xin, duyệt, rà soát<br/>thông báo, cài đặt<br/>116 + 10 giờ"]
   E["GĐ E · từ 22/02/2027<br/>VCsale, VCgarage, VC AI…"]
   A --> B --> C --> D --> E
 ```
@@ -61,8 +61,8 @@ flowchart LR
 | A | R1 | 13/10 → 31/10/2026 | 65 | (trong 65) | Dev002 + Claude Code | I1–I9 của thiết kế SSO |
 | B | R2 | 02/11 → 20/11/2026 | 142 | 0 | Dev Platform + Claude Code | R1 lên; có dev Platform (N10); máy chủ đã nâng (D-BA-43); N1, N3 |
 | C | R3 | 23/11 → 11/12/2026 | 112 | 40 | Dev Platform; dev VClinks, dev VCwiki mỗi người khoảng 3 ngày | R2 lên; N6, N7, N8 |
-| D | R4 | 14/12/2026 → 22/01/2027 | 116 | 8 | Dev Platform; dev VClinks 1 ngày | R3 lên và chạy thật ≥ 1 tuần; N11 |
-| | | | **435** | **48** | | Tổng khoảng **483 giờ** |
+| D | R4 | 14/12/2026 → 22/01/2027 | 116 | 10 | Dev Platform; dev VClinks khoảng 1,5 ngày | R3 lên; N11. Bật cờ R4 khi R3 đã chạy thật ≥ 1 tuần |
+| | | | **435** | **50** | | Tổng **485 giờ** |
 
 Không có dev Platform trước 30/10 thì R1 vẫn lên, B–D dời sang sau Tết, giữ nguyên thứ tự (12 mục 4).
 
@@ -82,7 +82,7 @@ Không có dev Platform trước 30/10 thì R1 vẫn lên, B–D dời sang sau 
 | Test | jest + `mongodb-memory-server` (chế độ replica set) + supertest; Playwright cho SPA | Cùng VClinks |
 | Quản lý gói | pnpm workspace | Cùng VClinks |
 
-Collection kỹ thuật bắt đầu bằng `_` (`_job_locks`, `_migrations`) không phải dữ liệu nghiệp vụ nên không có trong README mục 9.
+Collection kỹ thuật bắt đầu bằng `_` không phải dữ liệu nghiệp vụ nên không có trong README mục 9: `_job_locks`, `_migrations` (GĐ B); `_recompute_queue`, `_idsync_queue`, `_email_outbox`, `_grant_blocks` (GĐ C); `_job_state` (GĐ D).
 
 ## 4. Cấu trúc repo vc-platform
 
@@ -180,9 +180,16 @@ Mỗi module chỉ ghi vào collection của mình. Module khác cần thì gọ
 
 **Guard theo ma trận 02 mục 3:** mỗi ô của ma trận là một quyền có tên trong `packages/contracts/permissions.ts`, ví dụ `nhan_su.sua`, `luat.duyet_buoc_hai`. Controller khai `@Can('nhan_su.sua')`; service kiểm thêm phạm vi (pháp nhân, cây dưới quyền, app của mình). Bảng quyền có test sinh từ ma trận: mỗi ô "—" phải trả 403.
 
+**Hai nhóm đường dẫn** (chốt ở kế hoạch GĐ B mục 5.1):
+- API cho app, chỉ nhận token máy: `/api/v1/people…`, `/api/v1/org-units…`, `/api/v1/catalogs/…`, `/api/v1/apps/{app_key}/grants|roles|events` (GĐ C).
+- API nội bộ cho SPA, chỉ nhận token người dùng: mọi đường khác (`/me`, `/directory`, `/org-chart`, `/my-team`, `/requests`, `/approvals`, `/delegations`, `/reviews`, `/notifications`, `/accounts/{sub}/sessions`, `/admin/…`). Hành động là đường con (`…/decide`), không dùng dấu `:`.
+- API máy nội bộ: `/api/v1/internal/…` (GĐ C, `vc-provisioner` gửi trạng thái Google).
+
+**Trạng thái Google của tài khoản** (`accounts.google_status`): GĐ B do job `google.reconcile` ghi; từ GĐ C thêm `vc-provisioner` gửi mỗi 15 phút. Bản có `checked_at` mới hơn thắng.
+
 **App gọi VC Home API (VH-API):** token máy của client `<app>-service` (client credentials), scope `vh.people.read`, `vh.grants.read` (07 mục 4). Guard riêng `@AppScope('vh.people.read')`; app chỉ đọc được dữ liệu C0 cộng mã đơn vị, và quyền của chính app mình.
 
-**VC Home API gọi VC ID:** client `vc-home-api` (service account) với vai trò `manage-users`, `view-users`, `query-groups`, `manage-clients` giới hạn ở realm `vc`. Khai trong `keycloak/realm/vc.yaml`, bí mật trong `.env` máy chủ.
+**VC Home API gọi VC ID:** client `vc-home-api` (service account) ở realm `vc`, vai trò `realm-management`: `view-users`, `manage-users`, `query-groups`, `view-events`, `view-clients` từ GĐ B; thêm `manage-clients` từ GĐ C (client role của app). Khai trong `keycloak/realm/vc.yaml`, bí mật trong `.env` máy chủ.
 
 ## 8. Môi trường, cấu hình và triển khai
 
@@ -203,7 +210,10 @@ OIDC_ISSUER=https://id.vcprosperous.com/realms/vc
 OIDC_AUDIENCE=vchome-api
 KC_ADMIN_CLIENT_ID=vc-home-api      KC_ADMIN_CLIENT_SECRET=…
 CLOCK_MODE=real|fake
-FEATURE_IMPORT=on  FEATURE_GRANTS=off  FEATURE_GRANTS_PUSH=off  FEATURE_EVENTS=off  FEATURE_REQUESTS=off
+# Cờ theo giai đoạn (chi tiết ở mỗi kế hoạch):
+# GĐ B: FEATURE_HOME_B=off|admin|on  FEATURE_ACCOUNT_LINK  FEATURE_IDP_PUSH  FEATURE_PUBLIC_API  FEATURE_CATALOG_FROM_DB  FEATURE_EXCLUSIONS_FROM_DB
+# GĐ C: FEATURE_GRANTS  FEATURE_GRANTS_PUSH  FEATURE_EVENTS  EMAIL_MODE=log|send
+# GĐ D: FEATURE_REQUESTS  FEATURE_REVIEWS  FEATURE_INAPP_NOTIFY  FEATURE_LEAVE
 ```
 
 **Sao lưu MongoDB:** `mongodump` hằng đêm cùng lịch với `pg_dump` (thiết kế SSO mục 7), giữ 14 bản ngày và 6 bản tháng, một bản ra ngoài máy, khôi phục thử hằng tháng (VH-NFR-10, 11).
@@ -244,4 +254,5 @@ FEATURE_IMPORT=on  FEATURE_GRANTS=off  FEATURE_GRANTS_PUSH=off  FEATURE_EVENTS=o
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.2 | 08/10/2026 14:31 | Claude Code (vai BA trưởng, soát chéo) | Soát chéo với 3 kế hoạch: tổng 485 giờ (D thêm 2 giờ VClinks); điều kiện bắt đầu GĐ D; collection kỹ thuật của B, C, D; hai nhóm đường dẫn API; nguồn ghi trạng thái Google; vai trò của client `vc-home-api` theo giai đoạn; cờ tính năng theo giai đoạn | Soát chéo kế hoạch code ngày 08/10/2026; [12](../12-cau-hoi-rui-ro.md) D-BA-44…48 |
 | 0.1 | 08/10/2026 14:05 | Claude Code (vai BA trưởng, kiến trúc) | Tạo khung chung cho kế hoạch code GĐ A–D: công nghệ, repo, module theo giai đoạn, quy ước code, xác thực và phân quyền, môi trường, kiểm thử, cách chia phiên | Người dùng yêu cầu "lên plan code từng phase" ngày 08/10/2026; 10 bản 0.3 |

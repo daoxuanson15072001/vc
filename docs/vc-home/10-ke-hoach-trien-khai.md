@@ -1,6 +1,6 @@
 # VC Home — Kế hoạch triển khai
 
-Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ có người làm)
+Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ có người làm)
 
 ## Tóm tắt
 
@@ -15,10 +15,10 @@ Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ c
 | R4 | D: xin quyền, duyệt, rà soát | 22/01/2027 |
 | R5 | E: mở rộng | từ 22/02/2027, sau Tết |
 
-- **Khối lượng:** khoảng **485 giờ dev** cho A–D (420 giờ bản đầu, thêm 44 giờ cho 12 yêu cầu nhận ngày 08/10/2026, 6 giờ công cụ kiểm thử, 5 giờ điều kiện vào app ở GĐ A và 8 giờ VClinks chuyển phiên sang cookie).
+- **Khối lượng:** khoảng **485 giờ dev** cho A–D (420 giờ bản đầu, thêm 44 giờ cho 12 yêu cầu nhận ngày 08/10/2026, 6 giờ công cụ kiểm thử, 5 giờ điều kiện vào app ở GĐ A, 8 giờ VClinks chuyển phiên sang cookie và 2 giờ VClinks nhận sự kiện nghỉ dài ngày).
   - VC Home: 435 giờ.
   - Kế hoạch code từng giai đoạn: GĐ A ở [thiết kế SSO](ky-thuat/thiet-ke-sso-keycloak.md); GĐ B, C, D ở [ky-thuat/ke-hoach-code-gd-b.md](ky-thuat/ke-hoach-code-gd-b.md), [gd-c](ky-thuat/ke-hoach-code-gd-c.md), [gd-d](ky-thuat/ke-hoach-code-gd-d.md).
-  - Sửa ở VClinks và VCwiki: 48 giờ.
+  - Sửa ở VClinks và VCwiki: 50 giờ.
   - Ước theo cách làm có Claude Code hỗ trợ như thiết kế SSO.
   - Nút thắt thật thường là đầu vào bên ngoài (dữ liệu HC-NS, quyết định, UAT), không phải tốc độ code.
 - **Nhân sự (đã chốt, [12](12-cau-hoi-rui-ro.md) mục 4):** 1 dev Platform toàn thời gian từ 02/11, giữ VC ID và VC Home, sau đó Gatekeeper. **Hạn có người: 30/10**; quá hạn thì R1 vẫn lên, R2–R4 dời sang sau Tết (từ 22/02/2027). Dev VClinks và dev VCwiki mỗi người khoảng 3 ngày ở GĐ C; HC-NS khoảng 5 ngày chuẩn bị dữ liệu.
@@ -113,7 +113,8 @@ R2 có 3 tuần (khoảng 120 giờ của một người). Phần vượt dùng 
 | Test, UAT | — | 12 |
 | **Cộng phần VC Home** | | **116** |
 | VClinks: chuyển phiên từ `localStorage` sang cookie httpOnly + chống CSRF (dev VClinks, D-BA-42) | — | 8 |
-| **Cộng** | | **124** |
+| VClinks: nhận sự kiện nghỉ dài ngày, quay lại (07 mục 8.6, D-BA-47) | VH-LCM-04, 05 | 2 |
+| **Cộng** | | **126** |
 
 ### R5: GĐ E, mở rộng (từ 22/02/2027)
 
@@ -131,8 +132,8 @@ R2 có 3 tuần (khoảng 120 giờ của một người). Phần vượt dùng 
 | T1 | 13–17/10 | SSO-00 … 03, 05: thử kỹ thuật (có mapper `vh_roles`), hạ tầng, realm, VC Home tĩnh, BA VCwiki | Repo `vc` đã private; mua máy chủ, trỏ DNS theo Q1, Q2 đã chốt |
 | T2 | 20–24/10 | SSO-04, 06, 10: bộ đồng bộ Google, VCwiki code, production; bật VCwiki | Tên người giữ vai trò (N3); HC-NS rà danh mục (N2) |
 | T3 | 27–31/10 | SSO-08, 09, 11: VClinks code, giao diện, UAT tổng | **R1** · HC-NS gửi Excel · **có dev Platform (N10)** |
-| T4 | 02–06/11 | Khung VC Home API; VC People; cơ cấu | Nhập thử Excel lần 1 |
-| T5 | 09–13/11 | Màn người dùng, màn quản trị, nhập và đối chiếu; token GĐ B; API danh bạ | Pháp chế duyệt thông báo xử lý dữ liệu |
+| T4 | 02–06/11 | Khung VC Home API; VC People; cơ cấu | Khung API chạy trên staging |
+| T5 | 09–13/11 | Màn người dùng, màn quản trị, nhập và đối chiếu; token GĐ B; API danh bạ | Pháp chế duyệt thông báo xử lý dữ liệu; nhập thử Excel lần 1 (13/11, sau N4) |
 | T6 | 16–20/11 | Test, UAT, nhập dữ liệu thật | **R2** · ánh xạ vai trò và mã đơn vị đã duyệt |
 | T7 | 23–27/11 | Vai trò app, bộ luật, xem trước; luật bản đầu | Chủ dự án và chủ app duyệt luật |
 | T8 | 30/11–04/12 | Quyền, đẩy sang VC ID, vòng đời, sự kiện; VClinks, VCwiki nhận sự kiện | **Bắt đầu chạy ngầm** |
@@ -161,6 +162,7 @@ R2 có 3 tuần (khoảng 120 giờ của một người). Phần vượt dùng 
 | N8 | Bộ luật cấp quyền bản đầu | Chủ dự án + chủ app duyệt | 27/11 | R3 |
 | N9 | ~~Chốt Q-03, Q-08, Q-09~~ Đã chốt ngày 08/10/2026 | — | — | Không chặn |
 | N12 | Nâng máy chủ production lên 4 vCPU / 8 GB RAM, 80 GB SSD (D-BA-43) | Chủ dự án | 30/10 | R2 |
+| N13 | Hộp thư `no-reply@vcprosperous.com` và uỷ quyền `gmail.send` cho tài khoản dịch vụ của VC Home API (email thông báo GĐ C) | Chủ dự án (admin Google) | 23/11 | R3 |
 | N10 | Có dev Platform toàn thời gian (RR-02) | Chủ dự án | 30/10 | R2–R4 |
 | N11 | Lịch ngày nghỉ năm 2027 của từng pháp nhân (VH-ORG-08) | HC-NS | 11/12 | R4 |
 
@@ -170,8 +172,8 @@ R2 có 3 tuần (khoảng 120 giờ của một người). Phần vượt dùng 
 |---|---|---|
 | Dev Platform (đã chốt vị trí, cần người trước 30/10) | VC Home API, giao diện, bộ luật, sự kiện, vận hành; quản trị hệ thống chính; sau R4 làm Gatekeeper | Toàn thời gian từ 02/11 |
 | Dev002 + Claude Code | GĐ A (thiết kế SSO); phần VClinks ở GĐ C; quản trị hệ thống dự phòng; chủ app VClinks | GĐ A: theo thiết kế SSO; GĐ C: khoảng 3 ngày |
-| Dev VCwiki | Phần VCwiki ở GĐ A (SYS-60) và GĐ C | GĐ A: khoảng 2 ngày; GĐ C: khoảng 3 ngày |
-| BA | Giữ bộ tài liệu, trả lời câu hỏi, viết ca UAT, nghiệm thu | Bán thời gian |
+| Dev VCwiki | Phần VCwiki ở GĐ A (SYS-43) và GĐ C | GĐ A: khoảng 2 ngày; GĐ C: khoảng 3 ngày |
+| BA | Giữ bộ tài liệu, trả lời câu hỏi, viết ca UAT, nghiệm thu; sửa 04, 05, 06, 07, 11 theo giả định kỹ thuật của kế hoạch code (D-BA-48) trước phiên đầu mỗi giai đoạn | Bán thời gian; khoảng 1 ngày mỗi giai đoạn cho việc sửa theo D-BA-48 |
 | HC-NS | Chuẩn bị Excel, duyệt danh mục, kiểm dữ liệu sau nhập, UAT màn quản trị | Khoảng 5 ngày rải trong T3–T6 |
 | Quản trị hệ thống | Máy chủ, DNS, Google Admin, vận hành, luật | Bán thời gian |
 | Chủ dự án | Chốt câu hỏi, duyệt luật, nghiệm thu bản | Theo mốc |
@@ -246,6 +248,7 @@ Bảng dưới là truy vết theo phân hệ.
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.4 | 08/10/2026 14:31 | Claude Code (vai BA trưởng, soát chéo) | Soát chéo kế hoạch code: R4 thêm 2 giờ VClinks (D-L-02), tổng 485 giờ; mã VCwiki SYS-43; nhập thử Excel dời 13/11; thêm N13 (hộp thư gửi email); BA sửa tài liệu nguồn theo giả định kỹ thuật (D-BA-48) | Soát chéo kế hoạch code ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-44…48 |
 | 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | R1 thêm điều kiện lên bản (2 bước bắt buộc, duyệt danh sách loại trừ, quy trình nghỉ việc tay); GĐ A 65 giờ; R4 thêm 8 giờ VClinks chuyển phiên sang cookie; tổng khoảng 485 giờ; thêm đầu vào N0; trỏ tới kế hoạch code GĐ B, C, D | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA) | Ghi quyết định nhân sự (1 dev Platform từ 02/11, hạn có người 30/10, phương án dời sau Tết); thêm giờ cho 12 yêu cầu mới (R2 +10, R3 +6, R4 +28) và công cụ kiểm thử (R2 +6), tổng khoảng 470 giờ; N2, N3, N9 đổi theo quyết định; thêm N10, N11; cập nhật ma trận truy vết; việc cần làm ngay | [12](12-cau-hoi-rui-ro.md) mục 4, 6; 04 mục 14 |
 | 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo kế hoạch: nguyên tắc chia bản, phạm vi và giờ theo bản (khoảng 420 giờ A–D), việc theo tuần tới R4, 9 đầu vào bên ngoài, nhân sự, tiêu chí lên bản có chạy ngầm, định nghĩa sẵn sàng và xong, ma trận truy vết | README bộ tài liệu 0.1; thiết kế SSO 0.1 mục 8 |

@@ -1,6 +1,6 @@
 # VC Home — Câu chuyện người dùng
 
-Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
+Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -336,7 +336,7 @@ Câu chuyện chỉ xong khi mọi tiêu chí đạt trên môi trường thử.
 - Cho trước màn hình điện thoại dưới 600 px / Khi mở sơ đồ / Thì cây hiện dạng danh sách lồng nhau.
 
 **VH-US-068 — Tiêu chí nghiệm thu**
-- Cho trước lịch nghỉ Tết 05–13/02/2027 / Khi một yêu cầu gửi thứ Sáu 05/02 / Thì hạn tự huỷ tính từ thứ Hai 15/02.
+- Cho trước lịch nghỉ Tết 05–13/02/2027 / Khi một yêu cầu gửi thứ Sáu 05/02 / Thì đồng hồ tự huỷ bắt đầu đếm từ Chủ nhật 14/02.
 - Cho trước một ngày nghỉ chỉ áp cho pháp nhân A / Khi người thuộc pháp nhân B có yêu cầu chờ / Thì đồng hồ của người đó vẫn chạy ngày hôm đó.
 
 **VH-US-069 — Tiêu chí nghiệm thu**
@@ -904,6 +904,7 @@ Các câu chuyện dưới đây **chưa có mã yêu cầu** ở README mục 5
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.4 | 08/10/2026 14:31 | Claude Code (vai BA trưởng, soát chéo) | VH-US-068 tiêu chí 1 theo D-BA-45 (Chủ nhật vẫn đếm) | Soát chéo kế hoạch code ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-44…48 |
 | 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | VH-US khoá theo Google: ≤ 20 phút | Đánh giá bảo mật luồng đăng nhập, người dùng đồng ý 6 điểm vá ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) D-BA-37…42 |
 | 0.2 | 08/10/2026 11:30 | Claude Code (vai BA) | Thêm 12 câu chuyện cho 12 yêu cầu nhận thêm (VH-US-029, 050, 068, 069, 086, 107, 131, 170, 186, 208, 209, 227), mỗi câu chuyện 2–3 tiêu chí; thêm 12 dòng độ phủ (90/90); cập nhật phân bố; ghi kết quả xử lý mục 16. | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; 04 mục 14; 12 mục 4, 6 |
 | 0.1 | 08/10/2026 11:14 | Claude Code (vai BA) | Tạo tài liệu: cách đọc, 12 nhóm câu chuyện có mục tiêu, giai đoạn, thước đo; 88 câu chuyện VH-US kèm tiêu chí "Cho trước / Khi / Thì" đồng bộ câu chữ với 04 và 06; bảng độ phủ 78/78 yêu cầu; 7 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |

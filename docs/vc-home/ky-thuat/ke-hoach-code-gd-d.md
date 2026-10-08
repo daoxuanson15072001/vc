@@ -1,17 +1,17 @@
 # Kế hoạch code GĐ D: xin quyền, duyệt, rà soát (R4)
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
 
 ## Tóm tắt
 
 - **Làm gì:** thêm vào VC Home API và SPA đường xin quyền ngoại lệ có người duyệt 1–2 bước, uỷ quyền, nhắc, tự huỷ, duyệt nhiều; hạn dùng và gia hạn; rà soát quý quyền ngoại lệ và rà soát luật nửa năm; thông báo trong VC Home (chuông, ngăn kéo); nghỉ dài ngày, quay lại làm; lịch ngày nghỉ công ty làm đồng hồ; cài đặt hệ thống; xem và đăng xuất phiên của mình; cảnh báo quyền không dùng 90 ngày. Kèm một việc ở VClinks: chuyển phiên từ `localStorage` sang cookie httpOnly và chống CSRF (D-BA-42).
 - **Đầu ra:** 2 module mới (`requests`, `reviews`), sửa 11 module có sẵn và `packages/contracts`, 7 collection GĐ D, 2 sự kiện mới (`vh.person.leave_started`, `vh.person.returned`), phần GĐ D của 15 màn (VH-MH-01…05, 08…11, 13, 15…18, 20) và chuông thông báo; 11 ca VH-UAT-45…55 đạt; R4 lên **22/01/2027**.
-- **Khối lượng:** 22 phiên. D-01…D-21 cho VC Home **116 giờ** (khớp [10](../10-ke-hoach-trien-khai.md) mục 2, bảng R4), D-L-01 cho VClinks **8 giờ**; tổng **124 giờ**. Lịch T10–T14 (14/12/2026 → 22/01/2027); 28/12–03/01 chỉ trực sự cố.
+- **Khối lượng:** 23 phiên. D-01…D-21 cho VC Home **116 giờ** (khớp [10](../10-ke-hoach-trien-khai.md) mục 2, bảng R4), D-L-01 (8 giờ) và D-L-02 (2 giờ) cho VClinks **10 giờ**; tổng **126 giờ**. Lịch T10–T14 (14/12/2026 → 22/01/2027); 28/12–03/01 chỉ trực sự cố.
 - **Điều kiện bắt đầu:** R3 đã lên production (bộ tính quyền, job hẹn giờ quyền, outbox, đẩy VC ID, email); dev Platform toàn thời gian; HC-NS gửi lịch nghỉ 2027 của từng pháp nhân (N11, hạn 11/12/2026).
 - **Việc chặn:**
   - Lịch nghỉ 2027 (N11) phải có trên production **trước khi bật xin quyền**. Thiếu lịch thì yêu cầu gửi sát Tết Nguyên đán (khoảng 06/02/2027) sẽ tự huỷ ngay trong kỳ nghỉ.
   - Client `vc-home-api` trên VC ID cần thêm vai trò `view-events` (đọc sự kiện đăng nhập theo app).
-  - Dev VClinks rảnh 1 ngày trong T11 cho D-L-01.
+  - Dev VClinks rảnh khoảng 1,5 ngày trong T11–T12 cho D-L-01, D-L-02.
 - **Quay lui:** mọi phần GĐ D nằm sau cờ `FEATURE_*`; tắt xin quyền không ảnh hưởng quyền theo luật (tiêu chí R4, 10 mục 6). VClinks có cờ `AUTH_SESSION_TRANSPORT` để quay về Bearer.
 - **Người duyệt xem kỹ:**
   - mục 3.4: 33 giả định kỹ thuật, nhất là GA-01 (đếm đồng hồ 7 và 14 ngày), GA-03, GA-04, GA-05 (người duyệt khi vắng, uỷ quyền, uỷ quyền cho rà soát), GA-06 (rà soát luật);
@@ -135,7 +135,7 @@ Canvas: [https://claude.ai/artifact/J8DUrr6ueZMwQMwL7yovEb](https://claude.ai/ar
 | N5, 6 tài khoản Google thử (11 đề xuất 6) | Người thử UAT theo vai trò | Trước D-21 | UAT |
 | Keycloak | Client `vc-home-api` có `view-users`, `manage-users` (đã có) và `view-events` (thêm nếu GĐ B, C chưa thêm); realm bật sự kiện đăng nhập (thiết kế SSO mục 5.1.1) | D-14, D-18 | VH-AUT-10, VH-ADM-06 |
 | Công cụ staging (GĐ B) | Đồng hồ giả lập `POST /api/v1/_test/clock`, app giả lập `vctest` | Có từ R2 | Ca UAT theo mốc giờ |
-| Dev VClinks | 1 ngày (Dev002) | T11 | D-L-01 |
+| Dev VClinks | 1,5 ngày (Dev002) | T11, T12 | D-L-01, D-L-02 |
 
 ### 2.2 Thứ có sẵn từ GĐ B, C mà GĐ D gọi
 
@@ -203,7 +203,7 @@ sequenceDiagram
   participant GR as grants (GĐ C)
   participant OB as event_outbox + đẩy VC ID
   NV->>SPA: Mở VH-MH-05, chọn app, vai trò, hạn, lý do
-  SPA->>RQ: POST /requests:preview
+  SPA->>RQ: POST /requests/preview
   RQ->>AR: chọn người duyệt (chạy thử)
   RQ-->>SPA: người duyệt dự kiến, "Dùng đến hết ngày …"
   NV->>SPA: Gửi yêu cầu
@@ -211,7 +211,7 @@ sequenceDiagram
   Note over RQ: 1 transaction: access_requests + approval_steps bước 1 + audit + notifications
   RQ->>NT: cho_duyet (trong VC Home + email)
   QL->>SPA: VH-MH-08, Duyệt
-  SPA->>RQ: POST /requests/{id}/steps/1:decide (kèm rev)
+  SPA->>RQ: POST /requests/{id}/steps/1/decide (kèm rev)
   alt Vai trò nhạy cảm
     RQ->>AR: chọn chủ app (bước 2)
     RQ->>NT: cho_duyet cho chủ app
@@ -252,7 +252,7 @@ isCounted(dayVn: string, rule: CountRule, legalEntity: string | null): boolean;
 - **Chụp lúc tạo:** khi gửi yêu cầu, lưu `due_at`, `reminder_plan` (các mốc nhắc theo cài đặt lúc đó) và `next_reminder_at`. Đổi cài đặt sau đó không đổi việc đã tạo (VH-ADM-05 bước 2).
 - **Sửa lịch nghỉ:** sau khi commit, `HolidaysService` gọi `RequestsService.recomputeDeadlines()` và `ReviewsService.recomputeDeadlines()`: chỉ tính lại việc còn mở có `due_at` > bây giờ, chỉ thay các mốc nhắc chưa gửi; ghi `audit_log` hành động `deadline.recomputed`. Việc đã quá hạn giữ nguyên (VH-ORG-08 bước 4).
 - **Bộ nhớ đệm:** ngày nghỉ của 2 năm quanh `Clock.now()` giữ trong bộ nhớ, xoá khi lịch đổi. Mọi hàm nhận `Clock` để đồng hồ giả chạy đúng.
-- **Công tắc Chủ nhật:** hằng số `CLOCK_SKIPS_SUNDAY = false` cho cách đếm `khong_tinh_ngay_nghi`. Nếu BA chốt theo VH-ORG-08 bước 3 (bỏ cả Chủ nhật) thì đổi thành `true` và sửa tiêu chí ở GA-01; không phải sửa chỗ khác.
+- **Công tắc Chủ nhật:** hằng số `CLOCK_SKIPS_SUNDAY = false` cho cách đếm `khong_tinh_ngay_nghi`. Đã chốt giữ `false` (D-BA-45); nếu sau này muốn bỏ cả Chủ nhật thì đổi thành `true` và sửa tiêu chí ở GA-01; không phải sửa chỗ khác.
 
 #### 3.3.2 Chọn người duyệt (VH-REQ-02, VH-BR-12, VH-BR-05, VH-BR-17)
 
@@ -266,8 +266,10 @@ Ký hiệu: B là người được cấp, R là người gửi. "Hợp lệ" = 
 2. Không có, đã nghỉ, không có tài khoản hoặc bị khoá: trưởng đơn vị của vị trí chính của B, rồi trưởng đơn vị cha, đi dần lên gốc, bỏ qua B (`truong_don_vi_tam`).
 3. Ứng viên trùng R (quản lý xin thay): lên quản lý trực tiếp của R (`quan_ly_cap_tren`), rồi lặp lại các điều trên.
 4. Ứng viên có uỷ quyền bước 1 đang hiệu lực mà **mọi** người được uỷ đều là R hoặc B: trong thời gian uỷ quyền, bước chuyển lên quản lý trực tiếp của ứng viên (`quan_ly_cap_tren`); hết uỷ quyền thì job trả về ứng viên (GA-04, VH-UAT-49 bước 3–4, 03 mục 10).
-5. Ứng viên đang nghỉ dài (không khoá), **không** có uỷ quyền bước 1: vẫn giao ứng viên. Khi đã qua 2 ngày làm việc kể từ `max(assigned_at, leave.from_on, lúc uỷ quyền cuối kết thúc)`, chuyển cho trưởng đơn vị theo điều 2 (`truong_don_vi_tam`) (VH-BR-12 bản mới; GA-03).
+5. Ứng viên đang nghỉ dài (không khoá), **không** có uỷ quyền bước 1: vẫn giao ứng viên. Khi đã qua 2 ngày làm việc kể từ `max(assigned_at, leave.from_on, lúc uỷ quyền cuối kết thúc)`, chuyển cho trưởng đơn vị theo điều 2, bỏ qua chính ứng viên vắng (`truong_don_vi_tam`) (VH-BR-12 bản mới; GA-03).
 6. Lên tới gốc vẫn không có: giao mọi QTHT trừ R, B (`quan_tri_he_thong`) và báo HC-NS loại `thieu_quan_ly`.
+
+Mỗi lần đổi ứng viên ở điều 2–5 thì xét lại ứng viên mới từ điều 3.
 
 **Bước 2** (chỉ vai trò nhạy cảm, mở khi bước 1 Duyệt): mọi chủ app hợp lệ trừ R, B và người đã quyết bước 1 (`chu_app`); không còn ai thì mọi QTHT trừ R, B (`quan_tri_he_thong`). Nhánh này phủ cả "chủ app xin vai trò nhạy cảm của app mình" (VH-UAT-48) và "người duyệt bước 1 là chủ app duy nhất".
 
@@ -294,7 +296,7 @@ Ký hiệu: B là người được cấp, R là người gửi. "Hợp lệ" = 
 
 #### 3.3.4 Duyệt nhiều (VH-REQ-07)
 
-- `POST /api/v1/approvals:bulk-decide` nhận tối đa 20 mục `{id, rev}`.
+- `POST /api/v1/approvals/bulk-decide` nhận tối đa 20 mục `{id, rev}`.
 - Máy chủ kiểm lại trước khi làm:
   - quá 20 mục: 422 "Chọn tối đa 20 yêu cầu mỗi lần.";
   - có mục vai trò nhạy cảm (đọc `access_requests.sensitive`, không tin SPA): 422 "Vai trò nhạy cảm phải duyệt từng yêu cầu.".
@@ -357,7 +359,7 @@ Ký hiệu: B là người được cấp, R là người gửi. "Hợp lệ" = 
   - Ghi `notifications` trong cùng transaction với việc gây ra thông báo.
   - Đặt `email_wanted = true` với các loại ở 04 mục 14.2 (yêu cầu chờ duyệt, nhắc duyệt, quyền sắp hết hạn, đợt rà soát, luật chờ duyệt bước hai) và VH-ADM-06.
   - Các chỗ gọi email trực tiếp của GĐ B, C đổi sang `notify()` (GA-10).
-- **Gửi email:** job `notifications.email` (mỗi phút) gửi qua Gmail API của GĐ C sau khi transaction đã commit. Thử lại 5 lần, giãn dần; lỗi thì ghi `email_error`, thông báo trong VC Home vẫn còn (VH-REQ-04 ngoại lệ). Email **không** chứa lý do xin quyền (văn bản tự do, có thể lỡ chứa dữ liệu cá nhân).
+- **Gửi email:** `notify()` gọi `NotificationsService.email(tx, …)` của GĐ C (ghi `_email_outbox` trong cùng transaction; job 30 giây của GĐ C gửi qua Gmail API, thử lại 5 lần). **Không thêm job gửi email thứ hai.** Thông báo trong VC Home vẫn còn khi email lỗi (VH-REQ-04 ngoại lệ). Email **không** chứa lý do xin quyền (văn bản tự do, có thể lỡ chứa dữ liệu cá nhân).
 - **Gom:** loại có `dedupeKey` (ví dụ `nhac_duyet:{personId}:{ngày}`, `de_nghi_sua_ho_so:{personId}`) cập nhật thông báo chưa đọc cùng khoá thay vì thêm dòng mới (GA-11).
 - **Xem:**
   - Danh sách 20 dòng mỗi trang, chỉ thông báo tạo trong 90 ngày; chỉ mục TTL xoá ở 180 ngày (GA-09).
@@ -370,7 +372,7 @@ Ký hiệu: B là người được cấp, R là người gửi. "Hợp lệ" = 
   - `people.status = nghi_dai_ngay`;
   - nếu `leave.lock_login`: thêm khoá `{kind: nghi_dai_ngay}` vào `accounts.locks`, gọi khoá và đăng xuất trên VC ID qua đường khoá của GĐ C;
   - `vh.person.leave_started` (payload 07 mục 6.6);
-  - gọi `LifecycleHooks.onLeaveStarted`: dòng rà soát chuyển lên, uỷ quyền mà người này là người được uỷ kết thúc nếu tài khoản bị khoá.
+  - gọi `LifecycleHooks.onLeaveStarted`: dòng rà soát chưa quyết chuyển lên trưởng đơn vị cấp trên nếu người này không có uỷ quyền bước 1 (GA-05); uỷ quyền mà người này là người được uỷ kết thúc nếu tài khoản bị khoá.
 - **Kết thúc nghỉ** (00:00 ngày `to_on` + 1, hoặc 00:00 ngày `returned_on` nếu HC-NS ghi về sớm):
   - `dang_lam`;
   - **chỉ** gỡ khoá `nghi_dai_ngay`; còn khoá khác (khẩn cấp, Google) thì tài khoản vẫn khoá (VH-LCM-04 bước 8, D-BA-03);
@@ -379,7 +381,7 @@ Ký hiệu: B là người được cấp, R là người gửi. "Hợp lệ" = 
 - **Nhắc:**
   - HC-NS: 08:00 ngày làm việc thứ 3 trước ngày về dự kiến (04 mục 14.2).
   - Người nghỉ là người duyệt: lúc HC-NS lưu kỳ nghỉ, nhắc người đó đặt uỷ quyền (03 mục 9 bước 3).
-- **Không lưu lý do:** DTO zod dùng `.strict()` rồi bỏ trường lạ trước khi lưu, nên trường lạ không bao giờ vào database (VH-LCM-04 tiêu chí 4).
+- **Không lưu lý do:** DTO zod để chế độ mặc định `strip`: trường lạ (ví dụ lý do nghỉ) bị bỏ trước khi lưu, không báo lỗi, không bao giờ vào database (VH-LCM-04 tiêu chí 4).
 - **Nhận lại:**
   - Dùng lại hồ sơ và mã; trạng thái `chua_vao_lam` với `joined_on` mới, vị trí mới qua `scheduled_changes`.
   - 00:00 ngày vào làm lại:
@@ -407,7 +409,7 @@ Ký hiệu: B là người được cấp, R là người gửi. "Hợp lệ" = 
 
 Chọn cách đọc sự kiện `LOGIN` của VC ID theo client, **không** dùng `accounts.last_login_at` / `last_login_app` vì hai trường đó chỉ giữ app của lần đăng nhập cuối cùng (GA-22).
 
-- Job `accounts.app_logins` (mỗi giờ):
+- **Mở rộng job `vcid.sync` của GĐ B** (mỗi giờ, phút 7; job này đã chép sự kiện đăng nhập vào `audit_log`) để cập nhật thêm `accounts.app_logins`. Không thêm job đọc sự kiện thứ hai:
   - gọi `GET /admin/realms/vc/events?type=LOGIN&dateFrom=…&first=…&max=500`;
   - map `clientId` → khoá app qua `apps.oidc_client_id`;
   - cập nhật `accounts.app_logins.<app_key>` = giá trị lớn nhất.
@@ -435,7 +437,7 @@ Các điểm tài liệu nghiệp vụ lệch nhau hoặc thiếu. Kế hoạch 
 
 | Mã | Chỗ lệch hoặc thiếu | Cách làm trong kế hoạch | Ảnh hưởng phiên |
 |---|---|---|---|
-| GA-01 | Đồng hồ 7 ngày, 14 ngày: VH-ORG-08 bước 3 và tiêu chí 1 chỉ đếm thứ Hai–thứ Bảy (bỏ Chủ nhật); còn VH-BR-13, VH-BR-16, VH-REQ-04 (bước 1, tiêu chí 2: tự huỷ 09/03), VH-REV-03 tiêu chí 1 (hạn 19/04), VH-UAT-50 (tự huỷ N+7), VH-UAT-53 đều đếm cả Chủ nhật | Chỉ trừ ngày trong `company_holidays` (cách đếm `khong_tinh_ngay_nghi`). Hệ quả: VH-ORG-08 tiêu chí 1 tính từ Chủ nhật 14/02 thay vì thứ Hai 15/02. Đổi được bằng hằng số `CLOCK_SKIPS_SUNDAY` | D-01, D-03, D-07 |
+| GA-01 | Đồng hồ 7 ngày, 14 ngày: VH-ORG-08 bước 3 và tiêu chí 1 chỉ đếm thứ Hai–thứ Bảy (bỏ Chủ nhật); còn VH-BR-13, VH-BR-16, VH-REQ-04 (bước 1, tiêu chí 2: tự huỷ 09/03), VH-REV-03 tiêu chí 1 (hạn 19/04), VH-UAT-50 (tự huỷ N+7), VH-UAT-53 đều đếm cả Chủ nhật | Chỉ trừ ngày trong `company_holidays` (cách đếm `khong_tinh_ngay_nghi`). Hệ quả: VH-ORG-08 tiêu chí 1 tính từ Chủ nhật 14/02 thay vì thứ Hai 15/02. Đổi được bằng hằng số `CLOCK_SKIPS_SUNDAY` **Đã chốt (D-BA-45):** chỉ trừ ngày nghỉ công ty, Chủ nhật vẫn đếm; `CLOCK_SKIPS_SUNDAY = false`; 04 VH-ORG-08 và VH-US-068 đã sửa theo | D-01, D-03, D-07 |
 | GA-02 | "N ngày làm việc" ở VH-BR-12 (2 ngày), 04 mục 14.2 VH-LCM-04 (3 ngày), VH-REV-04 (14 ngày) chưa định nghĩa | Thứ Hai–thứ Bảy trừ ngày nghỉ công ty (VH-ORG-08 bước 3, VH-NFR-10) | D-01, D-03, D-12, D-17 |
 | GA-03 | Quản lý nghỉ dài không uỷ quyền: VH-BR-12 bản mới và 03 mục 9 "sau 2 ngày làm việc chuyển trưởng đơn vị"; VH-REQ-02 bước 5, VH-LCM-04 bước 4 và tiêu chí 3 "chuyển ngay lên quản lý của người đó" | Theo VH-BR-12 (thuật toán 3.3.2 điều 5). Riêng người nghỉ có khoá đăng nhập thì chuyển ngay (không hợp lệ). BA sửa VH-REQ-02 bước 5, VH-LCM-04 bước 4 và tiêu chí 3 | D-02, D-03, D-12 |
 | GA-04 | Người được uỷ là người xin: VH-REQ-03 bước 5 "việc vẫn ở người uỷ"; 03 mục 10 và VH-UAT-49 bước 3 "chuyển lên quản lý của người uỷ" | Theo 03 và VH-UAT-49 (điều 4 của 3.3.2); hết uỷ quyền thì trả về người uỷ | D-02, D-03 |
@@ -463,7 +465,7 @@ Các điểm tài liệu nghiệp vụ lệch nhau hoặc thiếu. Kế hoạch 
 | GA-26 | 11 mục 6.6 nạp `vchome:kiem_soat`★, `vchome:qtht`★ hạn N+365, trái VH-BR-09 (nhạy cảm tối đa 90) | Seed đặt N+90 (VH-UAT-53 không đổi). BA sửa 11 mục 6.6 | D-20 |
 | GA-27 | 06 chưa đặc tả ngăn "Ngày nghỉ" của VH-MH-13 | Dựng theo 04 VH-ORG-08 (trường, hành động, câu lỗi) với khuôn bảng của VH-MH-13 | D-01 |
 | GA-28 | Câu nghỉ dài dưới 7 ngày: 04 VH-LCM-04 "Nghỉ dài ngày tính từ 7 ngày…"; 06 VH-MH-11 "Nghỉ dài ngày phải từ 7 ngày trở lên…" | Màn dùng câu 06, API trả câu 04 qua mã lỗi chung; BA chọn một | D-12 |
-| GA-29 | VClinks xử lý `vh.person.leave_started` / `returned` (07 mục 8.6, VH-UAT-54) không có giờ ở R4 | Giả định đã làm trong 20 giờ VClinks của GĐ C (làm "theo 07"). Nếu chưa: cần khoảng 2 giờ VClinks ngoài 124 giờ | D-21 |
+| GA-29 | VClinks xử lý `vh.person.leave_started` / `returned` (07 mục 8.6, VH-UAT-54) không có giờ ở R4; GĐ C chỉ có sự kiện của GĐ C | **Đã chốt (D-BA-47):** thêm phiên D-L-02 (2 giờ VClinks) ở R4; tổng GĐ D thành 126 giờ | D-L-02 |
 | GA-30 | VH-ORG-08 "pháp nhân của người đó" với yêu cầu có người gửi và người được cấp khác nhau | Dùng pháp nhân của người được cấp | D-01, D-03 |
 | GA-31 | VH-AUT-10 tiêu chí 2 "mất phiên ở mọi app trong ≤ 10 giây" với chính VC Home (SPA không có phiên máy chủ) | SPA mất phiên theo cơ chế GĐ A (UAT-SSO-07); VC Home API nhận access token còn hạn (≤ 5 phút). Không thêm back-channel cho VC Home API ở GĐ D | D-14 |
 | GA-32 | VH-REV-04 mở đợt ngày 01/01 (ngày nghỉ) trong khi VH-ORG-08 không nhắc vào ngày nghỉ | Tạo đợt đúng ngày; thông báo dời sang 08:00 ngày làm việc kế tiếp; hạn đếm từ ngày đó | D-17 |
@@ -497,7 +499,7 @@ Trường đầy đủ ở [05](../05-du-lieu.md) mục 3.11–3.15, 3.20, 3.21.
 | `delegations` | `admin_reason` | string | QTHT đặt hộ phải ghi lý do (VH-REQ-03 bước 8), khác ghi chú `reason` |
 | `review_campaigns` | `report_pdf` `{gridfs_id, sha256, size, generated_at}`, `notified_at` | object, Date | Biên bản không sửa được; dời thông báo khi mở vào ngày nghỉ |
 | `review_items` | `rule_id`; `on_behalf_of_person_id`, `delegation_id`; trạng thái `sua`, `tat` | ObjectId, enum | GA-05, GA-07 |
-| `notifications` | `kind` mở rộng (mục 6.3); `dedupe_key`, `email_wanted`, `email_attempts`, `email_error` | string, bool, int, string | GA-10, GA-11 |
+| `notifications` | `kind` mở rộng (mục 6.3); `dedupe_key`, `email_wanted` (trạng thái gửi nằm ở `_email_outbox` của GĐ C) | string, bool | GA-10, GA-11 |
 | `accounts` | `app_logins` `{<app_key>: Date}` | object | GA-22 |
 | `access_grants` | `unused_ack` `{until, by, at}` | object | GA-23 |
 | `people` | `leave.returned_on` | date | GA-17 |
@@ -518,7 +520,7 @@ Chạy tự động lúc khởi động (`_migrations`), chỉ thêm, không xo�
 | `D-004-grants-d` | Chỉ mục `access_grants` `{source, status, valid_to}`, `{app_key, open, source}` | D-06 |
 | `D-005-app-roles` | `requestable` còn trống thì đặt: vai trò thường `true`, nhạy cảm `false`. Vai trò nhạy cảm có `max_request_days` > 90 thì đặt 90; danh sách ghi nhật ký và gửi chủ app | D-15 |
 | `D-006-reviews` | Tạo `review_campaigns`, `review_items`, GridFS bucket `review_reports` | D-07 |
-| `D-007-rules-review` | Luật `hieu_luc` có `next_review_on` trống: đặt `2027-07-01` (đợt luật đầu tiên sau R4) | D-17 |
+| `D-007-rules-review` | Mọi luật `hieu_luc`: đặt `next_review_on = 2027-07-01` (đợt luật đầu tiên sau R4, GA-06); giá trị cũ do GĐ C đặt ghi vào `audit_log` | D-17 |
 | `D-008-settings` | Thêm khoá cài đặt GĐ D còn thiếu với giá trị mặc định 04 VH-ADM-05 (không ghi đè giá trị đã có) | D-14 |
 
 ### 4.4 Seed
@@ -541,13 +543,14 @@ Chạy tự động lúc khởi động (`_migrations`), chỉ thêm, không xo�
 | `yeu_cau.duyet` | Duyệt bước 1, Duyệt bước 2 | Người được giao hoặc được uỷ (kiểm động ở service, 3.3.2); guard cho mọi người đã gắn hồ sơ đi qua |
 | `uy_quyen.dat_ho` | (VH-REQ-03 bước 8, ngoài ma trận) | QTHT |
 | `ra_soat.xac_nhan` | Rà soát (xác nhận, gỡ) | Trưởng đơn vị (p), người được uỷ; kiểm soát (đ) |
-| `ra_soat.mo` | Mở đợt rà soát | QTHT; kiểm soát chỉ đọc qua `ra_soat.xem` |
+| `ra_soat.mo` | Mở đợt rà soát | QTHT |
+| `ra_soat.xem` | Rà soát, cột kiểm soát (đ) | Kiểm soát (đ), QTHT: xem đợt và báo cáo, không có nút ghi |
 | `cai_dat.sua` | Cài đặt hệ thống | QTHT |
 | `quyen.tra` | (VH-ACC-09, dữ liệu của mình) | Mọi vai trò (m) |
 | `phien.cua_minh`, `thong_bao.cua_minh` | (dữ liệu của mình) | Mọi vai trò (m) |
 | `quyen.xem_khong_dung` | Báo cáo tổng hợp (dòng "Không dùng") | QTHT, chủ app (p) |
 
-Dùng lại khoá của GĐ B, C: `danh_muc.sua` (ngày nghỉ), `nhan_su.sua` (nghỉ dài, nhận lại), `quyen.go` (gỡ ở VH-ADM-06), `vai_tro_app.sua` (cờ cho phép xin). Nếu GĐ B, C đặt tên khác thì theo tên đã có. Test ma trận thêm mọi API ở 5.2: ô "—" phải trả 403.
+Dùng lại khoá của GĐ B, C: `co_cau.sua` (ngày nghỉ; GĐ B dùng khoá này cho cả cơ cấu và danh mục), `nhan_su.sua` (nghỉ dài, nhận lại), `quyen.go` (gỡ ở VH-ADM-06), `vai_tro_app.sua` (cờ cho phép xin). Nếu GĐ B, C đặt tên khác thì theo tên đã có. Test ma trận thêm mọi API ở 5.2: ô "—" phải trả 403.
 
 ### 5.2 API nội bộ cho SPA (`/api/v1`)
 
@@ -555,50 +558,50 @@ Dùng lại khoá của GĐ B, C: `danh_muc.sua` (ngày nghỉ), `nhan_su.sua` (
 |---|---|---|---|
 | `GET /me/requestable-apps` | VH-MH-02 "Có thể xin quyền" | `quyen.xin`; cần hồ sơ | VH-HOM-04, VH-APP-07 |
 | `GET /requests/form?app=&role=&for=` | VH-MH-05: vai trò cho xin, đơn vị cho phép, hạn mặc định và tối đa, quyền đã có | `quyen.xin`; `for` khác mình thì `quyen.xin_thay` + cây dưới quyền | VH-REQ-01, 05, VH-APP-07 |
-| `POST /requests:preview` | VH-MH-05: người duyệt dự kiến, "Dùng đến hết ngày", lỗi kiểm | Như trên | VH-REQ-01, 02 |
+| `POST /requests/preview` | VH-MH-05: người duyệt dự kiến, "Dùng đến hết ngày", lỗi kiểm | Như trên | VH-REQ-01, 02 |
 | `POST /requests` | VH-MH-05 "Gửi yêu cầu" (`kind` `moi` / `gia_han`, cho mình / xin thay) | Như trên | VH-REQ-01, 05, 06 |
 | `GET /me/requests?status=` | VH-MH-04 ngăn "Yêu cầu của tôi" (người gửi hoặc người được cấp) | `quyen.xin` (m) | VH-REQ-01, 05 |
 | `GET /requests/{id}` | Ngăn kéo chi tiết ở VH-MH-04, VH-MH-08 | Người gửi, người được cấp, người duyệt và người được uỷ của bước, QTHT; kiểm soát (đ) | VH-REQ-02 |
-| `POST /requests/{id}:withdraw` | VH-MH-04 "Rút yêu cầu" | Chỉ người gửi | VH-REQ-01, 05 |
+| `POST /requests/{id}/withdraw` | VH-MH-04 "Rút yêu cầu" | Chỉ người gửi | VH-REQ-01, 05 |
 | `GET /approvals?tab=yeu-cau\|da-xu-ly&app=&step=&sensitive=&q=` | VH-MH-08 | `yeu_cau.duyet` (lọc theo 3.3.2) | VH-REQ-02, 03 |
-| `POST /requests/{id}/steps/{step}:decide` | VH-MH-08 ngăn kéo: duyệt, từ chối, rút ngắn hạn | `yeu_cau.duyet` + kiểm lại lúc bấm | VH-REQ-02, VH-BR-12 |
-| `POST /approvals:bulk-decide` | VH-MH-08 thanh hành động | `yeu_cau.duyet`, từng mục | VH-REQ-07 |
+| `POST /requests/{id}/steps/{step}/decide` | VH-MH-08 ngăn kéo: duyệt, từ chối, rút ngắn hạn | `yeu_cau.duyet` + kiểm lại lúc bấm | VH-REQ-02, VH-BR-12 |
+| `POST /approvals/bulk-decide` | VH-MH-08 thanh hành động | `yeu_cau.duyet`, từng mục | VH-REQ-07 |
 | `GET /delegations?vai=uy\|duoc_uy` | VH-MH-08 ngăn "Uỷ quyền" | (m) | VH-REQ-03 |
 | `POST /delegations` | VH-MH-08 "Uỷ quyền duyệt" | Người duyệt (có người dưới quyền hoặc là chủ app) cho chính mình; `uy_quyen.dat_ho` khi `delegator` là người khác | VH-REQ-03 |
-| `POST /delegations/{id}:cancel` | VH-MH-08 "Huỷ uỷ quyền" | Người uỷ; `uy_quyen.dat_ho` | VH-REQ-03 |
+| `POST /delegations/{id}/cancel` | VH-MH-08 "Huỷ uỷ quyền" | Người uỷ; `uy_quyen.dat_ho` | VH-REQ-03 |
 | `GET /me/grants` (GĐ C, thêm `days_left`, `renewable`, `pending_renewal`, `returnable`) | VH-MH-04, VH-MH-02 (nhãn "Hết hạn") | (m) | VH-ACC-05, VH-REQ-06, VH-ACC-09 |
-| `POST /me/grants/{id}:return` | VH-MH-04 "Trả quyền" | `quyen.tra` (m); chỉ dòng `yeu_cau` đang hiệu lực | VH-ACC-09 |
-| `GET /team/grants?expiring=1` (GĐ C, thêm cảnh báo) | VH-MH-09 | Quản lý (p), trưởng đơn vị (p) | VH-REQ-05, 06 |
+| `POST /me/grants/{id}/return` | VH-MH-04 "Trả quyền" | `quyen.tra` (m); chỉ dòng `yeu_cau` đang hiệu lực | VH-ACC-09 |
+| `GET /my-team/grants?expiring=1` (GĐ C, thêm cảnh báo) | VH-MH-09 | Quản lý (p), trưởng đơn vị (p) | VH-REQ-05, 06 |
 | `GET /admin/reviews?kind=` | VH-MH-18 danh sách đợt | `ra_soat.mo`; kiểm soát (đ) | VH-REV-01, 04 |
-| `GET /admin/reviews:preview` | VH-MH-18 "Mở đợt mới" | `ra_soat.mo` | VH-REV-01 |
+| `GET /admin/reviews/preview` | VH-MH-18 "Mở đợt mới" | `ra_soat.mo` | VH-REV-01 |
 | `POST /admin/reviews` | VH-MH-18 "Mở đợt" | `ra_soat.mo` | VH-REV-01 |
 | `GET /admin/reviews/{id}`, `GET /admin/reviews/{id}/items?unit=&app=&status=&sensitive=` | VH-MH-18 một đợt | `ra_soat.mo`; kiểm soát (đ) | VH-REV-01, 03 |
-| `POST /admin/reviews/{id}/items/{itemId}:assign` | VH-MH-18 "Chỉ định / Chuyển người rà soát" | `ra_soat.mo` | VH-REV-01 |
+| `POST /admin/reviews/{id}/items/{itemId}/assign` | VH-MH-18 "Chỉ định / Chuyển người rà soát" | `ra_soat.mo` | VH-REV-01 |
 | `GET /admin/reviews/{id}/report.xlsx`, `GET /admin/reviews/{id}/report.pdf` | VH-MH-18 "Tải Excel", "Tải PDF" | QTHT, kiểm soát; trưởng đơn vị chỉ phần đơn vị mình (lọc ở máy chủ) | VH-REV-03 |
 | `GET /reviews/current` | VH-MH-10: dòng của tôi (gồm dòng được uỷ), tiến độ đơn vị con | `ra_soat.xac_nhan` | VH-REV-02 |
 | `GET /reviews/{campaignId}` | VH-MH-10 đợt cũ (chỉ đọc) | `ra_soat.xac_nhan` | VH-REV-02 |
-| `POST /reviews/items:decide` | VH-MH-10 "Giữ" / "Gỡ", một hoặc nhiều dòng | Người rà soát của dòng hoặc người được uỷ | VH-REV-02 |
+| `POST /reviews/items/decide` | VH-MH-10 "Giữ" / "Gỡ", một hoặc nhiều dòng | Người rà soát của dòng hoặc người được uỷ | VH-REV-02 |
 | `GET /rule-reviews/current` | VH-MH-16 lọc "Tới hạn rà soát"; VH-MH-18 đợt luật | Chủ app (p), QTHT; kiểm soát (đ) | VH-REV-04 |
-| `POST /rule-reviews/items/{id}:decide` | VH-MH-16 "Đã rà soát, giữ nguyên" / "Sửa" / "Tắt" | Chủ app (p); QTHT cho app chưa có chủ | VH-REV-04 |
+| `POST /rule-reviews/items/{id}/decide` | VH-MH-16 "Đã rà soát, giữ nguyên" / "Sửa" / "Tắt" | Chủ app (p); QTHT cho app chưa có chủ | VH-REV-04 |
 | `GET /notifications?after=` | Ngăn kéo "Thông báo" | `thong_bao.cua_minh` | VH-HOM-08 |
 | `GET /notifications/unread-count` | Chuông | `thong_bao.cua_minh` | VH-HOM-08 |
-| `POST /notifications/{id}:read`, `POST /notifications:read-all` | Ngăn kéo | `thong_bao.cua_minh` | VH-HOM-08 |
+| `POST /notifications/{id}/read`, `POST /notifications/read-all` | Ngăn kéo | `thong_bao.cua_minh` | VH-HOM-08 |
 | `GET /me/pending-work` | VH-MH-02 dải "Việc đang chờ bạn"; số trên menu | (m) | VH-HOM-09 |
-| `GET /admin/holidays?year=` | VH-MH-13 ngăn "Ngày nghỉ" | `danh_muc.sua` (p) | VH-ORG-08 |
-| `POST /admin/holidays`, `PATCH /admin/holidays/{id}`, `DELETE /admin/holidays/{id}` | Như trên (sửa, xoá chỉ ngày chưa tới) | `danh_muc.sua` (p: pháp nhân) | VH-ORG-08 |
-| `POST /admin/holidays/{id}:confirm` | Xác nhận dòng gợi ý | `danh_muc.sua` (p) | VH-ORG-08 |
-| `PUT /people/{code}/leave` (GĐ B có thì sửa) | VH-MH-11 "Đặt nghỉ dài ngày", kéo dài, ghi ngày đi làm lại | `nhan_su.sua` (p) | VH-LCM-04 |
-| `GET /people:match-previous?email=` | VH-MH-11 gợi ý "Nhận lại?" | `nhan_su.sua` (p) | VH-LCM-05 |
-| `POST /people/{code}:rehire` | VH-MH-11 "Nhận lại" | `nhan_su.sua` (p) | VH-LCM-05 |
+| `GET /admin/holidays?year=` | VH-MH-13 ngăn "Ngày nghỉ" | `co_cau.sua` (p) | VH-ORG-08 |
+| `POST /admin/holidays`, `PATCH /admin/holidays/{id}`, `DELETE /admin/holidays/{id}` | Như trên (sửa, xoá chỉ ngày chưa tới) | `co_cau.sua` (p: pháp nhân) | VH-ORG-08 |
+| `POST /admin/holidays/{id}/confirm` | Xác nhận dòng gợi ý | `co_cau.sua` (p) | VH-ORG-08 |
+| `PUT /admin/people/{code}/leave` (GĐ B có thì sửa) | VH-MH-11 "Đặt nghỉ dài ngày", kéo dài, ghi ngày đi làm lại | `nhan_su.sua` (p) | VH-LCM-04 |
+| `GET /admin/people/match-previous?email=` | VH-MH-11 gợi ý "Nhận lại?" | `nhan_su.sua` (p) | VH-LCM-05 |
+| `POST /admin/people/{code}/rehire` | VH-MH-11 "Nhận lại" | `nhan_su.sua` (p) | VH-LCM-05 |
 | `PATCH /apps/{key}/roles/{role}` (GĐ C, thêm `requestable`) | VH-MH-15 cột "Cho phép xin" | `vai_tro_app.sua` (QTHT, chủ app p) | VH-APP-07 |
 | `GET /admin/grants/unused?app=` | VH-MH-17 báo cáo "Không dùng" | `quyen.xem_khong_dung` | VH-ADM-06 |
-| `POST /admin/grants/unused:keep` | VH-MH-17 "Giữ thêm 90 ngày" | `quyen.xem_khong_dung` | VH-ADM-06 |
+| `POST /admin/grants/unused/keep` | VH-MH-17 "Giữ thêm 90 ngày" | `quyen.xem_khong_dung` | VH-ADM-06 |
 | `GET /reports/exception-grants`, `/reports/requests`, `/reports/reviews` | VH-MH-17 ngăn "Báo cáo" | Theo VH-ADM-02 (BGĐ chỉ số đếm) | VH-ADM-02 phần GĐ D |
 | `GET /admin/requests?person=&status=` | VH-MH-17 ngăn "Yêu cầu" (Theo người) | QTHT; chủ app (p); kiểm soát (đ) | VH-ACC-08, VH-REQ-02 |
 | `GET /admin/settings` | VH-MH-20 | `cai_dat.sua` | VH-ADM-05 |
-| `PUT /admin/settings/{key}`, `POST /admin/settings/{key}:reset` | VH-MH-20 "Lưu", "Về mặc định" (kèm `reason`, `rev`) | `cai_dat.sua` | VH-ADM-05 |
-| `GET /accounts/{sub}/sessions` | VH-MH-03 ngăn "Phiên đăng nhập" | `phien.cua_minh`; `{sub}` khác người gọi là 403 | VH-AUT-10 |
-| `DELETE /accounts/{sub}/sessions/{sid}`, `POST /accounts/{sub}/sessions:revoke-others` | Như trên | Như trên | VH-AUT-10 |
+| `PUT /admin/settings/{key}`, `POST /admin/settings/{key}/reset` | VH-MH-20 "Lưu", "Về mặc định" (kèm `reason`, `rev`) | `cai_dat.sua` | VH-ADM-05 |
+| `GET /accounts/{sub}/sessions` | VH-MH-03 ngăn "Phiên đăng nhập" | `phien.cua_minh`; `{sub}` khác người gọi là 403 (GA-25) | VH-AUT-10 |
+| `DELETE /accounts/{sub}/sessions/{sid}`, `POST /accounts/{sub}/sessions/revoke-others` | Như trên | Như trên | VH-AUT-10 |
 | `POST /_test/clock` (GĐ B) | Staging, UAT | QTHT, chỉ `APP_ENV=staging` | Chạy cả job GĐ D |
 
 Mọi `POST` / `PUT` / `PATCH` / `DELETE` sửa tài liệu gửi kèm `rev`; lệch thì 409 `LOI-409`. Danh sách phân trang `?limit=50&after=` (khung chung mục 6).
@@ -643,10 +646,9 @@ Mọi job đăng ký với bộ chạy của GĐ B, giữ khoá thuê `_job_lock
 | `reviews.timers` | 15 phút | Nhắc ngày 7, 12; đóng đợt quá `due_at` (quý: quá hạn thì gỡ; luật: quá hạn thì báo); thử lại dòng lỗi; sinh PDF | D-07, D-17 |
 | `lifecycle.apply` (GĐ C, thêm) | 00:00, lần an toàn 00:05 | Bắt đầu và kết thúc nghỉ dài; nhận lại có hiệu lực | D-12, D-13 |
 | `lifecycle.notices` | 15 phút | 3 ngày làm việc trước ngày về dự kiến (HC-NS); 3 ngày trước ngày nhận lại khi cần gắn lại tài khoản (QTHT) | D-12, D-13 |
-| `accounts.app_logins` | Mỗi giờ | Kéo `LOGIN` từ VC ID → `accounts.app_logins` | D-18 |
+| `vcid.sync` (GĐ B, mở rộng) | Mỗi giờ, phút 7 | Thêm: cập nhật `accounts.app_logins` từ sự kiện `LOGIN` theo client | D-18 |
 | `grants.unused_alert` | 08:00 thứ Hai | VH-ADM-06 | D-18 |
 | `org.holiday_suggest` | 08:00 ngày 01/12 | Gợi ý ngày nghỉ năm sau theo Bộ luật Lao động (`source = goi_y`), báo HC-NS | D-01 |
-| `notifications.email` | Mỗi phút | Gửi email chờ, thử lại tối đa 5 lần | D-10 |
 | TTL `notifications.expires_at` | MongoDB | Xoá thông báo sau 180 ngày | D-10 |
 
 Theo dõi: mỗi job ghi lần chạy xong vào `_job_locks`. Job 15 phút không chạy quá 30 phút thì cảnh báo vận hành (dùng chung cơ chế của VH-ACC-05 ngoại lệ, VH-ADM-04).
@@ -768,7 +770,7 @@ Sau một thao tác ghi thì làm mới các khoá liên quan (`approvals`, `pen
 
 **Hiện trạng** (đọc ngày 08/10/2026; GĐ A, phiên SSO-08 sẽ thêm `oidc.client.ts` và đường `/auth/oidc/callback`, vẫn trả token qua `#session=`):
 - `apps/api/src/auth/auth.controller.ts` trả phiên `vcs_` trong fragment `/login#session=…`.
-- `apps/web/src/api.ts` lưu ở `localStorage['vclinks.token']` và gửi `Authorization: Bearer`. 14 tệp web gọi `getToken()`; SSE ở `components/layout/RealtimeBridge.tsx` dùng `fetch` có Bearer.
+- `apps/web/src/api.ts` lưu ở `localStorage['vclinks.token']` và gửi `Authorization: Bearer`. 14 tệp web dùng `getToken()` / `setToken()` (kể cả `api.ts`); SSE ở `components/layout/RealtimeBridge.tsx` dùng `fetch` có Bearer.
 - `auth.guard.ts` nhận Bearer `vcs_` (phiên) và `vcz_` (token máy).
 - `session.service.ts` lưu băm sha256, `listMine` và `revokeOthers` so phiên hiện tại bằng token Bearer.
 
@@ -797,7 +799,7 @@ Sau một thao tác ghi thì làm mới các khoá liên quan (`approvals`, `pen
 | `apps/api/src/auth/auth.controller.ts` | Callback đặt cookie thay fragment; `logout` xoá cookie; `sessions`, `revoke-others` lấy phiên hiện tại từ cookie; thêm `POST /auth/session/adopt`; `GET /auth/config` trả thêm `sessionTransport` |
 | `apps/api/src/auth/session.service.ts` | `SessionDoc.csrfHash`; `create()` trả `{token, csrf}`; thêm `adopt(oldToken)`; `listMine`, `revokeOthers` nhận băm của phiên hiện tại |
 | `apps/api/src/auth/token.service.ts` | Ở chế độ `cookie` không nhận `vcs_` qua Bearer |
-| `apps/api/src/app.factory.ts` | `enableCors` không `credentials`; `app.set('trust proxy', …)` giữ như hiện nay |
+| `apps/api/src/app.factory.ts` | `enableCors` giữ như hiện nay, không bật `credentials`; header `allowedHeaders` thêm `X-CSRF-Token` cho môi trường có `CORS_ORIGINS` |
 | `packages/shared` | Mã lỗi `csrf_invalid`; `AuthConfig.sessionTransport` |
 | `apps/web/src/api.ts` | Bỏ `TOKEN_KEY`, `setToken`, `getToken`. `api()` gửi `credentials: 'same-origin'` và `X-CSRF-Token` (đọc cookie) cho phương thức ghi. 401 thì về `/login`. `mediaObjectUrl`, `attachmentObjectUrl` bỏ header. `logout()` gửi CSRF rồi đi tới `redirect`. Thêm `adoptLegacySession()` |
 | `apps/web/src/state/session.tsx` (mới) | `SessionProvider` gọi `/api/me` một lần; `useSession()`, `hasSession()` thay mọi chỗ `!!getToken()` |
@@ -833,7 +835,11 @@ Sau một thao tác ghi thì làm mới các khoá liên quan (`approvals`, `pen
 
 Commit ghi mã phiên D-L-01 và mã đặc tả VClinks liên quan.
 
-### 8.3 VCwiki
+### 8.3 VClinks: nhận sự kiện nghỉ dài ngày (D-L-02)
+
+Theo 07 mục 8.6. Dùng lại bộ nhận sự kiện có chữ ký đã làm ở C-L-02, C-L-03 (`vchome_inbox`, kiểm chữ ký, xử lý một lần). `vh.person.leave_started`: đặt cờ vắng cho người dùng, nhắc giám sát tạo trực thay (PQ-32), luồng "Chia đều" khi bàn giao bỏ qua người đang vắng. `vh.person.returned`: gỡ cờ. Không đổi quyền trong VClinks (quyền do VC Home quyết, VH-BR-15).
+
+### 8.4 VCwiki
 
 Không có việc bắt buộc. VCwiki nhận `vh.person.leave_started` / `returned` là tuỳ chọn (07 mục 9.5). Phiên VCwiki đã là cookie `HttpOnly; Secure; SameSite=Lax` từ GĐ A.
 
@@ -845,7 +851,7 @@ Model theo VClinks CLAUDE.md §15.7: Opus cho phiên đụng bảo mật, bộ c
 |---|---|---|---|---:|---|
 | **D-01** Lịch ngày nghỉ và đồng hồ | VH-ORG-08: `company_holidays`, API, ngăn "Ngày nghỉ" VH-MH-13 (GA-27), job gợi ý 01/12, lệnh `holidays:import`; `WorkCalendarService` hai cách đếm (3.3.1, GA-01, GA-02, GA-30); cờ `FEATURE_*` của GĐ D; migration `D-001`; kiểm nhanh Keycloak dev (mục 8.1) | R3; N11 (bản nháp đủ) | ≥ 15 ca unit cho lịch: ví dụ 02/03 của VH-REQ-04, 05/04 của VH-REV-03, VH-ORG-08 tiêu chí 1 theo GA-01, ngày nghỉ riêng pháp nhân, qua năm, ngày làm việc. VH-ORG-08 tiêu chí 2, 3 có test. API CRUD có test 403. Lịch Tết 2027 nhập được trên staging. Ghi chú kết quả kiểm Keycloak | 5 | Opus |
 | **D-02** Gửi yêu cầu, chọn người duyệt | VH-REQ-01, VH-REQ-05, VH-REQ-02 phần chọn người (3.3.2, VH-BR-12, VH-BR-05, VH-BR-17; GA-03, GA-04); module `requests`, contracts, migration `D-003`; API `form`, `:preview`, gửi, rút, "Yêu cầu của tôi", `requestable-apps` (VH-HOM-04); kiểm trùng, tách nhiệm, hạn tối đa (nhạy cảm 90); thông báo `cho_duyet`, `xin_thay` | D-01, D-10; `grants`, `apps` GĐ C | Bảng ca `ApproverResolver` ≥ 25 ca phủ mọi nhánh, gồm dữ liệu VH-UAT-47, 48, 49. Test thuộc tính (cây tổ chức ngẫu nhiên): không bao giờ giao người gửi hoặc người được cấp, luôn dừng. Có test cho VH-REQ-01 tiêu chí 1–4, VH-REQ-05 tiêu chí 1–3 | 8 | Opus |
-| **D-03** Duyệt, uỷ quyền, nhắc, tự huỷ | VH-REQ-02 (quyết định, bước 2, kiểm lại lúc bấm, chuyển người bước 13, 14), VH-REQ-03, VH-REQ-04 (VH-BR-13; GA-11); tạo quyền qua `GrantsService` (3.3.5: GA-13, cap 90); job `requests.timers`; điểm móc nghỉ việc (VH-LCM-03 bước 9, phần yêu cầu và uỷ quyền), vai trò ngừng; API `approvals`, `:decide`, `delegations` | D-02 | e2e với đồng hồ giả: kịch bản VH-UAT-50 (nhắc N+2, N+5; tự huỷ N+7) và VH-UAT-49 bằng API. Test song song duyệt / tự huỷ: chỉ một bên thắng, câu đúng. Có test cho VH-REQ-02 tiêu chí 1–6, VH-REQ-03 tiêu chí 1–4, VH-REQ-04 tiêu chí 1–4. Job chạy hai lần cùng kết quả | 7 | Opus |
+| **D-03** Duyệt, uỷ quyền, nhắc, tự huỷ | VH-REQ-02 (quyết định, bước 2, kiểm lại lúc bấm, chuyển người bước 13, 14), VH-REQ-03, VH-REQ-04 (VH-BR-13; GA-11); tạo quyền qua `GrantsService` (3.3.5: GA-13, cap 90); job `requests.timers`; điểm móc nghỉ việc (VH-LCM-03 bước 9, phần yêu cầu và uỷ quyền), vai trò ngừng; API `approvals`, `…/decide`, `delegations` | D-02 | e2e với đồng hồ giả: kịch bản VH-UAT-50 (nhắc N+2, N+5; tự huỷ N+7) và VH-UAT-49 bằng API. Test song song duyệt / tự huỷ: chỉ một bên thắng, câu đúng. Có test cho VH-REQ-02 tiêu chí 1–6, VH-REQ-03 tiêu chí 1–4, VH-REQ-04 tiêu chí 1–4. Job chạy hai lần cùng kết quả | 7 | Opus |
 | **D-04** Màn xin quyền | VH-MH-05 (cho mình, xin thay, link sâu `?xin=1`, người duyệt dự kiến, nháp `sessionStorage`); VH-MH-04 nút "Xin quyền", ngăn "Yêu cầu của tôi", chi tiết, "Rút yêu cầu", "Gửi lại"; VH-MH-02 phần "Có thể xin quyền" (VH-HOM-04); VH-MH-09 "Xin quyền thay"; VH-MH-01 nút "Xin quyền"; theo canvas màn 04 + 05 | D-02, D-03 | Playwright: VH-UAT-45 bước 1 (mặc định 90, 400 ngày bị chặn); VH-HOM-04 tiêu chí 1–4; VH-UAT-47 bước 1. Câu chữ khớp 06. Dưới 600 px ngăn kéo chiếm toàn màn | 6 | Sonnet |
 | **D-05** Hộp duyệt | VH-MH-08 ngăn "Yêu cầu quyền" (lọc, chi tiết, cảnh báo, rút ngắn hạn, "Còn" tô màu khi ≤ 2 ngày), "Luật chờ duyệt" (đọc GĐ C, mở VH-MH-16), "Đã xử lý" (90 ngày), "Uỷ quyền" (tạo, huỷ, QTHT đặt hộ); mục menu "Hộp duyệt" hiện theo việc; theo canvas màn 08 | D-03 | Playwright trên seed: VH-UAT-45 bước 2, VH-UAT-46, VH-UAT-48, VH-UAT-49 bước 1–2. Trạng thái "không còn là người duyệt", "người khác đã quyết", "đã kết thúc" hiện đúng câu | 5 | Sonnet |
 | **D-06** Hạn dùng và gia hạn | VH-ACC-05 phần `yeu_cau` (job hết hạn, báo trước 14 và 3 ngày, GA-15, câu khi gia hạn còn chờ); VH-REQ-06 (`kind = gia_han`, kéo dài cùng dòng / dòng mới, GA-14); migration `D-004`; VH-MH-04 "Còn N ngày", "Gia hạn"; VH-MH-09 "Gia hạn thay", cảnh báo; VH-MH-02 nhãn "Hết hạn {dd/mm}" | D-03 | e2e đồng hồ giả: VH-ACC-05 tiêu chí 1–4, VH-REQ-06 tiêu chí 1–4; kịch bản VH-UAT-51, VH-UAT-52 bằng API xanh (`vctest` nhận đúng sự kiện) | 8 | Opus |
@@ -860,13 +866,14 @@ Model theo VClinks CLAUDE.md §15.7: Opus cho phiên đụng bảo mật, bộ c
 | **D-15** Cho phép xin và tự trả quyền | VH-APP-07: cột "Cho phép xin" ở VH-MH-15, mặc định theo nhạy cảm, migration `D-005`, lọc ở VH-MH-04, 05 và ô "Có thể xin quyền", câu cho link sâu, bộ nhớ đệm ≤ 60 giây. VH-ACC-09: nút "Trả quyền", `tu_tra`, báo quản lý, đóng dòng rà soát | D-03, D-06 | VH-APP-07 tiêu chí 1–3; VH-ACC-09 tiêu chí 1–3 (`vctest` nhận hoặc không nhận `vh.grant.removed` đúng ca) | 5 | Opus |
 | **D-16** Duyệt nhiều | VH-REQ-07 (3.3.4): API `bulk-decide` tối đa 20, chặn vai trò nhạy cảm ở máy chủ, mỗi mục một transaction, một dòng quyết định, một dòng nhật ký; thanh hành động và hộp xác nhận liệt kê người, vai trò ở VH-MH-08 | D-05 | VH-REQ-07 tiêu chí 1–3; gửi 21 mục → 422; trộn mục nhạy cảm → 422; một mục lỗi không chặn mục khác | 4 | Opus |
 | **D-17** Rà soát luật nửa năm | VH-REV-04 (3.3.7; GA-06, GA-07, GA-02): đợt `kind = luat` ngày 01/01 và 01/07, dòng theo luật giao chủ app, "Giữ" / "Sửa" / "Tắt" nối VH-MH-16 và VH-QT-10, VH-BR-25; quá 14 ngày làm việc thì báo, không tắt luật; báo cáo tỉ lệ; VH-MH-18 lọc loại đợt; VH-MH-16 lọc "Tới hạn rà soát"; migration `D-007` | D-07, D-08 | VH-REV-04 tiêu chí 1–3; VH-REV-01 tiêu chí 5 viết lại theo GA-06 và đạt | 6 | Sonnet |
-| **D-18** Cảnh báo quyền không dùng 90 ngày | VH-ADM-06 (3.3.11; GA-22, GA-23): `vc.yaml` thêm `view-events`, job `accounts.app_logins` có nạp ngược 120 ngày, job thứ Hai 08:00, thông báo và email chủ app, VH-MH-17 "Gỡ" / "Giữ thêm 90 ngày" | D-10, D-06 | VH-ADM-06 tiêu chí 1–3 với sự kiện VC ID giả; chạy lại job không đổi kết quả | 3 | Sonnet |
+| **D-18** Cảnh báo quyền không dùng 90 ngày | VH-ADM-06 (3.3.11; GA-22, GA-23): `vc.yaml` thêm `view-events`, job `vcid.sync` (mở rộng) có nạp ngược 120 ngày, job thứ Hai 08:00, thông báo và email chủ app, VH-MH-17 "Gỡ" / "Giữ thêm 90 ngày" | D-10, D-06 | VH-ADM-06 tiêu chí 1–3 với sự kiện VC ID giả; chạy lại job không đổi kết quả | 3 | Sonnet |
 | **D-19** Dải "Việc đang chờ bạn" | VH-HOM-09: `GET /me/pending-work` đếm 5 loại (yêu cầu chờ tôi gồm uỷ quyền, dòng rà soát chờ tôi, luật chờ tôi duyệt bước hai, đề nghị sửa hồ sơ chờ HC-NS, quyền của tôi còn ≤ 14 ngày), tối đa 3 dòng, việc gấp trước; làm mới khi tải và mỗi 5 phút; lỗi thì ẩn; số trên menu "Hộp duyệt", "Rà soát quyền" dùng chung | D-05, D-07, D-06 | VH-HOM-09 tiêu chí 1–3 (API lỗi: lưới app hiện ≤ 1,5 giây, VH-NFR-12); truy vấn ≤ 100 ms với 1.000 người (explain dùng chỉ mục) | 5 | Sonnet |
 | **D-20** Chuẩn bị UAT | `seed:uat` phần GĐ D (11 mục 6.6 theo GA-26, lịch nghỉ thử, cài đặt); kịch bản đồng hồ thử đợt D (11 mục 4) thành script; Playwright hồi quy GĐ D; ma trận quyền phủ mọi API mục 5.2; rà ASVS mức 2 phần mới (VH-NFR-04); thông báo phát hành 1 trang | D-01…D-19 | `pnpm ci:local` xanh; độ phủ dòng lệnh `requests` ≥ 80% (VH-NFR-19); staging đủ điều kiện bắt đầu đợt UAT (11 mục 4) | 4 | Sonnet |
 | **D-21** UAT đợt D và sửa lỗi | Chạy VH-UAT-45…55 và các ca hồi quy ★ của GĐ A–C (11 mục 12) với người thật; sửa lỗi (lỗi đụng quyền dùng Opus); biên bản ở `vc-platform/docs/uat/<ngày>/` | D-20; N5, 6 tài khoản Google thử | 11/11 ca GĐ D đạt; không còn lỗi Nghiêm trọng, Cao; biên bản ký; tiêu chí R4 (mục 11.4) đạt | 8 | Sonnet |
 | | **Cộng VC Home** | | | **116** | |
 | **D-L-01** VClinks: phiên cookie httpOnly và chống CSRF | D-BA-42; mục 8.2 (dev VClinks, repo `vclinks`) | SSO-08, SSO-12 xong; thiết kế SSO mục 2.1, 5.4 | VClinks `pnpm ci:local` xanh; e2e cookie mới xanh; thử tay staging đạt; `vcz_`, MCP, extension, SSE chạy; tài liệu VClinks đã sửa | 8 | Opus |
-| | **Tổng** | | | **124** | |
+| **D-L-02** VClinks: nhận sự kiện nghỉ dài ngày | 07 mục 8.6: `vh.person.leave_started` đặt cờ vắng, nhắc giám sát tạo trực thay (PQ-32), "Chia đều" khi bàn giao bỏ người đang vắng; `vh.person.returned` gỡ cờ (D-BA-47) | Bộ nhận sự kiện của C-L-02, C-L-03; D-12, D-13 lên staging | Test nhận hai sự kiện xanh; VH-UAT-54 phần VClinks đạt trên staging | 2 | Sonnet |
+| | **Tổng** | | | **126** | |
 
 **Phủ gói việc của 10 mục 2 (bảng R4):**
 
@@ -882,7 +889,8 @@ Model theo VClinks CLAUDE.md §15.7: Opus cho phiên đụng bảo mật, bộ c
 | Test, UAT | 12 | D-20 (4), D-21 (8) |
 | **Cộng phần VC Home** | **116** | |
 | VClinks: chuyển phiên sang cookie httpOnly + chống CSRF (D-BA-42) | 8 | D-L-01 (8) |
-| **Tổng** | **124** | |
+| VClinks: nhận sự kiện nghỉ dài ngày (D-BA-47) | 2 | D-L-02 (2) |
+| **Tổng** | **126** | |
 
 **Lịch theo tuần** (tuần T theo [10](../10-ke-hoach-trien-khai.md) mục 3; một người làm khoảng 40 giờ mỗi tuần, phần dư dành cho soát mã, lên staging, sửa lỗi):
 
@@ -911,7 +919,7 @@ Model theo VClinks CLAUDE.md §15.7: Opus cho phiên đụng bảo mật, bộ c
 | Unit: người rà soát | Trưởng đơn vị trống, tự rà, nghỉ, nghỉ dài có và không uỷ quyền, tới gốc | D-07 |
 | Unit: thông báo | Mỗi `kind` sinh đúng câu, đúng người, đúng cờ email; gom theo `dedupe_key` | D-10 |
 | Unit: khác | IP rút gọn; kiểm cài đặt; bỏ trường lạ ở nghỉ dài | D-12, D-14 |
-| Ma trận quyền | Sinh từ 02 mục 3 cho mọi API mục 5.2: ô "—" trả 403; người không được giao gọi `:decide` trả 403; `{sub}` khác người gọi trả 403 | D-02…D-19, D-20 |
+| Ma trận quyền | Sinh từ 02 mục 3 cho mọi API mục 5.2: ô "—" trả 403; người không được giao gọi `…/decide` trả 403; `{sub}` khác người gọi trả 403 | D-02…D-19, D-20 |
 | E2E API | `mongodb-memory-server` replica set, issuer giả, đồng hồ giả: xin → duyệt 1 và 2 bước → quyền → sự kiện ở `vctest`; nhắc và tự huỷ; hết hạn; gia hạn; đợt rà soát đầy đủ; đợt luật; nghỉ dài; nhận lại; tự trả; duyệt nhiều | Mỗi phiên nghiệp vụ |
 | Đồng thời | Duyệt và tự huỷ cùng lúc; hai người duyệt bước 2 cùng lúc; bấm gửi hai lần | D-03 |
 | Idempotent | Mỗi job chạy hai lần liền trên cùng dữ liệu: không gửi trùng thông báo, không trùng sự kiện; dừng 2 giờ rồi chạy: làm bù đúng một lần (VH-ACC-05 tiêu chí 2) | D-03, D-06, D-07, D-18 |
@@ -1000,7 +1008,7 @@ Thêm cho kế hoạch này:
 |---|---|---|
 | Cách đếm đồng hồ (GA-01) bị đổi sau khi code, sai hạn tự huỷ và tự gỡ | Trung bình | Một chỗ tính duy nhất (`WorkCalendarService`), công tắc `CLOCK_SKIPS_SUNDAY`, bảng ca test; BA chốt GA-01 trong T10 trước D-03 |
 | Bộ chọn người duyệt sai: yêu cầu treo hoặc giao nhầm người (lỗ hổng quyền) | Cao | Hàm thuần có bảng ca và test thuộc tính; kiểm lại lúc bấm; job tính lại 15 phút; nhật ký mỗi lần chuyển; báo cáo "bước giao QTHT" trong tóm tắt tháng |
-| Thiếu lịch nghỉ 2027 khi bật, yêu cầu tự huỷ giữa Tết Nguyên đán | Cao | N11 là việc chặn; không bật `FEATURE_REQUESTS` khi chưa có Tết 2027 trong `company_holidays` (kiểm trong lệnh bật) |
+| Thiếu lịch nghỉ 2027 khi bật, yêu cầu tự huỷ giữa Tết Nguyên đán | Cao | N11 là việc chặn và nằm trong tiêu chí lên bản (11.4); API khởi động với `FEATURE_REQUESTS=on` mà năm hiện tại chưa có ngày nghỉ nào trong `company_holidays` thì ghi cảnh báo vận hành |
 | Đợt rà soát tự gỡ hàng loạt vì người rà soát quên | Trung bình | Nhắc ngày 7, 12 cả email; số "Chờ" trên VH-MH-18 và dải việc chờ; đợt đầu (quý 2/2027) có buổi hướng dẫn trưởng đơn vị |
 | Kỳ nghỉ 28/12–03/01 và Tết Nguyên đán làm dồn việc, trễ R4 | Trung bình | Phiên ưu tiên M và có ca UAT làm trước. Nếu trễ, rời sau R4 theo thứ tự: VH-HOM-09 (C), VH-LCM-05 (C, không có ca UAT), VH-REV-04 (đợt đầu 01/07/2027), VH-ADM-06. Không rời phần có ca VH-UAT-45…55 |
 | Keycloak bản đang ghim không gửi back-channel khi admin xoá phiên, hoặc sự kiện `LOGIN` thiếu `clientId` | Thấp | Kiểm ở D-01. Dự phòng: VH-AUT-10 gọi `POST /users/{id}/logout` khi người dùng chọn "Đăng xuất mọi phiên khác" (báo trước là phiên này cũng mất); VH-ADM-06 dùng `CODE_TO_TOKEN` |
@@ -1048,4 +1056,5 @@ Số yêu cầu GĐ D chưa có phiên: **0** (23/23).
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 14:06 | Claude Code (vai trưởng nhóm kỹ thuật) | Tạo kế hoạch code GĐ D: phạm vi 23 yêu cầu và phần GĐ D của yêu cầu khác, module `requests`, `reviews` và 11 module sửa, thuật toán đồng hồ và chọn người duyệt, 33 giả định kỹ thuật, dữ liệu và migration, API, job, sự kiện, loại thông báo, giao diện, VClinks cookie httpOnly + CSRF, 22 phiên (116 giờ VC Home + 8 giờ VClinks = 124 giờ), lịch T10–T14, kiểm thử, lên bản, rủi ro, truy vết | Brief kế hoạch code GĐ B–D ngày 08/10/2026; khung chung `ke-hoach-code-tong-quan.md` 0.1; 02, 04, 05, 06, 07, 10, 11, 12 bản 08/10/2026; đọc code `vclinks/apps/api/src/auth`, `vclinks/apps/web/src` |
+| 0.2 | 08/10/2026 14:28 | Claude Code (vai BA trưởng, soát chéo) | Soát chéo với GĐ B, C: đường dẫn API theo quy ước GĐ B (không dùng `:`, `/my-team`, `/admin/people`, `/accounts/{sub}/sessions`); quyền danh mục dùng `co_cau.sua`; email đi qua `_email_outbox` của GĐ C; lần đăng nhập theo app mở rộng job `vcid.sync` của GĐ B; GA-01, GA-29 đã chốt; thêm D-L-02 (2 giờ VClinks), tổng 126 giờ | Soát chéo 3 kế hoạch code ngày 08/10/2026; [12](../12-cau-hoi-rui-ro.md) D-BA-44…48 |
+| 0.1 | 08/10/2026 14:23 | Claude Code (vai trưởng nhóm kỹ thuật) | Tạo kế hoạch code GĐ D: phạm vi 23 yêu cầu và phần GĐ D của yêu cầu khác, module `requests`, `reviews` và 11 module sửa, thuật toán đồng hồ và chọn người duyệt, 33 giả định kỹ thuật, dữ liệu và migration, API, job, sự kiện, loại thông báo, giao diện, VClinks cookie httpOnly + CSRF, 22 phiên (116 giờ VC Home + 8 giờ VClinks = 124 giờ), lịch T10–T14, kiểm thử, lên bản, rủi ro, truy vết | Brief kế hoạch code GĐ B–D ngày 08/10/2026; khung chung `ke-hoach-code-tong-quan.md` 0.1; 02, 04, 05, 06, 07, 10, 11, 12 bản 08/10/2026; đọc code `vclinks/apps/api/src/auth`, `vclinks/apps/web/src` |

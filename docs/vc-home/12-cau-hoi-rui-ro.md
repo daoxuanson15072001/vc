@@ -1,6 +1,6 @@
 # VC Home — Quyết định, giả định và rủi ro
 
-Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt (người dùng uỷ quyền BA)
+Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đã chốt (người dùng uỷ quyền BA)
 
 ## Tóm tắt
 
@@ -20,7 +20,7 @@ Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt (người dùng u�
   - RR-01: dữ liệu nhân sự đầu vào không đủ hoặc không sạch.
   - RR-02: chưa có dev làm VC Home toàn thời gian.
   - RR-13: repo đang public.
-- **Sổ quyết định soát chéo** (mục 5): 43 điểm (36 điểm lệch giữa tài liệu, 6 điểm vá bảo mật D-BA-37…42, nâng máy chủ D-BA-43) giữa các tài liệu đã được BA trưởng chốt; khi tài liệu còn ghi khác thì theo mục 5.
+- **Sổ quyết định soát chéo** (mục 5): 48 điểm (36 điểm lệch giữa tài liệu, 6 điểm vá bảo mật D-BA-37…42, nâng máy chủ D-BA-43, 5 điểm chốt khi soát chéo kế hoạch code D-BA-44…48) giữa các tài liệu đã được BA trưởng chốt; khi tài liệu còn ghi khác thì theo mục 5.
 - **Người duyệt xem kỹ:** mục 4 (quyết định), mục 6 (đề xuất để sau và không làm), các rủi ro mức Cao ở mục 3.
 
 ## Mục lục
@@ -190,6 +190,11 @@ Bộ tài liệu do nhiều người viết song song. Khi soát chéo ngày 08/
 | D-BA-41 | VC ID một máy chủ | Giữ 1 máy cho tới GĐ D; giám sát và khôi phục thử là điều kiện R1; chạy 2 máy trước khi VCsale hoặc app vận hành khác nối vào | Thiết kế SSO 14; RR-07 |
 | D-BA-42 | Phiên VClinks trong `localStorage` | Chuyển sang cookie httpOnly, Secure, SameSite=Lax + chống CSRF; làm trong R4 (≤ 22/01/2027), trước khi nối VC AI | 10 R4; kế hoạch code GĐ D |
 | D-BA-43 | Máy chủ production từ GĐ B | Nâng từ 2 vCPU / 4 GB (Q2, đủ cho GĐ A) lên **4 vCPU / 8 GB RAM, 80 GB SSD trước R2**, vì từ GĐ B máy chạy thêm MongoDB và VC Home API. Chủ dự án duyệt chi phí | Kế hoạch code tổng quan mục 8; 10 mục 4 |
+| D-BA-44 | Mã tài liệu VCwiki cho phần SSO và GĐ C | `tiktok-to-text/docs/BA.md` hiện tới SYS-42 (`UAT-SYS-59` là mã ca kiểm thử, không phải mã SYS). SSO dùng **SYS-43** (thay SYS-60), GĐ C dùng **SYS-44, SYS-45**; DESIGN dùng TK-35 (SSO), TK-36 (GĐ C). Đối chiếu lại trước khi ghi | Thiết kế SSO 2.2, 5.5; kế hoạch GĐ C; 10 |
+| D-BA-45 | Đồng hồ 7 ngày (yêu cầu), 14 ngày (rà soát), lịch nhắc | Đếm mọi ngày, **chỉ trừ ngày nghỉ công ty** của pháp nhân người đó; Chủ nhật vẫn đếm (khớp VH-BR-13, VH-BR-16 và các ca UAT) | 04 VH-ORG-08; 09 VH-US-068; kế hoạch GĐ D GA-01 |
+| D-BA-46 | "Lỗi mức cao" của đối chiếu Google (tiêu chí lên R2) | Nhóm 1 (có Google, không có hồ sơ), nhóm 4 (Google khoá mà hồ sơ đang làm) và nhóm "hồ sơ đã nghỉ, Google còn hoạt động" của VH-IMP-02 | 10 mục 6; kế hoạch GĐ B |
+| D-BA-47 | Khoảng R3 → R4 (khoảng 42 ngày) chưa có xin quyền; VClinks nhận sự kiện nghỉ dài | Bộ luật bản đầu (N8) phủ vai trò theo chức danh; trường hợp còn lại quản trị hệ thống cấp khẩn cấp (tối đa 7 ngày, ghi lý do). Thêm 2 giờ VClinks ở R4 (D-L-02) cho `vh.person.leave_started` / `returned` | 10 R4; kế hoạch GĐ C, D |
+| D-BA-48 | Giả định kỹ thuật trong kế hoạch code (GĐ B mục 3.4, GĐ C mục 3.11 GT-01…27, GĐ D mục 3.4 GA-01…33) | Có hiệu lực như quyết định soát chéo. Khi tài liệu nghiệp vụ ghi khác thì theo giả định; BA sửa 04, 05, 06, 07, 11 theo đó trước phiên đầu của mỗi giai đoạn (điều kiện sẵn sàng) | 10 mục 5; mọi tài liệu nghiệp vụ |
 
 ## 6. Xử lý các đề xuất bổ sung
 
@@ -248,6 +253,7 @@ Nhiều đề xuất trùng nhau giữa các tài liệu (ví dụ "báo trướ
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.4 | 08/10/2026 14:31 | Claude Code (vai BA trưởng, soát chéo) | Thêm D-BA-44…48 (mã VCwiki, cách đếm ngày, lỗi mức cao của đối chiếu Google, khoảng R3–R4, giả định kỹ thuật của kế hoạch code) | Soát chéo 3 kế hoạch code ngày 08/10/2026 |
 | 0.3 | 08/10/2026 13:49 | Claude Code (vai BA trưởng) | Thêm D-BA-37…42 (6 điểm vá sau đánh giá bảo mật luồng đăng nhập) và D-BA-43 (nâng máy chủ trước R2); sửa SSO Q3 theo D-BA-37; RR-07 | Người dùng đồng ý 6 điểm vá ngày 08/10/2026 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA) | Chốt toàn bộ Q-01…Q-15, SSO Q1–Q5, người làm VC Home, repo public (mục 4, thêm 4.2 danh mục chức năng, 4.3 người giữ vai trò); đổi mục 1 thành "đã cân nhắc"; thêm mục 6 xử lý 89 đề xuất bổ sung; cập nhật RR-02, RR-13 và tóm tắt | Người dùng uỷ quyền BA chốt ngày 08/10/2026 ("không cần phải t quyết định nữa") |
 | 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo tài liệu: 15 câu hỏi có đề xuất và hạn, 14 rủi ro | README bộ tài liệu 0.1; câu hỏi người dùng 08/10/2026 |

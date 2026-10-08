@@ -1,6 +1,6 @@
 # Kế hoạch code: đăng nhập một lần (SSO) bằng Keycloak và cổng VC Home
 
-Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 và 6 điểm vá bảo mật (chờ đầu vào I1–I9)
+Phiên bản 0.5 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 và 6 điểm vá bảo mật (chờ đầu vào I1–I9)
 
 ## Tóm tắt
 
@@ -87,7 +87,7 @@ Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 và 6 đi�
 | Phiên | `app/auth.py` | Cookie `vc_session` httpOnly, SameSite=Lax, **không có cờ `secure`**, 14 ngày; **token lưu nguyên văn làm `_id`** trong `sessions` (không băm) |
 | Token máy | `app/auth.py` | `vcmcp_`, lưu băm sha256 trong `api_tokens` |
 | Quyền | `app/policy.py`, `app/org.py` | Một điểm kiểm quyền, kho, mức mật C0–C3, cây tổ chức riêng |
-| Tài liệu | `docs/BA.md` | Mục 2 ghi "Đăng nhập Google Workspace / SSO: chờ quyết định"; mục 12 câu 4 đã trả lời "Email + mật khẩu". Mã SYS lớn nhất đang dùng: **SYS-59** |
+| Tài liệu | `docs/BA.md` | Mục 2 ghi "Đăng nhập Google Workspace / SSO: chờ quyết định"; mục 12 câu 4 đã trả lời "Email + mật khẩu". Mã SYS lớn nhất đang dùng: **SYS-42** (đọc lại 08/10/2026; `UAT-SYS-59` là mã ca kiểm thử, không phải mã SYS) |
 | Quy trình | `CLAUDE.md` | Bắt buộc BA → DESIGN → Code → UAT, commit ghi mã BA + mã DESIGN |
 
 ### 2.3 Hệ quả cho thiết kế
@@ -138,7 +138,7 @@ Trình duyệt              VC Home / App           VC ID (Keycloak)            
     │◄──────────────────────── 302 accounts.google.com (hd, select_account) ───────►│
     │                         │                          │◄── id_token Google ──────│
     │                         │                          │ kiểm 2 domain, tạo/gắn   │
-    │                         │                          │ user (sub), nhóm mặc định│
+    │                         │                          │ user (sub), nhóm app     │
     │                         │                          │ mở phiên chung (sid)     │
     │◄── 302 /callback?code&state ───────────────────────│                          │
     │────────────────────────►│ đổi code (PKCE + secret) │                          │
@@ -188,7 +188,7 @@ Bàn giao khách khi nghỉ việc (VClinks M1b-11) vẫn là quy trình riêng 
 |---|---|---|
 | Q1 | Tên miền của VC ID và VC Home? | `id.vcprosperous.com`, `home.vcprosperous.com`, màn quản trị riêng `id-admin.vcprosperous.com` (chặn ngoài mạng công ty). App giữ tên miền hiện tại. Thiết kế không dựa vào cookie dùng chung giữa các tên miền, nên app ở `tramaphutung.com` vẫn chạy đúng |
 | Q2 | Máy chủ production chạy ở đâu? | Một máy ảo **đặt tại Việt Nam** (2 vCPU, 4 GB RAM, 40 GB SSD, Ubuntu 24.04), không đặt trên máy 129. Đặt ở Việt Nam để dữ liệu nhân viên không phải làm hồ sơ chuyển ra nước ngoài theo Luật Bảo vệ dữ liệu cá nhân |
-| Q3 | Ai thấy app nào lúc đầu? | Mọi tài khoản công ty vào cả VClinks và VCwiki (nhóm mặc định). Ai chưa có vai trò thì app tự báo "đang chờ cấp quyền" như hiện nay |
+| Q3 | Ai thấy app nào lúc đầu? | Mọi tài khoản cá nhân đủ điều kiện (bật 2 bước, không thuộc danh sách loại trừ; D-BA-37) vào cả VClinks và VCwiki. Ai chưa có vai trò thì app tự báo "đang chờ cấp quyền" như hiện nay |
 | Q4 | VCwiki có tự tạo tài khoản ở lần đăng nhập đầu không? | Có, vai trò `member`, chỉ thấy kho công khai; báo admin như VClinks đang làm |
 | Q5 | Thời hạn phiên? | Hết hạn sau 12 giờ không dùng, tối đa 7 ngày phải đăng nhập lại (VCwiki giảm từ 14 xuống 7 ngày cho khớp) |
 
@@ -316,7 +316,7 @@ internationalizationEnabled: true
 supportedLocales: [vi, en]
 defaultLocale: vi
 loginTheme: vc
-defaultGroups: [/app-vclinks, /app-vcwiki]
+# Không có defaultGroups (D-BA-37): vc-provisioner cấp /app-vclinks, /app-vcwiki theo điều kiện vào app
 groups:
   - name: app-vclinks
   - name: app-vcwiki
@@ -466,15 +466,15 @@ async verifyLogoutToken(token: string): Promise<{ sid?: string; sub?: string; jt
 
 Đi đúng quy trình của repo: **BA → DESIGN → Code → UAT**.
 
-- **BA:** mã mới **SYS-60** "Đăng nhập một lần qua VC ID".
-  - Sửa mục 2: dòng "Đăng nhập Google Workspace / SSO" đổi thành "Đã chốt, SYS-60".
+- **BA:** mã mới **SYS-43** "Đăng nhập một lần qua VC ID".
+  - Sửa mục 2: dòng "Đăng nhập Google Workspace / SSO" đổi thành "Đã chốt, SYS-43".
   - Sửa mục 12 câu 4: câu trả lời mới, giữ câu cũ gạch ngang.
   - Sửa mục 1.4 kiến trúc.
 - **DESIGN:**
   - Một mục theo mẫu Phần 0 mục 0.6.
   - Mã TK lấy số kế tiếp còn trống **sau khi đối chiếu** với file chuẩn hoá VC Marketing (đang giữ TK-18 đến TK-34), đề xuất **TK-35**.
   - Mã màn hình cho trang đăng nhập lấy số SCR kế tiếp.
-- **Commit:** ghi `SYS-60 TK-35: …`.
+- **Commit:** ghi `SYS-43 TK-35: …`.
 
 | File | Thay đổi |
 |---|---|
@@ -614,7 +614,7 @@ Mỗi phiên có Đầu vào, Việc, Đầu ra, Xong khi. Model theo CLAUDE.md 
 | **SSO-02** Realm và theme | `vc.yaml` đủ mục 5.1 (không có nhóm mặc định, mapper `vc_trang_thai`); theme `vc` với 5 trang mục 5.1.6; client `*-dev` | SSO-01, I3 | Áp `vc.yaml` hai lần không lỗi (áp lại được); đăng nhập Google domain công ty được, Gmail cá nhân bị chặn với câu tiếng Việt | 6 | Opus |
 | **SSO-03** VC Home | SPA mục 5.3; 3 câu trạng thái theo `vc_trang_thai`; `apps.yaml` → `catalog.json` có kiểm schema; nginx | SSO-02 | Đăng nhập, lưới 2 app, hồ sơ, đăng xuất, tải lại trang không phải đăng nhập lại; Lighthouse truy cập ≥ 90 trên điện thoại | 7 | Sonnet |
 | **SSO-04** `vc-provisioner` | Mục 5.6: khoá theo Google, điều kiện vào app (2 bước, danh sách loại trừ), tạo sẵn user, cấp và gỡ nhóm, chạy mỗi 15 phút; test với Google và Keycloak giả | SSO-02, I4, I9 | `report` và `sync --dry-run` đúng trên dữ liệu thật; danh sách "ai được vào app" gửi chủ dự án; khoá thử một tài khoản test thì app thử nhận back-channel | 8 | Opus |
-| **SSO-05** VCwiki BA + DESIGN | SYS-60, TK-35, mã SCR, ca UAT | Bản kế hoạch này | Người duyệt VCwiki duyệt BA và DESIGN | 2 | Sonnet |
+| **SSO-05** VCwiki BA + DESIGN | SYS-43, TK-35, mã SCR, ca UAT | Bản kế hoạch này | Người duyệt VCwiki duyệt BA và DESIGN | 2 | Sonnet |
 | **SSO-06** VCwiki code | Mục 5.5 | SSO-02, SSO-05 | Test mới xanh, test cũ xanh; trên staging: đăng nhập SSO, gắn đúng user cũ, back-channel thu hồi phiên | 8 | Opus |
 | **SSO-07** VCwiki chuyển | Bật `AUTH_SSO` trên production với `AUTH_PASSWORD_LOGIN=on`; theo dõi 2 tuần; rồi đổi sang `admin` | SSO-06, SSO-10, I7 | Mọi người dùng thường đã đăng nhập ít nhất 1 lần bằng SSO; danh sách I7 đã xử lý | 3 | Sonnet |
 | **SSO-08** VClinks code | Mục 5.4 (sau 26/10) | SSO-02, mốc M1 xong | `pnpm ci:local` xanh; e2e mới: đăng nhập OIDC với issuer giả (server test sinh khoá bằng `jose`), back-channel, xung đột `idpSub`, thiếu nhóm | 8 | Opus |
@@ -753,7 +753,7 @@ Từ GĐ C, VC Home tự khoá theo ngày nghỉ HC-NS nhập (VH-LCM-03), quy t
 | `vclinks` | `docs/04-ky-thuat/api/dang-nhap-oidc.md` (mới) | Route, biến môi trường, kiểm token, back-channel |
 | `vclinks` | `docs/06-van-hanh/` | Cách bật, quay lui, đường khẩn cấp |
 | `vclinks` | `docs/01-quan-ly-du-an/lo-trinh-ai-trung-tam-vclinks-vcwiki.md` | Q7 (SSO chung) chuyển sang "đang làm", trỏ tới kế hoạch này |
-| `tiktok-to-text` | `docs/BA.md` (SYS-60, mục 1.4, 2, 12), `docs/DESIGN.md` (TK-35, SCR), `docs/UAT.md` | Theo quy trình BA → DESIGN → Code → UAT |
+| `tiktok-to-text` | `docs/BA.md` (SYS-43, mục 1.4, 2, 12), `docs/DESIGN.md` (TK-35, SCR), `docs/UAT.md` | Theo quy trình BA → DESIGN → Code → UAT |
 | `vc-platform` | Toàn bộ `docs/` | Mục 6 |
 
 Mỗi file sửa theo quy định §13 của VClinks: tăng phiên bản một lần lúc commit, ghi lịch sử có ngày giờ, cập nhật README của thư mục.
@@ -774,6 +774,7 @@ Mỗi file sửa theo quy định §13 của VClinks: tăng phiên bản một l
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.5 | 08/10/2026 14:31 | Claude Code (vai BA trưởng, soát chéo) | Mã VCwiki đổi SYS-60 thành SYS-43 (BA.md hiện tới SYS-42; SYS-59 là mã ca UAT); bỏ `defaultGroups` trong phác thảo `vc.yaml`, sửa Q3 và sơ đồ đăng nhập theo D-BA-37 | Soát chéo kế hoạch code ngày 08/10/2026; [12](../12-cau-hoi-rui-ro.md) D-BA-44…48 |
 | 0.4 | 08/10/2026 13:50 | Claude Code (vai BA trưởng) | 6 điểm vá bảo mật: điều kiện vào app ở GĐ A–B (không nhóm mặc định, bật 2 bước, danh sách loại trừ, tạo sẵn user), `vc-provisioner` mỗi 15 phút (khoá ≤ 20 phút), I8–I9, mục 11.1 quy trình nghỉ việc tay, UAT-SSO-21…23, mục 14; 65 giờ | [12](../12-cau-hoi-rui-ro.md) D-BA-37…42; người dùng đồng ý 08/10/2026 |
 | 0.3 | 08/10/2026 11:31 | Claude Code (vai BA) | Ghi Q1–Q5 đã chốt theo đề xuất (mục 4.1, tóm tắt, lịch); thêm kiểm (7) mapper `vh_roles` vào SSO-00 | [12](../12-cau-hoi-rui-ro.md) mục 4; [07](../07-tich-hop.md) mục 11 đề xuất 8 |
 | 0.2 | 08/10/2026 10:04 | Claude Code (vai BA) | Chuyển file từ `docs/sso/ke-hoach-sso-keycloak.md` vào bộ tài liệu VC Home (`docs/vc-home/ky-thuat/`), đổi tên; ghi rõ đây là thiết kế GĐ A; VC Home có thêm backend từ GĐ B; thêm thư mục `api/` vào cấu trúc repo `vc-platform` | Bộ tài liệu VC Home 0.1 |

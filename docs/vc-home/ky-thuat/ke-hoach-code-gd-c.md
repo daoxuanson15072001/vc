@@ -1,6 +1,6 @@
 # Kế hoạch code GĐ C: quyền theo luật và vòng đời (R3)
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -316,7 +316,7 @@ desired(account):
 ```
 
 - "Đang làm" ở GĐ C; GĐ D thêm "Nghỉ dài ngày không khoá" (VH-BR-15).
-- Dữ liệu Google (trạng thái, 2 bước) do `vc-provisioner` gửi sang mỗi 15 phút (mục 8.2). Dữ liệu cũ hơn 2 giờ thì `idsync` chỉ thêm, không gỡ gì theo điều kiện này, và cảnh báo (dừng an toàn).
+- Dữ liệu Google (trạng thái, 2 bước) do `vc-provisioner` gửi sang mỗi 15 phút (mục 8.2). Job `google.reconcile` của GĐ B (06:00 và "Đối chiếu ngay") cũng ghi `accounts.google_status`; hai nguồn cùng ghi được, bản có `checked_at` mới hơn thắng. Dữ liệu cũ hơn 2 giờ thì `idsync` chỉ thêm, không gỡ gì theo điều kiện này, và cảnh báo (dừng an toàn).
 - **Hàng đẩy:** mọi thay đổi quyền hiệu lực, gắn tài khoản, khoá, mở khoá, đổi điều kiện ghi `_idsync_queue` (một dòng mỗi tài khoản). Worker mỗi 30 giây: đọc trạng thái thật trên VC ID (client role của các client trong danh mục, nhóm `app-*`, thuộc tính), tính chênh, thêm thiếu, bỏ thừa, rồi gọi `GrantsService.markSynced(personId, at)` để ghi `idp_synced_at`. Chỉ đụng nhóm `app-*` và client role của app có trong danh mục; nhóm khác như `vc-id-admin` không đụng.
 - **Ghi thuộc tính:** Admin API thay cả bản đồ thuộc tính khi `PUT` user, nên luôn đọc rồi ghi lại đủ, không làm mất `employee_code`, `vh_profile` của GĐ B và `vc_trang_thai`.
 - **`vh_roles` nhiều giá trị:** mỗi `{role, unit}` là một giá trị chuỗi JSON của thuộc tính `vh_roles_<khoá>`; mapper bật `multivalued` và kiểu JSON nên claim ra mảng đối tượng. Cách này tránh giới hạn độ dài một giá trị thuộc tính (GT-23). Phần của một app vượt 2 KB thì không ghi, đặt `vh_roles_overflow = true` (07 mục 2.5).
@@ -751,15 +751,15 @@ Dev VClinks (Dev002 + Claude Code), theo [07](../07-tich-hop.md) mục 8. Tài l
 Dev VCwiki, theo [07](../07-tich-hop.md) mục 9 và quy trình của repo **BA → DESIGN → Code → UAT** (`tiktok-to-text/CLAUDE.md`).
 
 **Mã mới.** Đối chiếu ngày 08/10/2026: `docs/BA.md` (v0.62) có SYS-01…SYS-42 (không có SYS-40, chưa có SYS-60); `docs/DESIGN.md` có tới TK-17; `docs/UAT.md` có tới UAT-SYS-59. SYS-60 và TK-35 đã giữ cho SSO ở GĐ A (thiết kế SSO mục 5.5). GĐ C dùng:
-- **SYS-61** "Nối VC Home: cơ cấu tổ chức và người dùng nhận từ VC People (ORG thành bên đọc), nhận sự kiện có chữ ký".
-- **SYS-62** "Vai trò hệ thống từ VC Home, mặc định chặn".
+- **SYS-44** "Nối VC Home: cơ cấu tổ chức và người dùng nhận từ VC People (ORG thành bên đọc), nhận sự kiện có chữ ký".
+- **SYS-45** "Vai trò hệ thống từ VC Home, mặc định chặn".
 - **TK-36** (Phần VIII của DESIGN, mẫu Phần 0 mục 0.6); mã SCR kế tiếp nếu thêm dải "Quản lý ở VC Home" ở màn `/org`.
-- Ca `UAT-SYS-NN` số kế tiếp còn trống. Commit ghi `SYS-61 TK-36: …`, `SYS-62 TK-36: …`.
+- Ca `UAT-SYS-NN` số kế tiếp còn trống. Commit ghi `SYS-44 TK-36: …`, `SYS-45 TK-36: …`.
 - Phiên C-W-01 đối chiếu lại cả ba file trước khi ghi; số đã bị dùng thì lấy số kế tiếp còn trống. (Thiết kế SSO mục 2.2 ghi "SYS lớn nhất là SYS-59" là nhầm với ca UAT-SYS-59; không đánh số lại SYS-60.)
 
 | File | Thay đổi | Phiên |
 |---|---|---|
-| `docs/BA.md` | SYS-61, SYS-62 ở mục 6.3; sửa 1.4 (kiến trúc), 2 (phạm vi), 6.1 (vai trò hệ thống), 15.9 (ORG-01…04, 06, 08 ghi phần nhận từ VC Home); lịch sử có giờ | C-W-01 |
+| `docs/BA.md` | SYS-44, SYS-45 ở mục 6.3; sửa 1.4 (kiến trúc), 2 (phạm vi), 6.1 (vai trò hệ thống), 15.9 (ORG-01…04, 06, 08 ghi phần nhận từ VC Home); lịch sử có giờ | C-W-01 |
 | `docs/DESIGN.md` | TK-36: luồng sự kiện, ánh xạ 07 mục 9.2, 9.3, cờ, quay lui | C-W-01 |
 | `backend/scripts/export_role_snapshot.py` (mới) | Ảnh chụp vai trò (`admin`/`member` theo N6, `grants` `editor` theo đơn vị) cho công cụ so khớp | C-W-01 |
 | `backend/app/config.py` | `ORG_SOURCE`, `ROLE_SOURCE`, `VCHOME_API_URL`, `VCHOME_CLIENT_ID=vcwiki-service`, `VCHOME_CLIENT_SECRET`, `VCHOME_EVENT_SECRETS` | C-W-02 |
@@ -823,7 +823,7 @@ Mỗi phiên làm trong một phiên chat Claude Code, cập nhật sổ phiên 
 
 | Phiên | Việc | Đầu vào | Đầu ra / Xong khi | Giờ | Model |
 |---|---|---|---|---:|---|
-| **C-W-01** BA, DESIGN, ảnh chụp vai trò | Đối chiếu mã; viết SYS-61, SYS-62 (BA), TK-36 (DESIGN), ca UAT; `export_role_snapshot.py` | N6, N7; 07 mục 9 | Người duyệt VCwiki duyệt BA và DESIGN; ảnh chụp đầu tiên chạy được (cho C-09) | 3 | Sonnet |
+| **C-W-01** BA, DESIGN, ảnh chụp vai trò | Đối chiếu mã; viết SYS-44, SYS-45 (BA), TK-36 (DESIGN), ca UAT; `export_role_snapshot.py` | N6, N7; 07 mục 9 | Người duyệt VCwiki duyệt BA và DESIGN; ảnh chụp đầu tiên chạy được (cho C-09) | 3 | Sonnet |
 | **C-W-02** Nhận sự kiện, client VC Home | `vchome.py`, `vchome_client.py`, job trong `worker.py`, cấu hình | C-W-01; JSON Schema từ C-10; staging có C-11 | Pytest chữ ký, giờ lệch, trùng, thứ tự xanh; nhận sự kiện từ VC Home staging | 5 | Opus |
 | **C-W-03** ORG thành bên đọc | `org.py` áp ảnh chụp người, đơn vị; khoá route; nghỉ việc theo ORG-08; `spaces.py` chia sẻ theo đơn vị; chế độ `shadow` | C-W-02 | Test ORG-01…04, 08 cũ vẫn xanh ở `ORG_SOURCE=local`; VH-UAT-33 phần VCwiki (gỡ `bien_tap`, khoá `vcmcp_`) | 5 | Opus |
 | **C-W-04** Vai trò từ VC Home | `auth.py` ánh xạ vai trò, mặc định chặn, overflow; `policy.py` `bien_tap`; token `vcmcp_` khi khoá, mở khoá; nhãn vai trò ở header | C-W-03; C-13 trên staging | VH-UAT-30 (ô VCwiki "Thành viên"), VH-UAT-35 phần VCwiki (`bien_tap` có hiệu lực ≤ 5 phút) | 4 | Opus |
@@ -1028,4 +1028,5 @@ Mọi yêu cầu của GĐ C ở mục 1.1 đều có phiên.
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.2 | 08/10/2026 14:28 | Claude Code (vai BA trưởng, soát chéo) | Soát chéo với GĐ B, D: mã VCwiki SYS-44, SYS-45 (BA.md hiện tới SYS-42; GĐ A dùng SYS-43, D-BA-44); đường dẫn `/my-team` theo GĐ B; hai nguồn ghi `google_status` (bản mới hơn thắng) | Soát chéo 3 kế hoạch code ngày 08/10/2026; [12](../12-cau-hoi-rui-ro.md) D-BA-44…48 |
 | 0.1 | 08/10/2026 14:10 | Claude Code (vai trưởng nhóm kỹ thuật) | Tạo kế hoạch code GĐ C: phạm vi 23 yêu cầu, thiết kế bộ tính quyền, luật, đẩy VC ID, vòng đời, sự kiện; dữ liệu, API, job; thay đổi ở VC ID, `vc-provisioner`, VClinks, VCwiki; 24 phiên VC Home (112 giờ) và 10 phiên app (40 giờ), tổng 152 giờ; chạy ngầm và bật thật; 27 giả định kỹ thuật | Brief kế hoạch code GĐ B–D ngày 08/10/2026; [khung chung](ke-hoach-code-tong-quan.md) 0.1; README, 02, 04, 05, 06, 07, 08, 10, 11, 12 bản 08/10/2026; đọc `tiktok-to-text/docs/BA.md` v0.62 |
