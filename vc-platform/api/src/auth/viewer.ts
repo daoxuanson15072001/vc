@@ -82,7 +82,8 @@ export class ViewerService {
       email: claims.email ?? null,
       ...link,
       assigned,
-      hcnsScope: hcns.length === 0 ? null : hcns.includes('hcns') ? 'all' : hcns.map((r) => r.slice(5)),
+      // `hcns@<root unit>` is the whole group too (kế hoạch GĐ B mục 3.3 điểm 6).
+      hcnsScope: hcns.length === 0 ? null : hcns.includes('hcns') || hcns.includes(`hcns@${this.env.ROOT_UNIT_CODE}`) ? 'all' : hcns.map((r) => r.slice(5)),
       roles,
       conflicts: pairs.map((p) => p.join('+')),
     };

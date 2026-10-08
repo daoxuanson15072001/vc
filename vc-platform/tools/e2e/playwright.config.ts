@@ -10,6 +10,8 @@ export default defineConfig({
   use: {
     headless: true,
     locale: 'vi-VN',
+    // A failure leaves its trace in test-results/ (pnpm --filter @vc/e2e exec playwright show-trace …).
+    trace: 'retain-on-failure',
     launchOptions: process.env.PW_CHROMIUM_PATH ? { executablePath: process.env.PW_CHROMIUM_PATH } : {},
   },
   webServer: [

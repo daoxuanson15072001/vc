@@ -27,11 +27,15 @@ class MongoLifecycle implements OnModuleInit, OnApplicationShutdown {
     if (this.env.MONGO_MIGRATE_URL) {
       const c = await connectMongo(this.env.MONGO_MIGRATE_URL);
       try {
-        await runMigrations(c.db(this.env.MONGO_DB), this.clock, this.log, `migrate:${process.pid}`);
+        await runMigrations(c.db(this.env.MONGO_DB), this.clock, this.log, `migrate:${process.pid}`, undefined, this.root);
       } finally {
         await c.close();
       }
-    } else await runMigrations(this.db, this.clock, this.log, `migrate:${process.pid}`);
+    } else await runMigrations(this.db, this.clock, this.log, `migrate:${process.pid}`, undefined, this.root);
+  }
+
+  private get root() {
+    return { code: this.env.ROOT_UNIT_CODE, name: this.env.ROOT_UNIT_NAME };
   }
 
   async onApplicationShutdown(): Promise<void> {

@@ -108,10 +108,10 @@ export class ChangeService {
     };
   }
 
-  private checkPermission(req: Requester, h: ChangeHandler, item: ChangeItem): void {
+  private async checkPermission(req: Requester, h: ChangeHandler, item: ChangeItem): Promise<void> {
     if (!req.viewer) return;
     if (!accessFor(h.permission, req.viewer.roles)) throw new ApiError('forbidden');
-    h.authorize?.(req.viewer, item);
+    await h.authorize?.(req.viewer, item, this.db);
   }
 
   private async affectedCount(ctx: ChangeContext, items: ChangeItem[]): Promise<number> {
@@ -131,12 +131,13 @@ export class ChangeService {
     if (!isYmd(input.effective_on)) throw new ApiError('bad_request', { message: 'Ngày hiệu lực không hợp lệ.', details: { field: 'effective_on' } });
     if (!input.items?.length) throw new ApiError('bad_request', { message: 'Không có thay đổi nào.' });
     if (input.reason && input.reason.length > 200) throw new ApiError('bad_request', { message: 'Lý do tối đa 200 ký tự.', details: { field: 'reason' } });
-    const items = input.items.map((it) => {
+    const items: ChangeItem[] = [];
+    for (const it of input.items) {
       const h = this.handler(it.kind);
       const item = { kind: it.kind, target: it.target, payload: h.schema.parse(it.payload) as Record<string, unknown> };
-      this.checkPermission(req, h, item);
-      return item;
-    });
+      await this.checkPermission(req, h, item);
+      items.push(item);
+    }
     const today = todayOn(this.clock);
     const warnings: string[] = [];
     const pastLimit = await this.settings.get('changes.past_warning_days');
@@ -402,7 +403,7 @@ export class ChangeService {
     if (!reason || reason.trim().length < 5) throw new ApiError('rule_violation', { message: 'Nhập lý do huỷ hẹn (ít nhất 5 ký tự).' });
     return withTx(this.client, async (session) => {
       const docs = await this.pendingGroup(groupId, session);
-      for (const d of docs) this.checkPermission(req, this.handler(d.kind), d);
+      for (const d of docs) await this.checkPermission(req, this.handler(d.kind), d);
       await this.cancelGroupInTx(session, docs[0].group_id, reason, req);
       return this.summarize(await this.col.find({ group_id: docs[0].group_id }, { session }).sort({ seq: 1 }).toArray(), docs[0].confirm?.preview_count ?? null);
     });

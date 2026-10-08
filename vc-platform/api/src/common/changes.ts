@@ -74,7 +74,7 @@ export interface ChangeHandler<P extends Record<string, unknown> = Record<string
   /** Needed to send or cancel this kind (02 mục 3). */
   permission: Permission;
   /** Extra check on the person sending or cancelling (scope, e.g. legal entities: HC-NS of the whole group only). */
-  authorize?(viewer: Viewer, item: ChangeItem<P>): void;
+  authorize?(viewer: Viewer, item: ChangeItem<P>, db: Db): void | Promise<void>;
   schema: z.ZodType<P>;
   /** `<type>:<id>:<field>` keys this change sets; two pending changes sharing a key conflict (06 mục 1.5). */
   conflictKeys(item: ChangeItem<P>): string[];

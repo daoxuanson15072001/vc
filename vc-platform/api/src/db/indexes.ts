@@ -34,6 +34,16 @@ export const INDEXES: Partial<Record<CollectionName, IndexDescription[]>> = {
     { key: { employee_code_prefix: 1 }, name: 'employee_code_prefix', unique: true, partialFilterExpression: { employee_code_prefix: { $type: 'string' } } },
     uniqueName,
   ],
+  // 05 mục 3.4: sibling names unique among active units; ancestors for whole branches.
+  [C.orgUnits]: [
+    { key: { parent_code: 1, name_folded: 1 }, name: 'parent_name', unique: true, partialFilterExpression: { status: 'hoat_dong' } },
+    { key: { ancestors: 1 }, name: 'ancestors' },
+    { key: { parent_code: 1, order: 1 }, name: 'parent_order' },
+    { key: { division_code: 1 }, name: 'division_code' },
+    { key: { head_person_id: 1 }, name: 'head_person_id', sparse: true },
+    { key: { status: 1 }, name: 'status' },
+    { key: { type: 1 }, name: 'type' },
+  ],
   [C.workLocations]: [{ key: { legal_entity_code: 1, status: 1 }, name: 'legal_entity_status' }, { key: { kind: 1 }, name: 'kind' }, uniqueName],
 };
 
