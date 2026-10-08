@@ -1853,5 +1853,5 @@ Các đề xuất màn khác đã có ở 04 mục 13 (ví dụ màn "Tài kho�
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 11:06 | Claude Code (vai BA) | Tạo tài liệu: quy ước chung, sơ đồ trang, menu theo vai trò, khung chung (header, thông báo, menu), đặc tả 21 màn VH-MH-01…21 kèm khung dây cho 6 màn chính; đồng bộ câu chữ và giới hạn với 04; 12 điểm lệch với README, 02, 04; 8 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Ghi kết quả xử lý 8 đề xuất ở mục 10 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
+| 0.1 | 08/10/2026 11:06 | Claude Code (vai BA) | Tạo tài liệu: quy ước chung, sơ đồ trang, menu theo vai trò, khung chung (header, thông báo, menu), đặc tả 21 màn VH-MH-01…21 kèm khung dây cho 6 màn chính; đồng bộ câu chữ và giới hạn với 04; 12 điểm lệch với README, 02, 04; 8 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |

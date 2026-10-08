@@ -904,5 +904,5 @@ Các câu chuyện dưới đây **chưa có mã yêu cầu** ở README mục 5
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 11:14 | Claude Code (vai BA) | Tạo tài liệu: cách đọc, 12 nhóm câu chuyện có mục tiêu, giai đoạn, thước đo; 88 câu chuyện VH-US kèm tiêu chí "Cho trước / Khi / Thì" đồng bộ câu chữ với 04 và 06; bảng độ phủ 78/78 yêu cầu; 7 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |
 | 0.2 | 08/10/2026 11:30 | Claude Code (vai BA) | Thêm 12 câu chuyện cho 12 yêu cầu nhận thêm (VH-US-029, 050, 068, 069, 086, 107, 131, 170, 186, 208, 209, 227), mỗi câu chuyện 2–3 tiêu chí; thêm 12 dòng độ phủ (90/90); cập nhật phân bố; ghi kết quả xử lý mục 16. | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; 04 mục 14; 12 mục 4, 6 |
+| 0.1 | 08/10/2026 11:14 | Claude Code (vai BA) | Tạo tài liệu: cách đọc, 12 nhóm câu chuyện có mục tiêu, giai đoạn, thước đo; 88 câu chuyện VH-US kèm tiêu chí "Cho trước / Khi / Thì" đồng bộ câu chữ với 04 và 06; bảng độ phủ 78/78 yêu cầu; 7 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |

@@ -394,5 +394,5 @@ VH-API-01…07 và VH-API-10 nằm trên VC Home API với tiền tố `/api/v1`
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 10:04 → 11:16 | Claude Code (vai BA trưởng, 5 người viết song song) | Tạo bộ tài liệu: khung chung, quy ước mã, thuật ngữ, giai đoạn, danh mục 78 yêu cầu, 25 quy tắc, 12 quy trình, 21 màn hình, dữ liệu, sự kiện, API, 12 nhóm câu chuyện | Yêu cầu người dùng 08/10/2026; thiết kế SSO 0.1; khảo sát Okta, Microsoft Entra, MISA AMIS, Base.vn; đọc code VClinks và VCwiki |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Thêm 12 yêu cầu nhận thêm vào sổ mã (tổng 90), collection `company_holidays` (tổng 28), 2 sự kiện `vh.person.change_scheduled`, `vh.test.ping` (tổng 13), VH-API-10; ghi trạng thái: mọi câu hỏi và đề xuất đã chốt, chỉ còn đầu vào bên ngoài | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
+| 0.1 | 08/10/2026 10:04 → 11:16 | Claude Code (vai BA trưởng, 5 người viết song song) | Tạo bộ tài liệu: khung chung, quy ước mã, thuật ngữ, giai đoạn, danh mục 78 yêu cầu, 25 quy tắc, 12 quy trình, 21 màn hình, dữ liệu, sự kiện, API, 12 nhóm câu chuyện | Yêu cầu người dùng 08/10/2026; thiết kế SSO 0.1; khảo sát Okta, Microsoft Entra, MISA AMIS, Base.vn; đọc code VClinks và VCwiki |

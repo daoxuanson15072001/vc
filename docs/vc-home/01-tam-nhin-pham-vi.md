@@ -180,5 +180,5 @@ Sau R4 (cuối 01/2027), mọi điều sau đều đúng:
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo tài liệu: bối cảnh, 7 vấn đề, mục tiêu và chỉ số, phạm vi 5 giai đoạn, bên liên quan, giả định, ràng buộc, tác động tới 11 điểm của hệ thống hiện có, tham khảo 4 phần mềm, tiêu chí thành công | README bộ tài liệu 0.1; lộ trình AI trung tâm 0.1; khảo sát Okta, Microsoft Entra, MISA AMIS, Base.vn |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA) | Ghi người giữ vai trò theo chức vụ (Q-07), Q-06 đã chốt, giả định GĐ-5 gắn với quyết định nhân sự | [12](12-cau-hoi-rui-ro.md) mục 4 (người dùng uỷ quyền chốt) |
+| 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo tài liệu: bối cảnh, 7 vấn đề, mục tiêu và chỉ số, phạm vi 5 giai đoạn, bên liên quan, giả định, ràng buộc, tác động tới 11 điểm của hệ thống hiện có, tham khảo 4 phần mềm, tiêu chí thành công | README bộ tài liệu 0.1; lộ trình AI trung tâm 0.1; khảo sát Okta, Microsoft Entra, MISA AMIS, Base.vn |

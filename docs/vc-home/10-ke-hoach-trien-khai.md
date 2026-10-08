@@ -241,5 +241,5 @@ Bảng dưới là truy vết theo phân hệ.
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo kế hoạch: nguyên tắc chia bản, phạm vi và giờ theo bản (khoảng 420 giờ A–D), việc theo tuần tới R4, 9 đầu vào bên ngoài, nhân sự, tiêu chí lên bản có chạy ngầm, định nghĩa sẵn sàng và xong, ma trận truy vết | README bộ tài liệu 0.1; thiết kế SSO 0.1 mục 8 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA) | Ghi quyết định nhân sự (1 dev Platform từ 02/11, hạn có người 30/10, phương án dời sau Tết); thêm giờ cho 12 yêu cầu mới (R2 +10, R3 +6, R4 +28) và công cụ kiểm thử (R2 +6), tổng khoảng 470 giờ; N2, N3, N9 đổi theo quyết định; thêm N10, N11; cập nhật ma trận truy vết; việc cần làm ngay | [12](12-cau-hoi-rui-ro.md) mục 4, 6; 04 mục 14 |
+| 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo kế hoạch: nguyên tắc chia bản, phạm vi và giờ theo bản (khoảng 420 giờ A–D), việc theo tuần tới R4, 9 đầu vào bên ngoài, nhân sự, tiêu chí lên bản có chạy ngầm, định nghĩa sẵn sàng và xong, ma trận truy vết | README bộ tài liệu 0.1; thiết kế SSO 0.1 mục 8 |

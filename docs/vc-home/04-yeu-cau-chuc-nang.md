@@ -2583,5 +2583,5 @@ Người dùng uỷ quyền cho BA trưởng chốt các đề xuất bổ sung.
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 11:16 | Claude Code (vai BA, hai người viết phần 1–5 và 6–12, BA trưởng gộp và soát chéo) | Tạo tài liệu: 78 yêu cầu đủ mẫu và tiêu chí nghiệm thu; gộp đề xuất bổ sung; áp quyết định soát chéo (loại đơn vị có pháp nhân, trạng thái app có `beta`, `paused` và loại `lien_ket_ngoai`, hồ sơ không vào làm chuyển Đã nghỉ, client `vchome`, VH-ACC-03 nâng lên M) | README bộ tài liệu 0.1; 02, 05, 07, 08; thiết kế SSO 0.2 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Mục 13 ghi trạng thái cả 34 đề xuất (không còn "Mở"); thêm mục 14: 12 yêu cầu mới (14.1) và phần bổ sung cho 11 yêu cầu có sẵn (14.2) | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
+| 0.1 | 08/10/2026 11:16 | Claude Code (vai BA, hai người viết phần 1–5 và 6–12, BA trưởng gộp và soát chéo) | Tạo tài liệu: 78 yêu cầu đủ mẫu và tiêu chí nghiệm thu; gộp đề xuất bổ sung; áp quyết định soát chéo (loại đơn vị có pháp nhân, trạng thái app có `beta`, `paused` và loại `lien_ket_ngoai`, hồ sơ không vào làm chuyển Đã nghỉ, client `vchome`, VH-ACC-03 nâng lên M) | README bộ tài liệu 0.1; 02, 05, 07, 08; thiết kế SSO 0.2 |

@@ -1287,5 +1287,5 @@ Các điểm dưới đây chưa có mã trong README. Người duyệt chọn: 
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 10:18 | Claude Code (vai BA) | Tạo tài liệu: bức tranh vòng đời, quy ước chung, 12 quy trình VH-QT-01 đến VH-QT-12 (tổng quan, sơ đồ Mermaid, bảng bước truy về VH-xxx và VH-BR, ngoại lệ, chỉ số đo), checklist hợp đồng tích hợp, 19 đề xuất chưa cấp mã, 5 điểm lệch ở README và 02 | README bộ tài liệu 0.1 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Ghi kết quả xử lý 19 đề xuất ở mục 15 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
+| 0.1 | 08/10/2026 10:18 | Claude Code (vai BA) | Tạo tài liệu: bức tranh vòng đời, quy ước chung, 12 quy trình VH-QT-01 đến VH-QT-12 (tổng quan, sơ đồ Mermaid, bảng bước truy về VH-xxx và VH-BR, ngoại lệ, chỉ số đo), checklist hợp đồng tích hợp, 19 đề xuất chưa cấp mã, 5 điểm lệch ở README và 02 | README bộ tài liệu 0.1 |

@@ -1687,5 +1687,5 @@ Ký hiệu: **Gốc** = nơi duy nhất được sửa · Bản sao = nhận t�
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 10:16 | Claude Code (vai BA) | Tạo tài liệu: sơ đồ quan hệ, từ điển 23 collection kèm chỉ mục và ví dụ, 5 luồng trạng thái, mô hình thay đổi có ngày hiệu lực, phân loại mức mật, thời hạn lưu và ẩn danh, nguồn sự thật, 5 đề xuất | README bộ tài liệu 0.1 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Thêm trường (`nickname`, `photo.source nhan_vien`, `google_id`, `requestable`, `removed_reason tu_tra`, `review_campaigns.kind`, `is_test`, `doi_chieu_vc_id`…) và collection `company_holidays`; tóm tắt ghi quyết định Q-02, 10, 11, 13; ghi xử lý đề xuất mục 9 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
+| 0.1 | 08/10/2026 10:16 | Claude Code (vai BA) | Tạo tài liệu: sơ đồ quan hệ, từ điển 23 collection kèm chỉ mục và ví dụ, 5 luồng trạng thái, mô hình thay đổi có ngày hiệu lực, phân loại mức mật, thời hạn lưu và ẩn danh, nguồn sự thật, 5 đề xuất | README bộ tài liệu 0.1 |

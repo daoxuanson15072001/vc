@@ -315,5 +315,5 @@ Hệ thống chặn các tổ hợp sau. Nếu một người buộc phải gi�
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo tài liệu: tác nhân, vai trò, ma trận quyền, 25 quy tắc, RACI, tách nhiệm | README bộ tài liệu 0.1 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Sửa VH-BR-09 (vai trò nhạy cảm tối đa 90 ngày), VH-BR-11 (nhập muộn), VH-BR-12 (chuyển người duyệt), VH-BR-16 (đơn vị không có trưởng, uỷ quyền, ngày nghỉ), VH-BR-25 (thay đổi hàng loạt, người duyệt thay, lệch > 20%); ma trận cho kiểm soát xem luật; RACI thêm VH-QT-01 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
+| 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo tài liệu: tác nhân, vai trò, ma trận quyền, 25 quy tắc, RACI, tách nhiệm | README bộ tài liệu 0.1 |

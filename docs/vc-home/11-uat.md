@@ -400,5 +400,5 @@ Các quyền trên nạp khi dựng staging, nhật ký ghi "nạp dữ liệu U
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 10:18 | Claude Code (vai BA) | Tạo tài liệu: phạm vi, môi trường staging, vai trò người thử, điều kiện bắt đầu và kết thúc, mức độ lỗi, bộ dữ liệu thử (16 đơn vị, 15 nhân viên, 30 hồ sơ số đông, 5 app, 13 luật), 59 ca VH-UAT-01 đến VH-UAT-59 theo GĐ A–E, ma trận truy vết về VH-QT và về UAT-SSO, 6 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |
 | 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Ghi kết quả xử lý 6 đề xuất: công cụ kiểm thử trên staging, 6 tài khoản Google thử | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
+| 0.1 | 08/10/2026 10:18 | Claude Code (vai BA) | Tạo tài liệu: phạm vi, môi trường staging, vai trò người thử, điều kiện bắt đầu và kết thúc, mức độ lỗi, bộ dữ liệu thử (16 đơn vị, 15 nhân viên, 30 hồ sơ số đông, 5 app, 13 luật), 59 ca VH-UAT-01 đến VH-UAT-59 theo GĐ A–E, ma trận truy vết về VH-QT và về UAT-SSO, 6 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |
