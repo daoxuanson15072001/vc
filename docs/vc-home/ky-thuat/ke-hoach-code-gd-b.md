@@ -1,6 +1,6 @@
 # Kế hoạch code GĐ B: hồ sơ và tổ chức (R2)
 
-Phiên bản 0.3 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
+Phiên bản 0.4 · 08/10/2026 · Trạng thái: Nháp (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -393,8 +393,9 @@ Từ điển trường ở [05](../05-du-lieu.md) mục 3; bảng dưới chỉ 
 | `B0001_indexes` | Tạo mọi chỉ mục ở mục 4.1 | B-01, bổ sung theo phiên |
 | `B0002_audit_role` | Vai trò MongoDB `vchome_api` (chỉ `find`, `insert` trên `audit_log`) | B-02 |
 | `B0003_settings` | Seed `system_settings` từ `packages/contracts/settings.ts` | B-03 |
-| `B0004_root_and_functions` | Đơn vị gốc `tap_doan` (mã lấy từ biến `ROOT_UNIT_CODE`, mặc định `VCPV`); 10 chức năng Q-02 | B-04, B-05 |
-| `B0005_apps_from_yaml` | Đọc `home/apps.yaml` vào `apps` nếu collection rỗng; thêm `vchome` | B-19 |
+| `B0004_functions` | 10 chức năng Q-02 | B-04 |
+| `B0005_root_unit` | Đơn vị gốc `tap_doan` (mã lấy từ biến `ROOT_UNIT_CODE`, mặc định `VCPV`) | B-05 |
+| `B0006_apps_from_yaml` | Đọc `home/apps.yaml` vào `apps` nếu collection rỗng; thêm `vchome` | B-19 |
 | `pnpm migrate:exclusions` | Lệnh chạy tay một lần: `provisioner/loai-tru.yaml` → `directory_exclusions`, in so sánh | B-15 |
 
 Quy tắc: chỉ thêm trường, chỉ mục; không xoá dữ liệu trong cùng bản (khung chung mục 8). Seed thử: `pnpm seed:uat` nạp bộ dữ liệu [11](../11-uat.md) mục 6.1–6.3 (B-24); `pnpm seed:load` sinh 1.000 hồ sơ, 300 đơn vị giả để đo hiệu năng (B-10).
@@ -942,6 +943,7 @@ Mọi yêu cầu của GĐ B có ít nhất một phiên. Ba yêu cầu mức S 
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.4 | 08/10/2026 17:04 | Claude Code (B-04) | Tách migration `B0004_root_and_functions` thành `B0004_functions` (B-04) và `B0005_root_unit` (B-05); nạp app thành `B0006` | Phiên B-04: migration đã chạy thì không sửa được, đơn vị gốc thuộc B-05 ([sổ phiên](../../../vc-platform/docs/so-phien.md) mục 2.1) |
 | 0.3 | 08/10/2026 15:52 | Claude Code (code GĐ A) | Công cụ áp realm là `@vc/realm-apply` thay `keycloak-config-cli` | [12](../12-cau-hoi-rui-ro.md) D-BA-49 |
 | 0.2 | 08/10/2026 14:28 | Claude Code (vai BA trưởng, soát chéo) | Soát chéo với GĐ C, D: ghi chú hai nguồn ghi `google_status` từ GĐ C | Soát chéo 3 kế hoạch code ngày 08/10/2026; [12](../12-cau-hoi-rui-ro.md) D-BA-44…48 |
 | 0.1 | 08/10/2026 14:07 | Claude Code (vai trưởng nhóm kỹ thuật) | Tạo kế hoạch code GĐ B: phạm vi, điều kiện, thiết kế module và luồng, 22 giả định kỹ thuật, dữ liệu, API nội bộ và API cho app, quyền `@Can`, job, giao diện, thay đổi ở VC ID và `vc-provisioner`, 25 phiên 142 giờ, kiểm thử và ca UAT, lên bản và quay lui, rủi ro, truy vết | [Khung chung](ke-hoach-code-tong-quan.md) 0.1; README, 02, 04 (gồm mục 14), 05, 06, 07, 08, 10, 11, 12 bản ngày 08/10/2026; [thiết kế SSO](thiet-ke-sso-keycloak.md) 0.4 |

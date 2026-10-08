@@ -10,6 +10,7 @@ import { C } from '../collections';
 import { ensureIndexes } from '../indexes';
 import { ensureAccessRoles } from '../roles';
 import { seedSettings } from '../../settings/settings.service';
+import { seedFunctions } from '../../org/catalogs/seed';
 
 export interface Migration {
   id: string;
@@ -39,6 +40,11 @@ export const MIGRATIONS: Migration[] = [
     id: 'B0003_settings',
     description: 'Cài đặt hệ thống với giá trị mặc định (04 VH-ADM-05)',
     up: seedSettings,
+  },
+  {
+    id: 'B0004_functions',
+    description: '10 chức năng ban đầu (Q-02, 04 VH-ORG-03)',
+    up: seedFunctions,
   },
 ];
 

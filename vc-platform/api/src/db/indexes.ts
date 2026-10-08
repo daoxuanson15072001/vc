@@ -2,6 +2,9 @@
 import type { Db, IndexDescription } from 'mongodb';
 import { C, type CollectionName } from './collections';
 
+/** Names are unique among entries not merged away (kế hoạch GĐ B mục 4.1: `name_folded` ✚). */
+const uniqueName: IndexDescription = { key: { name_folded: 1 }, name: 'name_folded', unique: true, partialFilterExpression: { status: { $in: ['dang_dung', 'ngung'] } } };
+
 export const INDEXES: Partial<Record<CollectionName, IndexDescription[]>> = {
   [C.jobLocks]: [{ key: { lease_until: 1 }, name: 'lease_until' }],
   // 05 mục 3.18; TTL removes rows 24 months old (expires_at).
@@ -22,6 +25,16 @@ export const INDEXES: Partial<Record<CollectionName, IndexDescription[]>> = {
     { key: { 'source.import_batch_id': 1 }, name: 'import_batch', sparse: true },
     { key: { conflict_keys: 1, status: 1 }, name: 'conflict_keys_status' },
   ],
+  // 05 mục 3.5.
+  [C.jobTitles]: [{ key: { status: 1 }, name: 'status' }, { key: { default_function_code: 1 }, name: 'default_function' }, uniqueName],
+  [C.jobFunctions]: [{ key: { status: 1 }, name: 'status' }, uniqueName],
+  [C.legalEntities]: [
+    { key: { status: 1 }, name: 'status' },
+    { key: { tax_code: 1 }, name: 'tax_code', unique: true, partialFilterExpression: { tax_code: { $type: 'string' } } },
+    { key: { employee_code_prefix: 1 }, name: 'employee_code_prefix', unique: true, partialFilterExpression: { employee_code_prefix: { $type: 'string' } } },
+    uniqueName,
+  ],
+  [C.workLocations]: [{ key: { legal_entity_code: 1, status: 1 }, name: 'legal_entity_status' }, { key: { kind: 1 }, name: 'kind' }, uniqueName],
 };
 
 export async function ensureIndexes(db: Db): Promise<void> {

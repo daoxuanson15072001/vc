@@ -51,6 +51,8 @@ test('QTHT: token của VC Home dùng được cho API, có vai trò qtht và qu
   expect(r.status).toBe(200);
   expect(r.body).toMatchObject({ email: 'hung.qtht@vcprosperous.com', home_roles: ['qtht'], role_conflicts: [] });
   expect(r.body.permissions).toEqual(expect.arrayContaining(['tai_khoan.khoa', 'nhan_su.xem']));
+  // Quản trị hệ thống does not edit the org structure (02 mục 3).
+  expect((await fetch(`${HOME}/api/v1/admin/catalogs/job-titles`, { headers: { authorization: `Bearer ${access_token}` } })).status).toBe(403);
 });
 
 test('HC-NS theo pháp nhân: hcns@VCPARTS', async ({ page }) => {
@@ -58,6 +60,12 @@ test('HC-NS theo pháp nhân: hcns@VCPARTS', async ({ page }) => {
   const r = await me(access_token);
   expect(r.body).toMatchObject({ home_roles: ['hcns@VCPARTS'], hcns_scope: ['VCPARTS'] });
   expect(r.body.permissions).toEqual(expect.arrayContaining(['nhan_su.sua', 'co_cau.sua']));
+  // B-04: catalogs through nginx with the real token: the 10 functions; legal entities read-only for this scope.
+  const get = (path: string) => fetch(`${HOME}/api/v1/admin/catalogs/${path}`, { headers: { authorization: `Bearer ${access_token}` } });
+  const fns = await get('job-functions');
+  expect(fns.status).toBe(200);
+  expect((await fns.json()).items.map((f: { code: string }) => f.code)).toHaveLength(10);
+  expect(await (await get('legal-entities')).json()).toMatchObject({ can_create: false });
 });
 
 test('Nhân viên không giữ vai trò quản trị: không có quyền quản trị; id_token không dùng thay access token được', async ({ page }) => {

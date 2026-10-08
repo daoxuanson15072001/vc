@@ -8,6 +8,7 @@ import type { Permission } from '@vc/contracts';
 import type { ClientSession, Db, ObjectId } from 'mongodb';
 import type { z } from 'zod';
 import type { Actor, SourceType } from '../audit/audit.service';
+import type { Viewer } from '../auth/viewer';
 import type { Clock } from './clock';
 
 /** Org changes apply before people changes at the same instant: a unit must exist before a position opens in it. */
@@ -72,6 +73,8 @@ export interface ChangeHandler<P extends Record<string, unknown> = Record<string
   category: ChangeCategory;
   /** Needed to send or cancel this kind (02 mục 3). */
   permission: Permission;
+  /** Extra check on the person sending or cancelling (scope, e.g. legal entities: HC-NS of the whole group only). */
+  authorize?(viewer: Viewer, item: ChangeItem<P>): void;
   schema: z.ZodType<P>;
   /** `<type>:<id>:<field>` keys this change sets; two pending changes sharing a key conflict (06 mục 1.5). */
   conflictKeys(item: ChangeItem<P>): string[];

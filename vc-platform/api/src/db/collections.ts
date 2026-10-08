@@ -7,6 +7,14 @@ export const C = {
   accounts: 'accounts',
   settings: 'system_settings',
   scheduledChanges: 'scheduled_changes',
+  jobTitles: 'job_titles',
+  jobFunctions: 'job_functions',
+  legalEntities: 'legal_entities',
+  workLocations: 'work_locations',
+  /** Written from B-05 (org units), B-06 (people), B-07 (positions); catalogs read them to count use (05 field names). */
+  orgUnits: 'org_units',
+  people: 'people',
+  positions: 'positions',
 } as const;
 
 export type CollectionName = (typeof C)[keyof typeof C];

@@ -6,7 +6,7 @@
  * Every check runs again when a change is applied; a failing group is applied in full or not at all (`loi`).
  */
 import { Inject, Injectable } from '@nestjs/common';
-import { accessFor, addDays, formatVnDate, isYmd, toEffectiveAt, type Permission } from '@vc/contracts';
+import { accessFor, addDays, formatVnDate, isYmd, toEffectiveAt } from '@vc/contracts';
 import { ObjectId, type ClientSession, type Db, type Filter, type MongoClient } from 'mongodb';
 import { AuditService, SYSTEM, type Actor, type SourceType } from '../../audit/audit.service';
 import type { Viewer } from '../../auth/viewer';
@@ -108,8 +108,10 @@ export class ChangeService {
     };
   }
 
-  private checkPermission(req: Requester, permission: Permission): void {
-    if (req.viewer && !accessFor(permission, req.viewer.roles)) throw new ApiError('forbidden');
+  private checkPermission(req: Requester, h: ChangeHandler, item: ChangeItem): void {
+    if (!req.viewer) return;
+    if (!accessFor(h.permission, req.viewer.roles)) throw new ApiError('forbidden');
+    h.authorize?.(req.viewer, item);
   }
 
   private async affectedCount(ctx: ChangeContext, items: ChangeItem[]): Promise<number> {
@@ -124,14 +126,16 @@ export class ChangeService {
 
   // --- Send ---------------------------------------------------------------------------------------------------------
 
-  async submit(input: SubmitInput, req: Requester): Promise<SubmitResult> {
+  /** Sends a group of changes. With `session`, runs inside the caller's transaction (an edit that also renames). */
+  async submit(input: SubmitInput, req: Requester, outer?: ClientSession): Promise<SubmitResult> {
     if (!isYmd(input.effective_on)) throw new ApiError('bad_request', { message: 'Ngày hiệu lực không hợp lệ.', details: { field: 'effective_on' } });
     if (!input.items?.length) throw new ApiError('bad_request', { message: 'Không có thay đổi nào.' });
     if (input.reason && input.reason.length > 200) throw new ApiError('bad_request', { message: 'Lý do tối đa 200 ký tự.', details: { field: 'reason' } });
     const items = input.items.map((it) => {
       const h = this.handler(it.kind);
-      this.checkPermission(req, h.permission);
-      return { kind: it.kind, target: it.target, payload: h.schema.parse(it.payload) as Record<string, unknown> };
+      const item = { kind: it.kind, target: it.target, payload: h.schema.parse(it.payload) as Record<string, unknown> };
+      this.checkPermission(req, h, item);
+      return item;
     });
     const today = todayOn(this.clock);
     const warnings: string[] = [];
@@ -142,7 +146,7 @@ export class ChangeService {
     }
     const threshold = await this.settings.get('bulk.confirm_min_people');
 
-    const summary = await withTx(this.client, async (session) => {
+    const send = async (session: ClientSession) => {
       const now = this.clock.now();
       const keys = items.flatMap((it) => this.handler(it.kind).conflictKeys(it));
       const replaceGroups = await this.replaceGroups(input.replace_ids ?? [], session);
@@ -211,7 +215,8 @@ export class ChangeService {
       // Today or earlier: apply now, inside the same transaction (05 mục 5.1).
       if (!needsConfirm && input.effective_on <= today) await this.applyGroupInTx(session, docs, req.actor, req.correlationId, req.via);
       return this.summarize(await this.col.find({ group_id: groupId }, { session }).sort({ seq: 1 }).toArray(), affected);
-    });
+    };
+    const summary = outer ? await send(outer) : await withTx(this.client, send);
 
     const message =
       summary.status === 'da_ap'
@@ -397,7 +402,7 @@ export class ChangeService {
     if (!reason || reason.trim().length < 5) throw new ApiError('rule_violation', { message: 'Nhập lý do huỷ hẹn (ít nhất 5 ký tự).' });
     return withTx(this.client, async (session) => {
       const docs = await this.pendingGroup(groupId, session);
-      for (const d of docs) this.checkPermission(req, this.handler(d.kind).permission);
+      for (const d of docs) this.checkPermission(req, this.handler(d.kind), d);
       await this.cancelGroupInTx(session, docs[0].group_id, reason, req);
       return this.summarize(await this.col.find({ group_id: docs[0].group_id }, { session }).sort({ seq: 1 }).toArray(), docs[0].confirm?.preview_count ?? null);
     });
