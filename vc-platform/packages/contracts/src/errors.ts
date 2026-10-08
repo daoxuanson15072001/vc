@@ -19,6 +19,7 @@ export const ERRORS = {
   payload_too_large: { status: 413, message: 'Tệp hoặc dữ liệu gửi lên quá lớn.' },
   rate_limited: { status: 429, message: 'Bạn thao tác quá nhanh. Vui lòng thử lại sau ít phút.' },
   feature_off: { status: 503, message: 'Chức năng này chưa bật.' },
+  idp_unreachable: { status: 503, message: 'Không kết nối được máy chủ đăng nhập. Thử lại sau ít phút.' },
   server_error: { status: 500, message: 'Máy chủ đang gặp sự cố. Vui lòng thử lại sau ít phút. Mã lỗi: {maLoi}.' },
 } as const satisfies Record<string, ErrorDef>;
 
@@ -48,6 +49,7 @@ export const APP_CODE: Record<ErrorCode, AppErrorCode> = {
   payload_too_large: 'bad_request',
   rate_limited: 'rate_limited',
   feature_off: 'service_unavailable',
+  idp_unreachable: 'server_error',
   server_error: 'server_error',
 };
 

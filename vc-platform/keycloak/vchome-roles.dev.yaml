@@ -1,0 +1,8 @@
+# Chỉ dev và e2e: vai trò VC Home cho tài khoản Google giả (keycloak/realm/gia-google.yaml).
+nguoi:
+  - email: hung.qtht@vcprosperous.com
+    vai_tro: [qtht]
+  - email: binh.tran@vcpart.vn
+    vai_tro: [hcns@VCPARTS]
+  - email: nguoi.moi@vcpart.vn
+    vai_tro: [kiem_soat]

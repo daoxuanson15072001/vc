@@ -68,6 +68,8 @@ services:
       MONGO_URL: mongodb://127.0.0.1:27017/?replicaSet=rs0
       MONGO_DB: vchome
       OIDC_ISSUER: http://localhost:8180/realms/vc
+      KC_BASE_URL: http://localhost:8180
+      KC_ADMIN_CLIENT_SECRET: dev-vchome-api-secret
       LOG_LEVEL: info
 
 volumes:

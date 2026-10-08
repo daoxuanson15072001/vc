@@ -10,7 +10,8 @@
     "job:run": "node dist/scripts/job-run.js",
     "migrate": "node dist/scripts/migrate.js",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "jest"
+    "test": "jest",
+    "vchome-roles": "node dist/scripts/apply-vchome-roles.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.4.22",
@@ -18,9 +19,11 @@
     "@nestjs/platform-express": "^10.4.22",
     "@vc/contracts": "workspace:*",
     "express": "^4.21.0",
+    "jose": "^5.9.0",
     "mongodb": "^6.21.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
+    "yaml": "^2.6.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

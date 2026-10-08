@@ -1,6 +1,6 @@
 # vc-platform: VC ID và VC Home
 
-Phiên bản 0.5 · 08/10/2026 · Trạng thái: Đang code GĐ A (môi trường giả lập)
+Phiên bản 0.6 · 08/10/2026 · Trạng thái: Đang code GĐ A (môi trường giả lập)
 
 ## Tóm tắt
 
@@ -70,6 +70,7 @@ pnpm e2e                       # chạy ca SSO-00, vc-provisioner, VC Home
 | `pnpm provisioner disable <email> --reason "…"` | Khoá khẩn cấp: khoá VC ID và đăng xuất khỏi mọi app |
 | `pnpm provisioner enable <email>` | Gỡ khoá khẩn cấp; còn khoá theo Google thì vẫn khoá (thêm `--also-google` khi quản trị đã xác nhận) |
 | `pnpm home:nginx` | Build VC Home và chạy bằng nginx với header như production (CSP) ở cổng 5173; `pnpm e2e` dùng luôn bản này. Dừng: `home/scripts/nginx-local.sh stop` |
+| `pnpm --filter @vc/api vchome-roles --file ../keycloak/vchome-roles.yaml` | Áp người giữ vai trò quản trị VC Home lên VC ID (cần `KC_TOOL_USER`, `KC_TOOL_PASSWORD` hoặc `KC_TOOL_CLIENT_ID`, `KC_TOOL_CLIENT_SECRET`); `--check` chỉ kiểm tệp |
 | `pnpm job:run <tên>` | Chạy ngay một job của VC Home API (không tên: liệt kê); cần `pnpm --filter @vc/api build` trước |
 | `pnpm ci:local` | Build `contracts`, kiểm kiểu, test đơn vị và test API (MongoDB trong bộ nhớ) |
 
@@ -92,6 +93,7 @@ Chạy thử toàn bộ cụm production trên máy dev (giá trị giả, kiể
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.6 | 08/10/2026 16:33 | Claude Code (B-02) | Lệnh áp vai trò VC Home | Kế hoạch GĐ B phiên B-02 |
 | 0.5 | 08/10/2026 16:17 | Claude Code (B-01) | Thêm `api/`, `packages/contracts/`; lệnh `pnpm api`, `pnpm job:run`; `ci:local` gồm test API | Kế hoạch GĐ B phiên B-01 |
 | 0.4 | 08/10/2026 15:48 | Claude Code (SSO-01, SSO-02) | Thêm compose production, compose dev, Dockerfile Keycloak, edge, sao lưu và khôi phục, `scripts/thu-production.sh`; theme: trang lỗi sai domain có nút chọn tài khoản khác, trang đã đăng xuất có link về VC Home; realm chuyển thẳng sang Google | Thiết kế SSO mục 5.1.6, 5.7, 7 |
 | 0.3 | 08/10/2026 15:27 | Claude Code (SSO-03) | Thêm VC Home, cấu hình nginx, Dockerfile; ca e2e VC Home; lệnh `pnpm home`, `pnpm home:nginx` | Thiết kế SSO mục 5.3; 06 VH-MH-01, 02, 03 |

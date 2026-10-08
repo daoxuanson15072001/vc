@@ -112,7 +112,16 @@ clients:
     attributes:
       pkce.code.challenge.method: S256
       post.logout.redirect.uris: "${VCHOME_URL:-https://home.vcprosperous.com}/da-dang-xuat"
-    defaultClientScopes: [basic, profile, email, vc-basic, web-origins]
+    # roles: access token có resource_access.vchome.roles (vai trò quản trị VC Home, GĐ B)
+    defaultClientScopes: [basic, profile, email, vc-basic, web-origins, roles]
+    # Vai trò quản trị của VC Home (VH-ADM-03); người giữ khai ở keycloak/vchome-roles.yaml,
+    # hcns@<mã> do script apply-vchome-roles tạo theo danh sách.
+    roles: [hcns, qtht, kiem_soat, bgd]
+    protocolMappers:
+      # Access token của SPA dùng được cho VC Home API (khung chung mục 7)
+      - name: aud-vchome-api
+        protocolMapper: oidc-audience-mapper
+        config: { included.custom.audience: vchome-api, id.token.claim: "false", access.token.claim: "true", introspection.token.claim: "true" }
 
   - clientId: vclinks
     name: VClinks
@@ -145,6 +154,19 @@ clients:
       post.logout.redirect.uris: "${VCHOME_URL:-https://home.vcprosperous.com}/da-dang-xuat"
     frontchannelLogout: false
     defaultClientScopes: [basic, profile, email, vc-basic]
+
+  # VC Home API gọi Admin API (GĐ B): gắn tài khoản, khoá, đẩy thuộc tính hồ sơ (kế hoạch GĐ B mục 8.1).
+  # manage-clients thêm ở GĐ C khi API tự quản client role của app.
+  - clientId: vc-home-api
+    name: VC Home API
+    publicClient: false
+    secret: ${VCHOME_API_CLIENT_SECRET}
+    standardFlowEnabled: false
+    serviceAccountsEnabled: true
+    fullScopeAllowed: true
+    defaultClientScopes: [basic, roles]
+    serviceAccountRoles:
+      realm-management: [view-users, manage-users, query-groups, view-events, view-clients]
 
   - clientId: vc-provisioner
     name: vc-provisioner (máy)

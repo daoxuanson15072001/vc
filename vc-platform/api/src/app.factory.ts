@@ -4,6 +4,7 @@
  */
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
+import type { Type } from '@nestjs/common';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import express, { type NextFunction, type Request, type Response } from 'express';
 import { AppModule } from './app.module';
@@ -17,11 +18,11 @@ export function makeClock(env: Env): Clock {
   return env.CLOCK_MODE === 'fake' ? new FakeClock() : new SystemClock();
 }
 
-export async function createApp(opts: { env?: Env; clock?: Clock; log?: JsonLogger } = {}): Promise<NestExpressApplication> {
+export async function createApp(opts: { env?: Env; clock?: Clock; log?: JsonLogger; extraModules?: Type[] } = {}): Promise<NestExpressApplication> {
   const env = opts.env ?? loadEnv();
   const log = opts.log ?? new JsonLogger(env.LOG_LEVEL);
   const clock = opts.clock ?? makeClock(env);
-  const app = await NestFactory.create<NestExpressApplication>(AppModule.forRoot({ env, clock, log }), {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule.forRoot({ env, clock, log }, opts.extraModules), {
     bodyParser: false,
     logger: log,
     abortOnError: false,

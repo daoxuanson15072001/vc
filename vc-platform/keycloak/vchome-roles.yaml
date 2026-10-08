@@ -1,0 +1,8 @@
+# Người giữ vai trò quản trị của VC Home ở GĐ B (VH-ADM-03 bước 2; tên người theo Q-07, đầu vào N3).
+# Vai trò: hcns (toàn tập đoàn) hoặc hcns@<mã pháp nhân hoặc division> · qtht · kiem_soat · bgd.
+# Không giữ cùng lúc: hcns với qtht; kiem_soat với qtht (VH-BR-17). Mỗi vai trò ít nhất 2 người.
+# Đổi tệp này bằng yêu cầu gộp code có người thứ hai duyệt; CI kiểm tệp (pnpm --filter @vc/api vchome-roles --check).
+# Áp: docker compose run --rm api node dist/scripts/apply-vchome-roles.js --file /app/vchome-roles.yaml
+nguoi: []
+#  - email: ten.nguoi@vcprosperous.com
+#    vai_tro: [hcns@VCPARTS]

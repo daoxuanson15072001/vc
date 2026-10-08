@@ -8,6 +8,7 @@ import type { JsonLogger } from '../../common/logger';
 import { JobLocks } from '../../jobs/job-locks';
 import { C } from '../collections';
 import { ensureIndexes } from '../indexes';
+import { ensureAccessRoles } from '../roles';
 
 export interface Migration {
   id: string;
@@ -27,6 +28,11 @@ export const MIGRATIONS: Migration[] = [
       }
       await ensureIndexes(db);
     },
+  },
+  {
+    id: 'B0002_audit_role',
+    description: 'Vai trò MongoDB của API: chỉ thêm và đọc audit_log',
+    up: ensureAccessRoles,
   },
 ];
 
@@ -51,6 +57,7 @@ export async function runMigrations(db: Db, clock: Clock, log: JsonLogger, owner
       log.info('migration_applied', { id: m.id });
     }
     await ensureIndexes(db);
+    await ensureAccessRoles(db);
   } finally {
     await locks.release(LOCK, owner, { status: 'ok' });
   }

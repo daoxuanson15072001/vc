@@ -2,6 +2,9 @@
 export const C = {
   migrations: '_migrations',
   jobLocks: '_job_locks',
+  auditLog: 'audit_log',
+  /** Written from B-08; read by the Viewer to find the person behind a `sub`. */
+  accounts: 'accounts',
 } as const;
 
 export type CollectionName = (typeof C)[keyof typeof C];

@@ -46,7 +46,8 @@ describe('Cấu hình', () => {
   test('CLOCK_MODE=fake chỉ chạy được ở staging hoặc test (mục 3.3 điểm 14)', () => {
     expect(() => loadEnv({ MONGO_URL: 'mongodb://x', APP_ENV: 'production', CLOCK_MODE: 'fake' })).toThrow('CLOCK_MODE=fake');
     expect(() => loadEnv({ MONGO_URL: 'mongodb://x', APP_ENV: 'dev', CLOCK_MODE: 'fake' })).toThrow('CLOCK_MODE=fake');
-    expect(loadEnv({ MONGO_URL: 'mongodb://x', APP_ENV: 'staging', CLOCK_MODE: 'fake' }).CLOCK_MODE).toBe('fake');
+    expect(loadEnv({ MONGO_URL: 'mongodb://x', APP_ENV: 'staging', CLOCK_MODE: 'fake', OIDC_ISSUER: 'https://id-staging.example/realms/vc' }).CLOCK_MODE).toBe('fake');
+    expect(() => loadEnv({ MONGO_URL: 'mongodb://x', APP_ENV: 'production' })).toThrow('OIDC_ISSUER');
   });
   test('Cờ mặc định là giá trị production (kế hoạch GĐ B mục 11.2); giá trị rỗng coi như không đặt', () => {
     const e = loadEnv({ MONGO_URL: 'mongodb://x', OIDC_ISSUER: '' });

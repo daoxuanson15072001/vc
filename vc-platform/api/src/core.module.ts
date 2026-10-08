@@ -19,10 +19,19 @@ class MongoLifecycle implements OnModuleInit, OnApplicationShutdown {
     @Inject(DB) private readonly db: Db,
     @Inject(CLOCK) private readonly clock: Clock,
     @Inject(LOGGER) private readonly log: JsonLogger,
+    @Inject(ENV) private readonly env: Env,
   ) {}
 
   async onModuleInit(): Promise<void> {
-    await runMigrations(this.db, this.clock, this.log, `migrate:${process.pid}`);
+    // Production: a separate login creates indexes and roles; the API login cannot (kế hoạch GĐ B mục 3.3 điểm 15).
+    if (this.env.MONGO_MIGRATE_URL) {
+      const c = await connectMongo(this.env.MONGO_MIGRATE_URL);
+      try {
+        await runMigrations(c.db(this.env.MONGO_DB), this.clock, this.log, `migrate:${process.pid}`);
+      } finally {
+        await c.close();
+      }
+    } else await runMigrations(this.db, this.clock, this.log, `migrate:${process.pid}`);
   }
 
   async onApplicationShutdown(): Promise<void> {

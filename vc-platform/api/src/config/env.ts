@@ -9,8 +9,17 @@ export const EnvSchema = z
     PORT: z.coerce.number().int().positive().default(3100),
     MONGO_URL: z.string().min(1, 'Thiếu MONGO_URL'),
     MONGO_DB: z.string().default('vchome'),
+    /** Separate MongoDB login allowed to create indexes and roles (`vchome_migrate`); empty: use MONGO_URL. */
+    MONGO_MIGRATE_URL: z.string().optional(),
     OIDC_ISSUER: z.string().url().optional(),
     OIDC_AUDIENCE: z.string().default('vchome-api'),
+    /** The SPA's client: the internal API only accepts user tokens issued to it (kế hoạch GĐ B mục 5.1). */
+    OIDC_SPA_CLIENT_ID: z.string().default('vchome'),
+    KC_BASE_URL: z.string().url().optional(),
+    KC_REALM: z.string().default('vc'),
+    KC_ADMIN_CLIENT_ID: z.string().default('vc-home-api'),
+    KC_ADMIN_CLIENT_SECRET: z.string().optional(),
+    ALERT_WEBHOOK_URL: z.string().url().optional(),
     CLOCK_MODE: z.enum(['real', 'fake']).default('real'),
     JOBS: onOff.default('on'),
     JOBS_TICK_SECONDS: z.coerce.number().int().min(1).default(15),
@@ -27,6 +36,9 @@ export const EnvSchema = z
     RETENTION_MODE: z.enum(['dry_run', 'apply']).default('dry_run'),
   })
   .superRefine((e, ctx) => {
+    if ((e.APP_ENV === 'production' || e.APP_ENV === 'staging') && !e.OIDC_ISSUER) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['OIDC_ISSUER'], message: 'Thiếu OIDC_ISSUER' });
+    }
     // A fake clock in production would move effective dates (kế hoạch GĐ B mục 3.3 điểm 14).
     if (e.CLOCK_MODE === 'fake' && e.APP_ENV !== 'staging' && e.APP_ENV !== 'test') {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['CLOCK_MODE'], message: 'CLOCK_MODE=fake chỉ dùng được khi APP_ENV là staging hoặc test' });

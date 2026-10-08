@@ -2,6 +2,7 @@ import { Controller, Get, Inject, Res } from '@nestjs/common';
 import type { HealthT } from '@vc/contracts';
 import type { Response } from 'express';
 import type { Db } from 'mongodb';
+import { Public } from '../auth/decorators';
 import { CLOCK, type Clock } from '../common/clock';
 import { ENV, type Env } from '../config/env';
 import { C } from '../db/collections';
@@ -10,6 +11,7 @@ import { HEARTBEAT_JOB } from '../jobs/heartbeat';
 import type { JobLockDoc } from '../jobs/job-locks';
 
 /** GET /api/health: 200 when MongoDB answers as a writable primary, otherwise 503 (giám sát, thiết kế SSO mục 11). */
+@Public()
 @Controller('health')
 export class HealthController {
   constructor(

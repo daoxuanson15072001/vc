@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { expect, type Page } from '@playwright/test';
@@ -89,4 +89,15 @@ export function provisioner(...args: string[]): string {
 /** Writes the fake Directory, optionally changed (for example someone turns on 2-step verification). */
 export function setDirectory(change: (rows: Rep[]) => Rep[] = (r) => r): void {
   writeFileSync(directoryFile, JSON.stringify(change(structuredClone(baseDirectory))));
+}
+
+/** Applies keycloak/vchome-roles.dev.yaml to VC ID (VC Home admin roles of the fake Google users). */
+export function applyHomeRoles(): string {
+  const api = resolve(__dirname, '../../../api');
+  if (!existsSync(join(api, 'dist/scripts/apply-vchome-roles.js'))) execFileSync('pnpm', ['build'], { cwd: api, stdio: 'ignore' });
+  return execFileSync('node', ['dist/scripts/apply-vchome-roles.js', '--file', '../keycloak/vchome-roles.dev.yaml'], {
+    cwd: api,
+    env: { ...process.env, KC_TOOL_USER: process.env.KC_ADMIN_USER ?? 'admin', KC_TOOL_PASSWORD: process.env.KC_ADMIN_PASSWORD ?? 'admin-dev-only', MONGO_URL: '' },
+    encoding: 'utf8',
+  });
 }

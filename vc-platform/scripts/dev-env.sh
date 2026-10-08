@@ -12,6 +12,7 @@ export VCWIKI_CLIENT_SECRET=dev-vcwiki-secret
 export PROVISIONER_CLIENT_SECRET=dev-provisioner-secret
 export APP_MAU_CLIENT_SECRET=dev-app-mau-secret
 export GIA_GOOGLE_SECRET=dev-gia-google-secret
+export VCHOME_API_CLIENT_SECRET=dev-vchome-api-secret
 # Google thật chưa dùng ở dev (Google giả thay thế), nhưng vc.yaml đòi biến này
 export GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-chua-dung-o-dev}
 export GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-chua-dung-o-dev}
