@@ -1,0 +1,31 @@
+{
+  "name": "@vc/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hợp đồng dùng chung của VC Home: mã lỗi, ngày giờ Việt Nam, schema zod và JSON Schema cho app (khung chung mục 4, 6)",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "import": { "types": "./dist/esm/index.d.ts", "default": "./dist/esm/index.js" },
+      "require": { "types": "./dist/cjs/index.d.ts", "default": "./dist/cjs/index.js" }
+    }
+  },
+  "files": ["dist", "json-schema"],
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json && echo '{\"type\":\"module\"}' > dist/esm/package.json",
+    "prepare": "pnpm build",
+    "json-schema": "tsx scripts/gen-json-schema.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "zod-to-json-schema": "^3.25.2"
+  }
+}

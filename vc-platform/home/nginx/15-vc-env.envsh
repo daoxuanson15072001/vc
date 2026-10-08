@@ -3,3 +3,6 @@
 : "${VC_ID_ISSUER:?Thiếu VC_ID_ISSUER, ví dụ https://id.vcprosperous.com/realms/vc}"
 VC_ID_ORIGIN=$(printf '%s' "$VC_ID_ISSUER" | sed -E 's#^(https?://[^/]+).*#\1#')
 export VC_ID_ORIGIN
+# VC Home API (GĐ B): trong compose là http://api:3100, phân giải qua DNS nội bộ của Docker.
+export VCHOME_API_UPSTREAM="${VCHOME_API_UPSTREAM:-http://api:3100}"
+export NGINX_RESOLVER="${NGINX_RESOLVER:-127.0.0.11}"

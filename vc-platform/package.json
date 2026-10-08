@@ -11,11 +11,13 @@
     "realm:apply:dev": "pnpm --filter @vc/realm-apply run apply -- --file ../realm/gia-google.yaml && pnpm --filter @vc/realm-apply run apply -- --file ../realm/vc.yaml --file ../realm/vc.dev.yaml",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
-    "ci:local": "pnpm typecheck && pnpm test",
+    "ci:local": "pnpm --filter @vc/contracts build && pnpm typecheck && pnpm test",
     "e2e": "pnpm --filter @vc/e2e test:e2e",
     "app-mau": "pnpm --filter @vc/app-mau start",
     "provisioner": "pnpm --filter @vc/provisioner start --",
     "home": "pnpm --filter @vc/home dev",
-    "home:nginx": "pnpm --filter @vc/home build && home/scripts/nginx-local.sh"
+    "home:nginx": "pnpm --filter @vc/home build && home/scripts/nginx-local.sh",
+    "api": "pnpm --filter @vc/api dev",
+    "job:run": "pnpm --filter @vc/api job:run"
   }
 }

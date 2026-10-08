@@ -1,4 +1,5 @@
-# Máy dev có Docker: Keycloak (start-dev) + PostgreSQL, thay cho scripts/kc-local.sh.
+# Máy dev có Docker: Keycloak (start-dev) + PostgreSQL, thay cho scripts/kc-local.sh; MongoDB replica set và
+# VC Home API ở cổng 3100 (GĐ B). Chỉ chạy Keycloak: docker compose -f compose.dev.yml up -d keycloak
 #   docker compose -f compose.dev.yml up -d
 #   source scripts/dev-env.sh && pnpm realm:apply:dev && pnpm e2e
 # Keycloak dùng mạng của máy (network_mode: host) để địa chỉ giống nhau ở trình duyệt và trong Keycloak:
@@ -41,5 +42,34 @@ services:
       TZ: Asia/Ho_Chi_Minh
     volumes: [./keycloak/themes/vc:/opt/keycloak/themes/vc:ro]
 
+  # MongoDB 7, replica set một node (transaction cần replica set). Healthcheck khởi tạo rs0 ở lần chạy đầu.
+  mongo:
+    image: mongo:7
+    command: ["--replSet", "rs0", "--bind_ip", "127.0.0.1", "--port", "27017", "--setParameter", "transactionLifetimeLimitSeconds=120"]
+    network_mode: host
+    volumes: [mongodata-dev:/data/db]
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "try { rs.status().ok } catch (e) { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: '127.0.0.1:27017' }] }).ok }"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+      args: { NODE_IMAGE: "${NODE_IMAGE:-node:22-alpine}" }
+    image: vc-api:dev
+    network_mode: host
+    depends_on: { mongo: { condition: service_healthy } }
+    environment:
+      APP_ENV: dev
+      PORT: "3100"
+      MONGO_URL: mongodb://127.0.0.1:27017/?replicaSet=rs0
+      MONGO_DB: vchome
+      OIDC_ISSUER: http://localhost:8180/realms/vc
+      LOG_LEVEL: info
+
 volumes:
   pgdata-dev:
+  mongodata-dev:

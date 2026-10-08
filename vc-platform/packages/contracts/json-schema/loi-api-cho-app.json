@@ -1,0 +1,36 @@
+{
+  "$ref": "#/definitions/loi-api-cho-app",
+  "definitions": {
+    "loi-api-cho-app": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "correlation_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "correlation_id"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "additionalProperties": false,
+      "description": "Lỗi của API cho app (07 mục 5.1)"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

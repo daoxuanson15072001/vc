@@ -1,13 +1,13 @@
 # Sổ phiên vc-platform
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Đang làm GĐ B, phiên B-01
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Xong B-01; tiếp theo B-02
 
 ## Tóm tắt
 
 - **Sổ này để làm gì:** ghi vết từng phiên code của `vc-platform`: đã làm gì, kiểm thế nào, commit nào, còn gì. Mở phiên mới thì đọc mục 1 và mục 4 trước. Mỗi phiên xong thêm một dòng ở mục 2 (kế hoạch GĐ B mục 9 yêu cầu).
 - **Đã xong:** phần GĐ A nằm trong repo này (SSO-00…04), chạy với thông số giả lập: Google giả, Directory giả, bí mật giả. Kiểm: 32 ca e2e, 34 test đơn vị, 16 bước kiểm cụm production. Tài liệu thiết kế đã khớp code (D-BA-49…54).
-- **Đang làm:** GĐ B, phiên **B-01**: khung VC Home API (NestJS + MongoDB replica set).
-- **Tiếp theo:** B-02…B-07 (xác thực, lõi thay đổi có ngày hiệu lực, danh mục, cây đơn vị, hồ sơ, vị trí). Những phiên này không cần đầu vào thật.
+- **GĐ B đã xong:** **B-01** khung VC Home API: NestJS 10 + MongoDB replica set, `packages/contracts`, bộ chạy job, migration, `/api/health`, `compose.dev.yml` có `mongo` và `api`, nginx `/api/`.
+- **Tiếp theo:** **B-02** xác thực (`Viewer`, `@Can`, nhật ký không sửa được), rồi B-03…B-07 (lõi thay đổi có ngày hiệu lực, danh mục, cây đơn vị, hồ sơ, vị trí). Những phiên này không cần đầu vào thật.
 - **Không làm ở repo này:** SSO-05…09 sửa VClinks và VCwiki ở repo của từng app; VClinks chỉ sau mốc M1 26/10 (RB-1).
 - **Chặn ở phía người:** SSO-10 lên production cần I1, I2, I5; thử với Google thật cần I3, I4, I6; nạp dữ liệu nhân sự thật cần N1, N4.
 
@@ -41,8 +41,8 @@ Kế hoạch: GĐ A ở [thiết kế SSO](../../docs/vc-home/ky-thuat/thiet-ke-
 
 | Phiên | Trạng thái | Ghi chú |
 |---|---|---|
-| B-01 Khung repo, API, MongoDB | **Đang làm** | |
-| B-02 Xác thực, `Viewer`, `@Can`, nhật ký | Chưa | |
+| B-01 Khung repo, API, MongoDB | Xong | Chưa có lint (ESLint): để phiên sau, `ci:local` hiện là kiểm kiểu + test |
+| B-02 Xác thực, `Viewer`, `@Can`, nhật ký | **Tiếp theo** | Thêm người dùng MongoDB `vchome_api`, `vchome_migrate` cùng vai trò nhật ký (B0002) |
 | B-03 Lõi thay đổi có ngày hiệu lực | Chưa | |
 | B-04 Danh mục | Chưa | |
 | B-05 Cây đơn vị và trưởng đơn vị | Chưa | |
@@ -60,11 +60,23 @@ Mới nhất trên cùng.
 
 | Ngày | Phiên | Đã làm | Kiểm | Commit | Còn lại |
 |---|---|---|---|---|---|
+| 08/10/2026 | B-01 | `packages/contracts` (mã lỗi + câu 06 mục 1.4, ngày giờ VN, JSON Schema cho app, build CJS và ESM); `api/` NestJS 10: cấu hình zod + cờ `FEATURE_*`, `Clock` thật và giả (giả bị chặn ở production), `todayOn`, con trỏ, `withTx` thử lại lỗi tạm, `updateByRev`, hai dạng lỗi, `X-Correlation-Id`, giới hạn thân, migration `B0001_indexes`, bộ chạy job `_job_locks` + `pnpm job:run`, `GET /api/health`; `compose.dev.yml` thêm `mongo` rs0 và `api`; nginx `/api/`; Dockerfile API | 28 test API (Jest, MongoDB replica set trong bộ nhớ): `todayOn` ở 16:59:59Z và 17:00:00Z, migration chạy 2 lần và 2 tiến trình cùng lúc, 2 tiến trình cùng tick job chạy đúng 1 lần; `compose.dev.yml` lên, `/api/health` 200 có `rs0`; qua nginx 200; e2e GĐ A vẫn 32/32 | (commit này) | Lint; người dùng MongoDB có quyền riêng (B-02) |
 | 08/10/2026 | Tài liệu | Ghi quyết định phát sinh khi code GĐ A vào 12 (D-BA-49…54); thiết kế SSO lên 0.6; bỏ mọi chỗ nhắc `keycloak-config-cli` | — | `c1ba2c7` | — |
 | 08/10/2026 | SSO-01, SSO-02 | `compose.yml` (PostgreSQL, Keycloak, edge, VC Home, provisioner, realm-apply, backup, cloudflared), `compose.dev.yml`, Dockerfile Keycloak, nginx edge chặn `/admin` và realm `master`, sao lưu 14 + 6 bản, `restore.sh`; theme: trang lỗi sai domain, trang đã đăng xuất; realm chuyển thẳng sang Google | `scripts/thu-production.sh` 16/16 từ con số 0; e2e 32/32 trên `compose.dev.yml` | `3ccf1fb` | Lên máy thật (SSO-10) |
 | 08/10/2026 | SSO-03 | VC Home: trang chào, lưới app, ghim, hồ sơ, đã đăng xuất, trang lỗi, câu theo `vc_trang_thai`; phiên chỉ gia hạn khi có thao tác; nginx có CSP; Dockerfile | 14 ca e2e qua nginx, 0 vi phạm CSP, axe; Lighthouse truy cập 100 | `98babfe` | — |
 | 08/10/2026 | SSO-04 | `vc-provisioner`: sync, loop, report, disable, enable; quy tắc thuần, an toàn khi Google trả danh sách bất thường | 9 test đơn vị; e2e UAT-SSO-09, 10, 21, 22, 23 | `d93b2e4` | Directory thật (I4) |
 | 08/10/2026 | SSO-00, SSO-02 | Keycloak 26.7.5 không cần Docker, realm dạng code, công cụ `@vc/realm-apply`, Google giả, theme tiếng Việt, app mẫu theo hợp đồng mục 5.2 | 10 ca e2e SSO-00; 13 test app mẫu | `819f2fa` | 4 điểm cần Google thật |
+
+### 2.1 Quyết định trong phiên (chưa có ở kế hoạch)
+
+| Phiên | Quyết định | Vì sao |
+|---|---|---|
+| B-01 | Test API dùng Jest + `@swc/jest` (giữ metadata decorator cho NestJS); các gói khác giữ `node:test` | `tsx`/esbuild không sinh metadata decorator, NestJS cần để tiêm phụ thuộc |
+| B-01 | `@vc/contracts` build ra cả CommonJS (API) và ESM (SPA, công cụ) | API NestJS chạy CommonJS; Vite và `tsx` dùng ESM |
+| B-01 | Chỉ mục được tạo ở mọi lần khởi động (ngoài `B0001_indexes`) | Phiên sau thêm chỉ mục vẫn được tạo trên máy đã chạy B0001 |
+| B-01 | Job chạy đúng một lần mỗi lượt lịch; máy tắt lúc đến giờ thì chạy bù khi bật, job biết lượt của ngày nào; lỗi thì thử lại sau 5 phút | Kế hoạch mục 6.1 yêu cầu chạy lại ra cùng kết quả; tránh chạy lặp mỗi lượt kiểm khi lỗi |
+| B-01 | `compose.dev.yml`: `mongo` và `api` dùng mạng của máy như Keycloak | API lấy JWKS ở `localhost:8180`; thành viên replica set là `127.0.0.1:27017` dùng được từ máy dev |
+| B-01 | nginx `/api/` trỏ tới upstream đặt bằng biến | nginx vẫn khởi động được khi production chưa có container `api` (B-16) |
 
 ## 3. Phần đang giả lập
 
@@ -89,7 +101,8 @@ source scripts/dev-env.sh && pnpm realm:apply:dev
 pnpm app-mau &                                 # :4400
 pnpm home:nginx                                # VC Home qua nginx ở :5173 (cần nginx; không có thì pnpm home &)
 pnpm e2e                                       # 32 ca
-pnpm ci:local                                  # kiểm kiểu + test đơn vị
+pnpm ci:local                                  # build contracts, kiểm kiểu, test đơn vị + test API (cần MongoDB, xem ghi chú)
+curl localhost:3100/api/health                 # VC Home API (compose.dev.yml có mongo + api)
 scripts/thu-production.sh                      # dựng cụm production thử, 16 bước kiểm; dọn: scripts/thu-production.sh down
 ```
 
@@ -98,9 +111,12 @@ Ghi chú riêng môi trường cloud này (không đưa vào code):
 - quay.io bị chặn: dùng `KEYCLOAK_IMAGE=keycloak/keycloak:26.7.5` (cùng nhà phát hành).
 - Container ra mạng qua proxy giải mã TLS: build ảnh Node với `NODE_IMAGE` là bản `node:22-alpine` có CA của proxy (`/root/.ccr/ca-bundle.crt`, biến `NODE_EXTRA_CA_CERTS`). Kho gói Alpine không ra được, nên Dockerfile không dùng `apk add`.
 - Maven Central bị giới hạn: `scripts/kc-local.sh` tải Keycloak từ bản sao của Google.
+- `mongodb-memory-server` không tải được mongod (fastdl.mongodb.org bị chặn): lấy mongod từ ảnh `mongo:7` (`docker create mongo:7`, `docker cp <id>:/usr/bin/mongod .`) rồi đặt `MONGOMS_SYSTEM_BINARY=<đường dẫn>` trước `pnpm ci:local`. Máy dev bình thường tự tải.
+- Docker daemon có thể không tự chạy: `dockerd &` (chạy nền tối đa 2 giờ trong môi trường này).
 
 ## Lịch sử cập nhật
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.2 | 08/10/2026 16:17 | Claude Code (B-01) | Ghi B-01 xong; thêm mục 2.1 quyết định trong phiên; ghi chú môi trường cho MongoDB và Docker | Phiên B-01 |
 | 0.1 | 08/10/2026 16:02 | Claude Code | Tạo sổ: tiến độ GĐ A, GĐ B; nhật ký 5 phiên đã làm; phần giả lập; cách tiếp tục | Người dùng yêu cầu lưu vết tiến độ trước khi làm tiếp |

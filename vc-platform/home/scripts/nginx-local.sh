@@ -17,7 +17,8 @@ export VC_ID_ORIGIN=$(printf '%s' "$VC_ID_ISSUER" | sed -E 's#^(https?://[^/]+).
 html=$(pwd)/dist
 sed "s#/usr/share/nginx/html#$html#g" nginx/40-vc-config.sh | VCHOME_SESSION_CHECK_SECONDS=${VCHOME_SESSION_CHECK_SECONDS:-60} sh >/dev/null
 for t in nginx/templates/*.template; do
-  sed -e "s#\${VC_ID_ORIGIN}#$VC_ID_ORIGIN#g" -e "s#/usr/share/nginx/html#$html#g" -e "s#/etc/nginx/conf.d/#$(pwd)/$RUN/conf.d/#g" \
+  sed -e "s#\${VC_ID_ORIGIN}#$VC_ID_ORIGIN#g" -e "s#\${VCHOME_API_UPSTREAM}#${VCHOME_API_UPSTREAM:-http://127.0.0.1:3100}#g" \
+    -e "s#\${NGINX_RESOLVER}#${NGINX_RESOLVER:-127.0.0.53}#g" -e "s#/usr/share/nginx/html#$html#g" -e "s#/etc/nginx/conf.d/#$(pwd)/$RUN/conf.d/#g" \
     -e "s#listen 8080#listen $PORT#" "$t" > "$RUN/conf.d/$(basename "${t%.template}")"
 done
 cat > "$RUN/nginx.conf" <<CONF

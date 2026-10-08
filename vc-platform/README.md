@@ -1,6 +1,6 @@
 # vc-platform: VC ID và VC Home
 
-Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đang code GĐ A (môi trường giả lập)
+Phiên bản 0.5 · 08/10/2026 · Trạng thái: Đang code GĐ A (môi trường giả lập)
 
 ## Tóm tắt
 
@@ -26,6 +26,8 @@ Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đang code GĐ A (môi trườn
 | `keycloak/realm/` | `vc.yaml` (production), `vc.dev.yaml` (dev: nối Google giả, app mẫu), `gia-google.yaml` (Google giả, chỉ dev) |
 | `keycloak/apply/` | `@vc/realm-apply`: áp YAML vào Keycloak qua Admin API, áp lại được, có `--dry-run` |
 | `keycloak/themes/vc/` | Theme đăng nhập tiếng Việt |
+| `packages/contracts/` | `@vc/contracts`: mã lỗi và câu chuẩn, ngày giờ Việt Nam, schema zod, JSON Schema gửi đội app (GĐ B) |
+| `api/` | VC Home API (GĐ B): NestJS 10 + MongoDB replica set, bộ chạy job, `GET /api/health` |
 | `home/` | VC Home: React + antd + Vite + `oidc-client-ts`; `apps.yaml` sinh `catalog.json` (kiểm schema); `nginx/` và `Dockerfile` cho container |
 | `provisioner/` | `vc-provisioner`: đối chiếu Google Directory với VC ID, cấp hoặc gỡ nhóm app, khoá theo Google, khoá khẩn cấp; `fixtures/` là Directory giả cho dev |
 | `tools/app-mau/` | App mẫu theo hợp đồng tích hợp (thiết kế SSO mục 5.2); `src/oidc.ts` là phần đội app chép theo |
@@ -52,6 +54,8 @@ source scripts/dev-env.sh
 pnpm realm:apply:dev           # tạo realm gia-google và vc
 pnpm app-mau &                 # app mẫu ở http://localhost:4400 (đăng nhập bằng tài khoản Google giả)
 pnpm home &                    # VC Home ở http://localhost:5173 (Vite, sửa code thấy ngay)
+# GĐ B: compose.dev.yml đã có MongoDB và VC Home API ở http://localhost:3100/api/health
+#       (chạy API từ mã nguồn: docker compose -f compose.dev.yml stop api && pnpm api)
 pnpm e2e                       # chạy ca SSO-00, vc-provisioner, VC Home
 ```
 
@@ -66,7 +70,8 @@ pnpm e2e                       # chạy ca SSO-00, vc-provisioner, VC Home
 | `pnpm provisioner disable <email> --reason "…"` | Khoá khẩn cấp: khoá VC ID và đăng xuất khỏi mọi app |
 | `pnpm provisioner enable <email>` | Gỡ khoá khẩn cấp; còn khoá theo Google thì vẫn khoá (thêm `--also-google` khi quản trị đã xác nhận) |
 | `pnpm home:nginx` | Build VC Home và chạy bằng nginx với header như production (CSP) ở cổng 5173; `pnpm e2e` dùng luôn bản này. Dừng: `home/scripts/nginx-local.sh stop` |
-| `pnpm ci:local` | Kiểm kiểu + test đơn vị |
+| `pnpm job:run <tên>` | Chạy ngay một job của VC Home API (không tên: liệt kê); cần `pnpm --filter @vc/api build` trước |
+| `pnpm ci:local` | Build `contracts`, kiểm kiểu, test đơn vị và test API (MongoDB trong bộ nhớ) |
 
 ## 4. Production
 
@@ -87,6 +92,7 @@ Chạy thử toàn bộ cụm production trên máy dev (giá trị giả, kiể
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.5 | 08/10/2026 16:17 | Claude Code (B-01) | Thêm `api/`, `packages/contracts/`; lệnh `pnpm api`, `pnpm job:run`; `ci:local` gồm test API | Kế hoạch GĐ B phiên B-01 |
 | 0.4 | 08/10/2026 15:48 | Claude Code (SSO-01, SSO-02) | Thêm compose production, compose dev, Dockerfile Keycloak, edge, sao lưu và khôi phục, `scripts/thu-production.sh`; theme: trang lỗi sai domain có nút chọn tài khoản khác, trang đã đăng xuất có link về VC Home; realm chuyển thẳng sang Google | Thiết kế SSO mục 5.1.6, 5.7, 7 |
 | 0.3 | 08/10/2026 15:27 | Claude Code (SSO-03) | Thêm VC Home, cấu hình nginx, Dockerfile; ca e2e VC Home; lệnh `pnpm home`, `pnpm home:nginx` | Thiết kế SSO mục 5.3; 06 VH-MH-01, 02, 03 |
 | 0.2 | 08/10/2026 15:01 | Claude Code (SSO-04) | Thêm `vc-provisioner` và ca e2e của nó; lệnh `pnpm provisioner` | Thiết kế SSO mục 5.6; D-BA-37, 39, 40 |

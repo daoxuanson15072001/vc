@@ -41,6 +41,20 @@ server {
         try_files $uri =404;
     }
 
+    # VC Home API (GĐ B): cùng tên miền nên SPA gọi /api không cần CORS. Upstream đặt bằng biến để nginx vẫn
+    # khởi động được khi chưa có container api (trả 502 cho /api).
+    location /api/ {
+        include /etc/nginx/conf.d/vc-headers.inc;
+        client_max_body_size 6m;
+        resolver ${NGINX_RESOLVER} valid=30s ipv6=off;
+        set $vc_api ${VCHOME_API_UPSTREAM};
+        proxy_pass $vc_api;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_read_timeout 120s;
+    }
+
     location = /silent {
         set $vc_frame_ancestors "'self'";
         set $vc_xfo "SAMEORIGIN";
