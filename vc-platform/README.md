@@ -38,7 +38,7 @@ Phiên bản 0.4 · 08/10/2026 · Trạng thái: Đang code GĐ A (môi trườn
 | `backup/` | Sao lưu `pg_dump` hằng đêm (14 bản ngày, 6 bản tháng, rclone ra ngoài máy), `restore.sh` khôi phục thử hoặc ghi đè |
 | `config/` | `loai-tru.yaml`: danh sách loại trừ (I9) cho vc-provisioner |
 | `scripts/` | `kc-local.sh` (Keycloak không cần Docker), `dev-env.sh`, `thu-production.sh` (kiểm cụm production trên máy dev), `vc-tool.sh` (điểm vào ảnh công cụ) |
-| `docs/` | Ghi chép thử nghiệm, sổ phiên |
+| `docs/` | `so-phien.md`: **tiến độ và nhật ký từng phiên, đọc trước khi làm tiếp**; ghi chép thử nghiệm |
 
 ## 2. Chạy trên máy dev
 
