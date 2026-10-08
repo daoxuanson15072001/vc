@@ -1,10 +1,10 @@
 # VC Home — Kế hoạch triển khai
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ có người làm)
 
 ## Tóm tắt
 
-- **Tài liệu nói gì:** cách chia 78 yêu cầu thành 4 bản phát hành R1–R4 (GĐ A–D) và một giai đoạn mở rộng R5 (GĐ E). Kèm việc từng tuần, ước lượng giờ, phụ thuộc, đầu vào từ bên ngoài, tiêu chí lên bản, định nghĩa "sẵn sàng" và "xong", ma trận truy vết.
+- **Tài liệu nói gì:** cách chia 90 yêu cầu thành 4 bản phát hành R1–R4 (GĐ A–D) và một giai đoạn mở rộng R5 (GĐ E). Kèm việc từng tuần, ước lượng giờ, phụ thuộc, đầu vào từ bên ngoài, tiêu chí lên bản, định nghĩa "sẵn sàng" và "xong", ma trận truy vết.
 - **Lịch:**
 
 | Bản | GĐ | Ngày lên |
@@ -15,17 +15,19 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 | R4 | D: xin quyền, duyệt, rà soát | 22/01/2027 |
 | R5 | E: mở rộng | từ 22/02/2027, sau Tết |
 
-- **Khối lượng:** khoảng **420 giờ dev** cho A–D.
-  - VC Home: 380 giờ.
+- **Khối lượng:** khoảng **470 giờ dev** cho A–D (420 giờ bản đầu, thêm 44 giờ cho 12 yêu cầu nhận ngày 08/10/2026 và 6 giờ công cụ kiểm thử).
+  - VC Home: 430 giờ.
   - Sửa ở VClinks và VCwiki: 40 giờ.
   - Ước theo cách làm có Claude Code hỗ trợ như thiết kế SSO.
   - Nút thắt thật thường là đầu vào bên ngoài (dữ liệu HC-NS, quyết định, UAT), không phải tốc độ code.
-- **Nhân sự cần:** 1 dev VC Home toàn thời gian từ 02/11 (giả định GĐ-5, rủi ro RR-02); dev VClinks và dev VCwiki mỗi người khoảng 3 ngày ở GĐ C; HC-NS khoảng 5 ngày chuẩn bị dữ liệu.
+- **Nhân sự (đã chốt, [12](12-cau-hoi-rui-ro.md) mục 4):** 1 dev Platform toàn thời gian từ 02/11, giữ VC ID và VC Home, sau đó Gatekeeper. **Hạn có người: 30/10**; quá hạn thì R1 vẫn lên, R2–R4 dời sang sau Tết (từ 22/02/2027). Dev VClinks và dev VCwiki mỗi người khoảng 3 ngày ở GĐ C; HC-NS khoảng 5 ngày chuẩn bị dữ liệu.
 - **Cách giảm rủi ro khi bật quyền theo luật (R3):** chạy **ngầm 1 tuần**. Hệ thống tính quyền nhưng chưa đẩy sang VC ID; so với vai trò đang có ở VClinks, VCwiki; sửa luật cho khớp rồi mới bật.
 - **Việc cần làm ngay:**
-  - Chốt Q-01, Q-02, Q-05, Q-06, Q-07 trước 24/10.
+  - Đổi repo `vc` sang private (chủ repo, ngay).
+  - Có người làm VC Home trước 30/10.
+  - Chủ dự án ghi tên người giữ vai trò (N3) trước 24/10.
   - HC-NS gửi file Excel theo mẫu trước 30/10.
-  - Chốt người làm VC Home.
+  - Các câu hỏi Q-01…Q-15 và Q1–Q5 của SSO đã chốt ngày 08/10/2026, không còn chặn.
 - **Người duyệt xem kỹ:** mục 2 (phạm vi và lịch), mục 4 (đầu vào bên ngoài), mục 6 (tiêu chí lên bản).
 
 ## Mục lục
@@ -72,8 +74,12 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 | Màn quản trị: nhân sự, cơ cấu, danh mục, nhật ký, app (quản trị trên màn) | VH-APP-01 | 20 |
 | Nhập Excel, đối chiếu Google, lấy dữ liệu khởi đầu từ VClinks và VCwiki | VH-IMP-01…03 | 14 |
 | Token GĐ B (đồng bộ thuộc tính sang VC ID), gắn tài khoản với hồ sơ, API danh bạ VH-API-01…05, token máy | VH-AUT-08, VH-INT-01, 02, 06 | 10 |
+| Yêu cầu nhận thêm: tự sửa tên gọi, ảnh, SĐT (3); gộp mục trùng danh mục (4); hoàn tác lô nhập (3) | VH-NSU-09, VH-ORG-09, VH-IMP-05 | 10 |
+| Công cụ kiểm thử trên staging: đồng hồ giả lập cho job hẹn giờ, app giả lập nhận sự kiện `vctest` ([11](11-uat.md) đề xuất 1, 2) | — | 6 |
 | Test, UAT, sửa lỗi | — | 10 |
-| **Cộng** | | **126** |
+| **Cộng** | | **142** |
+
+R2 có 3 tuần (khoảng 120 giờ của một người). Phần vượt dùng Claude Code bù; nếu vẫn trễ thì VH-ORG-09 và VH-IMP-05 (7 giờ) rời sang tuần đầu R3 trước tiên, không ảnh hưởng tiêu chí lên R2.
 
 ### R3: GĐ C, quyền theo luật và vòng đời (23/11 → 11/12/2026)
 
@@ -85,11 +91,12 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 | Vòng đời: vào làm, chuyển vị trí, nghỉ việc theo ngày hiệu lực (job 00:00); đổi cơ cấu có ngày hiệu lực | VH-LCM-01…03, VH-ORG-05 | 14 |
 | Sự kiện: hàng đợi gửi, ký, gửi lại, kéo dự phòng; API quyền VH-API-06, 07 | VH-INT-03, 05 | 16 |
 | Màn: quyền của tôi (xem), ô app có vai trò, tra cứu quyền, đội của tôi (quyền), báo cáo truy cập | VH-HOM-03, VH-ACC-08, VH-ADM-02 | 12 |
+| Yêu cầu nhận thêm: sự kiện báo trước nghỉ việc, chuyển vị trí (4); sự kiện thử và nút "Gửi thử" (2) | VH-INT-09, VH-INT-10 | 6 |
 | Test, UAT, chạy ngầm 1 tuần | — | 12 |
-| **Cộng phần VC Home** | | **106** |
+| **Cộng phần VC Home** | | **112** |
 | VClinks: ánh xạ vai trò, nhận cây tổ chức, mở bàn giao theo sự kiện (dev VClinks, theo [07](07-tich-hop.md)) | VH-INT-01, 03 | 20 |
 | VCwiki: phân hệ ORG chuyển thành bên đọc, ánh xạ vai trò (dev VCwiki, theo [07](07-tich-hop.md)) | VH-INT-01, 03 | 20 |
-| **Cộng** | | **146** |
+| **Cộng** | | **152** |
 
 ### R4: GĐ D, xin quyền, duyệt, rà soát (14/12/2026 → 22/01/2027)
 
@@ -101,8 +108,9 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 | Thông báo trong VC Home | VH-HOM-08 | 10 |
 | Nghỉ dài ngày, quay lại làm | VH-LCM-04, 05 | 8 |
 | Cài đặt, xem phiên của mình | VH-ADM-05, VH-AUT-10 | 6 |
+| Yêu cầu nhận thêm: lịch ngày nghỉ (5); "cho phép xin" (2); tự trả quyền (3); duyệt nhiều yêu cầu (4); rà soát luật nửa năm (6); cảnh báo quyền không dùng (3); dải việc chờ (5) | VH-ORG-08, VH-APP-07, VH-ACC-09, VH-REQ-07, VH-REV-04, VH-ADM-06, VH-HOM-09 | 28 |
 | Test, UAT | — | 12 |
-| **Cộng** | | **88** |
+| **Cộng** | | **116** |
 
 ### R5: GĐ E, mở rộng (từ 22/02/2027)
 
@@ -117,9 +125,9 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 
 | Tuần | Ngày | Việc chính | Mốc |
 |---|---|---|---|
-| T1 | 13–17/10 | SSO-00 … 03, 05: thử kỹ thuật, hạ tầng, realm, VC Home tĩnh, BA VCwiki | Chốt Q1–Q5 của thiết kế SSO |
-| T2 | 20–24/10 | SSO-04, 06, 10: bộ đồng bộ Google, VCwiki code, production; bật VCwiki | Chốt Q-01, 02, 05, 06, 07 |
-| T3 | 27–31/10 | SSO-08, 09, 11: VClinks code, giao diện, UAT tổng | **R1** · HC-NS gửi Excel |
+| T1 | 13–17/10 | SSO-00 … 03, 05: thử kỹ thuật (có mapper `vh_roles`), hạ tầng, realm, VC Home tĩnh, BA VCwiki | Repo `vc` đã private; mua máy chủ, trỏ DNS theo Q1, Q2 đã chốt |
+| T2 | 20–24/10 | SSO-04, 06, 10: bộ đồng bộ Google, VCwiki code, production; bật VCwiki | Tên người giữ vai trò (N3); HC-NS rà danh mục (N2) |
+| T3 | 27–31/10 | SSO-08, 09, 11: VClinks code, giao diện, UAT tổng | **R1** · HC-NS gửi Excel · **có dev Platform (N10)** |
 | T4 | 02–06/11 | Khung VC Home API; VC People; cơ cấu | Nhập thử Excel lần 1 |
 | T5 | 09–13/11 | Màn người dùng, màn quản trị, nhập và đối chiếu; token GĐ B; API danh bạ | Pháp chế duyệt thông báo xử lý dữ liệu |
 | T6 | 16–20/11 | Test, UAT, nhập dữ liệu thật | **R2** · ánh xạ vai trò và mã đơn vị đã duyệt |
@@ -140,21 +148,23 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 | Mã | Việc | Ai | Hạn | Chặn |
 |---|---|---|---|---|
 | N1 | File Excel nhân sự và cơ cấu theo mẫu VH-IMP-01 | HC-NS | 30/10 | R2 (T4) |
-| N2 | Danh mục chức danh, chức năng đã duyệt (Q-02) | HC-NS | 24/10 | R2 |
-| N3 | Tên người giữ vai trò HC-NS, quản trị hệ thống, kiểm soát, BGĐ, chủ app (Q-07) | Chủ dự án | 24/10 | R2 |
+| N2 | HC-NS rà danh mục 10 chức năng khởi tạo (Q-02 đã chốt, [12](12-cau-hoi-rui-ro.md) mục 4.2) | HC-NS | 24/10 | Không chặn (dùng bản khởi tạo nếu chưa rà) |
+| N3 | Ghi tên người theo bảng chức vụ ở [12](12-cau-hoi-rui-ro.md) mục 4.3 (Q-07 đã chốt) | Chủ dự án | 24/10 | R2 |
 | N4 | Văn bản thông báo xử lý dữ liệu nhân viên (VH-NFR-08) | Pháp chế | 13/11 | R2 |
 | N5 | Danh sách người dùng thử UAT theo vai trò (≥ 1 người mỗi vai trò, ở 2 division) | Chủ dự án | 13/11 | R2 |
 | N6 | Bảng ánh xạ vai trò VClinks, VCwiki sang vai trò app | Chủ app | 20/11 | R3 |
 | N7 | Bảng ánh xạ mã đơn vị cũ của VClinks, VCwiki sang mã đơn vị mới | HC-NS + chủ app | 20/11 | R3 |
 | N8 | Bộ luật cấp quyền bản đầu | Chủ dự án + chủ app duyệt | 27/11 | R3 |
-| N9 | Chốt Q-03, Q-08, Q-09 | Chủ dự án | 20/11 | R4 |
+| N9 | ~~Chốt Q-03, Q-08, Q-09~~ Đã chốt ngày 08/10/2026 | — | — | Không chặn |
+| N10 | Có dev Platform toàn thời gian (RR-02) | Chủ dự án | 30/10 | R2–R4 |
+| N11 | Lịch ngày nghỉ năm 2027 của từng pháp nhân (VH-ORG-08) | HC-NS | 11/12 | R4 |
 
 ## 5. Nhân sự và phân công
 
 | Người | Việc | Thời gian |
 |---|---|---|
-| Dev VC Home (cần chốt, RR-02) | VC Home API, giao diện, bộ luật, sự kiện, vận hành | Toàn thời gian từ 02/11 |
-| Dev002 + Claude Code | GĐ A (thiết kế SSO); phần VClinks ở GĐ C | GĐ A: theo thiết kế SSO; GĐ C: khoảng 3 ngày |
+| Dev Platform (đã chốt vị trí, cần người trước 30/10) | VC Home API, giao diện, bộ luật, sự kiện, vận hành; quản trị hệ thống chính; sau R4 làm Gatekeeper | Toàn thời gian từ 02/11 |
+| Dev002 + Claude Code | GĐ A (thiết kế SSO); phần VClinks ở GĐ C; quản trị hệ thống dự phòng; chủ app VClinks | GĐ A: theo thiết kế SSO; GĐ C: khoảng 3 ngày |
 | Dev VCwiki | Phần VCwiki ở GĐ A (SYS-60) và GĐ C | GĐ A: khoảng 2 ngày; GĐ C: khoảng 3 ngày |
 | BA | Giữ bộ tài liệu, trả lời câu hỏi, viết ca UAT, nghiệm thu | Bán thời gian |
 | HC-NS | Chuẩn bị Excel, duyệt danh mục, kiểm dữ liệu sau nhập, UAT màn quản trị | Khoảng 5 ngày rải trong T3–T6 |
@@ -204,17 +214,17 @@ Bảng dưới là truy vết theo phân hệ.
 | Phân hệ | Yêu cầu | Màn hình | Quy trình | Nhóm câu chuyện | Bản |
 |---|---|---|---|---|---|
 | AUT | VH-AUT-01…10 | VH-MH-01, 02, 03, 21 | VH-QT-01, 02, 06 | VH-E-01 | R1 (08: R2; 10: R4) |
-| HOM | VH-HOM-01…08 | VH-MH-02, 04, 21 | VH-QT-01 | VH-E-02 | R1–R5 |
-| NSU | VH-NSU-01…08 | VH-MH-03, 06, 09, 11 | VH-QT-03…07 | VH-E-03 | R2 |
-| ORG | VH-ORG-01…07 | VH-MH-07, 12, 13 | VH-QT-03, 12 | VH-E-04 | R2 (05: R3) |
-| APP | VH-APP-01…06 | VH-MH-02, 15 | VH-QT-11 | VH-E-06 | R1–R5 |
-| ACC | VH-ACC-01…08 | VH-MH-04, 09, 16, 17 | VH-QT-04, 05, 06, 10 | VH-E-07 | R3 (05: R4) |
-| REQ | VH-REQ-01…06 | VH-MH-04, 05, 08 | VH-QT-08 | VH-E-09 | R4 |
-| REV | VH-REV-01…03 | VH-MH-10, 18 | VH-QT-09 | VH-E-10 | R4 |
+| HOM | VH-HOM-01…09 | VH-MH-02, 04, 21 | VH-QT-01 | VH-E-02 | R1–R5 |
+| NSU | VH-NSU-01…09 | VH-MH-03, 06, 09, 11 | VH-QT-03…07 | VH-E-03 | R2 |
+| ORG | VH-ORG-01…09 | VH-MH-07, 12, 13 | VH-QT-03, 12 | VH-E-04 | R2 (05: R3; 08: R4) |
+| APP | VH-APP-01…07 | VH-MH-02, 15 | VH-QT-11 | VH-E-06 | R1–R5 |
+| ACC | VH-ACC-01…09 | VH-MH-04, 09, 16, 17 | VH-QT-04, 05, 06, 10 | VH-E-07 | R3 (05, 09: R4) |
+| REQ | VH-REQ-01…07 | VH-MH-04, 05, 08 | VH-QT-08 | VH-E-09 | R4 |
+| REV | VH-REV-01…04 | VH-MH-10, 18 | VH-QT-09 | VH-E-10 | R4 |
 | LCM | VH-LCM-01…05 | VH-MH-09, 11 | VH-QT-04…07 | VH-E-08 | R3, R4 |
-| INT | VH-INT-01…08 | VH-MH-15 (cấu hình nhận sự kiện) | VH-QT-11 | VH-E-11 | R1–R3, R5 |
-| ADM | VH-ADM-01…05 | VH-MH-17, 19, 20 | — | VH-E-12 | R1–R4 |
-| IMP | VH-IMP-01…04 | VH-MH-14 | VH-QT-03 | VH-E-05 | R2, R5 |
+| INT | VH-INT-01…10 | VH-MH-15 (cấu hình nhận sự kiện) | VH-QT-11 | VH-E-11 | R1–R3, R5 |
+| ADM | VH-ADM-01…06 | VH-MH-17, 19, 20 | — | VH-E-12 | R1–R4 |
+| IMP | VH-IMP-01…05 | VH-MH-14 | VH-QT-03 | VH-E-05 | R2, R5 |
 
 ## 9. Theo dõi tiến độ
 
@@ -232,3 +242,4 @@ Bảng dưới là truy vết theo phân hệ.
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
 | 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo kế hoạch: nguyên tắc chia bản, phạm vi và giờ theo bản (khoảng 420 giờ A–D), việc theo tuần tới R4, 9 đầu vào bên ngoài, nhân sự, tiêu chí lên bản có chạy ngầm, định nghĩa sẵn sàng và xong, ma trận truy vết | README bộ tài liệu 0.1; thiết kế SSO 0.1 mục 8 |
+| 0.2 | 08/10/2026 11:31 | Claude Code (vai BA) | Ghi quyết định nhân sự (1 dev Platform từ 02/11, hạn có người 30/10, phương án dời sau Tết); thêm giờ cho 12 yêu cầu mới (R2 +10, R3 +6, R4 +28) và công cụ kiểm thử (R2 +6), tổng khoảng 470 giờ; N2, N3, N9 đổi theo quyết định; thêm N10, N11; cập nhật ma trận truy vết; việc cần làm ngay | [12](12-cau-hoi-rui-ro.md) mục 4, 6; 04 mục 14 |

@@ -1,36 +1,43 @@
-# VC Home — Quyết định cần chốt, giả định và rủi ro
+# VC Home — Quyết định, giả định và rủi ro
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt (người dùng uỷ quyền BA)
 
 ## Tóm tắt
 
-- **Tài liệu nói gì:** 15 câu hỏi cần chủ dự án và các bên chốt (VH-Q). Mỗi câu có phương án, đề xuất mặc định, hạn chốt và giai đoạn bị chặn. Kèm 14 rủi ro (VH-RR) và cách giảm.
-- **Cách trả lời:** theo mã, ví dụ `Q-01: AMIS · Q-06: OK`. Câu nào không trả lời trước hạn thì làm theo đề xuất (giống CLAUDE.md §15.2 của VClinks).
-- **Năm câu chặn GĐ B, cần chốt trước 24/10/2026:**
-  - Q-01: dữ liệu nhân sự ở đâu.
-  - Q-02: danh mục chức danh, chức năng.
-  - Q-05: vai trò thô hay chi tiết.
-  - Q-06: VC People thay cây tổ chức của VClinks và VCwiki.
-  - Q-07: ai giữ vai trò HC-NS, quản trị, kiểm soát, chủ app.
+- **Tài liệu nói gì:** 15 câu hỏi nghiệp vụ (Q-01…15), 5 câu hỏi của thiết kế SSO, việc chốt người làm và việc repo public; 14 rủi ro (VH-RR) và cách giảm; sổ quyết định soát chéo; kết quả xử lý mọi đề xuất bổ sung.
+- **Trạng thái:** ngày 08/10/2026 người dùng uỷ quyền BA chốt tất cả theo khuyến nghị. **Không còn câu hỏi mở** (mục 4). Chủ dự án vẫn đổi được dòng nào thì sửa tài liệu theo cột cuối của mục 4.
+- **Các quyết định chính:**
+  - Q-01: Excel của HC-NS làm dữ liệu khởi đầu; phần mềm nhân sự (nếu có) nối ở GĐ E.
+  - Q-02: dùng 10 chức năng khởi tạo ở 04 VH-ORG-03; chức danh lấy từ dữ liệu thật.
+  - Q-05: VC Home cấp vai trò thô, app giữ quyền chi tiết.
+  - Q-06: VC People thay cây tổ chức của VClinks, VCwiki; app chỉ đọc.
+  - Q-07: giữ vai trò theo chức vụ, mỗi vai trò 2 người (mục 4.3).
+  - Nhân sự: 1 dev Platform toàn thời gian từ 02/11/2026; hạn có người 30/10, quá hạn thì R2–R4 dời sau Tết.
+  - Repo `vc` đổi sang private ngay; không đưa bí mật, IP, dữ liệu nhân sự vào repo.
+- **Đề xuất bổ sung** (mục 6): 89 đề xuất ở 7 tài liệu đã xử lý hết. Sinh ra 12 yêu cầu mới, 8 để sau, 2 không làm.
+- **Việc còn lại chỉ là đầu vào, không phải quyết định:** tên người giữ vai trò (N3), file Excel (N1), văn bản pháp chế (N4), người làm VC Home.
 - **Rủi ro lớn nhất:**
   - RR-01: dữ liệu nhân sự đầu vào không đủ hoặc không sạch.
-  - RR-02: thiếu dev làm VC Home toàn thời gian.
-  - RR-03: hai app phải đổi mô hình tổ chức đang chạy.
+  - RR-02: chưa có dev làm VC Home toàn thời gian.
+  - RR-13: repo đang public.
 - **Sổ quyết định soát chéo** (mục 5): 36 điểm lệch giữa các tài liệu đã được BA trưởng chốt; khi tài liệu còn ghi khác thì theo mục 5.
-- **Người duyệt xem kỹ:** bảng câu hỏi ở mục 1, các rủi ro mức Cao ở mục 3, và mục 5.
+- **Người duyệt xem kỹ:** mục 4 (quyết định), mục 6 (đề xuất để sau và không làm), các rủi ro mức Cao ở mục 3.
 
 ## Mục lục
 
-- [1. Câu hỏi cần chốt](#1-câu-hỏi-cần-chốt)
+- [1. Câu hỏi đã cân nhắc](#1-câu-hỏi-đã-cân-nhắc)
 - [2. Giả định](#2-giả-định)
 - [3. Rủi ro](#3-rủi-ro)
 - [4. Quyết định đã chốt](#4-quyết-định-đã-chốt)
 - [5. Quyết định soát chéo của BA trưởng](#5-quyết-định-soát-chéo-của-ba-trưởng)
+- [6. Xử lý các đề xuất bổ sung](#6-xử-lý-các-đề-xuất-bổ-sung)
 - [Lịch sử cập nhật](#lịch-sử-cập-nhật)
 
 ---
 
-## 1. Câu hỏi cần chốt
+## 1. Câu hỏi đã cân nhắc
+
+**Đã chốt hết ngày 08/10/2026** (mục 4). Bảng dưới giữ lại để biết các phương án đã cân nhắc; cột "Đề xuất" là bản đã chọn, trừ Q-07 và Q-11 chốt chi tiết hơn ở mục 4.
 
 | Mã | Câu hỏi | Phương án | Đề xuất | Ai chốt | Hạn | Chặn |
 |---|---|---|---|---|---|---|
@@ -50,14 +57,13 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 | Q-14 | Tài khoản công ty có trên Google nhưng chưa có hồ sơ (từ GĐ C, khi quyền đi theo hồ sơ) thì sao? | A: vào được trang chủ nhưng không có app · B: chặn đăng nhập | A trong 30 ngày đầu sau R3 (thời gian chuyển tiếp: vẫn giữ nhóm mặc định của GĐ A để không ai mất việc); sau đó chặn vào app tới khi HC-NS tạo hồ sơ (VH-BR-02) | Chủ dự án | 20/11 | C |
 | Q-15 | Trang chủ có hiện liên kết ngoài (Gmail, Google Drive, MISA, website công ty) không? | Có · không | Có, ô "Liên kết" mở tab mới, không đăng nhập một lần (VH-BR-21) | Chủ dự án | 13/11 | B |
 
-**Liên quan tới thiết kế SSO** (đã có trong [ky-thuat/thiet-ke-sso-keycloak.md](ky-thuat/thiet-ke-sso-keycloak.md) mục 4.1, chưa chốt):
+**Liên quan tới thiết kế SSO** (có trong [ky-thuat/thiet-ke-sso-keycloak.md](ky-thuat/thiet-ke-sso-keycloak.md) mục 4.1, đã chốt ở mục 4):
 - Q1: tên miền.
 - Q2: máy chủ tại Việt Nam.
 - Q3: ai thấy app nào ở GĐ A.
 - Q4: VCwiki tự tạo tài khoản.
 - Q5: thời hạn phiên.
 
-Chủ dự án chốt chung với bảng trên.
 
 ## 2. Giả định
 
@@ -68,7 +74,7 @@ Xem [01-tam-nhin-pham-vi.md](01-tam-nhin-pham-vi.md) mục 6 (GĐ-1 … GĐ-6). 
 | Mã | Rủi ro | Khả năng | Ảnh hưởng | Cách giảm | Người theo dõi |
 |---|---|---|---|---|---|
 | VH-RR-01 | Dữ liệu nhân sự đầu vào thiếu hoặc sai (thiếu quản lý, sai đơn vị, trùng email) | Cao | Cao: luật cấp sai quyền | Nhập thử trước (VH-IMP-01); đối chiếu Google (VH-IMP-02); chỉ bật luật khi ≥ 98% hồ sơ đủ (01 mục 3); HC-NS duyệt báo cáo lỗi | HC-NS |
-| VH-RR-02 | Không có dev làm VC Home toàn thời gian (2 dev hiện dồn cho M1 và lộ trình AI) | Cao | Cao: trễ cả lộ trình | Chốt nhân sự trước GĐ B; nếu không có thì làm GĐ A, B rồi dừng, C, D dời sang Q1/2027 | Chủ dự án |
+| VH-RR-02 | Không có dev làm VC Home toàn thời gian (2 dev hiện dồn cho M1 và lộ trình AI) | Cao | Cao: trễ cả lộ trình | Đã chốt (mục 4): 1 dev Platform toàn thời gian từ 02/11. Hạn có người 30/10; quá hạn thì R1 vẫn lên, R2–R4 dời sang sau Tết (từ 22/02/2027) | Chủ dự án |
 | VH-RR-03 | VClinks, VCwiki phải đổi mô hình tổ chức đang chạy, dễ phá luồng | Trung bình | Cao | Bảng ánh xạ mã đơn vị cũ → mới; chạy song song chế độ chỉ đọc 1 tuần trước khi khoá màn sửa; cờ bật/tắt ở từng app | Chủ app |
 | VH-RR-04 | Luật viết sai làm nhiều người mất quyền cùng lúc | Trung bình | Cao | Xem trước bắt buộc, duyệt hai người khi > 20 người (VH-BR-25); thời gian chuyển tiếp; nhật ký và hoàn tác luật | Quản trị hệ thống |
 | VH-RR-05 | Cơ cấu tổ chức đổi thường xuyên, HC-NS không kịp cập nhật | Trung bình | Trung bình | Ngày hiệu lực hẹn trước; nhắc HC-NS các vị trí thiếu quản lý; báo cáo hồ sơ chưa đủ hằng tuần | HC-NS |
@@ -79,20 +85,61 @@ Xem [01-tam-nhin-pham-vi.md](01-tam-nhin-pham-vi.md) mục 6 (GĐ-1 … GĐ-6). 
 | VH-RR-10 | Hai Workspace Google riêng làm đồng bộ phức tạp | Trung bình | Thấp | Thiết kế SSO I6; bộ đồng bộ chạy theo từng Workspace | Quản trị hệ thống |
 | VH-RR-11 | Phạm vi phình: muốn thêm chấm công, lương, đánh giá vào VC Home | Cao | Trung bình | Ngoài phạm vi ([01](01-tam-nhin-pham-vi.md) mục 4); việc mới vào danh sách chờ, chủ dự án duyệt | BA |
 | VH-RR-12 | Người dùng quen đăng nhập riêng từng app, gọi hỗ trợ nhiều tuần đầu | Trung bình | Thấp | Hướng dẫn 1 trang; thông báo trước 3 ngày; tuần đầu có người trực hỗ trợ | Quản trị hệ thống |
-| VH-RR-13 | Repo `vc` đang public chứa tài liệu và code | Cao | Cao | Đổi sang private trước khi đưa thêm thông tin hạ tầng; dài hạn dùng repo `vc-platform` private trên GitLab | Chủ dự án |
+| VH-RR-13 | Repo `vc` đang public chứa tài liệu và code | Cao | Cao | Đã chốt (mục 4): chủ repo đổi sang private ngay trên GitHub (Settings → General → Danger Zone → Change visibility → Private). Không đưa bí mật, IP, tên máy chủ, file nhân sự vào repo; dài hạn dùng repo `vc-platform` private | Chủ dự án |
 | VH-RR-14 | Lệch giữa quyền trong VC Home và VC ID (đẩy lỗi) | Thấp | Trung bình | Đẩy lại có thử lại; đối chiếu hằng đêm báo lệch (VH-NFR-18) | Dev |
 
 ## 4. Quyết định đã chốt
 
-Chưa có. Khi chủ dự án trả lời, chuyển câu từ mục 1 xuống đây. Mỗi dòng gồm:
-- mã câu hỏi;
-- câu trả lời;
-- ngày chốt;
-- người chốt;
-- tài liệu và mục phải sửa theo.
+Ngày 08/10/2026 người dùng (chủ dự án) uỷ quyền cho BA trưởng chốt toàn bộ câu hỏi theo khuyến nghị. Bảng dưới là bản chốt. Chủ dự án vẫn có thể đổi bất kỳ dòng nào; khi đổi thì sửa các tài liệu ở cột cuối.
+
+### 4.1 Bảng quyết định
 
 | Mã | Chốt | Ngày | Người chốt | Tài liệu phải sửa |
 |---|---|---|---|---|
+| Q-01 | **B.** Excel của HC-NS là dữ liệu khởi đầu (VH-IMP-01); HC-NS là người cập nhật duy nhất trên VC People từ R2. Nếu công ty đã dùng phần mềm nhân sự (MISA AMIS…) thì nối tự động ở GĐ E (VH-IMP-04), không chờ | 08/10/2026 | BA trưởng (uỷ quyền) | Không cần sửa (đúng mặc định); 10 mục 4 N1 |
+| Q-02 | **B.** Dùng danh mục khởi tạo 10 chức năng ở [04](04-yeu-cau-chuc-nang.md) VH-ORG-03 (mục 4.2 dưới đây); chức danh lấy từ dữ liệu thật khi nhập thử, gộp mục trùng bằng VH-ORG-09. HC-NS chỉ còn việc rà bản đầu trước 24/10, không còn là câu hỏi | 08/10/2026 | BA trưởng (uỷ quyền) | 07 mục 8.3 (NV thị trường); 10 mục 4 N2 |
+| Q-03 | **B.** Quản lý trực tiếp duyệt; thêm chủ app khi vai trò nhạy cảm (VH-BR-12) | 08/10/2026 | BA trưởng (uỷ quyền) | Không cần sửa |
+| Q-04 | Thiết kế hỗ trợ đủ kiêm nhiệm nhiều division, pháp nhân (VH-BR-04, 24). Kiểm thử coi như **phổ biến**; HC-NS báo con số thật sau lần nhập thử, không chặn | 08/10/2026 | BA trưởng (uỷ quyền) | 11: giữ các ca kiêm nhiệm |
+| Q-05 | **A.** VC Home cấp vai trò thô; app giữ quyền chi tiết | 08/10/2026 | BA trưởng (uỷ quyền) | Không cần sửa |
+| Q-06 | **A.** VC People thay cây tổ chức và danh sách người dùng của VClinks, VCwiki; app chỉ đọc. Chuyển theo RR-03: bảng ánh xạ mã đơn vị, chạy song song chỉ đọc 1 tuần, cờ bật/tắt ở từng app | 08/10/2026 | BA trưởng (uỷ quyền) | 01 mục 7; 07 |
+| Q-07 | Giữ vai trò **theo chức vụ**, mỗi vai trò 2 người (mục 4.3 dưới đây). Chủ dự án chỉ còn ghi tên người vào danh sách (N3), không còn là câu hỏi | 08/10/2026 | BA trưởng (uỷ quyền) | 01 mục 5; 10 mục 4 N3, mục 5 |
+| Q-08 | 90 ngày mặc định, tối đa 365; vai trò nhạy cảm tối đa 90 ngày (VH-BR-09) | 08/10/2026 | BA trưởng (uỷ quyền) | Đã sửa 02 VH-BR-09 |
+| Q-09 | Quý cho quyền ngoại lệ (VH-REV-01); nửa năm cho luật (VH-REV-04) | 08/10/2026 | BA trưởng (uỷ quyền) | Đã thêm VH-REV-04 (04 mục 14) |
+| Q-10 | Giữ 24 tháng trong hệ thống; xuất bản lưu trữ ra ngoài hằng năm, giữ 5 năm (cho kiểm toán) | 08/10/2026 | BA trưởng (uỷ quyền) | 05 mục 9 đề xuất 4 |
+| Q-11 | Dùng mã nhân viên hiện có nếu duy nhất toàn tập đoàn; trùng giữa pháp nhân thì thêm tiền tố mã pháp nhân; người chưa có mã thì VC Home cấp theo mẫu `<mã pháp nhân><4 số>`. Bước nhập kiểm trùng | 08/10/2026 | BA trưởng (uỷ quyền) | 04 VH-IMP-01 (kiểm trùng đã có) |
+| Q-12 | **Có.** "Nơi làm việc" là thuộc tính luật (VH-BR-10) và có trong VH-API-05 | 08/10/2026 | BA trưởng (uỷ quyền) | Không cần sửa |
+| Q-13 | **A.** Khoá lúc 00:00 ngày đầu tiên không còn làm (VH-BR-14); khoá gấp trước bằng VH-AUT-06 khi cần | 08/10/2026 | BA trưởng (uỷ quyền) | Không cần sửa |
+| Q-14 | **A** trong 30 ngày đầu sau R3 (giữ nhóm mặc định của GĐ A); sau đó vẫn vào trang chủ nhưng không vào app tới khi HC-NS tạo hồ sơ (VH-BR-02) | 08/10/2026 | BA trưởng (uỷ quyền) | Không cần sửa |
+| Q-15 | **Có.** Ô "Liên kết" mở tab mới, không đăng nhập một lần (VH-BR-21; `apps.kind = lien_ket_ngoai`) | 08/10/2026 | BA trưởng (uỷ quyền) | Không cần sửa |
+| SSO Q1 | `id.vcprosperous.com` (VC ID), `home.vcprosperous.com` (VC Home), `id-admin.vcprosperous.com` (màn quản trị Keycloak, chỉ mở cho IP công ty hoặc VPN) | 08/10/2026 | BA trưởng (uỷ quyền) | Thiết kế SSO mục 4.1 |
+| SSO Q2 | Một máy ảo tại Việt Nam, 2 vCPU / 4 GB RAM / 40 GB SSD, Ubuntu 24.04, không đặt trên máy 129; sao lưu hằng đêm ra nơi khác | 08/10/2026 | BA trưởng (uỷ quyền) | Thiết kế SSO mục 4.1; 01 GĐ-6 |
+| SSO Q3 | GĐ A: mọi tài khoản công ty thấy cả VClinks và VCwiki (nhóm mặc định); quyền bên trong app giữ như hiện nay | 08/10/2026 | BA trưởng (uỷ quyền) | Thiết kế SSO mục 4.1 |
+| SSO Q4 | **Có.** VCwiki tự tạo tài khoản ở lần đăng nhập đầu qua VC ID, vai trò `member`, chỉ thấy kho công khai; tắt đăng ký bằng mật khẩu | 08/10/2026 | BA trưởng (uỷ quyền) | Thiết kế SSO mục 4.1 |
+| SSO Q5 | Phiên VC ID và phiên app: hết sau 12 giờ không dùng, tối đa 7 ngày (VCwiki giảm từ 14 xuống 7 ngày) | 08/10/2026 | BA trưởng (uỷ quyền) | Thiết kế SSO mục 4.1; 07 |
+| Nhân sự | **1 dev Platform toàn thời gian từ 02/11/2026**, giữ VC ID + VC Home, sau đó Gatekeeper của lộ trình AI. Ưu tiên điều chuyển nội bộ; không có thì tuyển 1 dev fullstack NestJS + React (≥ 3 năm, biết OIDC là lợi thế) hoặc thuê hợp đồng 4 tháng (11/2026–02/2027). Dev002 làm GĐ A như kế hoạch. **Hạn có người: 30/10.** Quá hạn thì R1 vẫn lên (dùng được độc lập); R2–R4 dời sang sau Tết (từ 22/02/2027), giữ nguyên thứ tự | 08/10/2026 | BA trưởng (uỷ quyền) | 10 mục 5; 01 GĐ-5; RR-02 |
+| Repo public | Đổi repo `vc` sang **private ngay** (chủ repo làm trên GitHub). Từ giờ không đưa tên máy chủ, IP, bí mật, file dữ liệu nhân sự vào repo; dữ liệu nhập Excel chỉ để trên máy chủ. Dài hạn tách code nền tảng sang repo `vc-platform` private | 08/10/2026 | BA trưởng (uỷ quyền) | RR-13; README |
+
+### 4.2 Danh mục chức năng bản đầu (Q-02)
+
+- Dùng đúng 10 chức năng ở [04](04-yeu-cau-chuc-nang.md) VH-ORG-03: `ban_hang`, `cskh`, `sale_admin`, `ke_toan`, `ky_thuat`, `kho`, `marketing`, `nhan_su`, `it`, `ban_giam_doc`.
+- Nhân viên thị trường thuộc chức năng `ban_hang`; luật cấp `vclinks:nv_thi_truong` dựa vào chức danh "Nhân viên thị trường", không tạo chức năng `thi_truong` riêng.
+- Chức danh không đặt trước: lấy từ file Excel thật ở lần nhập thử (N1); trùng tên thì gộp bằng VH-ORG-09.
+- Cần thêm chức năng thì HC-NS thêm trên VH-MH-13, không phải sửa tài liệu.
+
+### 4.3 Người giữ vai trò (Q-07)
+
+Gán theo chức vụ để khi người đổi việc thì vai trò đi theo chức vụ. Chủ dự án ghi tên cụ thể vào danh sách N3 ([10](10-ke-hoach-trien-khai.md) mục 4) trước 24/10.
+
+| Vai trò | Người chính | Người thay | Ghi chú |
+|---|---|---|---|
+| HC-NS (`vchome:hcns`) | Trưởng phòng HC-NS của từng pháp nhân | 1 chuyên viên HC-NS cùng pháp nhân | Phạm vi theo pháp nhân |
+| Quản trị hệ thống (`vchome:qtht`) | Dev Platform (người làm VC Home) | Dev002 | Không được kiêm HC-NS hay kiểm soát (02 mục 6) |
+| Kiểm soát (`vchome:kiem_soat`) | Kế toán trưởng | 1 người kiểm soát nội bộ hoặc kế toán tổng hợp | Chỉ xem; không kiêm quản trị hệ thống |
+| Ban giám đốc (`vchome:bgd`) | Các thành viên ban giám đốc | — | Cấp tự động theo chức năng `ban_giam_doc` |
+| Chủ app VClinks | Dev002 | Chủ dự án | |
+| Chủ app VCwiki | Dev phụ trách VCwiki | Chủ dự án | |
+| Chủ app sau này (VCsale, VCgarage…) | Trưởng nhóm dev của app | Chủ dự án | Khai khi đưa app vào (VH-QT-11) |
+| Pháp chế | Người phụ trách pháp chế, hoặc luật sư tư vấn ngoài | — | Duyệt thông báo xử lý dữ liệu (N4) |
 
 ## 5. Quyết định soát chéo của BA trưởng
 
@@ -137,8 +184,62 @@ Bộ tài liệu do nhiều người viết song song. Khi soát chéo ngày 08/
 | D-BA-35 | Người dùng các màn quản trị | VH-MH-08 thêm trưởng đơn vị, quản trị hệ thống, người được uỷ quyền; VH-MH-15 thêm kiểm soát (chỉ đọc); VH-MH-19 thêm HC-NS và chủ app trong phạm vi; ngoại lệ tách nhiệm quản lý ở VH-MH-17 | README mục 8 |
 | D-BA-36 | App `beta` | Được xin quyền như app `live` | 04 VH-REQ-01 |
 
+## 6. Xử lý các đề xuất bổ sung
+
+Ngày 08/10/2026 BA trưởng xử lý hết các đề xuất "Mở" ở cuối từng tài liệu (người dùng uỷ quyền). Không còn đề xuất nào mở. Chi tiết từng dòng nằm ở ghi chú "Đã xử lý ngày 08/10/2026" của mục tương ứng.
+
+**Tổng hợp theo nơi đề xuất:**
+
+| Nơi | Số đề xuất | Đã xử lý từ trước | Nhận (mã mới hoặc gộp) | Để sau | Không làm |
+|---|---:|---:|---:|---:|---:|
+| [03](03-quy-trinh.md) mục 15 | 19 | 4 | 15 | 0 | 0 |
+| [04](04-yeu-cau-chuc-nang.md) mục 13 | 34 | 15 | 16 | 2 | 1 |
+| [05](05-du-lieu.md) mục 9 | 5 | 1 | 2 | 2 | 0 |
+| [06](06-man-hinh.md) mục 10 | 8 | 0 | 6 | 1 | 1 |
+| [07](07-tich-hop.md) mục 11 | 10 | 3 | 5 | 2 | 0 |
+| [09](09-user-story.md) mục 16 | 7 | 0 | 6 | 1 | 0 |
+| [11](11-uat.md) đề xuất | 6 | 3 | 3 | 0 | 0 |
+| **Cộng** | **89** | **26** | **53** | **8** | **2** |
+
+Nhiều đề xuất trùng nhau giữa các tài liệu (ví dụ "báo trước ngày nghỉ việc" có ở 03, 04 và 07). Sau khi gộp, phần nhận sinh ra **12 yêu cầu mới** ở [04](04-yeu-cau-chuc-nang.md) mục 14.1 và **11 yêu cầu được bổ sung** ở mục 14.2.
+
+**12 yêu cầu mới:**
+
+| Mã | Tên | Ưu tiên | GĐ | Câu chuyện |
+|---|---|---|---|---|
+| VH-HOM-09 | Dải "Việc đang chờ bạn" trên trang chủ | C | D | VH-US-029 |
+| VH-NSU-09 | Nhân viên tự sửa tên gọi, ảnh, SĐT công việc | S | B | VH-US-050 |
+| VH-ORG-08 | Lịch ngày nghỉ của công ty | S | D | VH-US-068 |
+| VH-ORG-09 | Gộp mục trùng trong danh mục | S | B | VH-US-069 |
+| VH-IMP-05 | Hoàn tác lô nhập trong 24 giờ | S | B | VH-US-086 |
+| VH-APP-07 | Vai trò app "cho phép xin" | S | D | VH-US-107 |
+| VH-ACC-09 | Người giữ quyền tự trả quyền ngoại lệ | S | D | VH-US-131 |
+| VH-REQ-07 | Duyệt nhiều yêu cầu một lần | S | D | VH-US-170 |
+| VH-REV-04 | Rà soát luật nửa năm | S | D | VH-US-186 |
+| VH-INT-09 | Sự kiện báo trước nghỉ việc, chuyển vị trí | S | C | VH-US-208 |
+| VH-INT-10 | Sự kiện thử và nút "Gửi thử" | S | C | VH-US-209 |
+| VH-ADM-06 | Cảnh báo quyền không dùng 90 ngày | S | D | VH-US-227 |
+
+**Quy tắc được sửa theo đề xuất:** VH-BR-09 (vai trò nhạy cảm tối đa 90 ngày), VH-BR-11 (nhập muộn), VH-BR-12 (chuyển người duyệt khi đổi quản lý, quản lý vắng, chủ app duy nhất), VH-BR-16 (đơn vị không có trưởng, uỷ quyền, ngày nghỉ), VH-BR-25 (ngưỡng 21 người, thay đổi hàng loạt, người duyệt thay, lệch > 20% thì duyệt lại). Ma trận quyền ở [02](02-tac-nhan-quy-tac.md) mục 3 cho kiểm soát xem luật.
+
+**Để sau (8):**
+
+| Đề xuất | Nơi | Vì sao chưa làm | Xem lại khi |
+|---|---|---|---|
+| Vai trò phó đơn vị hoặc tạm quyền trưởng đơn vị có thời hạn | 04 #7 | Uỷ quyền và quy tắc chuyển người duyệt (VH-BR-12, 16) đủ dùng cho GĐ D | GĐ E |
+| Thời gian chuyển tiếp riêng cho từng vai trò | 04 #13 | Chưa có số đo; mức app đủ dùng | Sau 1 tháng chạy R3 |
+| Cấp bậc (1–7) và quản lý chuyên môn trong VC People | 05 #2, 07 #9 | VCwiki đang giữ; đưa vào làm phình GĐ B | GĐ E |
+| Xem "cơ cấu tại một ngày" | 05 #3 | Nhật ký đủ dựng lại khi kiểm toán hỏi | GĐ E |
+| Đồng nghiệp bấm "Báo sai thông tin" trên danh bạ | 06 #7, 09 #6 | Chưa biết có nhiều sai không; đo số đề nghị sửa sau R2 | Sau R2 |
+| Gửi sự kiện theo lô | 07 #10 | Số app và số thay đổi còn nhỏ | Khi ≥ 20 app hoặc một lần đổi cơ cấu > 200 người |
+
+**Không làm (2):**
+- Màn "Tài khoản" riêng cho quản trị hệ thống (04 #15): ngăn Tài khoản trong VH-MH-11 đủ dùng (D-BA-15).
+- Chế độ "Xem như người dùng" (06 #8): rủi ro riêng tư; dùng tra cứu quyền VH-ACC-08 để trả lời "vì sao tôi không thấy app X".
+
 ## Lịch sử cập nhật
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
 | 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo tài liệu: 15 câu hỏi có đề xuất và hạn, 14 rủi ro | README bộ tài liệu 0.1; câu hỏi người dùng 08/10/2026 |
+| 0.2 | 08/10/2026 11:31 | Claude Code (vai BA) | Chốt toàn bộ Q-01…Q-15, SSO Q1–Q5, người làm VC Home, repo public (mục 4, thêm 4.2 danh mục chức năng, 4.3 người giữ vai trò); đổi mục 1 thành "đã cân nhắc"; thêm mục 6 xử lý 89 đề xuất bổ sung; cập nhật RR-02, RR-13 và tóm tắt | Người dùng uỷ quyền BA chốt ngày 08/10/2026 ("không cần phải t quyết định nữa") |

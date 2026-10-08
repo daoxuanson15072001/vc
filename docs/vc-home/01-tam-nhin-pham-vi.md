@@ -1,6 +1,6 @@
 # VC Home — Tầm nhìn, phạm vi và tác động
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung
 
 ## Tóm tắt
 
@@ -19,7 +19,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
   - 0 tài khoản của người đã nghỉ còn hoạt động.
   - ≥ 90% quyền đến từ luật.
 - **Phạm vi:** 5 giai đoạn A–E từ 10/2026 đến Q2/2027. GĐ A–D làm VC Home và nối VClinks, VCwiki; GĐ E đưa VCsale, VCgarage, VC AI, VCe, VCinvoice vào.
-- **Tác động lớn nhất:** VClinks và VCwiki chuyển từ "tự giữ cây tổ chức và người dùng" sang "đọc từ VC People" (mục 7). Đây là quyết định Q-06 cần chủ dự án chốt.
+- **Tác động lớn nhất:** VClinks và VCwiki chuyển từ "tự giữ cây tổ chức và người dùng" sang "đọc từ VC People" (mục 7). Q-06 đã chốt ngày 08/10/2026: VC People thay, app chỉ đọc ([12](12-cau-hoi-rui-ro.md) mục 4).
 - **Người duyệt xem kỹ:** mục 3 (chỉ số), mục 4 (phạm vi theo giai đoạn), mục 7 (tác động), mục 8 (học gì từ phần mềm khác).
 
 ## Mục lục
@@ -101,14 +101,14 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 
 | Bên | Đại diện | Quan tâm | Tham gia |
 |---|---|---|---|
-| Chủ dự án | Anh Bùi Thọ Anh | Kiểm soát truy cập, nghỉ việc an toàn, nền cho AI trung tâm | Duyệt tài liệu, chốt Q-01…Q-15 |
-| HC-NS | Phòng nhân sự (Q-07) | Ít nhập liệu trùng, hồ sơ đúng, quy trình vào làm và nghỉ việc rõ | Cung cấp dữ liệu, dùng màn quản trị nhân sự |
-| IT / quản trị hệ thống | Q-07 | Vận hành ổn định, ít việc tay, dễ tra cứu | Vận hành VC ID, VC Home; soạn luật |
-| Chủ app | VClinks: dev002; VCwiki: chủ sở hữu VCwiki; các app khác: theo Q-07 | App nhận đúng người, đúng vai trò, không phá luồng đang chạy | Khai vai trò app, sửa app theo hợp đồng tích hợp |
+| Chủ dự án | Anh Bùi Thọ Anh | Kiểm soát truy cập, nghỉ việc an toàn, nền cho AI trung tâm | Duyệt tài liệu; Q-01…Q-15 đã uỷ quyền BA chốt ngày 08/10/2026 ([12](12-cau-hoi-rui-ro.md) mục 4); ghi tên người giữ vai trò (N3) |
+| HC-NS | Trưởng phòng HC-NS từng pháp nhân + 1 chuyên viên (12 mục 4.3) | Ít nhập liệu trùng, hồ sơ đúng, quy trình vào làm và nghỉ việc rõ | Cung cấp dữ liệu, dùng màn quản trị nhân sự |
+| IT / quản trị hệ thống | Dev Platform (chính), dev002 (thay) | Vận hành ổn định, ít việc tay, dễ tra cứu | Vận hành VC ID, VC Home; soạn luật |
+| Chủ app | VClinks: dev002; VCwiki: dev phụ trách VCwiki; app khác: trưởng nhóm dev của app; người thay: chủ dự án | App nhận đúng người, đúng vai trò, không phá luồng đang chạy | Khai vai trò app, sửa app theo hợp đồng tích hợp |
 | Quản lý, trưởng đơn vị | Giám đốc division, trưởng phòng, tổ trưởng | Người của mình có đủ công cụ; duyệt nhanh | Duyệt yêu cầu, rà soát quý |
 | Nhân viên | Mọi người | Đăng nhập một lần, có ngay app cần dùng | Người dùng cuối, UAT |
-| Kiểm soát nội bộ, kiểm toán | Theo Q-07 | Bằng chứng ai có quyền gì, vì sao, từ khi nào | Xem nhật ký, báo cáo |
-| Pháp chế | Theo Q-07 | Tuân thủ NĐ 13/2023 và Luật Bảo vệ dữ liệu cá nhân | Duyệt thông báo xử lý dữ liệu nhân viên |
+| Kiểm soát nội bộ, kiểm toán | Kế toán trưởng + 1 người kiểm soát nội bộ | Bằng chứng ai có quyền gì, vì sao, từ khi nào | Xem nhật ký, báo cáo |
+| Pháp chế | Người phụ trách pháp chế hoặc luật sư tư vấn ngoài | Tuân thủ NĐ 13/2023 và Luật Bảo vệ dữ liệu cá nhân | Duyệt thông báo xử lý dữ liệu nhân viên |
 | Đội lộ trình AI (Gatekeeper) | Nhóm Platform | Định danh chung `sub`, vai trò app chuẩn | Dùng token và vai trò của VC Home |
 
 ## 6. Giả định và ràng buộc
@@ -121,7 +121,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 | GĐ-2 | HC-NS cung cấp được file Excel nhân sự và cơ cấu đủ cột ở mục 12 của [04](04-yeu-cau-chuc-nang.md) (VH-IMP-01) trong 1 tuần kể từ khi có mẫu |
 | GĐ-3 | Quy mô tới 2027: ≤ 1.000 nhân viên, ≤ 50 app, ≤ 200 đơn vị |
 | GĐ-4 | Mã nhân viên duy nhất toàn tập đoàn đã có hoặc sẽ được đặt ở GĐ B (Q-11) |
-| GĐ-5 | Có 1 dev làm VC Home toàn thời gian từ GĐ B; mỗi app có dev sửa phần tích hợp (khoảng 3 ngày công mỗi app ở GĐ C) |
+| GĐ-5 | Có 1 dev Platform làm VC Home toàn thời gian từ 02/11/2026 (đã chốt; hạn có người 30/10, quá hạn thì R2–R4 dời sau Tết, xem [10](10-ke-hoach-trien-khai.md) mục 5); mỗi app có dev sửa phần tích hợp (khoảng 3 ngày công mỗi app ở GĐ C) |
 | GĐ-6 | Máy chủ production của VC ID, VC Home đặt tại Việt Nam (thiết kế SSO, Q2) |
 
 **Ràng buộc:**
@@ -181,3 +181,4 @@ Sau R4 (cuối 01/2027), mọi điều sau đều đúng:
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
 | 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo tài liệu: bối cảnh, 7 vấn đề, mục tiêu và chỉ số, phạm vi 5 giai đoạn, bên liên quan, giả định, ràng buộc, tác động tới 11 điểm của hệ thống hiện có, tham khảo 4 phần mềm, tiêu chí thành công | README bộ tài liệu 0.1; lộ trình AI trung tâm 0.1; khảo sát Okta, Microsoft Entra, MISA AMIS, Base.vn |
+| 0.2 | 08/10/2026 11:31 | Claude Code (vai BA) | Ghi người giữ vai trò theo chức vụ (Q-07), Q-06 đã chốt, giả định GĐ-5 gắn với quyết định nhân sự | [12](12-cau-hoi-rui-ro.md) mục 4 (người dùng uỷ quyền chốt) |

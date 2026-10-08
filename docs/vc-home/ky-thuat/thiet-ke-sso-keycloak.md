@@ -1,6 +1,6 @@
 # Kế hoạch code: đăng nhập một lần (SSO) bằng Keycloak và cổng VC Home
 
-Phiên bản 0.2 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.3 · 08/10/2026 · Trạng thái: Đã chốt Q1–Q5 (chờ đầu vào I1–I7)
 
 ## Tóm tắt
 
@@ -11,7 +11,7 @@ Phiên bản 0.2 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 - **Khối lượng:** 13 phiên, khoảng 60 giờ dev (≈ 7,5 ngày công), cộng việc của người có quyền (máy chủ, DNS, Google Admin).
 - **Lịch đề xuất:** dựng VC ID, VC Home và chuyển VCwiki từ 13/10 đến 24/10, không đụng VClinks. VClinks chuyển **sau mốc M1 26/10** (27/10–31/10). Tắt đăng nhập mật khẩu VCwiki khoảng 10/11.
 - **Quay lui được ở mọi bước:** mỗi app có cờ (`AUTH_PROVIDER` ở VClinks, `AUTH_PASSWORD_LOGIN` ở VCwiki). Dữ liệu chỉ thêm trường, không xoá.
-- **Việc còn mở:** 5 câu chủ dự án chốt (Q1–Q5, mục 4.1) và 7 đầu vào từ người có quyền (I1–I7, mục 4.3).
+- **Việc còn mở:** 7 đầu vào từ người có quyền (I1–I7, mục 4.3). Q1–Q5 (mục 4.1) đã chốt theo đề xuất ngày 08/10/2026 ([12](../12-cau-hoi-rui-ro.md) mục 4).
 - **Người duyệt xem kỹ:** mục 4 (quyết định), mục 5.2 (hợp đồng tích hợp app), mục 8 (các phiên và lịch), mục 10 (chuyển đổi và quay lui).
 
 ## Mục lục
@@ -179,7 +179,9 @@ Bàn giao khách khi nghỉ việc (VClinks M1b-11) vẫn là quy trình riêng 
 
 ## 4. Quyết định và đầu vào cần có trước khi code
 
-### 4.1 Chủ dự án chốt (trả lời theo mã, câu không trả lời thì theo đề xuất)
+### 4.1 Chủ dự án chốt
+
+**Đã chốt ngày 08/10/2026:** người dùng uỷ quyền BA chốt cả 5 câu theo cột "Đề xuất" ([12](../12-cau-hoi-rui-ro.md) mục 4). Cột "Đề xuất" dưới đây là bản chốt.
 
 | Mã | Câu hỏi | Đề xuất |
 |---|---|---|
@@ -592,7 +594,7 @@ Mỗi phiên có Đầu vào, Việc, Đầu ra, Xong khi. Model theo CLAUDE.md 
 
 | Phiên | Việc | Đầu vào | Đầu ra / Xong khi | Giờ | Model |
 |---|---|---|---|---:|---|
-| **SSO-00** Thử kỹ thuật | Chạy Keycloak bản mới nhất trên máy dev. Kiểm: (1) Google IdP nhận 2 hosted domain; (2) `kc_idp_hint` bỏ qua trang Keycloak; (3) claim `groups`, `hd`, `sid`; (4) back-channel gửi tới một endpoint thử; (5) `jose` build được trong `apps/api` của VClinks với Node trên máy 129; (6) `PyJWKClient` trong VCwiki | I3 (client Google thử), I6 | Ghi chú thử nghiệm trong `vc-platform/docs`; số bản ghim; tên khoá cấu hình chính xác cho `vc.yaml` | 3 | Opus |
+| **SSO-00** Thử kỹ thuật | Chạy Keycloak bản mới nhất trên máy dev. Kiểm: (1) Google IdP nhận 2 hosted domain; (2) `kc_idp_hint` bỏ qua trang Keycloak; (3) claim `groups`, `hd`, `sid`; (4) back-channel gửi tới một endpoint thử; (5) `jose` build được trong `apps/api` của VClinks với Node trên máy 129; (6) `PyJWKClient` trong VCwiki; (7) mapper `vh_roles` kiểu JSON theo từng client chạy được trên bản đã ghim (không được thì dùng mapper kịch bản, hoặc app đọc vai trò qua VH-API-06 của [07](../07-tich-hop.md)) | I3 (client Google thử), I6 | Ghi chú thử nghiệm trong `vc-platform/docs`; số bản ghim; tên khoá cấu hình chính xác cho `vc.yaml` | 3 | Opus |
 | **SSO-01** Hạ tầng | Repo `vc-platform`; `compose.dev.yml`, `compose.yml`, Dockerfile Keycloak, `.env.example`, script sao lưu và khôi phục | SSO-00 | `docker compose up` trên máy dev chạy Keycloak + PostgreSQL; sao lưu và khôi phục thử thành công | 6 | Sonnet |
 | **SSO-02** Realm và theme | `vc.yaml` đủ mục 5.1; theme `vc` với 5 trang mục 5.1.6; client `*-dev` | SSO-01, I3 | Áp `vc.yaml` hai lần không lỗi (áp lại được); đăng nhập Google domain công ty được, Gmail cá nhân bị chặn với câu tiếng Việt | 5 | Opus |
 | **SSO-03** VC Home | SPA mục 5.3; `apps.yaml` → `catalog.json` có kiểm schema; nginx | SSO-02 | Đăng nhập, lưới 2 app, hồ sơ, đăng xuất, tải lại trang không phải đăng nhập lại; Lighthouse truy cập ≥ 90 trên điện thoại | 6 | Sonnet |
@@ -611,7 +613,7 @@ Mỗi phiên có Đầu vào, Việc, Đầu ra, Xong khi. Model theo CLAUDE.md 
 
 | Thời gian | Phiên | Ghi chú |
 |---|---|---|
-| 09–10/10 | Chốt Q1–Q5; I3, I6 | Chủ dự án |
+| 09–10/10 | I3, I6 (Q1–Q5 đã chốt 08/10) | Chủ dự án |
 | 13/10 | SSO-00 | |
 | 14–15/10 | SSO-01, SSO-02 | |
 | 16–17/10 | SSO-03; SSO-05 | I1, I2, I5 xong trước 17/10 |
@@ -740,5 +742,6 @@ Mỗi file sửa theo quy định §13 của VClinks: tăng phiên bản một l
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
+| 0.3 | 08/10/2026 11:31 | Claude Code (vai BA) | Ghi Q1–Q5 đã chốt theo đề xuất (mục 4.1, tóm tắt, lịch); thêm kiểm (7) mapper `vh_roles` vào SSO-00 | [12](../12-cau-hoi-rui-ro.md) mục 4; [07](../07-tich-hop.md) mục 11 đề xuất 8 |
 | 0.2 | 08/10/2026 10:04 | Claude Code (vai BA) | Chuyển file từ `docs/sso/ke-hoach-sso-keycloak.md` vào bộ tài liệu VC Home (`docs/vc-home/ky-thuat/`), đổi tên; ghi rõ đây là thiết kế GĐ A; VC Home có thêm backend từ GĐ B; thêm thư mục `api/` vào cấu trúc repo `vc-platform` | Bộ tài liệu VC Home 0.1 |
 | 0.1 | 08/10/2026 09:46 | Claude Code | Tạo kế hoạch: hiện trạng code hai app, kiến trúc VC ID (Keycloak) + VC Home + vc-provisioner, hợp đồng tích hợp app, thay đổi theo file ở VClinks và VCwiki, repo `vc-platform`, môi trường, 13 phiên 60 giờ, 20 ca UAT, chuyển đổi và quay lui, vận hành, rủi ro | Yêu cầu người dùng 08/10/2026 ("lên bản plan code đầy đủ nhất… dựng keycloak"); đọc code `vclinks/apps/api/src/auth`, `tiktok-to-text/backend/app/auth.py` |

@@ -1,6 +1,6 @@
 # Bộ tài liệu VC Home — Cổng nhân viên, hồ sơ nhân sự và quyền truy cập tập trung
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -18,8 +18,8 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
   - E Mở rộng sang các app khác
   
   Lịch và khối lượng ở [10-ke-hoach-trien-khai.md](10-ke-hoach-trien-khai.md).
-- **Quy mô bộ tài liệu:** 13 file nghiệp vụ và 1 thiết kế kỹ thuật GĐ A, gồm 78 yêu cầu, 25 quy tắc, 12 quy trình, 21 màn hình, 27 collection, 11 sự kiện, 9 API, 88 câu chuyện người dùng, 59 ca UAT. Đã soát chéo toàn bộ mã và liên kết; 36 điểm lệch được BA trưởng chốt ở [12](12-cau-hoi-rui-ro.md) mục 5. Khi hai tài liệu ghi khác nhau thì theo mục đó.
-- **Việc còn mở:** 15 câu hỏi ở [12-cau-hoi-rui-ro.md](12-cau-hoi-rui-ro.md). Năm câu cần chốt trước khi bắt đầu GĐ B là Q-01, Q-02, Q-05, Q-06, Q-07.
+- **Quy mô bộ tài liệu:** 13 file nghiệp vụ và 1 thiết kế kỹ thuật GĐ A, gồm 90 yêu cầu, 25 quy tắc, 12 quy trình, 21 màn hình, 28 collection, 13 sự kiện, 10 API, 100 câu chuyện người dùng, 59 ca UAT. Đã soát chéo toàn bộ mã và liên kết; 36 điểm lệch được BA trưởng chốt ở [12](12-cau-hoi-rui-ro.md) mục 5. Khi hai tài liệu ghi khác nhau thì theo mục đó.
+- **Quyết định:** cả 15 câu hỏi, 5 câu của thiết kế SSO và toàn bộ đề xuất bổ sung đã được chốt theo khuyến nghị BA (người dùng uỷ quyền ngày 08/10/2026), ghi ở [12-cau-hoi-rui-ro.md](12-cau-hoi-rui-ro.md) mục 4 và 6. **Việc còn mở** chỉ là đầu vào từ bên ngoài (máy chủ, DNS, Google Admin, file Excel của HC-NS) và người làm VC Home ([10](10-ke-hoach-trien-khai.md) mục 4, 5). Repo `vc` cần đổi sang private ngay (RR-13).
 - **Người duyệt xem kỹ:**
   - tác động tới VClinks và VCwiki ([01](01-tam-nhin-pham-vi.md) mục 7);
   - quy tắc nghiệp vụ ([02](02-tac-nhan-quy-tac.md) mục 4);
@@ -59,7 +59,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 | [09-user-story.md](09-user-story.md) | Câu chuyện người dùng theo nhóm VH-E, tiêu chí Given/When/Then | Dev, kiểm thử |
 | [10-ke-hoach-trien-khai.md](10-ke-hoach-trien-khai.md) | Giai đoạn, bản phát hành, ước lượng, phụ thuộc, đầu vào ngoài, định nghĩa sẵn sàng và xong, ma trận truy vết | Chủ dự án, trưởng nhóm dev |
 | [11-uat.md](11-uat.md) | Kịch bản UAT, dữ liệu thử | Kiểm thử, người dùng thử |
-| [12-cau-hoi-rui-ro.md](12-cau-hoi-rui-ro.md) | Quyết định cần chốt, giả định, rủi ro | Chủ dự án |
+| [12-cau-hoi-rui-ro.md](12-cau-hoi-rui-ro.md) | Quyết định đã chốt, giả định, rủi ro, xử lý đề xuất | Chủ dự án |
 | [ky-thuat/thiet-ke-sso-keycloak.md](ky-thuat/thiet-ke-sso-keycloak.md) | Thiết kế kỹ thuật GĐ A: Keycloak, VC Home, thay đổi theo file ở VClinks và VCwiki | Dev |
 
 **Đọc theo vai trò:**
@@ -152,6 +152,7 @@ Không xoá mã đã cấp, không dùng lại mã. Yêu cầu bỏ thì đổi 
 | VH-HOM-06 | Ô app "Sắp có" và ô liên kết ngoài | C | A |
 | VH-HOM-07 | Số việc chờ trên ô app | C | E |
 | VH-HOM-08 | Thông báo trong VC Home | S | D |
+| VH-HOM-09 | Dải "Việc đang chờ bạn" trên trang chủ | C | D |
 | **NSU — Hồ sơ nhân sự (VC People)** | | | |
 | VH-NSU-01 | Hồ sơ nhân sự | M | B |
 | VH-NSU-02 | Vị trí công tác chính và kiêm nhiệm | M | B |
@@ -161,6 +162,7 @@ Không xoá mã đã cấp, không dùng lại mã. Yêu cầu bỏ thì đổi 
 | VH-NSU-06 | Hồ sơ của tôi và đề nghị sửa | M | B |
 | VH-NSU-07 | Danh bạ công ty | S | B |
 | VH-NSU-08 | Che thông tin theo người xem | M | B |
+| VH-NSU-09 | Nhân viên tự sửa tên gọi, ảnh, SĐT công việc | S | B |
 | **ORG — Cơ cấu tổ chức** | | | |
 | VH-ORG-01 | Cây đơn vị nhiều cấp | M | B |
 | VH-ORG-02 | Danh mục chức danh | M | B |
@@ -169,6 +171,8 @@ Không xoá mã đã cấp, không dùng lại mã. Yêu cầu bỏ thì đổi 
 | VH-ORG-05 | Đổi cơ cấu có ngày hiệu lực (đổi tên, chuyển, gộp, ngừng) | S | C |
 | VH-ORG-06 | Sơ đồ tổ chức | S | B |
 | VH-ORG-07 | Danh mục pháp nhân và nơi làm việc | S | B |
+| VH-ORG-08 | Lịch ngày nghỉ của công ty (dừng đồng hồ của yêu cầu và rà soát) | S | D |
+| VH-ORG-09 | Gộp mục trùng trong danh mục | S | B |
 | **APP — Danh mục app và vai trò app** | | | |
 | VH-APP-01 | Danh mục app | M | A (tệp tĩnh), B (quản trị trên màn) |
 | VH-APP-02 | Vai trò của từng app | M | C |
@@ -176,6 +180,7 @@ Không xoá mã đã cấp, không dùng lại mã. Yêu cầu bỏ thì đổi 
 | VH-APP-04 | Đưa app mới vào theo hợp đồng tích hợp | S | E |
 | VH-APP-05 | Vai trò nhạy cảm | M | C |
 | VH-APP-06 | Thời gian chuyển tiếp khi chuyển vị trí, đặt riêng từng app | S | C |
+| VH-APP-07 | Vai trò app "cho phép xin" | S | D |
 | **ACC — Cấp và gỡ quyền** | | | |
 | VH-ACC-01 | Luật cấp quyền mặc định theo hồ sơ | M | C |
 | VH-ACC-02 | Tính lại quyền khi hồ sơ, cơ cấu hoặc luật đổi | M | C |
@@ -185,6 +190,7 @@ Không xoá mã đã cấp, không dùng lại mã. Yêu cầu bỏ thì đổi 
 | VH-ACC-06 | Gỡ quyền | M | C |
 | VH-ACC-07 | Đẩy quyền sang VC ID (nhóm, vai trò app) | M | C |
 | VH-ACC-08 | Tra cứu "ai có quyền gì", "người này có quyền gì" | M | C |
+| VH-ACC-09 | Người giữ quyền tự trả quyền ngoại lệ | S | D |
 | **REQ — Xin quyền và duyệt** | | | |
 | VH-REQ-01 | Gửi yêu cầu quyền | M | D |
 | VH-REQ-02 | Luồng duyệt: quản lý trực tiếp, thêm chủ app nếu vai trò nhạy cảm | M | D |
@@ -192,10 +198,12 @@ Không xoá mã đã cấp, không dùng lại mã. Yêu cầu bỏ thì đổi 
 | VH-REQ-04 | Nhắc duyệt và tự huỷ yêu cầu quá hạn | S | D |
 | VH-REQ-05 | Quản lý xin quyền thay cho người dưới quyền | C | D |
 | VH-REQ-06 | Gia hạn quyền sắp hết hạn | S | D |
+| VH-REQ-07 | Duyệt nhiều yêu cầu một lần (không áp cho vai trò nhạy cảm) | S | D |
 | **REV — Rà soát định kỳ** | | | |
 | VH-REV-01 | Mở đợt rà soát định kỳ | S | D |
 | VH-REV-02 | Trưởng đơn vị xác nhận hoặc gỡ | S | D |
 | VH-REV-03 | Tự gỡ quyền không được xác nhận và báo cáo kết quả | S | D |
+| VH-REV-04 | Rà soát luật nửa năm | S | D |
 | **LCM — Vòng đời nhân viên** | | | |
 | VH-LCM-01 | Vào làm | M | C |
 | VH-LCM-02 | Chuyển vị trí | M | C |
@@ -211,19 +219,23 @@ Không xoá mã đã cấp, không dùng lại mã. Yêu cầu bỏ thì đổi 
 | VH-INT-06 | Token máy cho app gọi API VC Home | M | B |
 | VH-INT-07 | API trạng thái app cho ô app | C | E |
 | VH-INT-08 | Cấp tài khoản theo chuẩn SCIM cho app mua ngoài | W | — |
+| VH-INT-09 | Sự kiện báo trước nghỉ việc, chuyển vị trí | S | C |
+| VH-INT-10 | Sự kiện thử và nút "Gửi thử" | S | C |
 | **ADM — Quản trị và nhật ký** | | | |
 | VH-ADM-01 | Nhật ký thao tác | M | A trở đi |
 | VH-ADM-02 | Báo cáo truy cập | S | C |
 | VH-ADM-03 | Vai trò quản trị của chính VC Home | M | B |
 | VH-ADM-04 | Cảnh báo vận hành | S | A |
 | VH-ADM-05 | Cài đặt hệ thống (thời hạn, nhắc, lịch rà soát) | S | D |
+| VH-ADM-06 | Cảnh báo quyền không dùng 90 ngày | S | D |
 | **IMP — Nhập và đồng bộ dữ liệu** | | | |
 | VH-IMP-01 | Nhập nhân sự và cơ cấu từ Excel | M | B |
 | VH-IMP-02 | Đối chiếu với Google Workspace | M | B |
 | VH-IMP-03 | Lấy dữ liệu khởi đầu từ cây tổ chức của VClinks và VCwiki | S | B |
 | VH-IMP-04 | Đồng bộ tự động từ phần mềm nhân sự | C | E |
+| VH-IMP-05 | Hoàn tác lô nhập trong 24 giờ | S | B |
 
-Tổng: 78 yêu cầu (M: 46 · S: 24 · C: 7 · W: 1).
+Tổng: 90 yêu cầu (M: 46 · S: 35 · C: 8 · W: 1). 12 yêu cầu cuối mỗi phân hệ (VH-HOM-09, VH-NSU-09, VH-ORG-08, 09, VH-APP-07, VH-ACC-09, VH-REQ-07, VH-REV-04, VH-INT-09, 10, VH-ADM-06, VH-IMP-05) được nhận từ đề xuất bổ sung ngày 08/10/2026 ([12](12-cau-hoi-rui-ro.md) mục 6).
 
 ## 6. Danh mục quy tắc nghiệp vụ
 
@@ -239,14 +251,14 @@ Chi tiết và ví dụ ở [02-tac-nhan-quy-tac.md](02-tac-nhan-quy-tac.md) m�
 | VH-BR-06 | Cây đơn vị không có vòng; đơn vị còn người không xoá được, chỉ ngừng; mỗi đơn vị tối đa 1 trưởng |
 | VH-BR-07 | Thay đổi hồ sơ, cơ cấu có ngày hiệu lực, áp lúc 00:00 giờ Việt Nam; hẹn trước được |
 | VH-BR-08 | Mỗi quyền là một cặp (app, vai trò app); không có quyền "vào app" không vai trò |
-| VH-BR-09 | Ba nguồn quyền: luật (không hạn), yêu cầu được duyệt (bắt buộc hạn, mặc định 90 ngày, tối đa 365), khẩn cấp (tối đa 7 ngày) |
+| VH-BR-09 | Ba nguồn quyền: luật (không hạn), yêu cầu được duyệt (bắt buộc hạn, mặc định 90 ngày, tối đa 365; vai trò nhạy cảm tối đa 90), khẩn cấp (tối đa 7 ngày) |
 | VH-BR-10 | Luật chỉ dựa trên thuộc tính hồ sơ; không viết luật cho một người cụ thể |
 | VH-BR-11 | Hồ sơ hoặc luật đổi thì quyền mặc định tính lại ngay; quyền mất bị gỡ sau thời gian chuyển tiếp của app (mặc định 0, tối đa 7 ngày) |
 | VH-BR-12 | Không ai tự duyệt cho mình; bước 1 là quản lý trực tiếp; vai trò nhạy cảm cần thêm chủ app |
 | VH-BR-13 | Yêu cầu chưa xong sau 7 ngày tự huỷ |
 | VH-BR-14 | Nghỉ việc: 00:00 ngày nghỉ thì khoá đăng nhập và đăng xuất mọi app, gỡ mọi quyền, gửi sự kiện để app bàn giao, đóng vị trí; hồ sơ giữ lại theo thời hạn lưu |
 | VH-BR-15 | Nghỉ dài ngày: giữ quyền, không khoá; gửi sự kiện "vắng" để app chia việc |
-| VH-BR-16 | Rà soát quyền ngoại lệ hằng quý; quá 14 ngày không xác nhận thì tự gỡ |
+| VH-BR-16 | Rà soát quyền ngoại lệ hằng quý; quá 14 ngày (không tính ngày nghỉ công ty) không xác nhận thì tự gỡ; rà soát luật nửa năm |
 | VH-BR-17 | Tách nhiệm: HC-NS không cấp quyền; quản trị hệ thống không sửa hồ sơ nhân sự; chủ app chỉ quản vai trò app của mình; người xin không duyệt |
 | VH-BR-18 | Mọi thay đổi hồ sơ, cơ cấu, luật, quyền đều ghi nhật ký (ai, lúc nào, trước/sau, lý do); giữ 24 tháng |
 | VH-BR-19 | VC Home chỉ giữ thông tin công việc (mức C0–C1); không lưu CCCD, lương, địa chỉ nhà; token chỉ chứa thông tin công việc |
@@ -255,7 +267,7 @@ Chi tiết và ví dụ ở [02-tac-nhan-quy-tac.md](02-tac-nhan-quy-tac.md) m�
 | VH-BR-22 | Mọi ngày giờ theo `Asia/Ho_Chi_Minh` |
 | VH-BR-23 | Quản lý và trưởng đơn vị xem được hồ sơ công việc và quyền của cả cây dưới quyền |
 | VH-BR-24 | Vị trí kiêm nhiệm cũng sinh quyền mặc định như vị trí chính |
-| VH-BR-25 | Luật ảnh hưởng trên 20 người, hoặc luật cấp vai trò nhạy cảm, phải xem trước và được người thứ hai duyệt (quản trị hệ thống khác, hoặc chủ app của app đó) |
+| VH-BR-25 | Luật, lô nhập, đổi cơ cấu hay sửa hồ sơ hàng loạt làm thay đổi quyền của từ 21 người trở lên, hoặc luật cấp vai trò nhạy cảm, phải xem trước và có người thứ hai xác nhận (quản trị hệ thống khác, hoặc chủ app của app đó) |
 
 ## 7. Danh mục quy trình
 
@@ -327,6 +339,7 @@ Chi tiết ở [05-du-lieu.md](05-du-lieu.md). Tên collection theo quy ước M
 | `system_settings` | Cài đặt hệ thống: giá trị, người sửa, lý do (VH-ADM-05) | B |
 | `directory_exclusions` | Tài khoản Google không phải người (hộp thư chung, tài khoản dịch vụ), bỏ qua khi đối chiếu (VH-IMP-02) | B |
 | `sod_exceptions` | Ngoại lệ tách nhiệm có thời hạn (02 mục 6) | C |
+| `company_holidays` | Ngày nghỉ của công ty, dừng đồng hồ 7 ngày của yêu cầu và 14 ngày của rà soát (VH-ORG-08) | D |
 
 ## 10. Danh mục sự kiện và API cho app
 
@@ -342,6 +355,8 @@ Chi tiết ở [07-tich-hop.md](07-tich-hop.md).
 | `vh.person.locked` / `vh.person.unlocked` | Khoá tạm (gồm khoá khẩn cấp VH-AUT-06, khoá do Google) và mở khoá | C |
 | `vh.grant.added` / `vh.grant.removed` | Thêm, gỡ vai trò app (gửi cho đúng app đó) | C |
 | `vh.org.unit_changed` | Thêm, đổi tên, chuyển, gộp, ngừng đơn vị; đổi trưởng đơn vị | C |
+| `vh.person.change_scheduled` | HC-NS lưu ngày nghỉ việc hoặc chuyển vị trí trong tương lai (báo trước, VH-INT-09) | C |
+| `vh.test.ping` | Sự kiện thử khi bấm "Gửi thử" (VH-INT-10) | C |
 
 | Mã | API | GĐ |
 |---|---|---|
@@ -354,8 +369,9 @@ Chi tiết ở [07-tich-hop.md](07-tich-hop.md).
 | VH-API-07 | Kéo sự kiện từ một mốc (dự phòng khi nhận sự kiện bị gián đoạn) | C |
 | VH-API-08 | Danh mục app công khai (`catalog.json`) | A |
 | VH-API-09 | Trạng thái app cho ô app (do app cung cấp, VC Home gọi) | E |
+| VH-API-10 | Danh sách vai trò app của chính app gọi | C |
 
-VH-API-01…07 nằm trên VC Home API với tiền tố `/api/v1`. VH-API-08 là tệp tĩnh `catalog.json` của trang VC Home. VH-API-09 do từng app cung cấp (`GET /api/vc-app/status`).
+VH-API-01…07 và VH-API-10 nằm trên VC Home API với tiền tố `/api/v1`. VH-API-08 là tệp tĩnh `catalog.json` của trang VC Home. VH-API-09 do từng app cung cấp (`GET /api/vc-app/status`).
 
 ## 11. Danh mục nhóm câu chuyện người dùng
 
@@ -379,3 +395,4 @@ VH-API-01…07 nằm trên VC Home API với tiền tố `/api/v1`. VH-API-08 l�
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
 | 0.1 | 08/10/2026 10:04 → 11:16 | Claude Code (vai BA trưởng, 5 người viết song song) | Tạo bộ tài liệu: khung chung, quy ước mã, thuật ngữ, giai đoạn, danh mục 78 yêu cầu, 25 quy tắc, 12 quy trình, 21 màn hình, dữ liệu, sự kiện, API, 12 nhóm câu chuyện | Yêu cầu người dùng 08/10/2026; thiết kế SSO 0.1; khảo sát Okta, Microsoft Entra, MISA AMIS, Base.vn; đọc code VClinks và VCwiki |
+| 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Thêm 12 yêu cầu nhận thêm vào sổ mã (tổng 90), collection `company_holidays` (tổng 28), 2 sự kiện `vh.person.change_scheduled`, `vh.test.ping` (tổng 13), VH-API-10; ghi trạng thái: mọi câu hỏi và đề xuất đã chốt, chỉ còn đầu vào bên ngoài | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |

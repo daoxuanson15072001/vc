@@ -1,6 +1,6 @@
 # VC Home — Kế hoạch và kịch bản UAT
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -9,7 +9,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 - **Bộ dữ liệu giả:** Tập đoàn VC Phồn Vinh với 4 division (VCparts, VCservice, VCe, VCsoft), 16 đơn vị, 15 nhân viên VCP0101–VCP0115 (một người tạo trong lúc thử), 30 hồ sơ số đông VCP0901–VCP0930, 13 luật thử LT-01 đến LT-13, 5 app thử. Mọi tên, email, mã đều giả.
 - **Ca phụ thuộc thời gian** (00:00 ngày hiệu lực, 7 ngày, 14 ngày, hết hạn) chạy bằng "đồng hồ thử": dev chạy job hẹn giờ với giờ giả lập, ghi cả giờ thật và giờ giả lập vào biên bản.
 - **Điều kiện kết thúc:** 100% ca có yêu cầu mức M đạt; không còn lỗi Nghiêm trọng hay Cao.
-- **Việc còn mở:** admin Google tạo tài khoản thử trên 2 domain; dev dựng app giả lập nhận sự kiện và đồng hồ thử; bảng phân loại C0/C1 từng trường (05) phải có trước đợt B; Q-07 cho ca tài khoản chưa có hồ sơ.
+- **Việc cần chuẩn bị** (quyết định ở [12](12-cau-hoi-rui-ro.md) mục 6): admin Google tạo 6 tài khoản thử (mỗi vai trò chính một tài khoản); dev dựng app giả lập nhận sự kiện và đồng hồ thử (đã có giờ ở [10](10-ke-hoach-trien-khai.md) R2); bảng C0/C1 dùng bản ở [05](05-du-lieu.md) mục 6.
 - **Người duyệt xem kỹ:** bộ dữ liệu (mục 6); ca nghỉ việc VH-UAT-33; ca luật trên 20 người VH-UAT-36; ca không tự duyệt VH-UAT-47, VH-UAT-48; ca rà soát VH-UAT-53; mục 13 (6 đề xuất, trong đó lệch giai đoạn của VH-ACC-04 và VH-ACC-05).
 - **Liên hệ với thiết kế SSO:** 20 ca UAT-SSO ở `ky-thuat/thiet-ke-sso-keycloak.md` mục 9.2 được phủ lại trong các ca GĐ A và B (bảng đối chiếu ở mục 12).
 
@@ -385,6 +385,8 @@ Các quyền trên nạp khi dựng staging, nhật ký ghi "nạp dữ liệu U
 
 ## 13. Đề xuất bổ sung (chưa cấp mã)
 
+**Đã xử lý ngày 08/10/2026** ([12](12-cau-hoi-rui-ro.md) mục 6): 1, 2 → nhận làm công cụ kiểm thử trên staging ([10](10-ke-hoach-trien-khai.md) R2); 3, 4 → đã xử lý (thiết kế SSO mục 5.1.2, D-BA-09); 5 → bảng C0/C1 ở [05](05-du-lieu.md) mục 6 là bản chốt; 6 → dùng **6 tài khoản Google thử** (mỗi vai trò chính một tài khoản: nhân viên, quản lý, trưởng đơn vị, HC-NS, quản trị hệ thống, chủ app), đổi vị trí bằng sửa hồ sơ trên staging; hồ sơ số đông không cần tài khoản Google.
+
 | # | Đề xuất | Vì sao | Liên quan |
 |---|---|---|---|
 | 1 | Đồng hồ thử trên staging: lệnh chạy các job hẹn giờ của VC Home API (ngày hiệu lực, nhắc, hết hạn, rà soát) với giờ giả lập | 13 ca phụ thuộc mốc 00:00, 7 ngày, 14 ngày; không thể chờ giờ thật | VH-UAT-30 đến 34, 38, 43, 49 đến 54 |
@@ -399,3 +401,4 @@ Các quyền trên nạp khi dựng staging, nhật ký ghi "nạp dữ liệu U
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
 | 0.1 | 08/10/2026 10:18 | Claude Code (vai BA) | Tạo tài liệu: phạm vi, môi trường staging, vai trò người thử, điều kiện bắt đầu và kết thúc, mức độ lỗi, bộ dữ liệu thử (16 đơn vị, 15 nhân viên, 30 hồ sơ số đông, 5 app, 13 luật), 59 ca VH-UAT-01 đến VH-UAT-59 theo GĐ A–E, ma trận truy vết về VH-QT và về UAT-SSO, 6 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |
+| 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Ghi kết quả xử lý 6 đề xuất: công cụ kiểm thử trên staging, 6 tài khoản Google thử | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |

@@ -1,15 +1,15 @@
 # VC Home — Yêu cầu chức năng chi tiết
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
-- **Tài liệu nói gì:** đặc tả đủ 78 yêu cầu chức năng trong danh mục README mục 5, chia 12 phân hệ (AUT, HOM, NSU, ORG, APP, ACC, REQ, REV, LCM, INT, ADM, IMP).
+- **Tài liệu nói gì:** đặc tả đủ 90 yêu cầu chức năng trong danh mục README mục 5 (78 yêu cầu ở mục 1–12, 12 yêu cầu nhận thêm ở mục 14), chia 12 phân hệ (AUT, HOM, NSU, ORG, APP, ACC, REQ, REV, LCM, INT, ADM, IMP).
 - **Mỗi yêu cầu có:** ưu tiên và giai đoạn, tác nhân, mô tả, điều kiện trước, xử lý chính từng bước, thông báo lỗi nguyên văn tiếng Việt, dữ liệu dùng, quy tắc, màn hình, phụ thuộc, và 3–6 tiêu chí nghiệm thu đo được.
 - **Bảng phụ đi kèm:** trường hồ sơ, trường vị trí, ma trận che thông tin theo người xem, loại đơn vị, danh mục chức năng, trường và trạng thái app, lý do gỡ quyền, mốc thời gian vào làm, chuyển, nghỉ việc, bộ claim theo giai đoạn, danh sách cảnh báo, danh sách cài đặt, mẫu Excel nhập dữ liệu.
 - **Quy ước chung cho quyền** (dòng quyền, quyền hiệu lực, trạng thái, job hẹn giờ 15 phút từ GĐ C, thông báo bằng email ở GĐ C) nằm ở đầu mục 6.
 - **Đã soát chéo** với README, 02, 05, 07, 08 và thiết kế SSO ngày 08/10/2026. Các quyết định khi soát ghi ở [12](12-cau-hoi-rui-ro.md) mục 5; khi đoạn nào còn lệch thì quyết định ở 12 mục 5 thắng.
-- **Việc còn mở:** các đề xuất "Mở" ở mục 13.
+- **Đề xuất bổ sung:** đã xử lý hết ngày 08/10/2026 (mục 13 cột "Trạng thái", [12](12-cau-hoi-rui-ro.md) mục 6).
 - **Người duyệt xem kỹ:**
   - VH-AUT-05 (làm mới phiên chỉ khi có thao tác), VH-AUT-08 (gắn tài khoản);
   - VH-NSU-08 (che thông tin);
@@ -33,6 +33,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 - [11. ADM — Quản trị và nhật ký](#11-adm--quản-trị-và-nhật-ký)
 - [12. IMP — Nhập và đồng bộ dữ liệu](#12-imp--nhập-và-đồng-bộ-dữ-liệu)
 - [13. Đề xuất bổ sung (chưa cấp mã)](#13-đề-xuất-bổ-sung-chưa-cấp-mã)
+- [14. Yêu cầu nhận thêm ngày 08/10/2026](#14-yêu-cầu-nhận-thêm-ngày-08102026)
 - [Lịch sử cập nhật](#lịch-sử-cập-nhật)
 
 ---
@@ -2275,7 +2276,7 @@ Trạng thái hồ sơ không nhập: hệ thống suy ra (ngày vào ở tươn
 
 ## 13. Đề xuất bổ sung (chưa cấp mã)
 
-Gộp từ hai người viết phần 1–5 và 6–12. Cột "Trạng thái" ghi kết quả soát chéo của BA trưởng ngày 08/10/2026; các mục "Mở" chờ chủ dự án hoặc trưởng nhóm dev quyết, khi đưa vào thì cấp mã mới.
+Gộp từ hai người viết phần 1–5 và 6–12. Cột "Trạng thái" ghi kết quả xử lý của BA trưởng ngày 08/10/2026 (người dùng uỷ quyền chốt). Không còn mục "Mở".
 
 | # | Đề xuất | Lý do | Liên quan | Trạng thái |
 |---|---|---|---|---|
@@ -2283,39 +2284,304 @@ Gộp từ hai người viết phần 1–5 và 6–12. Cột "Trạng thái" gh
 | 2 | Thêm collection lưu đề nghị sửa hồ sơ (ví dụ `profile_change_requests`) vào README mục 9 và tài liệu 05 | VH-NSU-06 cần lưu đề nghị, trạng thái, người xử lý; README mục 9 chưa có | VH-NSU-06 | Đã xử lý: `profile_change_requests` (README mục 9, [05](05-du-lieu.md) mục 3.21) |
 | 3 | Mở rộng `vh.person.updated` cho pháp nhân, nơi làm việc, SĐT công việc, tên gọi; thêm sự kiện cho Tạm khoá và mở tạm khoá | Pháp nhân, nơi làm việc dùng trong luật (VH-BR-10) nhưng chưa nằm trong định nghĩa sự kiện; app cần biết người bị tạm khoá | VH-NSU-01, VH-NSU-04, VH-INT-03 | Đã xử lý: mở rộng `vh.person.updated`, thêm `vh.person.locked` / `unlocked` (README mục 10) |
 | 4 | Thêm trường "phạm vi" (theo đơn vị / toàn app), "loại đơn vị nhận" và "tiêu chí nhạy cảm" vào `app_roles` trong README mục 9 | Claim `vh_roles` cần biết vai trò có kèm đơn vị hay không | VH-APP-02, VH-APP-05 | Đã xử lý: `app_roles.unit_scoped`, `allowed_unit_types` ([05](05-du-lieu.md) mục 3.8) |
-| 5 | Cho nhân viên tự sửa tên gọi, ảnh, SĐT công việc không cần HC-NS duyệt (vẫn ghi lịch sử) | Bớt việc cho HC-NS với trường ít rủi ro | VH-NSU-06 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 6 | Gửi kèm email (Gmail công ty) cho thông báo quan trọng: yêu cầu chờ duyệt, nhắc duyệt, quyền sắp hết hạn, đợt rà soát | Người duyệt ít mở VC Home thì yêu cầu dễ quá 7 ngày và tự huỷ | VH-HOM-08, VH-REQ-04 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 7 | Vai trò "phó đơn vị" hoặc "người tạm quyền trưởng đơn vị" có thời hạn | Trưởng đơn vị vắng dài thì rà soát và tạm duyệt bị dồn lên cấp trên | VH-ORG-04, VH-REV-02 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 8 | Gộp hai mục trùng trong danh mục (chức danh, nơi làm việc) sau khi nhập dữ liệu, có giữ lịch sử | Dữ liệu từ Excel và từ cây VClinks, VCwiki dễ có tên gần giống nhau | VH-ORG-02, VH-ORG-07, VH-IMP-01, VH-IMP-03 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 9 | Liên kết ngoài hiện theo pháp nhân hoặc chức năng (ví dụ MISA chỉ cho Kế toán) | Mỗi bộ phận dùng bộ công cụ ngoài khác nhau | VH-HOM-06 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 10 | Cờ "cho phép xin qua yêu cầu" trên vai trò app; vai trò tắt cờ chỉ có được qua luật hoặc khẩn cấp | Một số vai trò (ví dụ `admin`) không nên hiện trong ô "Có thể xin quyền" | VH-APP-02, VH-HOM-04, VH-REQ-01 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 11 | Với vai trò nhạy cảm: hạn tối đa ngắn hơn (ví dụ 90 ngày thay vì 365) và luật cấp vai trò nhạy cảm luôn cần người thứ hai duyệt, bất kể số người | Giảm rủi ro người giữ quyền rộng quá lâu | VH-APP-05, VH-BR-09, VH-BR-25 | Đã xử lý một phần: luật vai trò nhạy cảm luôn duyệt hai người (VH-BR-25); hạn tối đa ngắn hơn còn mở |
-| 12 | Trang báo trạng thái VC ID đặt ở máy khác máy VC ID | Thiết kế SSO đặt VC Home cùng máy với VC ID, nên khi máy đó hỏng thì VC Home cũng không báo được gì | VH-AUT-09, VH-ADM-04 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 13 | Thời gian chuyển tiếp đặt riêng cho từng vai trò, ghi đè mức app | Trong một app, vai trò có khách cần bàn giao dài hơn vai trò chỉ xem | VH-APP-06 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 14 | Lưu mã định danh Google (không đổi) của tài khoản vào `accounts` | Phát hiện ngay trường hợp tài khoản Google bị xoá rồi tạo lại cùng email | VH-AUT-07, VH-AUT-08 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 15 | Màn "Tài khoản" riêng cho quản trị hệ thống (khoá, mở khoá, gắn lại, cờ khoá) thay vì ngăn trong VH-MH-11 | VH-MH-11 là màn của HC-NS; tách màn giúp tách nhiệm rõ hơn (VH-BR-17) | VH-AUT-06, VH-AUT-08 | Mở: chờ chủ dự án / trưởng nhóm dev |
+| 5 | Cho nhân viên tự sửa tên gọi, ảnh, SĐT công việc không cần HC-NS duyệt (vẫn ghi lịch sử) | Bớt việc cho HC-NS với trường ít rủi ro | VH-NSU-06 | Nhận: VH-NSU-09 (mục 14) |
+| 6 | Gửi kèm email (Gmail công ty) cho thông báo quan trọng: yêu cầu chờ duyệt, nhắc duyệt, quyền sắp hết hạn, đợt rà soát | Người duyệt ít mở VC Home thì yêu cầu dễ quá 7 ngày và tự huỷ | VH-HOM-08, VH-REQ-04 | Nhận: gộp vào VH-HOM-08 (mục 14.2) |
+| 7 | Vai trò "phó đơn vị" hoặc "người tạm quyền trưởng đơn vị" có thời hạn | Trưởng đơn vị vắng dài thì rà soát và tạm duyệt bị dồn lên cấp trên | VH-ORG-04, VH-REV-02 | Để sau (GĐ E) |
+| 8 | Gộp hai mục trùng trong danh mục (chức danh, nơi làm việc) sau khi nhập dữ liệu, có giữ lịch sử | Dữ liệu từ Excel và từ cây VClinks, VCwiki dễ có tên gần giống nhau | VH-ORG-02, VH-ORG-07, VH-IMP-01, VH-IMP-03 | Nhận: VH-ORG-09 (mục 14) |
+| 9 | Liên kết ngoài hiện theo pháp nhân hoặc chức năng (ví dụ MISA chỉ cho Kế toán) | Mỗi bộ phận dùng bộ công cụ ngoài khác nhau | VH-HOM-06 | Nhận: gộp vào VH-HOM-06 (mục 14.2) |
+| 10 | Cờ "cho phép xin qua yêu cầu" trên vai trò app; vai trò tắt cờ chỉ có được qua luật hoặc khẩn cấp | Một số vai trò (ví dụ `admin`) không nên hiện trong ô "Có thể xin quyền" | VH-APP-02, VH-HOM-04, VH-REQ-01 | Nhận: VH-APP-07 (mục 14) |
+| 11 | Với vai trò nhạy cảm: hạn tối đa ngắn hơn (ví dụ 90 ngày thay vì 365) và luật cấp vai trò nhạy cảm luôn cần người thứ hai duyệt, bất kể số người | Giảm rủi ro người giữ quyền rộng quá lâu | VH-APP-05, VH-BR-09, VH-BR-25 | Đã xử lý: VH-BR-09 (vai trò nhạy cảm tối đa 90 ngày), VH-BR-25 |
+| 12 | Trang báo trạng thái VC ID đặt ở máy khác máy VC ID | Thiết kế SSO đặt VC Home cùng máy với VC ID, nên khi máy đó hỏng thì VC Home cũng không báo được gì | VH-AUT-09, VH-ADM-04 | Nhận như việc vận hành (VH-NFR-10), không cấp mã |
+| 13 | Thời gian chuyển tiếp đặt riêng cho từng vai trò, ghi đè mức app | Trong một app, vai trò có khách cần bàn giao dài hơn vai trò chỉ xem | VH-APP-06 | Để sau (khi có số đo) |
+| 14 | Lưu mã định danh Google (không đổi) của tài khoản vào `accounts` | Phát hiện ngay trường hợp tài khoản Google bị xoá rồi tạo lại cùng email | VH-AUT-07, VH-AUT-08 | Nhận: `accounts.google_id` (mục 14.2) |
+| 15 | Màn "Tài khoản" riêng cho quản trị hệ thống (khoá, mở khoá, gắn lại, cờ khoá) thay vì ngăn trong VH-MH-11 | VH-MH-11 là màn của HC-NS; tách màn giúp tách nhiệm rõ hơn (VH-BR-17) | VH-AUT-06, VH-AUT-08 | Không làm: ngăn Tài khoản ở VH-MH-11 đủ dùng (D-BA-15) |
 | 16 | Thêm collection cài đặt hệ thống (ví dụ `system_settings`) vào README mục 9 | VH-ADM-05 cần nơi lưu giá trị, người sửa, lý do; README mục 9 chưa có | VH-ADM-05 | Đã xử lý: `system_settings` |
 | 17 | Thêm nơi lưu ngoại lệ tách nhiệm (ví dụ `sod_exceptions`: người, cặp vai trò, lý do, người bật, hạn) | 02 mục 6 cho bật ngoại lệ có hạn nhưng chưa có chỗ lưu và luồng hết hạn | VH-ADM-03, VH-BR-17 | Đã xử lý: `sod_exceptions` |
 | 18 | Thêm nơi lưu danh sách tài khoản Google "không phải người" (ví dụ `directory_exclusions`) | Để đối chiếu không báo lại hộp thư chung, tài khoản dịch vụ mỗi ngày | VH-IMP-02 | Đã xử lý: `directory_exclusions` |
-| 19 | Nơi lưu báo cáo lệch VC ID và danh sách "bị chặn tách nhiệm" (thêm `kind` cho `import_batches` hoặc collection riêng) | Cần cho thẻ "Lệch VC ID", báo cáo, và để không cảnh báo lặp | VH-ACC-02, VH-ACC-07 | Mở: chờ chủ dự án / trưởng nhóm dev |
+| 19 | Nơi lưu báo cáo lệch VC ID và danh sách "bị chặn tách nhiệm" (thêm `kind` cho `import_batches` hoặc collection riêng) | Cần cho thẻ "Lệch VC ID", báo cáo, và để không cảnh báo lặp | VH-ACC-02, VH-ACC-07 | Nhận: mục 14.2 (VH-IMP-02) |
 | 20 | Toán tử "không thuộc" trong `access_rules.conditions` (05 mục 3.9 hiện chỉ có "thuộc" và "gồm đơn vị con") | Bản giao việc yêu cầu toán tử in / not in / under; thiếu "không thuộc" thì phải viết nhiều luật | VH-ACC-01 | Đã xử lý: danh sách loại trừ trong `access_rules.conditions` ([05](05-du-lieu.md) mục 3.9) |
 | 21 | Luật cấp vai trò nhạy cảm luôn cần người thứ hai duyệt, kể cả khi ảnh hưởng ≤ 20 người | Một luật nhỏ vẫn có thể cấp `vchome:qtht` hay quyền tài chính | VH-ACC-01, VH-BR-25 | Đã xử lý: VH-BR-25 |
-| 22 | Thuộc tính "cho phép xin" trên vai trò app | Có vai trò chỉ nên cấp theo luật (ví dụ vai trò theo chức danh trưởng), không cho xin ngoại lệ | VH-APP-02, VH-REQ-01 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 23 | Người giữ quyền tự "Trả quyền" ngoại lệ không dùng nữa (thêm lý do gỡ, ví dụ `tu_tra`) | Giảm quyền thừa trước kỳ rà soát | VH-ACC-06, VH-MH-04 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 24 | Sự kiện báo trước nghỉ việc và chuyển vị trí (ví dụ `vh.person.leaving_scheduled`), và trường "người nhận bàn giao" trong `vh.person.left` | App (VClinks M1b-11) bắt đầu bàn giao trước ngày nghỉ, không phải đợi 00:00 ngày nghỉ | VH-LCM-02, VH-LCM-03, VH-INT-03 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 25 | Lịch ngày nghỉ của công ty (Tết, lễ) để dừng đồng hồ 7 ngày của yêu cầu và 14 ngày của rà soát | Yêu cầu gửi trước Tết dễ tự huỷ oan; rà soát rơi vào Tết dễ quá hạn hàng loạt | VH-REQ-04, VH-REV-01 | Mở: chờ chủ dự án / trưởng nhóm dev |
+| 22 | Thuộc tính "cho phép xin" trên vai trò app | Có vai trò chỉ nên cấp theo luật (ví dụ vai trò theo chức danh trưởng), không cho xin ngoại lệ | VH-APP-02, VH-REQ-01 | Nhận: VH-APP-07 (mục 14) |
+| 23 | Người giữ quyền tự "Trả quyền" ngoại lệ không dùng nữa (thêm lý do gỡ, ví dụ `tu_tra`) | Giảm quyền thừa trước kỳ rà soát | VH-ACC-06, VH-MH-04 | Nhận: VH-ACC-09 (mục 14) |
+| 24 | Sự kiện báo trước nghỉ việc và chuyển vị trí (ví dụ `vh.person.leaving_scheduled`), và trường "người nhận bàn giao" trong `vh.person.left` | App (VClinks M1b-11) bắt đầu bàn giao trước ngày nghỉ, không phải đợi 00:00 ngày nghỉ | VH-LCM-02, VH-LCM-03, VH-INT-03 | Nhận: VH-INT-09 (mục 14) |
+| 25 | Lịch ngày nghỉ của công ty (Tết, lễ) để dừng đồng hồ 7 ngày của yêu cầu và 14 ngày của rà soát | Yêu cầu gửi trước Tết dễ tự huỷ oan; rà soát rơi vào Tết dễ quá hạn hàng loạt | VH-REQ-04, VH-REV-01 | Nhận: VH-ORG-08 (mục 14) |
 | 26 | Tạo sẵn tài khoản VC ID ở ngày vào làm (đã có ở 05 mục 9 đề xuất 5) | Bỏ được khoảng "chưa được cấp" khi nhân viên mới mở thẳng app ở lần đầu; cần sửa luồng "first broker login" ở ky-thuat mục 5.1.2 | VH-LCM-01, VH-ACC-07 | Đã xử lý: tạo sẵn user VC ID từ GĐ C (thiết kế SSO mục 5.1.2) |
-| 27 | Hoàn tác một lô nhập Excel trong 24 giờ nếu chưa có thay đổi nào sau đó | Nhập nhầm cả lô là rủi ro cao ở lần nhập đầu (12 RR-01) | VH-IMP-01 | Mở: chờ chủ dự án / trưởng nhóm dev |
-| 28 | Lô nhập làm mất quyền của trên 20 người cần xác nhận lần hai (giống tinh thần VH-BR-25) | Nhập sai đơn vị hàng loạt có tác động như một luật sai | VH-IMP-01, VH-BR-25 | Mở: chờ chủ dự án / trưởng nhóm dev |
+| 27 | Hoàn tác một lô nhập Excel trong 24 giờ nếu chưa có thay đổi nào sau đó | Nhập nhầm cả lô là rủi ro cao ở lần nhập đầu (12 RR-01) | VH-IMP-01 | Nhận: VH-IMP-05 (mục 14) |
+| 28 | Lô nhập làm mất quyền của trên 20 người cần xác nhận lần hai (giống tinh thần VH-BR-25) | Nhập sai đơn vị hàng loạt có tác động như một luật sai | VH-IMP-01, VH-BR-25 | Nhận: VH-BR-25 mở rộng cho thay đổi hàng loạt |
 | 29 | Mở rộng README mục 10: `vh.person.updated` gồm cả nơi làm việc, SĐT công việc, pháp nhân; `vh.org.unit_changed` gồm cả đổi trưởng đơn vị; VH-API-05 gồm cả nơi làm việc | Đây là thuộc tính dùng trong luật (VH-BR-10) và hiện chưa có sự kiện, API nào báo app | VH-INT-02, VH-INT-03 | Đã xử lý: README mục 10, [07](07-tich-hop.md) mục 5.7 và 6.1 |
-| 30 | Loại sự kiện thử (ví dụ `vh.test.ping`) cho nút "Gửi thử" khi khai URL | Để app biết đây là bản thử, không xử lý như sự kiện thật | VH-INT-03, VH-APP-04 | Mở: chờ chủ dự án / trưởng nhóm dev |
+| 30 | Loại sự kiện thử (ví dụ `vh.test.ping`) cho nút "Gửi thử" khi khai URL | Để app biết đây là bản thử, không xử lý như sự kiện thật | VH-INT-03, VH-APP-04 | Nhận: VH-INT-10 (mục 14) |
 | 31 | Màn báo cáo cho ban giám đốc và trưởng đơn vị (VH-MH-17 hiện chỉ cho quản trị hệ thống, kiểm soát, chủ app) | 02 mục 3 cho ban giám đốc và trưởng đơn vị xem báo cáo tổng hợp nhưng chưa có màn | VH-ADM-02 | Đã xử lý: VH-MH-17 mở cho BGĐ và trưởng đơn vị xem báo cáo trong phạm vi |
 | 32 | Ghi màn hoặc thẻ "Uỷ quyền" vào danh mục màn (hiện đặt trong VH-MH-08) | README mục 8 chưa có chỗ cho uỷ quyền | VH-REQ-03 | Đã xử lý: ngăn Uỷ quyền trong VH-MH-08 |
-| 33 | Mã yêu cầu riêng cho "rà soát luật nửa năm" | VH-BR-16 có rà soát luật nhưng README mục 5 chưa có yêu cầu riêng; hiện gộp vào VH-REV-01 bước 10 | VH-REV-01, VH-BR-16 | Mở: chờ chủ dự án / trưởng nhóm dev |
+| 33 | Mã yêu cầu riêng cho "rà soát luật nửa năm" | VH-BR-16 có rà soát luật nhưng README mục 5 chưa có yêu cầu riêng; hiện gộp vào VH-REV-01 bước 10 | VH-REV-01, VH-BR-16 | Nhận: VH-REV-04 (mục 14) |
 | 34 | Ghi rõ kênh email cho thông báo ở GĐ C (trước khi có VH-HOM-08 ở GĐ D) | VH-ACC-04, VH-LCM-01..03 cần báo người ngay từ GĐ C | VH-HOM-08 | Đã xử lý: GĐ C gửi thông báo bằng email (README mục 9) |
+
+## 14. Yêu cầu nhận thêm ngày 08/10/2026
+
+Người dùng uỷ quyền cho BA trưởng chốt các đề xuất bổ sung. 12 đề xuất được nhận thành yêu cầu mới (mã cuối mỗi phân hệ trong README mục 5); một số khác gộp vào yêu cầu có sẵn (mục 14.2). Danh sách xử lý đầy đủ ở [12](12-cau-hoi-rui-ro.md) mục 6.
+
+### 14.1 Yêu cầu mới
+
+### VH-HOM-09 — Dải "Việc đang chờ bạn" trên trang chủ
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | C · D |
+| Tác nhân | Quản lý, trưởng đơn vị, chủ app, HC-NS, quản trị hệ thống |
+| Mô tả | Đầu trang chủ hiện một dải nhắc các việc đang chờ chính người dùng trên VC Home, để người duyệt xử lý ngay khi mở trang. |
+| Điều kiện trước | Người dùng có ít nhất một việc chờ. |
+| Xử lý chính | 1. Đếm 5 loại việc: yêu cầu chờ tôi duyệt (VH-REQ-02), dòng rà soát chờ tôi (VH-REV-02), luật chờ tôi duyệt bước hai (VH-BR-25), đề nghị sửa hồ sơ chờ HC-NS (VH-NSU-06), quyền của tôi còn ≤ 14 ngày (VH-REQ-06).<br>2. Hiện tối đa 3 dòng, việc gấp trước. Ví dụ "Bạn có 4 yêu cầu chờ duyệt, 1 yêu cầu đã chờ quá 5 ngày." Mỗi dòng có nút tới màn tương ứng.<br>3. Không có việc thì không hiện dải.<br>4. Số liệu làm mới khi tải trang và mỗi 5 phút. |
+| Ngoại lệ, thông báo lỗi | Không tải được số liệu: ẩn dải, không chặn lưới app. |
+| Dữ liệu | `approval_steps`, `review_items`, `access_rules`, `profile_change_requests`, `access_grants` |
+| Quy tắc | VH-BR-12, VH-BR-16, VH-BR-25 |
+| Màn hình | VH-MH-02 |
+| Phụ thuộc | VH-HOM-08, VH-REQ-02, VH-REV-02 |
+
+**Tiêu chí nghiệm thu:**
+1. Có 2 yêu cầu chờ tôi: dải hiện "Bạn có 2 yêu cầu chờ duyệt."; bấm thì mở VH-MH-08 đã lọc sẵn.
+2. Không có việc chờ: không có dải.
+3. VC Home API lỗi: lưới app vẫn hiện trong ≤ 1,5 giây (VH-NFR-12).
+
+### VH-NSU-09 — Nhân viên tự sửa tên gọi, ảnh, SĐT công việc
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | S · B |
+| Tác nhân | Nhân viên; HC-NS xem lịch sử |
+| Mô tả | Ba trường ít rủi ro nhân viên tự sửa ngay, không qua HC-NS duyệt. Vẫn ghi lịch sử và (từ GĐ C) gửi sự kiện. Các trường khác vẫn đi qua đề nghị sửa (VH-NSU-06). |
+| Điều kiện trước | Hồ sơ đang làm hoặc nghỉ dài ngày, đã gắn tài khoản. |
+| Xử lý chính | 1. VH-MH-03 có nút "Sửa" cạnh tên gọi, ảnh, SĐT công việc.<br>2. Tên gọi 1–40 ký tự. Ảnh JPG hoặc PNG ≤ 2 MB, hệ thống cắt vuông 400 × 400 px. SĐT công việc 10 số bắt đầu bằng 0, hoặc số máy lẻ 3–5 số.<br>3. Lưu là áp ngay, không có ngày hiệu lực; ghi `audit_log`; từ GĐ C gửi `vh.person.updated`. |
+| Ngoại lệ, thông báo lỗi | "Tên gọi từ 1 đến 40 ký tự."<br>"Ảnh phải là JPG hoặc PNG, tối đa 2 MB."<br>"Số điện thoại công việc chưa đúng mẫu: 10 số bắt đầu bằng 0, hoặc số máy lẻ 3–5 số." |
+| Dữ liệu | `people.nickname`, `people.photo` (`source = nhan_vien`), `people.work_phone`; `audit_log`; `event_outbox` |
+| Quy tắc | VH-BR-18, VH-BR-19 |
+| Màn hình | VH-MH-03 |
+| Phụ thuộc | VH-NSU-06, VH-INT-03 |
+
+**Tiêu chí nghiệm thu:**
+1. Đổi ảnh: trang chủ và danh bạ hiện ảnh mới trong ≤ 1 phút.
+2. Lịch sử hồ sơ có dòng "Tự sửa ảnh" kèm giờ.
+3. Ở VH-MH-03 không sửa trực tiếp được chức danh, đơn vị; chỉ có nút "Đề nghị sửa".
+
+### VH-ORG-08 — Lịch ngày nghỉ của công ty
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | S · D |
+| Tác nhân | HC-NS |
+| Mô tả | Danh sách ngày nghỉ (Tết, lễ, nghỉ bù) để dừng đồng hồ 7 ngày của yêu cầu (VH-BR-13), 14 ngày của rà soát (VH-BR-16), và không gửi nhắc vào ngày nghỉ. |
+| Điều kiện trước | — |
+| Xử lý chính | 1. VH-MH-13 có ngăn "Ngày nghỉ": thêm một ngày hoặc khoảng ngày, tên, áp cho toàn tập đoàn hoặc một pháp nhân.<br>2. Tháng 12 hằng năm, hệ thống gợi ý lịch nghỉ lễ năm sau theo Bộ luật Lao động; HC-NS xác nhận hoặc sửa.<br>3. Đồng hồ yêu cầu, rà soát và lịch nhắc chỉ đếm ngày làm việc: thứ Hai đến thứ Bảy, trừ ngày nghỉ áp cho pháp nhân của người đó.<br>4. Sửa lịch không đổi hạn của việc đã quá hạn. |
+| Ngoại lệ, thông báo lỗi | "Ngày {dd/mm/yyyy} đã có trong lịch nghỉ ({tên})." |
+| Dữ liệu | `company_holidays` |
+| Quy tắc | VH-BR-13, VH-BR-16, VH-BR-22 |
+| Màn hình | VH-MH-13 |
+| Phụ thuộc | VH-REQ-04, VH-REV-01 |
+
+**Tiêu chí nghiệm thu:**
+1. Yêu cầu gửi thứ Sáu 05/02/2027, lịch nghỉ Tết 05–13/02: hạn tự huỷ tính từ thứ Hai 15/02.
+2. Không có nhắc nào gửi vào ngày trong lịch nghỉ.
+3. Ngày nghỉ khai riêng cho một pháp nhân chỉ dừng đồng hồ của người thuộc pháp nhân đó.
+
+### VH-ORG-09 — Gộp mục trùng trong danh mục
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | S · B |
+| Tác nhân | HC-NS; quản trị hệ thống xác nhận khi ảnh hưởng quyền lớn |
+| Mô tả | Sau khi nhập Excel và lấy dữ liệu từ VClinks, VCwiki, danh mục chức danh, chức năng, nơi làm việc dễ có mục trùng (cùng nghĩa, khác chữ). HC-NS gộp về một mục, giữ lịch sử. |
+| Điều kiện trước | Hai mục cùng loại danh mục. |
+| Xử lý chính | 1. VH-MH-13 gợi ý cặp có thể trùng: tên bỏ dấu giống nhau hoặc khác ≤ 2 ký tự.<br>2. HC-NS chọn mục giữ và mục bị gộp; màn hiện số vị trí và số luật đang trỏ tới mục bị gộp.<br>3. Gộp: mọi vị trí, luật trỏ tới mục bị gộp chuyển sang mục giữ; mục bị gộp chuyển trạng thái "Đã gộp", không xoá.<br>4. Nếu việc gộp làm thay đổi quyền của từ 21 người trở lên thì cần quản trị hệ thống xác nhận (VH-BR-25). |
+| Ngoại lệ, thông báo lỗi | "Không gộp được hai mục khác loại."<br>"Mục {tên} đã được gộp vào {tên}." |
+| Dữ liệu | `job_titles`, `job_functions`, `work_locations`, `positions`, `access_rules`, `audit_log` |
+| Quy tắc | VH-BR-18, VH-BR-25 |
+| Màn hình | VH-MH-13 |
+| Phụ thuộc | VH-IMP-01, VH-IMP-03 |
+
+**Tiêu chí nghiệm thu:**
+1. Gộp "NV kinh doanh" vào "Nhân viên kinh doanh": mọi vị trí trỏ tới mục giữ; mục cũ ở trạng thái "Đã gộp".
+2. Luật đang dùng mục cũ tự trỏ sang mục giữ; quyền của mọi người không đổi.
+3. Nhật ký có một dòng gộp, ghi số bản ghi đã đổi.
+
+### VH-APP-07 — Vai trò app "cho phép xin"
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | S · D |
+| Tác nhân | Chủ app, quản trị hệ thống |
+| Mô tả | Cờ trên vai trò app cho biết vai trò có nhận yêu cầu xin quyền không. Vai trò tắt cờ (ví dụ `admin`, vai trò theo chức danh trưởng) chỉ có qua luật hoặc cấp khẩn cấp. |
+| Điều kiện trước | Vai trò app đã khai (VH-APP-02). |
+| Xử lý chính | 1. VH-MH-15 thêm cột "Cho phép xin": mặc định bật; vai trò nhạy cảm mặc định tắt.<br>2. VH-MH-04, VH-MH-05 và ô "Có thể xin quyền" (VH-HOM-04) chỉ hiện vai trò bật cờ.<br>3. Tắt cờ không gỡ quyền đang có; yêu cầu đang chờ của vai trò đó vẫn xử lý tiếp. |
+| Ngoại lệ, thông báo lỗi | Mở link xin vai trò đã tắt cờ: "Vai trò này không nhận yêu cầu. Liên hệ chủ app {tên}." |
+| Dữ liệu | `app_roles.requestable` |
+| Quy tắc | VH-BR-09 |
+| Màn hình | VH-MH-15, VH-MH-05 |
+| Phụ thuộc | VH-APP-02, VH-REQ-01 |
+
+**Tiêu chí nghiệm thu:**
+1. `vclinks:admin` tắt cờ: không có trong danh sách xin quyền.
+2. Link sâu `?app=vclinks&role=admin` hiện đúng câu báo ở trên.
+3. Bật lại cờ: vai trò hiện trong danh sách xin quyền trong ≤ 1 phút.
+
+### VH-ACC-09 — Người giữ quyền tự trả quyền ngoại lệ
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | S · D |
+| Tác nhân | Nhân viên |
+| Mô tả | Người đang có quyền ngoại lệ (nguồn "Được duyệt") không dùng nữa thì tự trả, để giảm quyền thừa trước kỳ rà soát. |
+| Điều kiện trước | Dòng quyền nguồn yêu cầu đang hiệu lực. |
+| Xử lý chính | 1. VH-MH-04: dòng nguồn "Được duyệt" có nút "Trả quyền".<br>2. Hỏi xác nhận "Trả vai trò {vai trò} trong {app}? Muốn có lại phải xin lại."; lý do tuỳ chọn.<br>3. Gỡ ngay dòng nguồn yêu cầu với lý do `tu_tra`. Nếu cùng vai trò còn nguồn luật thì quyền vẫn còn.<br>4. Báo quản lý trực tiếp; dòng rà soát đang mở của quyền đó tự đóng. |
+| Ngoại lệ, thông báo lỗi | Dòng nguồn "Luật" hoặc "Khẩn cấp" không có nút "Trả quyền". |
+| Dữ liệu | `access_grants` (`removed_reason = tu_tra`), `review_items` |
+| Quy tắc | VH-BR-09 |
+| Màn hình | VH-MH-04 |
+| Phụ thuộc | VH-ACC-06 |
+
+**Tiêu chí nghiệm thu:**
+1. Trả quyền chỉ có nguồn yêu cầu: app nhận `vh.grant.removed` trong ≤ 1 phút.
+2. Cùng vai trò còn nguồn luật: quyền giữ nguyên, chỉ mất dòng ngoại lệ; không có `vh.grant.removed`.
+3. Dòng rà soát đang mở của quyền đó chuyển sang đã đóng.
+
+### VH-REQ-07 — Duyệt nhiều yêu cầu một lần
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | S · D |
+| Tác nhân | Quản lý, chủ app, người được uỷ quyền |
+| Mô tả | Người duyệt chọn tối đa 20 yêu cầu thường rồi duyệt hoặc từ chối một lần. Không áp cho vai trò nhạy cảm. |
+| Điều kiện trước | Các yêu cầu đang chờ chính người đó duyệt. |
+| Xử lý chính | 1. VH-MH-08: mỗi dòng có ô chọn; dòng vai trò nhạy cảm không có ô chọn.<br>2. Bấm "Duyệt các mục đã chọn" (≤ 20): hộp xác nhận liệt kê tên người và vai trò.<br>3. Mỗi yêu cầu ghi quyết định riêng trong `approval_steps` và nhật ký.<br>4. "Từ chối các mục đã chọn" cần một lý do chung, ≥ 10 ký tự. |
+| Ngoại lệ, thông báo lỗi | "Chọn tối đa 20 yêu cầu mỗi lần."<br>"Vai trò nhạy cảm phải duyệt từng yêu cầu." |
+| Dữ liệu | `approval_steps`, `access_requests` |
+| Quy tắc | VH-BR-12, VH-BR-17 |
+| Màn hình | VH-MH-08 |
+| Phụ thuộc | VH-REQ-02 |
+
+**Tiêu chí nghiệm thu:**
+1. Duyệt 5 yêu cầu một lần: có 5 dòng quyết định riêng trong `approval_steps` và 5 dòng nhật ký.
+2. Dòng vai trò nhạy cảm không chọn được.
+3. Chọn đến mục thứ 21 thì ô chọn khoá và hiện câu "Chọn tối đa 20 yêu cầu mỗi lần."
+
+### VH-REV-04 — Rà soát luật nửa năm
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | S · D |
+| Tác nhân | Chủ app; quản trị hệ thống (app chưa có chủ, và mở đợt); kiểm soát xem |
+| Mô tả | Mỗi nửa năm, mọi luật đang bật được chủ app xác nhận còn đúng, sửa hoặc tắt (VH-BR-16). |
+| Điều kiện trước | Có luật đang bật. |
+| Xử lý chính | 1. Ngày 01/01 và 01/07 hệ thống mở đợt rà soát luật (`review_campaigns.kind = luat`); mỗi luật một dòng, giao cho chủ app.<br>2. Dòng hiện điều kiện, số người đang có quyền từ luật, lần sửa cuối.<br>3. Chọn "Giữ", "Sửa" (mở VH-MH-16, theo VH-QT-10) hoặc "Tắt" (xem trước và duyệt theo VH-BR-25).<br>4. Hạn 14 ngày làm việc. Quá hạn **không** tự tắt luật (tránh mất quyền hàng loạt); chỉ báo quản trị hệ thống và kiểm soát. |
+| Ngoại lệ, thông báo lỗi | — |
+| Dữ liệu | `review_campaigns` (`kind = luat`), `review_items` |
+| Quy tắc | VH-BR-16, VH-BR-25 |
+| Màn hình | VH-MH-18, VH-MH-16 |
+| Phụ thuộc | VH-ACC-01, VH-REV-01 |
+
+**Tiêu chí nghiệm thu:**
+1. Ngày 01/07 có đủ một dòng cho mỗi luật đang bật.
+2. Quá hạn: quản trị hệ thống và kiểm soát nhận báo; luật vẫn bật.
+3. Báo cáo đợt có tỉ lệ giữ, sửa, tắt.
+
+### VH-INT-09 — Sự kiện báo trước nghỉ việc, chuyển vị trí
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | S · C |
+| Tác nhân | HC-NS (gây ra); app (nhận) |
+| Mô tả | Khi HC-NS lưu ngày nghỉ việc hoặc chuyển vị trí chính có ngày hiệu lực trong tương lai, VC Home gửi `vh.person.change_scheduled` để app chuẩn bị bàn giao (VClinks: cờ "Sắp nghỉ", PQ-82). |
+| Điều kiện trước | App đã khai URL nhận sự kiện (VH-INT-03). |
+| Xử lý chính | 1. Tạo, sửa ngày, huỷ một thay đổi hẹn ngày loại nghỉ việc hoặc đổi vị trí chính: gửi sự kiện với `kind` (`nghi_viec` · `chuyen_vi_tri`), `effective_on`, `status` (`hen` · `doi_ngay` · `huy`), đơn vị mới (khi chuyển), `handover_to` tuỳ chọn (người nhận bàn giao do HC-NS hoặc quản lý gợi ý).<br>2. Không gửi lý do.<br>3. Đến ngày hiệu lực vẫn gửi `vh.person.left` / `vh.person.moved` như cũ. |
+| Ngoại lệ, thông báo lỗi | — |
+| Dữ liệu | `scheduled_changes`, `event_outbox` |
+| Quy tắc | VH-BR-07, VH-BR-14 |
+| Màn hình | VH-MH-11 |
+| Phụ thuộc | VH-INT-03 |
+
+**Tiêu chí nghiệm thu:**
+1. Ngày 10/11 HC-NS đặt ngày nghỉ 30/11: app nhận `vh.person.change_scheduled` trong ≤ 1 phút.
+2. Đổi ngày: sự kiện `status = doi_ngay`; huỷ: `status = huy`.
+3. Nội dung sự kiện không có lý do nghỉ.
+
+### VH-INT-10 — Sự kiện thử và nút "Gửi thử"
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | S · C |
+| Tác nhân | Quản trị hệ thống, chủ app |
+| Mô tả | Khi khai URL nhận sự kiện của app, bấm "Gửi thử" để gửi `vh.test.ping` có chữ ký thật. Nhờ đó kiểm được app nhận đúng mà không cần dữ liệu thật. |
+| Điều kiện trước | App có URL nhận sự kiện và bí mật ký. |
+| Xử lý chính | 1. VH-MH-15 có nút "Gửi thử" cạnh URL.<br>2. Gửi `vh.test.ping` (dữ liệu `{message, sent_by}`), ký giống sự kiện thật.<br>3. Hiện kết quả: mã HTTP, thời gian phản hồi, nội dung lỗi rút gọn.<br>4. Sự kiện thử không vào luồng thứ tự và không tự gửi lại. |
+| Ngoại lệ, thông báo lỗi | "App không trả lời trong 5 giây."<br>"App trả {mã}: {nội dung rút gọn}." |
+| Dữ liệu | `event_deliveries` (`is_test = true`) |
+| Quy tắc | — |
+| Màn hình | VH-MH-15 |
+| Phụ thuộc | VH-INT-03, VH-APP-04 |
+
+**Tiêu chí nghiệm thu:**
+1. App cấu hình đúng: màn hiện "Đã nhận (200) trong {n} giây".
+2. App dùng sai bí mật: app trả 401, màn hiện lỗi.
+3. Sự kiện thử không làm tăng số thứ tự của luồng nào.
+
+### VH-ADM-06 — Cảnh báo quyền không dùng 90 ngày
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | S · D |
+| Tác nhân | Quản trị hệ thống, chủ app |
+| Mô tả | Mỗi tuần liệt kê người còn quyền ngoại lệ hoặc vai trò nhạy cảm mà không đăng nhập app đó trong 90 ngày, để chủ app gỡ hoặc giữ. Không tự gỡ. |
+| Điều kiện trước | VC ID ghi sự kiện đăng nhập theo từng app (client). |
+| Xử lý chính | 1. Job thứ Hai 08:00: lấy lần đăng nhập cuối theo app từ sự kiện của VC ID.<br>2. Lập danh sách theo app: người, vai trò, nguồn, lần đăng nhập cuối.<br>3. Gửi thông báo (và email) cho chủ app; trên VH-MH-17 có nút "Gỡ" (VH-ACC-06) hoặc "Giữ thêm 90 ngày".<br>4. Quyền thường từ luật không vào danh sách. |
+| Ngoại lệ, thông báo lỗi | — |
+| Dữ liệu | `accounts.last_login_at`, sự kiện đăng nhập của VC ID, `access_grants` |
+| Quy tắc | VH-BR-16 |
+| Màn hình | VH-MH-17 |
+| Phụ thuộc | VH-ADM-02, VH-HOM-08 |
+
+**Tiêu chí nghiệm thu:**
+1. Người có `vclinks:admin` không đăng nhập VClinks 91 ngày: có trong danh sách tuần.
+2. Chọn "Giữ thêm 90 ngày": người đó không bị báo lại trong 90 ngày.
+3. Quyền NVKD từ luật của người không đăng nhập 120 ngày: không có trong danh sách.
+
+### VH-IMP-05 — Hoàn tác lô nhập trong 24 giờ
+
+| Mục | Nội dung |
+|---|---|
+| Ưu tiên · GĐ | S · B |
+| Tác nhân | HC-NS; quản trị hệ thống xác nhận khi ảnh hưởng quyền lớn |
+| Mô tả | Lô nhập Excel đã áp có thể hoàn tác trong 24 giờ, nếu sau đó chưa có thay đổi nào khác trên các bản ghi của lô. |
+| Điều kiện trước | Lô ở trạng thái đã áp, chưa quá 24 giờ. |
+| Xử lý chính | 1. VH-MH-14: lô đã áp có nút "Hoàn tác" trong 24 giờ.<br>2. Kiểm: mọi bản ghi lô đã tạo hoặc sửa chưa bị sửa tiếp. Có bản ghi đã sửa thì không cho hoàn tác và liệt kê bản ghi đó.<br>3. Hoàn tác: bản ghi lô đã sửa trả về giá trị trước (theo nhật ký); hồ sơ, vị trí lô đã tạo chuyển "Huỷ do hoàn tác" (không xoá, mã nhân viên không dùng lại).<br>4. Tính lại quyền; nếu làm thay đổi quyền của từ 21 người trở lên thì quản trị hệ thống xác nhận (VH-BR-25). |
+| Ngoại lệ, thông báo lỗi | "Lô đã quá 24 giờ, không hoàn tác được."<br>"Có {n} bản ghi đã sửa sau lô này: {danh sách}. Hãy sửa tay." |
+| Dữ liệu | `import_batches`, `audit_log`, `people`, `positions`, `org_units` |
+| Quy tắc | VH-BR-18, VH-BR-25 |
+| Màn hình | VH-MH-14 |
+| Phụ thuộc | VH-IMP-01 |
+
+**Tiêu chí nghiệm thu:**
+1. Hoàn tác lô 50 người sau 2 giờ: dữ liệu trở về như trước lô; nhật ký có dòng hoàn tác.
+2. Một hồ sơ trong lô đã sửa sau đó: hoàn tác bị chặn và hồ sơ đó được liệt kê.
+3. Quá 24 giờ: nút "Hoàn tác" không còn.
+
+### 14.2 Bổ sung vào yêu cầu có sẵn
+
+Đọc kèm khi làm yêu cầu tương ứng.
+
+| Yêu cầu | Bổ sung |
+|---|---|
+| VH-HOM-02 | Người đăng nhập trước ngày vào làm thấy "Bạn bắt đầu làm từ {dd/mm/yyyy}." thay cho trang trống |
+| VH-HOM-05 | Thanh chuyển app hiện vai trò của người dùng trong từng app (lấy từ token) |
+| VH-HOM-06 | Liên kết ngoài giới hạn được theo pháp nhân hoặc chức năng |
+| VH-HOM-08 | Gửi kèm email cho: yêu cầu chờ duyệt, nhắc duyệt, quyền sắp hết hạn, đợt rà soát, luật chờ duyệt bước hai |
+| VH-ACC-01 | Lưu mọi phiên bản luật. "Khôi phục bản trước" là tạo bản nháp từ bản cũ rồi duyệt lại. Lúc áp, số người bị ảnh hưởng lệch quá 20% so với bản xem trước đã duyệt thì phải duyệt lại (VH-BR-25) |
+| VH-ACC-03 | Xem trước cả khi HC-NS sửa hồ sơ một người: hiện quyền sẽ thêm, mất (chỉ xem, không chặn) |
+| VH-LCM-02 | Khi chuyển vị trí, báo quản lý mới danh sách quyền ngoại lệ người đó đang giữ |
+| VH-LCM-04 | Nhắc HC-NS 3 ngày làm việc trước ngày về dự kiến |
+| VH-INT-03 | `vh.person.moved` kèm `roles_in_transition` (vai trò đang chuyển tiếp và ngày gỡ) |
+| VH-AUT-07 | Lưu mã tài khoản Google không đổi (`accounts.google_id`) để phát hiện tài khoản bị xoá rồi tạo lại cùng email |
+| VH-IMP-02 | Báo cáo lệch VC Home ↔ VC ID lưu như một lô `import_batches.kind = doi_chieu_vc_id`; quyền bị chặn do tách nhiệm ghi `audit_log` hành động `grant.blocked_sod` |
 
 ## Lịch sử cập nhật
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
 | 0.1 | 08/10/2026 11:16 | Claude Code (vai BA, hai người viết phần 1–5 và 6–12, BA trưởng gộp và soát chéo) | Tạo tài liệu: 78 yêu cầu đủ mẫu và tiêu chí nghiệm thu; gộp đề xuất bổ sung; áp quyết định soát chéo (loại đơn vị có pháp nhân, trạng thái app có `beta`, `paused` và loại `lien_ket_ngoai`, hồ sơ không vào làm chuyển Đã nghỉ, client `vchome`, VH-ACC-03 nâng lên M) | README bộ tài liệu 0.1; 02, 05, 07, 08; thiết kế SSO 0.2 |
+| 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Mục 13 ghi trạng thái cả 34 đề xuất (không còn "Mở"); thêm mục 14: 12 yêu cầu mới (14.1) và phần bổ sung cho 11 yêu cầu có sẵn (14.2) | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |

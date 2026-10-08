@@ -1,6 +1,6 @@
 # VC Home — Mô hình dữ liệu, trạng thái, phân loại và thời hạn lưu
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -12,7 +12,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
   - Chỉ lưu dữ liệu C0–C1. Không lưu lý do nghỉ dài ngày (thai sản, ốm là dữ liệu sức khoẻ). File Excel gốc xoá sau 30 ngày.
   - Hồ sơ đã nghỉ giữ 24 tháng rồi ẩn danh; nhật ký giữ 24 tháng, chỉ ghi thêm (VH-NFR-08, VH-NFR-09).
 - **Có bổ sung so với README mục 9** (chỉ thêm trường, không thêm collection): `org_units.function_code`, `app_roles.unit_scoped`, `apps.people_data_level`, `access_grants.unit_code`. Xem mục 9.
-- **Việc còn mở:** Q-10 (thời hạn nhật ký), Q-11 (mẫu mã nhân viên), Q-13 (ngày nghỉ việc), Q-02 (danh mục chức năng).
+- **Quyết định liên quan** (đã chốt ngày 08/10/2026, [12](12-cau-hoi-rui-ro.md) mục 4): Q-10 giữ nhật ký 24 tháng, xuất lưu trữ giữ 5 năm; Q-11 dùng mã hiện có, trùng thì thêm tiền tố pháp nhân, chưa có thì cấp `<mã pháp nhân><4 số>`; Q-13 khoá lúc 00:00 ngày đầu không còn làm; Q-02 dùng 10 chức năng khởi tạo.
 - **Người duyệt xem kỹ:**
   - mục 3.10 (`access_grants`) và 4.2 (trạng thái quyền);
   - mục 5 (ngày hiệu lực);
@@ -197,11 +197,12 @@ Mỗi collection có: mục đích, giai đoạn, bảng trường, chỉ mục,
 | `_id` | ObjectId | Có | — | Khoá kỹ thuật |
 | `employee_code` | string | Có | C0 | Mã nhân viên, duy nhất toàn tập đoàn, không đổi, không dùng lại kể cả sau khi nghỉ (VH-BR-01). Mẫu theo Q-11, đề xuất `<tiền tố pháp nhân><4 số>`, ví dụ `VCP0123` |
 | `full_name` | string | Có | C0 | Họ tên đầy đủ, 2–80 ký tự |
+| `nickname` | string | Không | C0 | Tên gọi, 1–40 ký tự; nhân viên tự sửa (VH-NSU-09) |
 | `name_folded` | string | Có | C0 | Họ tên viết thường, bỏ dấu; hệ thống tự tính để tìm danh bạ |
 | `work_email` | string | Có | C0 | Email công ty chính, chữ thường, đuôi `vcprosperous.com` hoặc `vcpart.vn` (VH-BR-02) |
 | `secondary_email` | string | Không | C1 | Email phụ: địa chỉ công ty thứ hai của cùng người ở domain kia (VH-NSU-01); duy nhất trên mọi hồ sơ kể cả `work_email`; dùng để gắn tài khoản |
 | `previous_emails` | array<string> | Không | C0 | Email cũ khi đổi tên hoặc đổi domain; dùng để gắn tài khoản đúng người (VH-BR-01) |
-| `photo` | object | Không | C0 | `{url, source: google\|hcns, updated_at}`. Mặc định lấy ảnh Google; HC-NS thay được bằng ảnh thẻ |
+| `photo` | object | Không | C0 | `{url, source: google\|hcns\|nhan_vien, updated_at}` (`nhan_vien`: tự đổi theo VH-NSU-09). Mặc định lấy ảnh Google; HC-NS thay được bằng ảnh thẻ |
 | `work_phone` | string | Không | C0 | SĐT công việc (máy bàn, SIM công ty), 10 số. Không nhận SĐT cá nhân (VH-BR-19) |
 | `legal_entity_code` | string | Có | C0 | Pháp nhân ký hợp đồng → `legal_entities` |
 | `employee_type` | enum | Có | C1 | `chinh_thuc` · `thu_viec` · `cong_tac_vien` · `thuc_tap` (VH-BR-10) |
@@ -277,6 +278,7 @@ Mỗi collection có: mục đích, giai đoạn, bảng trường, chỉ mục,
 | `person_id` | ObjectId | Không | C1 | → `people`. Gắn rồi thì không tự đổi; gắn lại phải do quản trị hệ thống làm, có lý do (VH-BR-01) |
 | `email` | string | Có | C0 | Email trên VC ID ở lần đồng bộ gần nhất |
 | `hd` | string | Có | — | Domain Google Workspace của tài khoản |
+| `google_id` | string | Không | C1 | Mã tài khoản Google không đổi (claim `sub` của Google), để phát hiện tài khoản bị xoá rồi tạo lại cùng email (VH-AUT-07) |
 | `link` | object | Không | C1 | `{method: theo_email\|quan_tri, linked_at, linked_by}` |
 | `idp_enabled` | bool | Có | C1 | Bản sao trạng thái bật / khoá trên VC ID |
 | `locks` | array<object> | Có (có thể rỗng) | C1 | Các khoá đang có, mỗi phần tử `{kind: khan_cap\|google\|nghi_viec\|tam_khoa\|nghi_dai_ngay, at, by, reason}`. Tài khoản chỉ mở khi **không còn khoá nào** (khoá do Google gỡ thì khoá khẩn cấp vẫn giữ). Lý do bắt buộc với `khan_cap` |
@@ -654,6 +656,7 @@ Chỉ mục: `{legal_entity_code, status}`; `kind`.
 | `allowed_unit_types` | array<enum> | Không | — | Loại đơn vị được phép (tuỳ chọn), ví dụ `["to_nhom", "phong"]` |
 | `default_request_days` | int | Có | — | Hạn mặc định khi xin, mặc định 90 (VH-BR-09) |
 | `max_request_days` | int | Có | — | Hạn tối đa, ≤ 365 |
+| `requestable` | bool | Có | — | Cho phép xin qua yêu cầu (VH-APP-07). Mặc định `true`; vai trò nhạy cảm mặc định `false`. Vai trò nhạy cảm: `max_request_days` ≤ 90 (VH-BR-09) |
 | `status` | enum | Có | — | `dang_dung` · `ngung` (ngừng thì không cấp mới; quyền đang có giữ tới khi gỡ) |
 | `order` | int | Có | — | Thứ tự hiện |
 
@@ -763,7 +766,7 @@ Chỉ mục: `{legal_entity_code, status}`; `kind`.
 | `status` | enum | Có | C1 | `cho_hieu_luc` · `hieu_luc` · `chuyen_tiep` · `het_han` · `da_go`. Luồng ở mục 4.2 |
 | `open` | bool | Có | — | `true` khi trạng thái là `cho_hieu_luc`, `hieu_luc` hoặc `chuyen_tiep`; dùng cho chỉ mục một phần |
 | `transition_until` | Date | Có khi `chuyen_tiep` | C1 | Hết chuyển tiếp = lúc mất luật + `apps.transition_days` |
-| `removed_reason` | enum | Có khi `da_go` | C1 | `khong_con_thoa_luat` · `luat_tat` · `ra_soat` · `go_tay` · `nghi_viec` · `huy_truoc_hieu_luc` |
+| `removed_reason` | enum | Có khi `da_go` | C1 | `khong_con_thoa_luat` · `luat_tat` · `ra_soat` · `go_tay` · `nghi_viec` · `huy_truoc_hieu_luc` · `tu_tra` (người giữ tự trả, VH-ACC-09) |
 | `removed_at`, `removed_by` | Date, ObjectId/string | Có khi `da_go`, `het_han` | C1 | Lúc và người gỡ (`he_thong` nếu tự động) |
 | `idp_synced_at` | Date | Không | — | Lần đẩy sang VC ID thành công gần nhất (VH-ACC-07); job đối chiếu hằng đêm so trường này (VH-NFR-18) |
 
@@ -963,6 +966,7 @@ Chỉ mục: `{legal_entity_code, status}`; `kind`.
 |---|---|---|---|---|
 | `_id` | ObjectId | Có | — | Khoá |
 | `period` | string | Có | — | Kỳ, ví dụ `2027-Q1`; duy nhất |
+| `kind` | enum | Có | — | `quyen_ngoai_le` (quý, VH-REV-01) · `luat` (nửa năm, VH-REV-04; dòng là một luật, giao chủ app; quá hạn không tự tắt luật) |
 | `name` | string | Có | — | Ví dụ "Rà soát quyền ngoại lệ quý 1/2027" |
 | `scope` | object | Có | — | `{sources: ["yeu_cau", "khan_cap"]}` (quyền từ luật không rà từng người) |
 | `status` | enum | Có | — | `mo` · `da_dong` |
@@ -1107,6 +1111,7 @@ Chỉ mục: `{legal_entity_code, status}`; `kind`.
 | `app_seq` | int64 | Có | — | Số thứ tự trong hàng của app (từ `apps.event_seq`); là con trỏ của VH-API-07 |
 | `status` | enum | Có | — | `cho_gui` · `da_gui` · `thu_lai` · `that_bai`. Luồng ở mục 4.5 |
 | `attempts` | int | Có | — | Số lần đã gửi |
+| `is_test` | bool | Có | — | `true` với `vh.test.ping` (VH-INT-10): không vào luồng thứ tự, không tự gửi lại |
 | `first_attempt_at` | Date | Không | — | Lần gửi đầu; mốc tính 24 giờ |
 | `next_attempt_at` | Date | Không | — | Lần gửi kế tiếp |
 | `last_attempt_at` | Date | Không | — | Lần gửi gần nhất |
@@ -1191,7 +1196,7 @@ Chỉ mục: `{legal_entity_code, status}`; `kind`.
 | Trường | Kiểu | Bắt buộc | Mức mật | Mô tả / ràng buộc |
 |---|---|---|---|---|
 | `_id` | ObjectId | Có | — | Khoá |
-| `kind` | enum | Có | — | `nhan_su` · `co_cau` · `doi_chieu_google` · `khoi_tao_vclinks` · `khoi_tao_vcwiki` |
+| `kind` | enum | Có | — | `nhan_su` · `co_cau` · `doi_chieu_google` · `doi_chieu_vc_id` · `khoi_tao_vclinks` · `khoi_tao_vcwiki`. Lô đã áp hoàn tác được trong 24 giờ (VH-IMP-05) |
 | `file_name` | string | Không | — | Tên tệp tải lên |
 | `file_sha256` | string | Không | — | Mã băm tệp; cùng tệp tải lại thì báo |
 | `file_ref` | string | Không | C1 | Chỗ lưu tạm tệp gốc (ổ mã hoá trên máy chủ); **xoá sau 30 ngày** |
@@ -1286,7 +1291,7 @@ Chỉ mục: `{legal_entity_code, status}`; `kind`.
 
 ### 3.21 Collection bổ sung sau soát chéo (08/10/2026)
 
-Bốn collection dưới đây do BA trưởng thêm vào README mục 9 khi soát chéo bộ tài liệu, để các yêu cầu VH-NSU-06, VH-ADM-05, VH-IMP-02 và tách nhiệm (02 mục 6) có nơi lưu.
+Các collection dưới đây do BA trưởng thêm vào README mục 9 khi soát chéo và khi chốt đề xuất bổ sung, để các yêu cầu VH-NSU-06, VH-ADM-05, VH-IMP-02 và tách nhiệm (02 mục 6) có nơi lưu.
 
 **`profile_change_requests`: đề nghị sửa hồ sơ** (GĐ B, VH-NSU-06)
 
@@ -1333,6 +1338,19 @@ Tài khoản trong danh sách không hiện ở báo cáo đối chiếu và **k
 | `approved_by` | ObjectId | Có | — | Quản trị hệ thống khác người được ngoại lệ |
 | `from_on`, `to_on` | date | Có | — | Tối đa 90 ngày; hết hạn thì hệ thống gỡ vai trò cấp sau (VH-BR-17) |
 | `notified_audit_at` | Date | Có | — | Lúc báo kiểm soát |
+
+**`company_holidays`: ngày nghỉ của công ty** (GĐ D, VH-ORG-08)
+
+| Trường | Kiểu | Bắt buộc | Mức mật | Mô tả / ràng buộc |
+|---|---|---|---|---|
+| `_id` | ObjectId | Có | — | Khoá |
+| `from_on`, `to_on` | date | Có | C0 | Ngày đầu, ngày cuối (bằng nhau nếu nghỉ một ngày) |
+| `name` | string | Có | C0 | Ví dụ "Tết Nguyên đán 2027" |
+| `legal_entity_codes` | array<string> | Không | C0 | Trống là áp cho toàn tập đoàn |
+| `source` | enum | Có | — | `goi_y` (hệ thống gợi ý theo Bộ luật Lao động, chờ xác nhận) · `hcns` |
+| `confirmed_by`, `confirmed_at` | ObjectId, Date | Có khi đã xác nhận | — | HC-NS xác nhận |
+
+Chỉ mục: `{from_on, to_on}`.
 
 ## 4. Luồng trạng thái
 
@@ -1655,6 +1673,8 @@ Ký hiệu: **Gốc** = nơi duy nhất được sửa · Bản sao = nhận t�
 
 ## 9. Đề xuất bổ sung (chưa cấp mã)
 
+**Đã xử lý ngày 08/10/2026** ([12](12-cau-hoi-rui-ro.md) mục 6): 1 → nhận các trường bổ sung; 2, 3 → để sau (GĐ E); 4 → nhận theo Q-10 (giữ 24 tháng trong hệ thống, xuất lưu trữ hằng năm giữ 5 năm); 5 → nhận (D-BA-27).
+
 | # | Đề xuất | Lý do | Ai quyết |
 |---|---|---|---|
 | 1 | Duyệt các **trường bổ sung** so với README mục 9: `org_units.function_code`, `app_roles.unit_scoped`, `app_roles.allowed_unit_types`, `apps.people_data_level`, `access_grants.unit_code`, các bộ đếm `event_seq` | Cần cho ánh xạ đơn vị ở VClinks, VCwiki (07 mục 8, 9), cho `vh_roles` có đơn vị (VH-BR-24) và cho tối thiểu hoá dữ liệu | Chủ dự án, trưởng nhóm dev |
@@ -1668,3 +1688,4 @@ Ký hiệu: **Gốc** = nơi duy nhất được sửa · Bản sao = nhận t�
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
 | 0.1 | 08/10/2026 10:16 | Claude Code (vai BA) | Tạo tài liệu: sơ đồ quan hệ, từ điển 23 collection kèm chỉ mục và ví dụ, 5 luồng trạng thái, mô hình thay đổi có ngày hiệu lực, phân loại mức mật, thời hạn lưu và ẩn danh, nguồn sự thật, 5 đề xuất | README bộ tài liệu 0.1 |
+| 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Thêm trường (`nickname`, `photo.source nhan_vien`, `google_id`, `requestable`, `removed_reason tu_tra`, `review_campaigns.kind`, `is_test`, `doi_chieu_vc_id`…) và collection `company_holidays`; tóm tắt ghi quyết định Q-02, 10, 11, 13; ghi xử lý đề xuất mục 9 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |

@@ -1,6 +1,6 @@
 # VC Home — Đặc tả màn hình
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -15,7 +15,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
   - Hộp duyệt khoá "Duyệt các mục đã chọn" khi có vai trò nhạy cảm; uỷ quyền tối đa 30 ngày.
   - Nhập Excel: tải mẫu → kiểm thử (OK / Cảnh báo / Lỗi) → ghi thật trong 24 giờ; còn dòng lỗi thì không ghi.
   - Quản trị hệ thống khoá, mở khoá, gắn lại tài khoản ở ngăn "Tài khoản" của VH-MH-11; báo cáo nằm ở ngăn "Báo cáo" của VH-MH-17 (menu "Báo cáo" ở nhóm QUẢN LÝ).
-- **Việc còn mở:** 12 điểm lệch ở mục 9 (lớn nhất: Tổ / Nhóm có con hay không giữa 02 và 04; nhãn nguồn quyền; tên nút ở 04); 8 đề xuất ở mục 10.
+- **Đã xử lý:** 12 điểm lệch ở mục 9 (theo [12](12-cau-hoi-rui-ro.md) mục 5) và 8 đề xuất ở mục 10 (theo 12 mục 6). Không còn việc mở.
 - **Người duyệt xem kỹ:** bảng menu theo vai trò (mục 3), VH-MH-05 (trường và kiểm tra của yêu cầu quyền), VH-MH-08 (duyệt hàng loạt, uỷ quyền), VH-MH-11 (thao tác trạng thái, ngăn Tài khoản), VH-MH-16 (ngưỡng duyệt hai người), mục 9 và 10.
 
 ## Mục lục
@@ -1834,6 +1834,8 @@ Các điểm dưới đây cần người duyệt chốt. Tài liệu này **kh�
 
 ## 10. Đề xuất bổ sung (chưa cấp mã)
 
+**Đã xử lý ngày 08/10/2026** ([12](12-cau-hoi-rui-ro.md) mục 6): 1 → kiểm soát xem luật chỉ đọc (02 ma trận, VH-MH-16); 2 → VH-REQ-07; 3 → VH-HOM-09; 4 → gộp VH-HOM-05; 5 → gộp VH-HOM-08; 6 → VH-ADM-06; 7 → để sau; 8 → không làm (rủi ro riêng tư; dùng tra cứu quyền VH-ACC-08).
+
 | # | Đề xuất | Lý do | Ảnh hưởng nếu làm |
 |---|---|---|---|
 | 1 | Cho kiểm soát xem danh sách luật và điều kiện (chỉ đọc) ở VH-MH-16 | Kiểm soát tra được quyền nguồn "Luật" nhưng không xem được điều kiện; 04 VH-REV-01 bước 10 còn báo kiểm soát khi luật quá hạn rà soát | Thêm dòng ở ma trận 02 |
@@ -1852,3 +1854,4 @@ Các đề xuất màn khác đã có ở 04 mục 13 (ví dụ màn "Tài kho�
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
 | 0.1 | 08/10/2026 11:06 | Claude Code (vai BA) | Tạo tài liệu: quy ước chung, sơ đồ trang, menu theo vai trò, khung chung (header, thông báo, menu), đặc tả 21 màn VH-MH-01…21 kèm khung dây cho 6 màn chính; đồng bộ câu chữ và giới hạn với 04; 12 điểm lệch với README, 02, 04; 8 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |
+| 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Ghi kết quả xử lý 8 đề xuất ở mục 10 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |

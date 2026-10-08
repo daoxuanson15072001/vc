@@ -1,6 +1,6 @@
 # VC Home — Quy trình nghiệp vụ
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -9,7 +9,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 - **Ba điểm quyền đổi tự động:** vào làm (thêm quyền theo luật), chuyển vị trí (quyền mới có ngay, quyền cũ gỡ sau thời gian chuyển tiếp của app), nghỉ việc (khoá, đăng xuất, gỡ hết, báo app theo đúng thứ tự VH-BR-14).
 - **Quyền ngoại lệ:** xin, duyệt 1 hoặc 2 bước, không ai tự duyệt, có hạn, rà soát mỗi quý; quá 14 ngày không xác nhận thì tự gỡ.
 - **Thời gian đích:** đăng xuất chung ≤ 10 giây; khoá khẩn cấp ≤ 1 phút; khoá theo Google ≤ 65 phút; tính lại quyền ≤ 5 phút.
-- **Việc còn mở:** Q-07 (app đã có người dùng trong giai đoạn chuyển tiếp), Q-13 (định nghĩa ngày nghỉ việc); 19 đề xuất chưa cấp mã ở mục 15; 5 điểm lệch ở README và 02 ghi ở cuối mục 15.
+- **Quyết định liên quan** (đã chốt ngày 08/10/2026, [12](12-cau-hoi-rui-ro.md) mục 4, 6): Q-13 khoá lúc 00:00 ngày đầu không còn làm; Q-14 giữ nhóm mặc định 30 ngày sau R3; 19 đề xuất ở mục 15 và 5 điểm lệch đã xử lý hết.
 - **Người duyệt xem kỹ:**
   - VH-QT-05: thời gian chuyển tiếp và bàn giao khách của VClinks;
   - VH-QT-06: thứ tự 4 bước nghỉ việc, khoá Google bên nào trước;
@@ -1245,6 +1245,8 @@ flowchart TD
 
 ## 15. Đề xuất bổ sung (chưa cấp mã)
 
+**Đã xử lý ngày 08/10/2026** (BA trưởng, người dùng uỷ quyền; [12](12-cau-hoi-rui-ro.md) mục 6): 1 → gộp VH-ACC-03; 2 → VH-BR-25 mở rộng; 3 → VH-INT-09; 4, 5, 10, 14 đã xử lý từ trước (D-BA-13, 26, 27, 07, 28); 6 → VH-BR-16; 7, 8, 9 → VH-BR-12; 11, 19 → gộp VH-ACC-01 và VH-BR-25; 12 → VH-IMP-05; 13 → gộp VH-HOM-02; 15 → gộp VH-LCM-04; 16 → gộp VH-LCM-02; 17 → VH-BR-11; 18 → VH-BR-25 (chủ dự án duyệt thay khi cả hai quản trị hệ thống và chủ app vắng).
+
 Các điểm dưới đây chưa có mã trong README. Người duyệt chọn: cấp mã mới, gộp vào yêu cầu có sẵn, hoặc bỏ.
 
 | # | Đề xuất | Vì sao | Liên quan |
@@ -1286,3 +1288,4 @@ Các điểm dưới đây chưa có mã trong README. Người duyệt chọn: 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
 | 0.1 | 08/10/2026 10:18 | Claude Code (vai BA) | Tạo tài liệu: bức tranh vòng đời, quy ước chung, 12 quy trình VH-QT-01 đến VH-QT-12 (tổng quan, sơ đồ Mermaid, bảng bước truy về VH-xxx và VH-BR, ngoại lệ, chỉ số đo), checklist hợp đồng tích hợp, 19 đề xuất chưa cấp mã, 5 điểm lệch ở README và 02 | README bộ tài liệu 0.1 |
+| 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Ghi kết quả xử lý 19 đề xuất ở mục 15 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |

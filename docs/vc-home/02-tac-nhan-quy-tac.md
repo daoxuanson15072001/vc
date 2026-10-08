@@ -1,6 +1,6 @@
 # VC Home — Tác nhân, vai trò và quy tắc nghiệp vụ
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -96,6 +96,7 @@ Ký hiệu:
 | Rà soát (xác nhận, gỡ) | — | — | (p) | — | — | — | (đ) | — |
 | Danh mục app, URL, cấu hình | — | — | — | — | ✓ | (đ: app mình) | (đ) | — |
 | Vai trò app | — | — | — | — | ✓ | (p: app mình) | (đ) | — |
+| Luật cấp quyền: xem | — | — | — | — | ✓ | (p: app mình) | (đ) | — |
 | Luật cấp quyền: soạn | — | — | — | — | ✓ | (p: app mình) | — | — |
 | Luật cấp quyền: duyệt bước hai (VH-BR-25) | — | — | — | — | ✓ (không tự duyệt) | (p: app mình) | — | — |
 | Cấp quyền khẩn cấp | — | — | — | — | ✓ | — | — | — |
@@ -164,7 +165,7 @@ Ghi chú:
 | Nguồn | Ai tạo | Hạn | Gỡ khi |
 |---|---|---|---|
 | Luật (quyền mặc định) | Hệ thống, từ luật đã duyệt | Không hạn | Hồ sơ không còn thoả luật (sau thời gian chuyển tiếp VH-BR-11), luật bị tắt, nghỉ việc |
-| Yêu cầu được duyệt (ngoại lệ) | Người xin, sau khi đủ người duyệt | Bắt buộc. Mặc định 90 ngày, tối đa 365 ngày | Hết hạn, rà soát không xác nhận, quản trị gỡ, nghỉ việc |
+| Yêu cầu được duyệt (ngoại lệ) | Người xin, sau khi đủ người duyệt | Bắt buộc. Mặc định 90 ngày, tối đa 365 ngày; **vai trò nhạy cảm tối đa 90 ngày** | Hết hạn, rà soát không xác nhận, quản trị gỡ, nghỉ việc |
 | Khẩn cấp (ngoại lệ) | Quản trị hệ thống, bắt buộc ghi lý do | Tối đa 7 ngày | Hết hạn, quản trị gỡ, nghỉ việc |
 
 Cùng một cặp (app, vai trò) có thể đến từ nhiều nguồn. Quyền còn hiệu lực khi **ít nhất một** nguồn còn hiệu lực.
@@ -185,6 +186,7 @@ Cùng một cặp (app, vai trò) có thể đến từ nhiều nguồn. Quyền
 - Quyền mới có ngay.
 - Quyền không còn thoả luật bị gỡ sau **thời gian chuyển tiếp** của app (VH-APP-06): mặc định 0 ngày, tối đa 7 ngày. Ví dụ VClinks đặt 3 ngày để NVKD chuyển sang CSKH kịp bàn giao khách.
 - Trong thời gian chuyển tiếp, ô app hiện "Còn N ngày".
+- Thay đổi nhập muộn (ngày hiệu lực đã qua): thời gian chuyển tiếp tính từ **lúc áp**, không tính từ ngày hiệu lực, để người dùng không mất quyền đột ngột.
 
 ### VH-BR-12 — Duyệt yêu cầu
 - **Bước 1:** quản lý trực tiếp (theo vị trí chính) của người được cấp.
@@ -193,6 +195,10 @@ Cùng một cặp (app, vai trò) có thể đến từ nhiều nguồn. Quyền
   - người xin trùng người duyệt bước nào thì bước đó chuyển lên quản lý của người duyệt;
   - chủ app xin vai trò nhạy cảm của chính app mình thì bước 2 chuyển cho quản trị hệ thống.
 - **Uỷ quyền:** người duyệt vắng có thể uỷ cho người khác trong khoảng thời gian (VH-REQ-03). Người được uỷ không được duyệt cho chính mình.
+- **Chuyển người duyệt:**
+  - người được cấp đổi vị trí chính khi yêu cầu đang chờ: bước 1 chuyển sang quản lý mới;
+  - quản lý đang nghỉ dài ngày mà không uỷ quyền: sau 2 ngày làm việc, bước 1 chuyển cho trưởng đơn vị;
+  - người duyệt bước 1 cũng là chủ app duy nhất của app đó: bước 2 chuyển cho quản trị hệ thống.
 
 ### VH-BR-13 — Yêu cầu quá hạn
 - Yêu cầu chưa duyệt xong sau **7 ngày** tự huỷ và báo người xin.
@@ -216,10 +222,11 @@ Cùng một cặp (app, vai trò) có thể đến từ nhiều nguồn. Quyền
 
 ### VH-BR-16 — Rà soát
 - **Mỗi quý**, quản trị hệ thống mở đợt rà soát cho mọi **quyền ngoại lệ** còn hiệu lực.
-- **Người rà soát:** trưởng đơn vị của vị trí chính của người giữ quyền.
+- **Người rà soát:** trưởng đơn vị của vị trí chính của người giữ quyền. Đơn vị không có trưởng thì lên trưởng đơn vị cấp trên gần nhất. Uỷ quyền duyệt (VH-REQ-03) áp cả cho rà soát.
 - **Thời hạn:** 14 ngày.
 - **Kết quả:** quyền được xác nhận giữ nguyên hạn cũ; quyền bị chọn gỡ hoặc không được xác nhận trong hạn thì **tự gỡ** và báo người giữ quyền.
-- Quyền mặc định (từ luật) **không** rà soát từng người; thay vào đó **rà soát luật** mỗi nửa năm.
+- Quyền mặc định (từ luật) **không** rà soát từng người; thay vào đó **rà soát luật** mỗi nửa năm (VH-REV-04).
+- Ngày nghỉ của công ty (VH-ORG-08) không tính vào 14 ngày.
 
 ### VH-BR-17 — Tách nhiệm
 Xem bảng xung đột ở mục 6. Hệ thống phải chặn, không chỉ cảnh báo.
@@ -265,6 +272,9 @@ Mọi ngày giờ lưu theo UTC, hiển thị và tính hiệu lực theo `Asia/
   - người thứ hai (quản trị hệ thống khác, hoặc chủ app của app đó) phải duyệt trước khi luật có hiệu lực.
 - Từ 20 người trở xuống, và không phải vai trò nhạy cảm: một người soạn và áp được, vẫn ghi nhật ký.
 - **Luật cấp vai trò nhạy cảm** (VH-APP-05) luôn cần người thứ hai duyệt, bất kể bao nhiêu người bị ảnh hưởng (khớp quy định duyệt hai người với vai trò nhạy cảm của VClinks, PQ-42).
+- **Thay đổi hàng loạt cũng vậy:** lô nhập Excel, đổi cơ cấu, sửa hồ sơ hàng loạt mà làm thêm hoặc mất quyền của từ 21 người trở lên thì quản trị hệ thống xác nhận lần hai trước khi áp (HC-NS không tự áp, VH-BR-17).
+- **Người thứ hai thay thế:** luôn có ít nhất 2 quản trị hệ thống (Q-07). Khi cả hai và chủ app đều vắng quá 2 ngày làm việc, chủ dự án duyệt thay.
+- **Lúc áp lệch bản đã duyệt:** khi áp, nếu số người bị ảnh hưởng lệch quá 20% so với bản xem trước đã duyệt thì phải xem trước và duyệt lại.
 
 ## 5. RACI theo quy trình
 
@@ -306,3 +316,4 @@ Hệ thống chặn các tổ hợp sau. Nếu một người buộc phải gi�
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
 | 0.1 | 08/10/2026 10:04 | Claude Code (vai BA) | Tạo tài liệu: tác nhân, vai trò, ma trận quyền, 25 quy tắc, RACI, tách nhiệm | README bộ tài liệu 0.1 |
+| 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Sửa VH-BR-09 (vai trò nhạy cảm tối đa 90 ngày), VH-BR-11 (nhập muộn), VH-BR-12 (chuyển người duyệt), VH-BR-16 (đơn vị không có trưởng, uỷ quyền, ngày nghỉ), VH-BR-25 (thay đổi hàng loạt, người duyệt thay, lệch > 20%); ma trận cho kiểm soát xem luật; RACI thêm VH-QT-01 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |

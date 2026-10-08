@@ -1,6 +1,6 @@
 # VC Home — Hợp đồng tích hợp cho app
 
-Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
+Phiên bản 0.2 · 08/10/2026 · Trạng thái: Đã chốt nội dung (chờ đội phát triển rà)
 
 ## Tóm tắt
 
@@ -13,7 +13,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 - **VClinks:** 10 vai trò app trùng đúng 10 khoá vai trò đang có trong code (`ROLE_KEYS`, `ROLE_MATRIX`). Cây tổ chức và người dùng nhận từ VC People thay cho nhập tay (M1b-03). Nghỉ việc, chuyển tổ mở bàn giao (M1b-11), không tự chuyển khách. Chuyển tiếp 3 ngày.
 - **VCwiki:** phân hệ ORG thành bên đọc; `admin` / `member` thành `quan_tri`, `thanh_vien`, thêm `bien_tap`. Vai trò theo lĩnh vực, kho, mức mật vẫn ở VCwiki. Chia sẻ kho theo đơn vị (SYS-35) dùng mã đơn vị VC People.
 - **Token máy, MCP, thiết bị của từng app giữ nguyên.**
-- **Việc còn mở:** VC Home chưa có sự kiện cho tạm khoá, khoá khẩn cấp và báo trước ngày nghỉ (mục 11); Q-14 (giai đoạn chuyển tiếp của tài khoản chưa có hồ sơ).
+- **Đã xử lý ngày 08/10/2026:** có sự kiện tạm khoá, mở khoá (`vh.person.locked`, `unlocked`), báo trước nghỉ việc hoặc chuyển vị trí (`vh.person.change_scheduled`), sự kiện thử (`vh.test.ping`) và VH-API-10; Q-14 đã chốt (giữ nhóm mặc định 30 ngày sau R3). Việc còn lại: thử mapper `vh_roles` ở SSO-00.
 - **Người duyệt xem kỹ:**
   - mục 2.3 (vai trò trong token) và 2.6 (danh sách kiểm token);
   - mục 6.3–6.5 (chữ ký, gửi lại, thứ tự sự kiện);
@@ -626,6 +626,28 @@ API này **do app cung cấp**, VC Home gọi. Giai đoạn E, không bắt bu�
 
 ---
 
+### 5.12 VH-API-10 — Danh sách vai trò của chính app gọi
+
+| | |
+|---|---|
+| Gọi | `GET /api/v1/apps/{app_key}/roles` |
+| Ai gọi | Token máy của chính app đó (`<app>-service`), phạm vi `vh.grants.read` |
+| GĐ | C |
+| Dùng để | App tự kiểm bảng ánh xạ vai trò còn đủ khi chủ app thêm hoặc ngừng vai trò trên VH-MH-15 |
+
+```json
+{
+  "app": "vclinks",
+  "roles": [
+    { "role": "nvkd", "name": "Nhân viên kinh doanh", "sensitive": false, "unit_scoped": true, "requestable": true, "status": "dang_dung" },
+    { "role": "admin", "name": "Quản trị VClinks", "sensitive": true, "unit_scoped": false, "requestable": false, "status": "dang_dung" }
+  ],
+  "updated_at": "2026-11-25T03:00:00Z"
+}
+```
+
+Lỗi: 403 khi token là của app khác.
+
 ## 6. Sự kiện gửi app
 
 ### 6.1 Danh sách sự kiện
@@ -642,6 +664,8 @@ Theo README mục 10. **Luồng** là đơn vị giữ thứ tự (mục 6.5).
 | `vh.person.left` | Nghỉ việc có hiệu lực | `person` | C | Mọi app đăng ký |
 | `vh.person.locked` | Tài khoản bị khoá tạm: khoá khẩn cấp (VH-AUT-06), khoá do Google (VH-AUT-07), HC-NS đặt trạng thái tạm khoá | `person` | C | Mọi app đăng ký |
 | `vh.person.unlocked` | Mở khoá | `person` | C | Mọi app đăng ký |
+| `vh.person.change_scheduled` | HC-NS lưu, đổi ngày hoặc huỷ ngày nghỉ việc hay chuyển vị trí chính trong tương lai (VH-INT-09) | `person` | C | Mọi app đăng ký |
+| `vh.test.ping` | Bấm "Gửi thử" ở VH-MH-15 (VH-INT-10); không vào luồng thứ tự | — | C | Chỉ app được thử |
 | `vh.grant.added` | Thêm một quyền hiệu lực (app, vai trò, đơn vị) | `grant` của app đó | C | **Chỉ** app của quyền |
 | `vh.grant.removed` | Gỡ một quyền hiệu lực | `grant` của app đó | C | **Chỉ** app của quyền |
 | `vh.org.unit_changed` | Thêm, đổi tên, chuyển, gộp, ngừng đơn vị; đổi trưởng đơn vị | `org_unit` | C | Mọi app đăng ký |
@@ -830,9 +854,14 @@ Từ `status` trở xuống là C1. App mức `C0` nhận ảnh chụp không c�
     { "op": "open", "position": { "kind": "chinh", "unit": "VCP-TBH2", "job_title": "NVKD", "job_function": "ban_hang", "manager": "VCP0046", "start_on": "2026-12-01", "end_on": null } }
   ],
   "primary_changed": true,
-  "manager_changed": true
+  "manager_changed": true,
+  "roles_in_transition": [
+    { "app": "vclinks", "role": "nvkd", "unit": "VCP-TBH1", "remove_at": "2026-12-04T17:00:00Z" }
+  ]
 }
 ```
+
+- `roles_in_transition` (bổ sung 08/10/2026, 04 mục 14.2): các vai trò của **app nhận** đang trong thời gian chuyển tiếp và lúc sẽ gỡ, để app bắt đầu bàn giao ngay.
 
 Vai trò của app đổi theo nằm ở sự kiện `vh.grant.*` riêng. Vai trò cũ còn trong thời gian chuyển tiếp thì VH-API-06 trả `status: "chuyen_tiep"` và `transition_until`.
 
@@ -876,6 +905,32 @@ Không bao giờ có lý do nghỉ ([05](05-du-lieu.md) mục 6).
 - `source`: `khan_cap` (VH-AUT-06), `google` (VH-AUT-07) hoặc `hcns` (trạng thái tạm khoá trên hồ sơ). Không có lý do chi tiết; lý do nằm trong nhật ký của VC Home.
 - Khoá: VC ID đã đăng xuất người đó trước khi sự kiện đi. Quyền **không** bị gỡ (khác `vh.person.left`); app chỉ chặn đăng nhập và dừng các việc đang chờ của người đó.
 - Mở khoá: app cho đăng nhập lại; không tự khôi phục việc đã dừng.
+
+**`vh.person.change_scheduled`**
+
+```json
+{
+  "person": { "…": "ảnh chụp người" },
+  "kind": "nghi_viec",
+  "status": "hen",
+  "effective_on": "2026-11-30",
+  "new_primary_unit": null,
+  "handover_to": { "employee_code": "VCP0046", "sub": "5f6e…" }
+}
+```
+
+- `kind`: `nghi_viec` · `chuyen_vi_tri`. `status`: `hen` (mới đặt) · `doi_ngay` · `huy`. `new_primary_unit` chỉ có khi `chuyen_vi_tri`.
+- `handover_to` tuỳ chọn: người nhận bàn giao do HC-NS hoặc quản lý gợi ý; app tự quyết bàn giao.
+- Không có lý do. Đến ngày hiệu lực vẫn có `vh.person.left` hoặc `vh.person.moved` như thường.
+- VClinks dùng để bật cờ "Sắp nghỉ" (PQ-82) và nhắc giám sát chuẩn bị bàn giao.
+
+**`vh.test.ping`**
+
+```json
+{ "message": "Gửi thử từ VC Home", "sent_by": { "employee_code": "VCP0007" } }
+```
+
+- Ký và gửi như sự kiện thật (mục 6.3); không có `sequence`, không tự gửi lại. App chỉ cần trả 2xx; không xử lý nghiệp vụ.
 
 **`vh.grant.added`** và **`vh.grant.removed`**
 
@@ -1012,7 +1067,7 @@ Vai trò app `vclinks:*` ở VC Home **trùng đúng** 10 khoá vai trò của V
 | `vclinks:marketing` | `marketing` | Nhân viên marketing | `nhom_marketing` | Không | LEAD, KÊNH | Luật: chức năng `marketing` |
 | `vclinks:sale_admin` | `sale_admin` | Sale admin | `nhom_sale_admin` | Không | DV (hồ sơ, không chat) | Luật: chức năng `sale_admin` |
 | `vclinks:ke_toan` | `ke_toan` | Kế toán | `nhom_ke_toan` | Không | DV (phiếu, hoá đơn) | Luật: chức năng `ke_toan` |
-| `vclinks:nv_thi_truong` | `nv_thi_truong` | NV thị trường | `nhom_thi_truong` | Không | TUYẾN | Luật: chức năng `thi_truong` |
+| `vclinks:nv_thi_truong` | `nv_thi_truong` | NV thị trường | `nhom_thi_truong` | Không | TUYẾN | Luật: chức năng `ban_hang` + chức danh "Nhân viên thị trường" (12 mục 4.2) |
 
 - Mọi vai trò `vclinks:*` đều `unit_scoped = true`.
 - **Cờ "Trưởng nhóm"** của VClinks (`GROUP_LEAD_ROLES`) = người đó là trưởng đơn vị VC People của đúng đơn vị trong `vh_roles[].unit`. Không có vai trò riêng.
@@ -1193,6 +1248,8 @@ Vào ở GĐ E theo mục 7. Tên vai trò dưới đây chỉ là ví dụ; ch�
 
 ## 11. Đề xuất bổ sung (chưa cấp mã)
 
+**Đã xử lý ngày 08/10/2026** (BA trưởng, người dùng uỷ quyền; [12](12-cau-hoi-rui-ro.md) mục 6): 1, 6, 7 đã xử lý từ trước; 2 → VH-INT-09 (`vh.person.change_scheduled`); 3 → `roles_in_transition` trong `vh.person.moved`; 4 → VH-INT-10 (`vh.test.ping`); 5 → VH-API-10 (mục 5.12); 8 → thêm vào phiên thử kỹ thuật SSO-00; 9, 10 → để sau.
+
 | # | Đề xuất | Lý do | Ai quyết |
 |---|---|---|---|
 | 1 | ~~Sự kiện tạm khoá / mở khoá~~ | **Đã đưa vào** README mục 10 và mục 6 của file này (`vh.person.locked`, `vh.person.unlocked`) ngày 08/10/2026 | — |
@@ -1211,3 +1268,4 @@ Vào ở GĐ E theo mục 7. Tên vai trò dưới đây chỉ là ví dụ; ch�
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
 | 0.1 | 08/10/2026 10:16 | Claude Code (vai BA) | Tạo tài liệu: nguyên tắc, claim theo GĐ A/B/C có ví dụ, `resource_access` và `vh_roles`, danh sách kiểm token, đăng xuất phía máy chủ, token máy, VH-API-01…09, 11 loại sự kiện (gồm khoá, mở khoá do BA trưởng thêm sau khi soát) kèm phong bì, chữ ký HMAC, gửi lại, thứ tự, kéo dự phòng; danh sách kiểm đưa app vào; hướng dẫn riêng VClinks, VCwiki; ghi chú VCsale, VCgarage, VC AI; 10 đề xuất | README bộ tài liệu 0.1 |
+| 0.2 | 08/10/2026 11:31 | Claude Code (vai BA trưởng) | Thêm sự kiện `vh.person.change_scheduled` (VH-INT-09), `vh.test.ping` (VH-INT-10), trường `roles_in_transition` trong `vh.person.moved`, VH-API-10 (mục 5.12); luật `vclinks:nv_thi_truong` dùng chức năng `ban_hang` + chức danh; ghi xử lý đề xuất mục 11 | Người dùng uỷ quyền chốt toàn bộ câu hỏi và đề xuất ngày 08/10/2026; [12](12-cau-hoi-rui-ro.md) mục 4, 6 |
