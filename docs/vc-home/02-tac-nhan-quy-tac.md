@@ -109,7 +109,7 @@ Ký hiệu:
 Ghi chú:
 - "Quản lý" và "Trưởng đơn vị" là vai trò suy ra. Khi người đó đổi vị trí, phạm vi đổi theo ngay lúc thay đổi có hiệu lực.
 - Quản trị hệ thống thấy hồ sơ ở chế độ chỉ đọc để xử lý sự cố; mỗi lần xem hồ sơ người khác đều ghi nhật ký.
-- "Duyệt bước 1" chỉ dành cho **quản lý trực tiếp** theo vị trí chính (VH-BR-12), không phải cả cây trên.
+- "Duyệt bước 1" chỉ dành cho **quản lý trực tiếp** theo vị trí chính (VH-BR-12), không phải cả cây trên. Ngoại lệ: người xin không có quản lý trực tiếp (quản lý đã nghỉ, VH-BR-05) thì **trưởng đơn vị** của vị trí chính duyệt thay.
 - "Khoá tài khoản khẩn cấp" chỉ quản trị hệ thống làm. Riêng HC-NS đặt trạng thái hồ sơ "Tạm khoá" (ví dụ đình chỉ công việc) thì đăng nhập cũng bị khoá, với nguồn khoá `hcns` (VH-NSU-04); đây là thay đổi hồ sơ, không phải khoá khẩn cấp.
 
 ## 4. Quy tắc nghiệp vụ
@@ -260,10 +260,10 @@ Mọi ngày giờ lưu theo UTC, hiển thị và tính hiệu lực theo `Asia/
 - Token ghi đơn vị của từng vai trò (07 mục token) để app tính đúng phạm vi.
 
 ### VH-BR-25 — Luật lớn hoặc nhạy cảm phải xem trước và duyệt hai người
-- Thêm, sửa hoặc tắt một luật mà làm **thêm hoặc mất quyền của trên 20 người** thì:
+- Thêm, sửa hoặc tắt một luật mà làm **thêm hoặc mất quyền của từ 21 người trở lên** thì:
   - người soạn phải xem danh sách người bị ảnh hưởng (VH-ACC-03);
   - người thứ hai (quản trị hệ thống khác, hoặc chủ app của app đó) phải duyệt trước khi luật có hiệu lực.
-- Dưới 20 người: một người soạn và áp được, vẫn ghi nhật ký.
+- Từ 20 người trở xuống, và không phải vai trò nhạy cảm: một người soạn và áp được, vẫn ghi nhật ký.
 - **Luật cấp vai trò nhạy cảm** (VH-APP-05) luôn cần người thứ hai duyệt, bất kể bao nhiêu người bị ảnh hưởng (khớp quy định duyệt hai người với vai trò nhạy cảm của VClinks, PQ-42).
 
 ## 5. RACI theo quy trình
@@ -276,6 +276,7 @@ Ký hiệu:
 
 | Quy trình | Nhân viên | Quản lý | Trưởng ĐV | HC-NS | Quản trị HT | Chủ app | Kiểm soát |
 |---|---|---|---|---|---|---|---|
+| VH-QT-01 Đăng nhập và mở app | R/A | — | — | — | C (vận hành VC ID) | I | — |
 | VH-QT-03 Nhập dữ liệu ban đầu | — | C | C | R/A | R | I | I |
 | VH-QT-04 Vào làm | I | C | I | R/A | I | I | — |
 | VH-QT-05 Chuyển vị trí | I | C | I | R/A | I | I | — |

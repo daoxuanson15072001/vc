@@ -9,7 +9,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 - **Ba điểm quyền đổi tự động:** vào làm (thêm quyền theo luật), chuyển vị trí (quyền mới có ngay, quyền cũ gỡ sau thời gian chuyển tiếp của app), nghỉ việc (khoá, đăng xuất, gỡ hết, báo app theo đúng thứ tự VH-BR-14).
 - **Quyền ngoại lệ:** xin, duyệt 1 hoặc 2 bước, không ai tự duyệt, có hạn, rà soát mỗi quý; quá 14 ngày không xác nhận thì tự gỡ.
 - **Thời gian đích:** đăng xuất chung ≤ 10 giây; khoá khẩn cấp ≤ 1 phút; khoá theo Google ≤ 65 phút; tính lại quyền ≤ 5 phút.
-- **Việc còn mở:** Q-07 (app đã có người dùng trong giai đoạn chuyển tiếp), Q-13 (định nghĩa ngày nghỉ việc); 21 đề xuất chưa cấp mã ở mục 15; 7 điểm lệch ở README và 02 ghi ở cuối mục 15.
+- **Việc còn mở:** Q-07 (app đã có người dùng trong giai đoạn chuyển tiếp), Q-13 (định nghĩa ngày nghỉ việc); 19 đề xuất chưa cấp mã ở mục 15; 5 điểm lệch ở README và 02 ghi ở cuối mục 15.
 - **Người duyệt xem kỹ:**
   - VH-QT-05: thời gian chuyển tiếp và bàn giao khách của VClinks;
   - VH-QT-06: thứ tự 4 bước nghỉ việc, khoá Google bên nào trước;
@@ -175,7 +175,7 @@ Cách nối kỹ thuật giữa VC ID và VC Home API ở bước gắn hồ sơ
 | Tài khoản bị khoá trên VC ID | Trang "Tài khoản đã bị khoá. Liên hệ quản trị viên."; ghi nhật ký | VH-AUT-06 |
 | Tài khoản công ty chưa có hồ sơ (từ GĐ B) | Vào được VC Home nhưng trang chủ trống, dòng "Tài khoản chưa có hồ sơ nhân sự, liên hệ HC-NS"; không có ô app (giai đoạn chuyển tiếp theo Q-07) | VH-AUT-08, VH-BR-02 |
 | Email đăng nhập khác email trên hồ sơ (đổi tên, đổi domain) | Không gắn; trang trống như trên; HC-NS sửa email trên hồ sơ trước, lần đăng nhập sau gắn đúng | VH-BR-01 |
-| Hồ sơ đã gắn với một `sub` khác | Không tự gắn lại; báo QTHT; QTHT gắn lại, ghi lý do và nhật ký | VH-BR-01 |
+| Hồ sơ đã gắn với một `sub` khác | Không tự gắn lại; báo QTHT; QTHT gắn lại ở màn Nhân sự, ngăn Tài khoản, ghi lý do và nhật ký | VH-BR-01, VH-MH-11 |
 | Trong app, email đã gắn với định danh khác | App từ chối mã `identity_conflict`, báo admin app | VH-BR-01 |
 | Không thuộc nhóm `app-<key>`, hoặc (từ GĐ C) không có vai trò app | App từ chối mã `app_not_granted`; VC Home không hiện ô; nhân viên xin quyền theo VH-QT-08 | VH-BR-20, VH-BR-21 |
 | Token có vai trò lạ, app chưa ánh xạ | App bỏ qua vai trò đó, ghi log, không suy diễn quyền | VH-BR-20 |
@@ -263,7 +263,7 @@ flowchart TD
 | Bước | Ai / hệ thống | Làm gì | Yêu cầu (VH-xxx) | Quy tắc (VH-BR) |
 |---|---|---|---|---|
 | B1 | HC-NS, quản lý hoặc chính nhân viên | Báo QTHT: nghi lộ tài khoản, mất máy, cần chặn trước ngày nghỉ | VH-AUT-06 | VH-BR-14 |
-| B2 | QTHT | Khoá. GĐ A: lệnh `vc-provisioner disable <email> --reason "…"` hoặc màn quản trị VC ID. Từ GĐ B: màn quản trị của VC Home. Lý do bắt buộc | VH-AUT-06, VH-ADM-03 | VH-BR-17, VH-BR-18 |
+| B2 | QTHT | Khoá. GĐ A: lệnh `vc-provisioner disable <email> --reason "…"` hoặc màn quản trị VC ID. Từ GĐ B: màn Quản trị: Nhân sự, ngăn Tài khoản. Lý do bắt buộc | VH-AUT-06, VH-ADM-03, VH-MH-11 | VH-BR-17, VH-BR-18 |
 | B3 | VC ID | Khoá user, đăng xuất user: chạy A3–A4 cho mọi app | VH-AUT-06, VH-INT-04 | — |
 | B4 | App | Phiên bị thu hồi; lần đăng nhập sau bị chặn ngay ở VC ID | VH-AUT-06 | VH-BR-20 |
 | B5 | QTHT | Nếu nghi lộ: báo admin Google đổi mật khẩu và đăng xuất phiên Google; thu hồi token máy cá nhân trong từng app (xem đề xuất 4) | — | — |
@@ -292,6 +292,7 @@ Khoá khẩn cấp **không** gỡ quyền app. Quyền giữ nguyên để mở
 | Người dùng đóng trình duyệt, không đăng xuất | Phiên chung tự hết sau 12 giờ không dùng, tối đa 7 ngày | VH-AUT-05 |
 | Token máy cá nhân trong app (VClinks `vcz_` MCP, VCwiki `vcmcp_`) | Không đi qua VC ID nên khoá khẩn cấp không cắt; QTHT thu hồi trong từng app (đề xuất 4) | VH-AUT-06 |
 | Khoá nhầm người | QTHT mở khoá ngay, ghi lý do; người dùng đăng nhập lại | VH-AUT-06, VH-BR-18 |
+| HC-NS đặt hồ sơ "Tạm khoá" (ví dụ đình chỉ công việc) | Là thay đổi hồ sơ, không phải khoá khẩn cấp: đăng nhập bị khoá với nguồn khoá `hcns`, quyền app giữ nguyên; HC-NS bỏ trạng thái thì mở (02 mục 3, ghi chú) | VH-NSU-04, VH-BR-17 |
 | Google sập hoặc cấu hình Google hỏng, cần vào quản trị | Dùng tài khoản quản trị khẩn cấp ở realm `master` (2 người giữ, có TOTP) | VH-AUT-09 |
 | Tài khoản Google bị khoá rồi mở lại để chuyển thư | VC ID vẫn khoá tới khi QTHT quyết | VH-AUT-07 |
 | `vc-provisioner` không chạy quá 2 giờ | Cảnh báo vận hành | VH-ADM-04 |
@@ -390,7 +391,7 @@ flowchart TD
 | Người đang làm thiếu quản lý | Không cho xác nhận lô khi còn người như vậy (trừ người đứng đầu tập đoàn) | VH-BR-05 |
 | Tài khoản Google dùng chung (ví dụ hộp thư CSKH) | Không tạo hồ sơ nhân viên; đánh dấu "không phải nhân viên"; quyền app của tài khoản này xử lý theo Q-07 | VH-BR-01, VH-BR-02 |
 | File có cột dữ liệu cá nhân cấm | Bỏ cột đó, không lưu, báo HC-NS | VH-BR-19 |
-| Nhập nhầm một lô | Sửa bằng lô bổ sung; xem đề xuất 13 (huỷ lô) | VH-IMP-01 |
+| Nhập nhầm một lô | Sửa bằng lô bổ sung; xem đề xuất 12 (huỷ lô) | VH-IMP-01 |
 | Không đọc được Google Directory | Lô vẫn ghi được; đối chiếu ghi "chưa chạy"; chưa bật gắn tài khoản tới khi đối chiếu xong | VH-IMP-02 |
 
 ### 5.5 Chỉ số đo
@@ -469,14 +470,14 @@ flowchart TD
 | 9 | App | Kiểm chữ ký, xử lý một lần; chuẩn bị người dùng (VClinks: vai trò `nvkd` đúng tổ; VCwiki: thành viên). Lỡ sự kiện thì kéo lại | VH-INT-03, VH-INT-05, VH-API-07 | VH-BR-03 |
 | 10 | Nhân viên mới | Đăng nhập lần đầu (VH-QT-01); VC Home API gắn `sub` với hồ sơ theo email | VH-AUT-08 | VH-BR-01 |
 | 11 | VC Home | Trang chủ hiện thẻ hồ sơ, ô app kèm vai trò | VH-HOM-01, VH-HOM-02, VH-HOM-03 | VH-BR-21 |
-| 12 | Quản lý | Thấy người mới trong Đội của tôi; từ GĐ D nhận thông báo trong VC Home | VH-MH-09, VH-HOM-08 | VH-BR-23 |
+| 12 | Quản lý | Thấy người mới trong Đội của tôi; nhận thông báo (GĐ C qua email công ty, từ GĐ D thêm trong VC Home) | VH-MH-09, VH-HOM-08 | VH-BR-23 |
 | 13 | Nhân viên mới hoặc quản lý | Thiếu quyền thì xin ngoại lệ (VH-QT-08); quản lý xin thay được | VH-REQ-01, VH-REQ-05 | VH-BR-09 |
 
 ### 6.4 Ngoại lệ
 
 | Ngoại lệ | Cách xử lý | Liên quan |
 |---|---|---|
-| Đăng nhập trước ngày vào | Gắn tài khoản được nhưng chưa có quyền; trang chủ trống như tài khoản chưa có hồ sơ (đề xuất 14: hiện ngày bắt đầu) | VH-BR-02, VH-BR-07 |
+| Đăng nhập trước ngày vào | Gắn tài khoản được nhưng chưa có quyền; trang chủ trống như tài khoản chưa có hồ sơ (đề xuất 13: hiện ngày bắt đầu) | VH-BR-02, VH-BR-07 |
 | Tới ngày vào vẫn chưa có tài khoản Google | Hồ sơ vẫn có hiệu lực, quyền vẫn tính; đối chiếu Google báo HC-NS và admin Google; người mới đăng nhập được khi có tài khoản | VH-IMP-02 |
 | Email đăng nhập khác email trên hồ sơ | Không gắn; HC-NS sửa email hồ sơ; lần sau gắn đúng | VH-BR-01 |
 | Không luật nào khớp | Người mới chỉ có quyền chung (nếu có); quản lý xin thay; QTHT xem có nên thêm luật (VH-QT-10) | VH-ACC-01, VH-REQ-05 |
@@ -561,9 +562,9 @@ flowchart TD
 | 8 | VClinks | Nhận `vh.person.moved`: mở bàn giao khách và nick theo quy trình M1b-11 của VClinks; hạn = hết thời gian chuyển tiếp | VH-INT-03 | VH-BR-03 |
 | 9 | Người có quyền bàn giao trong VClinks (GS, GĐ) | Chia khách, đổi người giữ nick, xác nhận an toàn nick trong VClinks | — (quy trình của VClinks) | — |
 | 10 | VC Home API | Hết N ngày: gỡ quyền cũ, ghi VC ID, gửi `vh.grant.removed`. App gỡ vai trò ngay, kể cả khi người dùng đang có phiên | VH-ACC-06, VH-ACC-07 | VH-BR-11, VH-BR-20 |
-| 11 | VC Home API | Quyền ngoại lệ giữ nguyên tới hạn; đợt rà soát sau do trưởng đơn vị mới xem (đề xuất 17) | VH-ACC-05 | VH-BR-09, VH-BR-16 |
-| 12 | VC Home API | Thăng chức thành quản lý hoặc trưởng đơn vị: vai trò suy ra (Quản lý, Trưởng đơn vị) có ngay; phạm vi xem đội đổi theo | VH-ORG-04, VH-NSU-03 | VH-BR-23 |
-| 13 | VC Home API | Kiêm nhiệm: mỗi vị trí kiêm nhiệm sinh quyền theo luật, gắn đơn vị của vị trí đó; token ghi đơn vị của từng vai trò | VH-NSU-02, VH-INT-01 | VH-BR-24 |
+| 11 | VC Home API | Quyền ngoại lệ giữ nguyên tới hạn; đợt rà soát sau do trưởng đơn vị mới xem (đề xuất 16) | VH-ACC-05 | VH-BR-09, VH-BR-16 |
+| 12 | VC Home API | Thăng chức thành quản lý hoặc trưởng đơn vị: vai trò suy ra (Quản lý, Trưởng đơn vị) có ngay; phạm vi xem đội đổi theo; đổi trưởng đơn vị thì gửi thêm `vh.org.unit_changed` | VH-ORG-04, VH-NSU-03, VH-INT-03 | VH-BR-23 |
+| 13 | VC Home API | Kiêm nhiệm: mỗi vị trí kiêm nhiệm sinh quyền theo luật, gắn đơn vị của vị trí đó; token ghi đơn vị của từng vai trò. Quản lý ghi trên vị trí kiêm nhiệm chỉ xem hồ sơ C1, không duyệt, không nằm trong cây quản lý | VH-NSU-02, VH-INT-01 | VH-BR-05, VH-BR-24 |
 | 14 | VC Home API, HC-NS | Người chuyển đang là quản lý của ai: báo HC-NS kiểm người dưới quyền, đổi quản lý cho họ nếu cần | VH-NSU-03 | VH-BR-05 |
 
 ### 7.4 Ngoại lệ
@@ -574,7 +575,7 @@ flowchart TD
 | App đặt chuyển tiếp 0 ngày | Gỡ quyền cũ ngay lúc 00:00 | VH-APP-06 |
 | Quyền cũ còn nguồn ngoại lệ còn hạn | Giữ tới hạn ngoại lệ (quyền còn khi ít nhất một nguồn còn) | VH-BR-09 |
 | Huỷ hoặc đổi ngày quyết định trước hiệu lực | HC-NS sửa hoặc huỷ thay đổi hẹn; không gửi sự kiện | VH-BR-07 |
-| Nhập muộn, ngày hiệu lực đã qua | Áp ngay khi lưu; thời gian chuyển tiếp tính từ lúc áp (đề xuất 18) | VH-BR-07, VH-BR-11 |
+| Nhập muộn, ngày hiệu lực đã qua | Áp ngay khi lưu; thời gian chuyển tiếp tính từ lúc áp (đề xuất 17) | VH-BR-07, VH-BR-11 |
 | Chuyển lần hai khi đang trong chuyển tiếp | Tính lại từ vị trí mới nhất; quyền nào lại thoả luật thì bỏ đếm ngược | VH-BR-11 |
 | Đổi quản lý tạo vòng | Chặn lưu | VH-BR-05 |
 | Người chuyển có yêu cầu quyền đang chờ | Bước 1 chuyển sang quản lý mới (đề xuất 7) | VH-BR-12 |
@@ -647,7 +648,7 @@ flowchart TD
 | Bước | Ai / hệ thống | Làm gì | Yêu cầu (VH-xxx) | Quy tắc (VH-BR) |
 |---|---|---|---|---|
 | 1 | HC-NS | Đặt ngày nghỉ việc (ngày đầu tiên không còn làm) trên hồ sơ | VH-LCM-03, VH-NSU-04, VH-MH-11 | VH-BR-07, VH-BR-14 |
-| 2 | VC Home API | Lưu hẹn; liệt kê việc cần lo trước ngày nghỉ: người dưới quyền, đơn vị đang làm trưởng, app đang làm chủ, yêu cầu chờ duyệt, uỷ quyền. Từ GĐ D báo quản lý trong VC Home (đề xuất 3: báo app) | VH-HOM-08 | VH-BR-05 |
+| 2 | VC Home API | Lưu hẹn; liệt kê việc cần lo trước ngày nghỉ: người dưới quyền, đơn vị đang làm trưởng, app đang làm chủ, yêu cầu chờ duyệt, uỷ quyền. Báo quản lý (GĐ C qua email công ty, từ GĐ D trong VC Home); đề xuất 3: báo cả app | VH-HOM-08 | VH-BR-05 |
 | 3 | QTHT | Cần chặn gấp trước ngày nghỉ (tranh chấp, nghi lộ dữ liệu): khoá khẩn cấp theo VH-QT-02; quyền giữ tới ngày nghỉ | VH-AUT-06 | VH-BR-14 |
 | 4 | VC Home API | 00:00 ngày nghỉ, bước ①: khoá tài khoản trên VC ID, đăng xuất mọi app qua back-channel | VH-LCM-03, VH-INT-04 | VH-BR-14 |
 | 5 | VC Home API | Bước ②: gỡ mọi quyền mọi nguồn (luật, yêu cầu, khẩn cấp), không áp thời gian chuyển tiếp; ghi VC ID; gửi `vh.grant.removed` cho từng app | VH-ACC-06, VH-ACC-07 | VH-BR-09, VH-BR-14 |
@@ -736,7 +737,7 @@ flowchart TD
 
 | Bước | Ai / hệ thống | Làm gì | Yêu cầu (VH-xxx) | Quy tắc (VH-BR) |
 |---|---|---|---|---|
-| 1 | HC-NS | Ghi kỳ nghỉ dài: từ ngày, đến ngày dự kiến; chọn có khoá đăng nhập không (mặc định không). Không ghi lý do sức khoẻ trên VC Home (đề xuất 15) | VH-LCM-04, VH-NSU-04 | VH-BR-07, VH-BR-15, VH-BR-19 |
+| 1 | HC-NS | Ghi kỳ nghỉ dài: từ ngày, đến ngày dự kiến; chọn có khoá đăng nhập không (mặc định không). Không ghi lý do sức khoẻ trên VC Home (đề xuất 14) | VH-LCM-04, VH-NSU-04 | VH-BR-07, VH-BR-15, VH-BR-19 |
 | 2 | VC Home API | Kiểm kỳ nghỉ ≥ 7 ngày, không chồng kỳ khác; lưu hẹn | VH-LCM-04 | VH-BR-15 |
 | 3 | VC Home API | Người nghỉ là người duyệt: nhắc đặt uỷ quyền trước ngày nghỉ | VH-REQ-03, VH-HOM-08 | VH-BR-12 |
 | 4 | VC Home API | 00:00 ngày bắt đầu: trạng thái "Nghỉ dài ngày"; giữ mọi quyền, không áp chuyển tiếp | VH-LCM-04 | VH-BR-15 |
@@ -759,7 +760,7 @@ flowchart TD
 | Người nghỉ là người duyệt, không đặt uỷ quyền | Yêu cầu chờ ở bước của họ; đề xuất 8: sau 2 ngày chuyển cho trưởng đơn vị | VH-BR-12, VH-BR-13 |
 | Người nghỉ là trưởng đơn vị và bị khoá đăng nhập | Dòng rà soát của đơn vị lên trưởng đơn vị cấp trên (đề xuất 6) | VH-BR-16 |
 | Nghỉ dài chuyển thành nghỉ việc | HC-NS đặt ngày nghỉ việc (VH-QT-06); không gửi `vh.person.returned` | VH-LCM-03 |
-| Tới ngày về mà người chưa đi làm | Hệ thống vẫn chuyển "Đang làm" theo ngày đã nhập; đề xuất 16: nhắc HC-NS 3 ngày trước ngày về | VH-BR-07 |
+| Tới ngày về mà người chưa đi làm | Hệ thống vẫn chuyển "Đang làm" theo ngày đã nhập; đề xuất 15: nhắc HC-NS 3 ngày trước ngày về | VH-BR-07 |
 | App không có khái niệm "vắng" | App bỏ qua sự kiện, ghi log | VH-INT-03 |
 
 ### 9.5 Chỉ số đo
@@ -837,7 +838,7 @@ flowchart TD
 | 1 | Người xin | Mở "Quyền của tôi" hoặc ô "Có thể xin quyền"; chọn app, vai trò, đơn vị áp dụng (nếu app cần), lý do, hạn (mặc định 90 ngày, tối đa 365) | VH-REQ-01, VH-HOM-04, VH-MH-04, VH-MH-05 | VH-BR-08, VH-BR-09 |
 | 2 | Quản lý (tuỳ chọn) | Xin thay cho người dưới quyền; người được cấp được báo | VH-REQ-05 | VH-BR-23 |
 | 3 | VC Home API | Kiểm: đã có quyền này còn hiệu lực thì báo "đã có"; yêu cầu trùng đang chờ; hạn ≤ 365 ngày; tổ hợp vai trò xung đột tách nhiệm (ví dụ `vchome:hcns` và `vchome:qtht`) thì chặn | VH-REQ-01 | VH-BR-09, VH-BR-17 |
-| 4 | VC Home API | Tìm người duyệt bước 1: quản lý trực tiếp theo vị trí chính của người được cấp. Quản lý đã nghỉ: trưởng đơn vị. Quản lý đang uỷ quyền: người được uỷ | VH-REQ-02, VH-REQ-03 | VH-BR-05, VH-BR-12 |
+| 4 | VC Home API | Tìm người duyệt bước 1: quản lý trực tiếp theo vị trí chính của người được cấp. Quản lý đã nghỉ: trưởng đơn vị. Quản lý đang uỷ quyền (đặt ở Hộp duyệt, ngăn Uỷ quyền): người được uỷ | VH-REQ-02, VH-REQ-03, VH-MH-08 | VH-BR-05, VH-BR-12 |
 | 5 | VC Home API | Người duyệt bước 1 (hoặc người được uỷ) trùng người xin: chuyển lên quản lý của người duyệt đó | VH-REQ-02 | VH-BR-12, VH-BR-17 |
 | 6 | VC Home | Báo người duyệt; yêu cầu vào Hộp duyệt | VH-HOM-08, VH-MH-08 | — |
 | 7 | Quản lý hoặc người được uỷ | Duyệt hoặc từ chối (từ chối ghi lý do) | VH-REQ-02 | VH-BR-12 |
@@ -861,7 +862,7 @@ flowchart TD
 | Quản lý trực tiếp đã nghỉ | Trưởng đơn vị duyệt thay; HC-NS được báo | VH-BR-05 |
 | Quản lý nghỉ dài, không uỷ quyền | Chờ; đề xuất 8: sau 2 ngày chuyển cho trưởng đơn vị | VH-BR-13 |
 | Người duyệt bước 1 cũng là chủ app duy nhất | Một người duyệt cả hai bước; đề xuất 9: bước 2 chuyển QTHT | VH-BR-12 |
-| Xin quyền cho đơn vị kiêm nhiệm | Bước 1 vẫn là quản lý của vị trí chính; đề xuất 19: quản lý của vị trí kiêm nhiệm | VH-BR-12, VH-BR-24 |
+| Xin quyền cho đơn vị kiêm nhiệm | Bước 1 vẫn là quản lý của vị trí chính; quản lý của vị trí kiêm nhiệm chỉ xem hồ sơ, không duyệt | VH-BR-05, VH-BR-12, VH-BR-24 |
 | Người được cấp chuyển vị trí khi yêu cầu đang chờ | Đề xuất 7: bước 1 chuyển sang quản lý mới | VH-BR-12 |
 | Người xin hoặc người được cấp nghỉ việc | Yêu cầu tự huỷ | VH-BR-14 |
 | Chủ app tắt vai trò khi yêu cầu đang chờ | Huỷ yêu cầu, báo người xin | VH-APP-02 |
@@ -972,7 +973,7 @@ flowchart TD
 
 | Mục | Nội dung |
 |---|---|
-| Mục đích | Đổi cách cấp quyền mặc định cho cả nhóm người một cách có kiểm soát: thấy trước ai được thêm, ai mất; thay đổi lớn cần hai người |
+| Mục đích | Đổi cách cấp quyền mặc định cho cả nhóm người một cách có kiểm soát: thấy trước ai được thêm, ai mất; thay đổi lớn hoặc vai trò nhạy cảm cần hai người |
 | Kích hoạt | App mới (VH-QT-11); app thêm vai trò; tổ chức đổi cách làm; rà soát luật nửa năm; nhiều người cùng xin một quyền (nên thành luật) |
 | Tác nhân | QTHT (R/A); chủ app (R cho app mình; C: duyệt bước hai); trưởng đơn vị, HC-NS (C); kiểm soát (I) |
 | Điều kiện trước | App và vai trò app đã khai; thuộc tính dùng trong luật có trong danh mục |
@@ -991,7 +992,7 @@ flowchart TD
   subgraph APIL["VC Home API"]
     A1{"Hợp lệ?"}
     A2["Tính danh sách<br/>người bị ảnh hưởng"]
-    A3{"Trên 20 người?"}
+    A3{"Trên 20 người<br/>hoặc vai trò nhạy cảm?"}
     A4["Áp luật<br/>ngay hoặc theo ngày"]
     A5["Tính lại quyền<br/>quyền mất chờ chuyển tiếp"]
   end
@@ -1019,9 +1020,9 @@ flowchart TD
 | 2 | VC Home API | Kiểm: không có điều kiện theo email hay mã nhân viên; vai trò còn hoạt động; chủ app chỉ soạn cho app mình; trùng hệt luật đang bật thì cảnh báo | VH-ACC-01 | VH-BR-10, VH-BR-17 |
 | 3 | VC Home API | Xem trước: danh sách người được thêm quyền, người mất quyền (kèm ngày mất theo chuyển tiếp), số người theo đơn vị | VH-ACC-03 | VH-BR-11, VH-BR-25 |
 | 4 | Người soạn | Đọc xem trước; chọn ngày hiệu lực (ngay hoặc hẹn) | VH-ACC-03 | VH-BR-07 |
-| 5 | VC Home API | Thêm hoặc mất quyền của trên 20 người: bắt buộc người thứ hai duyệt. Còn lại: áp được ngay | VH-ACC-03 | VH-BR-25 |
+| 5 | VC Home API | Thêm hoặc mất quyền của trên 20 người, hoặc luật cấp vai trò nhạy cảm: bắt buộc người thứ hai duyệt. Còn lại: áp được ngay | VH-ACC-03, VH-APP-05 | VH-BR-25 |
 | 6 | Người duyệt thứ hai (QTHT khác, hoặc chủ app của app đó) | Xem cùng bản xem trước; duyệt hoặc từ chối. Người soạn không duyệt được luật của mình | VH-ACC-03 | VH-BR-17, VH-BR-25 |
-| 7 | VC Home API | Lúc áp, tính lại danh sách; số người lệch so với bản đã duyệt mà vượt ngưỡng thì xin duyệt lại (đề xuất 21) | VH-ACC-02 | VH-BR-25 |
+| 7 | VC Home API | Lúc áp, tính lại danh sách; số người lệch so với bản đã duyệt mà vượt ngưỡng thì xin duyệt lại (đề xuất 19) | VH-ACC-02 | VH-BR-25 |
 | 8 | VC Home API | Áp: tính lại quyền ≤ 5 phút; quyền mới có ngay; quyền mất chờ chuyển tiếp của app | VH-ACC-02 | VH-BR-11 |
 | 9 | VC Home API → VC ID, app | Ghi vai trò sang VC ID; gửi `vh.grant.added`, `vh.grant.removed` cho đúng app | VH-ACC-07, VH-INT-03 | — |
 | 10 | VC Home API | Nhật ký: luật trước và sau, người soạn, người duyệt, số người bị ảnh hưởng | VH-ADM-01 | VH-BR-18 |
@@ -1035,11 +1036,11 @@ flowchart TD
 | Luật theo email hoặc mã nhân viên | Chặn; hướng dẫn đi đường xin quyền (VH-QT-08) | VH-BR-10 |
 | Chủ app soạn luật cho app khác | Chặn | VH-BR-17 |
 | Người soạn tự duyệt | Chặn; cần người thứ hai khác người soạn | VH-BR-25 |
-| Luật cấp vai trò nhạy cảm | Đề xuất 10: luôn cần chủ app duyệt, kể cả ít người | VH-APP-05 |
+| Luật cấp vai trò nhạy cảm | Luôn cần người thứ hai duyệt, bất kể bao nhiêu người bị ảnh hưởng | VH-APP-05, VH-BR-25 |
 | Luật tạo tổ hợp vai trò xung đột (ví dụ `vchome:hcns` cùng `vchome:qtht`) | Không cấp cho người bị xung đột; báo người soạn | VH-BR-17 |
-| Đúng 20 người | VH-BR-25 ghi "trên 20" nên 20 người không cần duyệt; 02 lại ghi "dưới 20" cho đường một người. Cần chốt (đề xuất 11) | VH-BR-25 |
-| Luật sai, nhiều người mất quyền | Sửa hoặc tắt luật ngay; app có chuyển tiếp N > 0 thì chưa ai mất quyền thật; đề xuất 12: bật lại bản luật trước | VH-BR-11 |
-| Không có người duyệt thứ hai (chỉ một QTHT, chủ app vắng) | Chưa áp; đề xuất 20: quy định người thay | VH-BR-25 |
+| Đúng 20 người | VH-BR-25 ghi "trên 20" nên 20 người không cần duyệt; 02 lại ghi "dưới 20" cho đường một người. Cần chốt (đề xuất 10) | VH-BR-25 |
+| Luật sai, nhiều người mất quyền | Sửa hoặc tắt luật ngay; app có chuyển tiếp N > 0 thì chưa ai mất quyền thật; đề xuất 11: bật lại bản luật trước | VH-BR-11 |
+| Không có người duyệt thứ hai (chỉ một QTHT, chủ app vắng) | Chưa áp; đề xuất 18: quy định người thay | VH-BR-25 |
 
 ### 12.5 Chỉ số đo
 
@@ -1213,7 +1214,7 @@ flowchart TD
 | 7 | HC-NS | Lưu hẹn; ngày hiệu lực hôm nay hoặc đã qua thì áp ngay | VH-ORG-05 | VH-BR-07 |
 | 8 | VC Home API | 00:00 ngày hiệu lực: áp cây; đóng vị trí cũ, mở vị trí mới cho người bị chuyển; đơn vị bị gộp hoặc giải thể chuyển "Ngừng" | VH-ORG-05 | VH-BR-04, VH-BR-06 |
 | 9 | VC Home API | Tính lại quyền ≤ 5 phút; quyền mất chờ chuyển tiếp của app | VH-ACC-02 | VH-BR-11 |
-| 10 | VC Home API → VC ID, app | Ghi vai trò sang VC ID; gửi `vh.org.unit_changed` cho mỗi đơn vị đổi, `vh.person.moved` cho mỗi người đổi đơn vị, `vh.grant.added` / `vh.grant.removed` cho mỗi quyền đổi | VH-ACC-07, VH-INT-03 | — |
+| 10 | VC Home API → VC ID, app | Ghi vai trò sang VC ID; gửi `vh.org.unit_changed` cho mỗi đơn vị đổi (kể cả đổi trưởng đơn vị), `vh.person.moved` cho mỗi người đổi đơn vị, `vh.grant.added` / `vh.grant.removed` cho mỗi quyền đổi | VH-ACC-07, VH-INT-03 | — |
 | 11 | App | Cập nhật cây đọc từ VC Home (chỉ đọc); tính lại phạm vi dữ liệu (VClinks: phạm vi Tổ / Division) | VH-INT-02, VH-API-04 | VH-BR-03, VH-BR-08 |
 | 12 | VC Home | Sơ đồ tổ chức, danh bạ, thẻ hồ sơ hiện tên và vị trí mới | VH-ORG-06, VH-NSU-07, VH-HOM-02, VH-MH-06, VH-MH-07 | — |
 | 13 | VC Home API | Nhật ký: trước và sau, số quyết định, người làm | VH-ADM-01 | VH-BR-18 |
@@ -1257,33 +1258,31 @@ Các điểm dưới đây chưa có mã trong README. Người duyệt chọn: 
 | 7 | Người được cấp chuyển vị trí khi yêu cầu đang chờ: bước 1 chuyển sang quản lý mới | VH-BR-12 chưa nói | VH-QT-08 |
 | 8 | Quản lý nghỉ dài không uỷ quyền: sau 2 ngày chuyển bước 1 cho trưởng đơn vị | Tránh yêu cầu tự huỷ hàng loạt sau 7 ngày | VH-QT-07, VH-QT-08 |
 | 9 | Người duyệt bước 1 cũng là chủ app duy nhất: bước 2 chuyển QTHT | Bảo đảm vai trò nhạy cảm luôn có hai người khác nhau duyệt | VH-BR-12 |
-| 10 | Luật cấp vai trò nhạy cảm luôn cần chủ app duyệt, kể cả không quá 20 người | Không để vai trò nhạy cảm đi vòng qua bước 2 bằng luật | VH-BR-25, VH-APP-05 |
-| 11 | Chốt cách tính "đúng 20 người" | VH-BR-25 ghi "trên 20" phải duyệt và "dưới 20" một người làm; 20 người bỏ ngỏ | VH-BR-25 |
-| 12 | Bật lại nhanh bản luật trước | Luật sai làm nhiều người mất quyền cùng lúc | VH-QT-10 |
-| 13 | Huỷ một lô nhập Excel trong 24 giờ nếu chưa có thay đổi nào sau lô đó | Nhập nhầm lô lúc khởi đầu | VH-QT-03 |
-| 14 | Trước ngày vào làm, trang chủ hiện "Bạn bắt đầu làm từ dd/mm" thay cho trang trống | Người mới đăng nhập sớm không hoang mang, không gọi hỗ trợ | VH-QT-04 |
-| 15 | Không lưu lý do nghỉ dài có tính sức khoẻ (ốm, thai sản); chỉ lưu "nghỉ dài ngày" và ngày | Dữ liệu sức khoẻ là dữ liệu nhạy cảm; VH-BR-19 chỉ giữ thông tin công việc | VH-QT-07, VH-BR-19 |
-| 16 | Nhắc HC-NS 3 ngày trước ngày về dự kiến của kỳ nghỉ dài | Tránh tự chuyển "Đang làm" khi người chưa về | VH-QT-07 |
-| 17 | Khi chuyển vị trí, báo quản lý mới các quyền ngoại lệ người đó đang giữ | Tránh tích luỹ quyền qua nhiều lần chuyển | VH-QT-05 |
-| 18 | Nhập muộn (ngày hiệu lực đã qua) thì thời gian chuyển tiếp tính từ lúc áp | Người dùng không mất quyền đột ngột | VH-QT-05, VH-BR-11 |
-| 19 | Xin quyền cho đơn vị kiêm nhiệm thì bước 1 là quản lý của vị trí kiêm nhiệm | VH-BR-12 chỉ nói vị trí chính | VH-QT-08, VH-BR-24 |
-| 20 | Quy định người duyệt thứ hai thay thế khi chỉ có một QTHT và chủ app vắng | Luật lớn không bị kẹt | VH-QT-10, VH-BR-25 |
-| 21 | Lúc áp luật, số người bị ảnh hưởng lệch bản đã duyệt quá ngưỡng thì xin duyệt lại | Dữ liệu đổi giữa lúc duyệt và lúc áp | VH-QT-10, VH-BR-25 |
+| 10 | Chốt cách tính "đúng 20 người" | VH-BR-25 ghi "trên 20" phải duyệt và "dưới 20" một người làm; 20 người bỏ ngỏ | VH-BR-25 |
+| 11 | Bật lại nhanh bản luật trước | Luật sai làm nhiều người mất quyền cùng lúc | VH-QT-10 |
+| 12 | Huỷ một lô nhập Excel trong 24 giờ nếu chưa có thay đổi nào sau lô đó | Nhập nhầm lô lúc khởi đầu | VH-QT-03 |
+| 13 | Trước ngày vào làm, trang chủ hiện "Bạn bắt đầu làm từ dd/mm" thay cho trang trống | Người mới đăng nhập sớm không hoang mang, không gọi hỗ trợ | VH-QT-04 |
+| 14 | Không lưu lý do nghỉ dài có tính sức khoẻ (ốm, thai sản); chỉ lưu "nghỉ dài ngày" và ngày | Dữ liệu sức khoẻ là dữ liệu nhạy cảm; VH-BR-19 chỉ giữ thông tin công việc | VH-QT-07, VH-BR-19 |
+| 15 | Nhắc HC-NS 3 ngày trước ngày về dự kiến của kỳ nghỉ dài | Tránh tự chuyển "Đang làm" khi người chưa về | VH-QT-07 |
+| 16 | Khi chuyển vị trí, báo quản lý mới các quyền ngoại lệ người đó đang giữ | Tránh tích luỹ quyền qua nhiều lần chuyển | VH-QT-05 |
+| 17 | Nhập muộn (ngày hiệu lực đã qua) thì thời gian chuyển tiếp tính từ lúc áp | Người dùng không mất quyền đột ngột | VH-QT-05, VH-BR-11 |
+| 18 | Quy định người duyệt thứ hai thay thế khi chỉ có một QTHT và chủ app vắng | Luật lớn không bị kẹt | VH-QT-10, VH-BR-25 |
+| 19 | Lúc áp luật, số người bị ảnh hưởng lệch bản đã duyệt quá ngưỡng thì xin duyệt lại | Dữ liệu đổi giữa lúc duyệt và lúc áp | VH-QT-10, VH-BR-25 |
 
 **Điểm lệch phát hiện khi viết (README, 02), cần sửa ở file gốc:**
 
 | # | Ở đâu | Nội dung lệch | Tài liệu này làm theo |
 |---|---|---|---|
-| 1 | README mục 5 | Dòng tổng ghi "75 yêu cầu (M: 44 · S: 25 · C: 5 · W: 1)", nhưng bảng có 78 mã (M 45, S 25, C 7, W 1) | Bảng 78 mã |
-| 2 | README mục 6 và 02 mục 4, VH-BR-25 | README: người thứ hai là "quản trị hệ thống + chủ app"; 02: "quản trị hệ thống khác, **hoặc** chủ app của app đó" | 02 (một trong hai) |
-| 3 | 02 mục 4, VH-BR-25 | "Trên 20" phải duyệt, "dưới 20" một người làm; đúng 20 người chưa rõ | Đề xuất 11 |
-| 4 | README mục 6, VH-BR-14 | README liệt kê "khoá đăng nhập, gỡ mọi quyền, đăng xuất mọi app, gửi sự kiện"; 02 ghi thứ tự ① khoá và đăng xuất ② gỡ quyền ③ sự kiện ④ đóng vị trí | 02 |
-| 5 | 02 mục 3 | Ma trận ghi Trưởng đơn vị "—" ở dòng "Duyệt bước 1", nhưng VH-BR-05 cho trưởng đơn vị tạm duyệt khi quản lý đã nghỉ | VH-BR-05 |
-| 6 | README mục 5 | VH-ACC-04 (cấp khẩn cấp, hạn tối đa 7 ngày) ở GĐ C nhưng VH-ACC-05 (tự gỡ khi hết hạn) ở GĐ D: ở GĐ C chưa có gì tự gỡ quyền khẩn cấp hết hạn | Ghi chú ở ca UAT; đề nghị kéo phần tự gỡ lên GĐ C |
-| 7 | 02 mục 5 | Bảng RACI không có dòng VH-QT-01; dòng VH-QT-02 nằm cuối bảng | Không ảnh hưởng nội dung |
+| 1 | 02 mục 4, VH-BR-25 | "Trên 20" phải duyệt, "dưới 20" một người làm; đúng 20 người chưa rõ | Đề xuất 10 |
+| 2 | README mục 6, VH-BR-14 | README liệt kê "khoá đăng nhập, gỡ mọi quyền, đăng xuất mọi app, gửi sự kiện"; 02 ghi thứ tự ① khoá và đăng xuất ② gỡ quyền ③ sự kiện ④ đóng vị trí | 02 |
+| 3 | 02 mục 3 | Ma trận ghi Trưởng đơn vị "—" ở dòng "Duyệt bước 1" và ghi chú "Duyệt bước 1 chỉ dành cho quản lý trực tiếp", nhưng VH-BR-05 cho trưởng đơn vị tạm duyệt khi quản lý đã nghỉ | VH-BR-05 |
+| 4 | README mục 5 | VH-ACC-04 (cấp khẩn cấp, hạn tối đa 7 ngày) ở GĐ C nhưng VH-ACC-05 (tự gỡ khi hết hạn) ở GĐ D: ở GĐ C chưa có gì tự gỡ quyền khẩn cấp hết hạn | Ghi chú ở ca UAT; đề nghị kéo phần tự gỡ lên GĐ C |
+| 5 | 02 mục 5 | Bảng RACI không có dòng VH-QT-01; dòng VH-QT-02 nằm cuối bảng | Không ảnh hưởng nội dung |
+
+**Trạng thái (BA trưởng, 08/10/2026):** cả 5 điểm đã sửa ở file gốc. Điểm 1 theo D-BA-07 (từ 21 người trở lên mới cần người thứ hai). Điểm 2: README đổi theo thứ tự của 02. Điểm 3: 02 thêm ngoại lệ trưởng đơn vị duyệt thay khi không có quản lý. Điểm 4 theo D-BA-09 (job hẹn giờ có từ GĐ C). Điểm 5: thêm dòng VH-QT-01 vào RACI. Xem [12](12-cau-hoi-rui-ro.md) mục 5.
 
 ## Lịch sử cập nhật
 
 | Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
 |---|---|---|---|---|
-| 0.1 | 08/10/2026 10:18 | Claude Code (vai BA) | Tạo tài liệu: bức tranh vòng đời, quy ước chung, 12 quy trình VH-QT-01 đến VH-QT-12 (tổng quan, sơ đồ Mermaid, bảng bước truy về VH-xxx và VH-BR, ngoại lệ, chỉ số đo), checklist hợp đồng tích hợp, 21 đề xuất chưa cấp mã, 7 điểm lệch ở README và 02 | README bộ tài liệu 0.1 |
+| 0.1 | 08/10/2026 10:18 | Claude Code (vai BA) | Tạo tài liệu: bức tranh vòng đời, quy ước chung, 12 quy trình VH-QT-01 đến VH-QT-12 (tổng quan, sơ đồ Mermaid, bảng bước truy về VH-xxx và VH-BR, ngoại lệ, chỉ số đo), checklist hợp đồng tích hợp, 19 đề xuất chưa cấp mã, 5 điểm lệch ở README và 02 | README bộ tài liệu 0.1 |

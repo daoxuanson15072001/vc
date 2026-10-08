@@ -243,7 +243,7 @@ Chi tiết và ví dụ ở [02-tac-nhan-quy-tac.md](02-tac-nhan-quy-tac.md) m�
 | VH-BR-11 | Hồ sơ hoặc luật đổi thì quyền mặc định tính lại ngay; quyền mất bị gỡ sau thời gian chuyển tiếp của app (mặc định 0, tối đa 7 ngày) |
 | VH-BR-12 | Không ai tự duyệt cho mình; bước 1 là quản lý trực tiếp; vai trò nhạy cảm cần thêm chủ app |
 | VH-BR-13 | Yêu cầu chưa xong sau 7 ngày tự huỷ |
-| VH-BR-14 | Nghỉ việc: đến ngày hiệu lực thì khoá đăng nhập, gỡ mọi quyền, đăng xuất mọi app, gửi sự kiện để app bàn giao; hồ sơ giữ lại theo thời hạn lưu |
+| VH-BR-14 | Nghỉ việc: 00:00 ngày nghỉ thì khoá đăng nhập và đăng xuất mọi app, gỡ mọi quyền, gửi sự kiện để app bàn giao, đóng vị trí; hồ sơ giữ lại theo thời hạn lưu |
 | VH-BR-15 | Nghỉ dài ngày: giữ quyền, không khoá; gửi sự kiện "vắng" để app chia việc |
 | VH-BR-16 | Rà soát quyền ngoại lệ hằng quý; quá 14 ngày không xác nhận thì tự gỡ |
 | VH-BR-17 | Tách nhiệm: HC-NS không cấp quyền; quản trị hệ thống không sửa hồ sơ nhân sự; chủ app chỉ quản vai trò app của mình; người xin không duyệt |

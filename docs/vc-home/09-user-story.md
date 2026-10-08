@@ -7,7 +7,7 @@ Phiên bản 0.1 · 08/10/2026 · Trạng thái: Nháp (chờ duyệt)
 - **Tài liệu nói gì:** 12 nhóm câu chuyện VH-E-01…12 (mục tiêu, giai đoạn, thước đo thành công) và 88 câu chuyện người dùng VH-US. Mỗi câu chuyện có vai trò, mong muốn, lý do, ưu tiên, giai đoạn, mã yêu cầu, màn hình và 2–4 tiêu chí nghiệm thu dạng "Cho trước … / Khi … / Thì …".
 - **Đánh số:** nhóm thứ n dùng dải (n−1)×20+1 … n×20. Ví dụ VH-E-01 dùng VH-US-001…020, VH-E-07 dùng VH-US-121…140. Số còn trống trong dải để dành cho câu chuyện thêm sau; không dùng lại số đã cấp.
 - **Độ phủ:** cả 78 yêu cầu ở README mục 5 đều có ít nhất một câu chuyện (bảng mục 15). Không có yêu cầu nào thiếu câu chuyện.
-- **Phân bố:** GĐ A 15 câu chuyện, B 25, C 24, D 20, E 4 (một câu chuyện có thể thuộc nhiều giai đoạn; con số tính theo giai đoạn đầu). Ưu tiên M 52, S 30, C 5, W 1.
+- **Phân bố:** theo giai đoạn đầu tiên của câu chuyện: A 15, B 23, C 24, D 22, E 3, không giai đoạn 1 (VH-US-207, loại W). Theo ưu tiên: M 51, S 30, C 6, W 1.
 - **Câu chữ trong tiêu chí** (thông báo, nhãn nút) lấy đúng từ [06-man-hinh.md](06-man-hinh.md); kiểm thử đối chiếu từng chữ.
 - **Vai trò "Đội app"** dùng cho câu chuyện tích hợp (VH-E-11): đội phát triển VClinks, VCwiki và app sau; không phải vai trò trong VC Home.
 - **Người duyệt xem kỹ:**
@@ -388,3 +388,406 @@ Câu chuyện chỉ xong khi mọi tiêu chí đạt trên môi trường thử.
 - Cho trước VCsale mới đạt 6/8 điểm của danh sách kiểm / Khi đổi trạng thái sang "Đang chạy" / Thì không cho, màn hiện 2 điểm còn thiếu.
 - Cho trước đủ 8 điểm và "Gửi sự kiện thử" trả mã 2xx / Khi đổi sang "Đang chạy" / Thì VCsale xuất hiện trên trang chủ của người có quyền.
 
+## 9. VH-E-07 Quyền theo luật
+
+**Mục tiêu:** quyền mặc định đi theo hồ sơ qua luật dựa trên thuộc tính, không gán tay từng người; luật được xem trước; luật lớn cần người thứ hai duyệt; quyền ngoại lệ có hạn và gỡ được; ai cũng tra được "ai có quyền gì". **GĐ:** C (hạn dùng ở D). **Thước đo:** xem mục 2.
+
+| Mã | Là … tôi muốn … để … | Ưu tiên | GĐ | Yêu cầu | Màn hình |
+|---|---|---|---|---|---|
+| VH-US-121 | Là quản trị hệ thống, tôi muốn viết luật theo thuộc tính hồ sơ (pháp nhân, đơn vị, chức danh, chức năng, loại nhân viên…) để người đúng tự có vai trò app | M | C | VH-ACC-01 | VH-MH-16 |
+| VH-US-122 | Là quản trị hệ thống, tôi muốn xem trước ai được thêm, ai mất quyền trước khi áp luật để không cấp hay gỡ nhầm hàng loạt | S | C | VH-ACC-03 | VH-MH-16 |
+| VH-US-123 | Là chủ app, tôi muốn luật ảnh hưởng trên 20 người phải có người thứ hai duyệt để một người không tự áp thay đổi lớn | M | C | VH-ACC-01, VH-ACC-03 | VH-MH-16, VH-MH-08 |
+| VH-US-124 | Là nhân viên, tôi muốn quyền tự tính lại khi hồ sơ, cơ cấu hoặc luật đổi để không phải xin lại sau mỗi lần điều chuyển | M | C | VH-ACC-02 | VH-MH-04 |
+| VH-US-125 | Là quản trị hệ thống, tôi muốn cấp quyền khẩn cấp tối đa 7 ngày có lý do để xử lý việc gấp mà vẫn có dấu vết | S | C | VH-ACC-04 | VH-MH-17 |
+| VH-US-126 | Là người giữ quyền ngoại lệ, tôi muốn quyền có hạn, được báo trước khi hết và tự gỡ khi hết hạn để không ai giữ quyền thừa | M | D | VH-ACC-05 | VH-MH-04 |
+| VH-US-127 | Là quản trị hệ thống, tôi muốn gỡ một quyền ngoại lệ có lý do để xử lý sai sót hay rủi ro ngay | M | C | VH-ACC-06 | VH-MH-17 |
+| VH-US-128 | Là đội app, tôi muốn quyền được đẩy sang VC ID thành nhóm và vai trò trong token để app đọc được ở lần đăng nhập sau | M | C | VH-ACC-07 | VH-MH-17 |
+| VH-US-129 | Là kiểm soát, tôi muốn tra "người này có quyền gì" và "ai có vai trò này" để trả lời kiểm toán | M | C | VH-ACC-08 | VH-MH-17 |
+| VH-US-130 | Là nhân viên, tôi muốn xem mình có quyền gì, từ đâu, đến khi nào; là quản lý, tôi muốn xem quyền của đội, để biết ai đang dùng gì | M | C | VH-ACC-08, VH-HOM-03 | VH-MH-04, VH-MH-09 |
+
+**VH-US-121 — Tiêu chí nghiệm thu**
+- Cho trước luật "Pháp nhân là VCparts và Chức năng là Bán hàng → VClinks · NVKD" / Khi luật được áp / Thì mọi người thoả điều kiện có vai trò NVKD trong VClinks với nguồn "Luật".
+- Cho trước chị Hoa kiêm CSKH VCservice và có luật "Pháp nhân là VCservice và Chức năng là CSKH → VClinks · CSKH" / Khi hai luật chạy / Thì chị có NVKD tại VCparts và CSKH tại VCservice (VH-BR-24).
+- Cho trước tôi mở danh sách thuộc tính của bộ dựng điều kiện / Khi tìm "email" hoặc "mã nhân viên" / Thì không có (VH-BR-10).
+
+**VH-US-122 — Tiêu chí nghiệm thu**
+- Cho trước một luật nháp / Khi bấm "Xem trước" / Thì thấy "+N người được thêm quyền", "−M người mất quyền", "K người không đổi" và danh sách từng nhóm có tên, chức danh, đơn vị.
+- Cho trước tôi sửa điều kiện sau khi đã xem trước / Khi rê chuột lên "Áp dụng" / Thì nút khoá với câu "Bấm Xem trước sau lần sửa cuối rồi mới áp dụng."
+- Cho trước 1.000 người trong hệ thống / Khi bấm "Xem trước" / Thì có kết quả trong ≤ 10 giây.
+
+**VH-US-123 — Tiêu chí nghiệm thu**
+- Cho trước xem trước ra +38 và −4 / Khi nhìn biểu mẫu / Thì có dải "Luật này làm thay đổi quyền của 42 người (trên 20). Cần người thứ hai duyệt trước khi có hiệu lực." và nút "Gửi duyệt" thay cho "Áp dụng".
+- Cho trước tôi là người soạn / Khi chọn người duyệt bước hai / Thì danh sách không có tên tôi; mở luật đang chờ thì không có nút "Duyệt và áp dụng".
+- Cho trước người duyệt mở luật sau khi hồ sơ đã đổi / Khi bấm "Duyệt và áp dụng" / Thì hệ thống tính lại và hỏi "Số người bị ảnh hưởng đã đổi từ {cũ} thành {mới}. Vẫn áp dụng?" nếu con số khác.
+- Cho trước xem trước ra +12 và −3 (15 người) / Khi bấm "Áp dụng" / Thì luật có hiệu lực ngay, không cần người thứ hai, nhật ký vẫn ghi.
+
+**VH-US-124 — Tiêu chí nghiệm thu**
+- Cho trước HC-NS chuyển tôi sang chức năng CSKH có hiệu lực hôm nay / Khi lưu / Thì trong ≤ 5 phút tôi có vai trò CSKH theo luật.
+- Cho trước đơn vị của tôi được chuyển sang division khác / Khi thay đổi có hiệu lực / Thì quyền của mọi người trong đơn vị được tính lại theo luật của division mới.
+- Cho trước một luật bị tắt / Khi tắt có hiệu lực / Thì người chỉ có quyền từ luật đó mất quyền sau thời gian chuyển tiếp của app; người có thêm nguồn "Được duyệt" vẫn giữ quyền (VH-BR-09).
+
+**VH-US-125 — Tiêu chí nghiệm thu**
+- Cho trước tôi chọn thời hạn 7 ngày và nhập lý do ≥ 10 ký tự / Khi bấm "Cấp khẩn cấp" / Thì người đó có quyền ngay với nguồn "Khẩn cấp"; quản lý trực tiếp và kiểm soát được báo.
+- Cho trước tôi cấp cho chính mình / Khi bấm cấp / Thì báo "Không tự cấp quyền khẩn cấp cho chính bạn."
+- Cho trước hết 7 ngày / Khi hệ thống chạy / Thì quyền tự gỡ và người giữ quyền được báo.
+
+**VH-US-126 — Tiêu chí nghiệm thu**
+- Cho trước quyền "Được duyệt" hết hạn ngày 31/12/2026 / Khi tới ngày 17/12 và 28/12 / Thì tôi nhận thông báo "{app} · {vai trò} hết hạn ngày 31/12/2026".
+- Cho trước tới 00:00 ngày 01/01/2027 / Khi hệ thống chạy / Thì quyền bị gỡ, app nhận `vh.grant.removed`, ô app biến mất nếu tôi không còn vai trò nào ở app đó.
+- Cho trước cùng vai trò còn nguồn "Luật" / Khi nguồn "Được duyệt" hết hạn / Thì tôi vẫn giữ vai trò.
+
+**VH-US-127 — Tiêu chí nghiệm thu**
+- Cho trước một quyền nguồn "Được duyệt" / Khi bấm "Gỡ" và nhập lý do / Thì quyền gỡ ngay, người giữ quyền nhận thông báo "Đã gỡ {app} · {vai trò}. Lý do: {lý do}".
+- Cho trước quyền chỉ có nguồn "Luật" / Khi rê chuột lên "Gỡ" / Thì nút khoá với câu "Quyền này đến từ luật {tên}. Sửa luật hoặc hồ sơ để gỡ."
+- Cho trước tôi là chủ app VClinks / Khi tra quyền VCwiki của một người / Thì không có nút "Gỡ".
+
+**VH-US-128 — Tiêu chí nghiệm thu**
+- Cho trước một người vừa được cấp VClinks · CSKH / Khi người đó đăng nhập lại VClinks / Thì token có vai trò `cskh` của app `vclinks`.
+- Cho trước việc đẩy sang VC ID bị lỗi / Khi quản trị tra cứu người đó / Thì thấy "Lỗi đẩy: {mã}" và nút "Đẩy lại sang VC ID".
+
+**VH-US-129 — Tiêu chí nghiệm thu**
+- Cho trước tôi tìm "Nguyễn Thị Lan" ở tab "Theo người" / Khi xem kết quả / Thì thấy mọi quyền với nguồn, luật hoặc yêu cầu gốc, hạn; không có nút gỡ, cấp, khoá.
+- Cho trước tôi chọn VClinks · Giám sát ở tab "Theo app" / Khi bấm "Xuất Excel" / Thì tải được danh sách và nhật ký ghi lần xuất.
+
+**VH-US-130 — Tiêu chí nghiệm thu**
+- Cho trước tôi có VClinks · NVKD theo luật và VCwiki · Biên tập được duyệt đến 31/12/2026 / Khi mở "Quyền của tôi" / Thì thấy 2 dòng: chip "Luật" với hạn "Không hạn"; chip "Được duyệt" với hạn "31/12/2026".
+- Cho trước tôi là quản lý / Khi mở tab "Quyền" ở "Đội của tôi" / Thì thấy quyền của cả cây dưới quyền và không thấy quyền của người ngoài đội.
+
+## 10. VH-E-08 Vòng đời nhân viên
+
+**Mục tiêu:** người mới vào làm có ngay đúng app và vai trò; chuyển vị trí tự đổi quyền, có thời gian chuyển tiếp để bàn giao; nghỉ việc tự khoá, gỡ quyền và báo app bàn giao; nghỉ dài ngày giữ quyền. **GĐ:** C (nghỉ dài ngày, quay lại ở D). **Thước đo:** xem mục 2.
+
+| Mã | Là … tôi muốn … để … | Ưu tiên | GĐ | Yêu cầu | Màn hình |
+|---|---|---|---|---|---|
+| VH-US-141 | Là HC-NS, tôi muốn tạo hồ sơ người mới trước ngày vào để ngày đầu người đó đăng nhập là có đúng app và vai trò | M | C | VH-LCM-01 | VH-MH-11, VH-MH-02 |
+| VH-US-142 | Là HC-NS, tôi muốn chuyển vị trí và thấy trước quyền sẽ thêm, sẽ gỡ để báo đúng cho người được chuyển và quản lý | M | C | VH-LCM-02 | VH-MH-11 |
+| VH-US-143 | Là nhân viên vừa chuyển vị trí, tôi muốn giữ vai trò cũ trong thời gian chuyển tiếp của app để bàn giao khách và việc đang dở | S | C | VH-LCM-02, VH-APP-06 | VH-MH-02, VH-MH-04 |
+| VH-US-144 | Là HC-NS, tôi muốn đặt ngày nghỉ việc để đến 00:00 ngày đó tài khoản tự khoá, mọi quyền tự gỡ và app tự bàn giao | M | C | VH-LCM-03 | VH-MH-11 |
+| VH-US-145 | Là HC-NS, tôi muốn được báo khi quản lý của ai đó nghỉ việc để gán quản lý mới, còn trong lúc chờ trưởng đơn vị duyệt thay | M | C | VH-LCM-03, VH-NSU-03 | VH-MH-11, VH-MH-08 |
+| VH-US-146 | Là HC-NS, tôi muốn ghi nghỉ dài ngày và ngày quay lại để app tạm không chia việc mới mà người đó không mất quyền | S | D | VH-LCM-04 | VH-MH-11, VH-MH-06 |
+| VH-US-147 | Là HC-NS, tôi muốn cho người đã nghỉ quay lại làm với đúng mã nhân viên cũ để lịch sử liền mạch | C | D | VH-LCM-05 | VH-MH-11 |
+
+**VH-US-141 — Tiêu chí nghiệm thu**
+- Cho trước ngày 25/10 tôi tạo hồ sơ với ngày vào 01/11/2026 / Khi xem hồ sơ / Thì trạng thái là "Sắp vào làm" và người đó chưa có quyền nào.
+- Cho trước tới 00:00 ngày 01/11/2026 / Khi người mới đăng nhập lần đầu / Thì tài khoản gắn với hồ sơ, trang chủ có đủ app theo luật, các app nhận `vh.person.joined`.
+
+**VH-US-142 — Tiêu chí nghiệm thu**
+- Cho trước tôi mở biểu mẫu "Chuyển vị trí" / Khi chọn đơn vị và chức năng mới / Thì khung "Quyền sẽ thay đổi" hiện dòng "+ …" và "− … (gỡ sau {n} ngày chuyển tiếp)", không có nút sửa quyền (VH-BR-17).
+- Cho trước thay đổi có hiệu lực / Khi hệ thống áp / Thì app nhận `vh.person.moved` và người được chuyển nhận thông báo quyền được thêm.
+
+**VH-US-143 — Tiêu chí nghiệm thu**
+- Cho trước VClinks đặt chuyển tiếp 3 ngày và tôi chuyển từ NVKD sang CSKH ngày 01/11/2026 / Khi xem trang chủ ngày 01/11 / Thì ô VClinks có "VClinks · NVKD, CSKH" và "Còn 3 ngày".
+- Cho trước tới 00:00 ngày 04/11/2026 / Khi tôi đăng nhập lại VClinks / Thì token chỉ còn vai trò `cskh`.
+
+**VH-US-144 — Tiêu chí nghiệm thu**
+- Cho trước tôi đặt ngày nghỉ 15/11/2026 cho Lê Minh Tú / Khi bấm lưu / Thì hệ thống hỏi "Đến 00:00 ngày 15/11/2026, Lê Minh Tú bị khoá đăng nhập, gỡ mọi quyền và các app nhận sự kiện nghỉ việc. Tiếp tục?"
+- Cho trước tới 00:00 ngày 15/11/2026 / Khi hệ thống chạy / Thì làm đúng thứ tự: khoá VC ID và đăng xuất mọi app; gỡ mọi quyền ở mọi nguồn; gửi `vh.person.left`; đóng các vị trí; hồ sơ thành "Đã nghỉ" (VH-BR-14).
+- Cho trước cần khoá gấp trước ngày nghỉ / Khi quản trị dùng "Khoá tài khoản" / Thì tài khoản khoá ngay, ngày nghỉ đã đặt giữ nguyên.
+
+**VH-US-145 — Tiêu chí nghiệm thu**
+- Cho trước Trần Văn Bình đang là quản lý của 6 người và nghỉ việc / Khi ngày nghỉ có hiệu lực / Thì 6 hồ sơ có cảnh báo "Thiếu quản lý" và HC-NS nhận thông báo "6 người đang thiếu quản lý trực tiếp".
+- Cho trước một trong 6 người gửi yêu cầu quyền / Khi tính người duyệt / Thì bước 1 là trưởng đơn vị của vị trí chính (VH-BR-05), và yêu cầu hiện trong hộp duyệt của trưởng đơn vị.
+
+**VH-US-146 — Tiêu chí nghiệm thu**
+- Cho trước chị Hà nghỉ thai sản từ 01/12/2026 đến 31/05/2027 / Khi tôi lưu "Nghỉ dài ngày" không tích "Khoá đăng nhập" / Thì chị giữ mọi quyền, đăng nhập được, app nhận `vh.person.leave_started`, danh bạ hiện "Vắng đến 31/05".
+- Cho trước thời gian nghỉ dưới 7 ngày / Khi lưu / Thì báo "Nghỉ dài ngày tính từ 7 ngày trở lên."
+- Cho trước tôi bấm "Kết thúc nghỉ dài ngày" / Khi tới ngày quay lại / Thì app nhận `vh.person.returned` và nhãn "Vắng" mất.
+
+**VH-US-147 — Tiêu chí nghiệm thu**
+- Cho trước Lê Minh Tú đã nghỉ, mã VCP-0145 / Khi bấm "Cho quay lại làm" với vị trí và ngày vào mới / Thì hồ sơ cũ mở lại với cùng mã, lịch sử cũ giữ nguyên, quyền tính lại theo luật từ ngày vào mới.
+- Cho trước anh Tú từng có quyền ngoại lệ trước khi nghỉ / Khi quay lại / Thì quyền ngoại lệ không tự khôi phục; phải xin lại.
+
+## 11. VH-E-09 Xin quyền và duyệt
+
+**Mục tiêu:** ai cần quyền ngoài luật thì tự xin, có lý do và thời hạn; quản lý trực tiếp duyệt, vai trò nhạy cảm thêm chủ app; không ai tự duyệt; yêu cầu không treo mãi; có uỷ quyền khi vắng và gia hạn. **GĐ:** D. **Thước đo:** xem mục 2.
+
+| Mã | Là … tôi muốn … để … | Ưu tiên | GĐ | Yêu cầu | Màn hình |
+|---|---|---|---|---|---|
+| VH-US-161 | Là nhân viên, tôi muốn gửi yêu cầu một vai trò app có lý do và thời hạn, biết trước ai duyệt, để được cấp đúng việc cần | M | D | VH-REQ-01 | VH-MH-05, VH-MH-04 |
+| VH-US-162 | Là quản lý trực tiếp, tôi muốn duyệt hoặc từ chối yêu cầu của người dưới quyền và rút ngắn thời hạn nếu cần để kiểm soát quyền của đội | M | D | VH-REQ-02 | VH-MH-08 |
+| VH-US-163 | Là chủ app, tôi muốn duyệt bước 2 cho vai trò nhạy cảm của app mình để không ai có quyền nhạy cảm mà tôi không biết | M | D | VH-REQ-02, VH-APP-05 | VH-MH-08 |
+| VH-US-164 | Là kiểm soát, tôi muốn hệ thống chặn mọi trường hợp tự duyệt để tách nhiệm đúng VH-BR-12 và VH-BR-17 | M | D | VH-REQ-02 | VH-MH-08 |
+| VH-US-165 | Là quản lý có đội lớn, tôi muốn duyệt nhiều yêu cầu thường một lần nhưng phải duyệt từng cái với vai trò nhạy cảm để vừa nhanh vừa an toàn | S | D | VH-REQ-02 | VH-MH-08 |
+| VH-US-166 | Là người duyệt, tôi muốn uỷ quyền duyệt cho người khác khi đi vắng để yêu cầu của đội không bị tự huỷ | S | D | VH-REQ-03 | VH-MH-08 |
+| VH-US-167 | Là người xin quyền, tôi muốn người duyệt được nhắc và yêu cầu quá 7 ngày tự huỷ có báo để yêu cầu không treo mãi | S | D | VH-REQ-04 | VH-MH-08, VH-MH-04 |
+| VH-US-168 | Là quản lý, tôi muốn xin quyền thay cho người dưới quyền để người mới có quyền kịp mà không phải tự tìm hiểu hệ thống | C | D | VH-REQ-05 | VH-MH-09, VH-MH-05 |
+| VH-US-169 | Là nhân viên, tôi muốn gia hạn quyền sắp hết hạn bằng một nút để công việc không bị gián đoạn | S | D | VH-REQ-06 | VH-MH-04, VH-MH-05 |
+
+**VH-US-161 — Tiêu chí nghiệm thu**
+- Cho trước tôi chọn VCwiki · Biên tập, lý do 46 ký tự, thời hạn 90 ngày / Khi bấm "Gửi yêu cầu" / Thì toast "Đã gửi yêu cầu. {tên người duyệt} sẽ nhận thông báo." và tab "Yêu cầu của tôi" có dòng "Chờ bước 1: {tên}".
+- Cho trước lý do chỉ có 12 ký tự / Khi bấm gửi / Thì báo "Lý do cần ít nhất 20 ký tự (đang có 12)." và không gửi.
+- Cho trước tôi đã có yêu cầu đang chờ cho cùng vai trò / Khi gửi lần nữa / Thì báo "Đã có yêu cầu đang chờ duyệt cho vai trò này (gửi ngày {dd/mm/yyyy})."
+- Cho trước tôi chọn một vai trò nhạy cảm / Khi nhìn vùng "Người duyệt dự kiến" / Thì thấy ① quản lý trực tiếp và ② chủ app, cùng dòng "Yêu cầu tự huỷ nếu chưa duyệt xong sau 7 ngày".
+
+**VH-US-162 — Tiêu chí nghiệm thu**
+- Cho trước yêu cầu vai trò thường đang chờ tôi / Khi bấm "Duyệt" / Thì người xin có quyền nguồn "Được duyệt" với hạn đã chốt, nhận thông báo "Đã duyệt: {app} · {vai trò} đến {dd/mm/yyyy}".
+- Cho trước người xin xin 180 ngày / Khi tôi chọn 30 ngày rồi duyệt / Thì quyền hết hạn sau 30 ngày; chọn dài hơn 180 thì báo "Chỉ rút ngắn được, không kéo dài hơn thời hạn đã xin."
+- Cho trước tôi bấm "Từ chối" mà không ghi lý do / Khi xác nhận / Thì báo "Nhập lý do từ chối".
+
+**VH-US-163 — Tiêu chí nghiệm thu**
+- Cho trước quản lý đã duyệt bước 1 yêu cầu VClinks · Giám sát / Khi tôi (chủ app VClinks) mở hộp duyệt / Thì yêu cầu ở bước "2 / 2" kèm tên và thời điểm duyệt bước 1.
+- Cho trước tôi là chủ app VClinks và tự xin VClinks · Giám sát / Khi bước 1 xong / Thì bước 2 chuyển cho quản trị hệ thống, không vào hộp của tôi.
+
+**VH-US-164 — Tiêu chí nghiệm thu**
+- Cho trước quản lý X xin thay cho Y, mà X là quản lý trực tiếp của Y / Khi hệ thống tính người duyệt / Thì bước 1 chuyển lên quản lý của X.
+- Cho trước Z đang duyệt thay X và Z gửi yêu cầu cho chính mình mà X là quản lý của Z / Khi yêu cầu vào hàng duyệt / Thì yêu cầu không vào phần duyệt thay của Z mà chuyển lên quản lý của X.
+- Cho trước yêu cầu của tôi vì lý do nào đó hiện trong hộp duyệt của tôi / Khi rê chuột lên "Duyệt" / Thì nút khoá với câu "Không duyệt được yêu cầu của chính bạn." và API cũng từ chối.
+
+**VH-US-165 — Tiêu chí nghiệm thu**
+- Cho trước tôi chọn 2 yêu cầu vai trò thường / Khi bấm "Duyệt các mục đã chọn" / Thì toast "Đã duyệt 2 yêu cầu."
+- Cho trước trong lựa chọn có 1 vai trò nhạy cảm / Khi rê chuột lên "Duyệt các mục đã chọn" / Thì nút khoá với câu "Vai trò nhạy cảm phải duyệt từng yêu cầu."
+- Cho trước tôi mở hộp duyệt trên điện thoại rộng dưới 600 px / Khi xem danh sách / Thì không có ô chọn nhiều; duyệt từng thẻ.
+
+**VH-US-166 — Tiêu chí nghiệm thu**
+- Cho trước tôi uỷ quyền cho Lê Thu Hà từ 10/11 đến 20/11/2026 / Khi có yêu cầu mới trong khoảng đó / Thì yêu cầu vào hộp của chị Hà với nhãn "Duyệt thay {tên tôi}", và người xin thấy người duyệt dự kiến là chị Hà.
+- Cho trước tôi chọn chính mình hoặc khoảng dài hơn 60 ngày / Khi lưu / Thì báo "Không uỷ quyền cho chính bạn." hoặc "Uỷ quyền tối đa 60 ngày mỗi lần."
+- Cho trước hết ngày 20/11/2026 / Khi có yêu cầu mới / Thì yêu cầu về lại hộp của tôi.
+
+**VH-US-167 — Tiêu chí nghiệm thu**
+- Cho trước yêu cầu gửi ngày 01/11 chưa duyệt / Khi tới ngày 03/11 và 06/11 / Thì người duyệt nhận thông báo nhắc "Yêu cầu của {tên} còn {n} ngày trước khi tự huỷ".
+- Cho trước tới ngày 08/11 vẫn chưa duyệt xong / Khi hệ thống chạy / Thì yêu cầu thành "Đã tự huỷ" và người xin nhận "Đã tự huỷ vì quá 7 ngày chưa duyệt xong".
+
+**VH-US-168 — Tiêu chí nghiệm thu**
+- Cho trước tôi là quản lý của Lan / Khi bấm "Xin quyền thay" ở "Đội của tôi" / Thì ngăn kéo mở với "Xin cho: Nguyễn Thị Lan".
+- Cho trước tôi chọn một người ngoài đội / Khi gửi / Thì báo "Người này không thuộc đội của bạn."
+- Cho trước tôi là quản lý trực tiếp của Lan / Khi hệ thống tính người duyệt / Thì bước 1 là quản lý của tôi (không tự duyệt).
+
+**VH-US-169 — Tiêu chí nghiệm thu**
+- Cho trước quyền "Được duyệt" còn 20 ngày / Khi bấm "Gia hạn" / Thì ngăn kéo "Gia hạn quyền" mở sẵn app, vai trò, có dòng "Hạn mới tính từ ngày hết hạn cũ."
+- Cho trước quyền nguồn "Khẩn cấp" / Khi rê chuột lên "Gia hạn" / Thì nút khoá với câu "Quyền khẩn cấp không gia hạn được. Hãy gửi yêu cầu quyền thường."
+- Cho trước yêu cầu gia hạn 90 ngày được duyệt / Khi xem "Quyền của tôi" / Thì hạn mới bằng hạn cũ cộng 90 ngày.
+
+## 12. VH-E-10 Rà soát định kỳ
+
+**Mục tiêu:** mỗi quý trưởng đơn vị xác nhận lại từng quyền ngoại lệ của người trong đơn vị; quyền không được xác nhận trong 14 ngày tự gỡ; kết quả có báo cáo cho kiểm soát. **GĐ:** D. **Thước đo:** xem mục 2.
+
+| Mã | Là … tôi muốn … để … | Ưu tiên | GĐ | Yêu cầu | Màn hình |
+|---|---|---|---|---|---|
+| VH-US-181 | Là quản trị hệ thống, tôi muốn mở đợt rà soát quý cho mọi quyền ngoại lệ còn hiệu lực để định kỳ dọn quyền thừa | S | D | VH-REV-01 | VH-MH-18 |
+| VH-US-182 | Là trưởng đơn vị, tôi muốn xác nhận giữ hoặc gỡ từng quyền ngoại lệ của đơn vị để chỉ người cần mới giữ quyền | S | D | VH-REV-02 | VH-MH-10 |
+| VH-US-183 | Là kiểm soát, tôi muốn quyền của chính trưởng đơn vị do trưởng đơn vị cấp trên rà soát để không ai tự xác nhận quyền mình | S | D | VH-REV-02 | VH-MH-10, VH-MH-18 |
+| VH-US-184 | Là quản trị hệ thống, tôi muốn quyền không được xác nhận trong hạn tự gỡ để đợt rà soát có hiệu lực thật | S | D | VH-REV-03 | VH-MH-18 |
+| VH-US-185 | Là kiểm soát, tôi muốn theo dõi tiến độ và tải báo cáo kết quả đợt rà soát để làm bằng chứng kiểm soát nội bộ | S | D | VH-REV-01, VH-REV-03 | VH-MH-18 |
+
+**VH-US-181 — Tiêu chí nghiệm thu**
+- Cho trước có 120 quyền ngoại lệ còn hiệu lực / Khi bấm "Mở đợt rà soát" / Thì hộp thoại báo sẽ tạo 120 dòng; xác nhận xong mỗi trưởng đơn vị nhận thông báo "Đợt rà soát {tên đợt}: {n} quyền cần bạn xác nhận trước {dd/mm/yyyy}".
+- Cho trước đang có một đợt mở / Khi rê chuột lên "Mở đợt rà soát" / Thì nút khoá với câu "Đang có đợt {tên} mở đến {dd/mm/yyyy}."
+- Cho trước có quyền mặc định từ luật / Khi tạo đợt / Thì không có dòng nào cho quyền từ luật (VH-BR-16).
+
+**VH-US-182 — Tiêu chí nghiệm thu**
+- Cho trước đợt đang mở / Khi tôi bấm "Giữ" 10 dòng, "Gỡ" 2 dòng với lý do "Không còn cần", rồi "Gửi kết quả" / Thì 2 quyền gỡ ngay và người giữ quyền được báo; 10 quyền giữ nguyên hạn cũ; toast "Đã gửi kết quả rà soát."
+- Cho trước tôi bấm "Gỡ" mà không chọn lý do / Khi lưu / Thì báo "Chọn lý do gỡ".
+- Cho trước tôi dùng điện thoại / Khi mở "Rà soát quyền" / Thì làm được hết bằng thẻ từng dòng, không có thanh cuộn ngang.
+
+**VH-US-183 — Tiêu chí nghiệm thu**
+- Cho trước trưởng Phòng KD có một quyền ngoại lệ / Khi đợt mở / Thì dòng đó không ở màn của chính trưởng Phòng KD mà ở màn của trưởng đơn vị cấp trên.
+- Cho trước trưởng đơn vị nghỉ việc giữa đợt / Khi quản trị bấm "Chuyển người rà soát" / Thì các dòng của đơn vị chuyển sang trưởng đơn vị cấp trên.
+
+**VH-US-184 — Tiêu chí nghiệm thu**
+- Cho trước đợt hạn 14 ngày còn 8 dòng chưa xử lý / Khi hết hạn / Thì 8 quyền tự gỡ; người giữ quyền và trưởng đơn vị nhận thông báo.
+- Cho trước tôi bấm "Đóng đợt sớm" / Khi xác nhận "Đóng đợt? {n} quyền chưa xác nhận sẽ tự gỡ ngay." / Thì đợt đóng và các quyền đó gỡ như trên.
+
+**VH-US-185 — Tiêu chí nghiệm thu**
+- Cho trước đợt đang mở / Khi tôi (kiểm soát) mở trang đợt / Thì thấy tiến độ từng đơn vị, chỉ xem; không có nút "Nhắc", "Đóng đợt sớm".
+- Cho trước đợt đã đóng / Khi bấm "Xuất báo cáo" / Thì nhận file Excel từng dòng: người, app · vai trò, người rà soát, quyết định, lý do, thời điểm; nhật ký ghi lần xuất.
+
+## 13. VH-E-11 Tích hợp app
+
+**Mục tiêu:** mọi app nhận định danh, hồ sơ và quyền từ VC Home theo một hợp đồng: token có claim chuẩn, API đọc danh bạ và cơ cấu, sự kiện có chữ ký, đăng xuất phía máy chủ; app không tự giữ cây tổ chức. **GĐ:** A–C. **Thước đo:** xem mục 2.
+
+| Mã | Là … tôi muốn … để … | Ưu tiên | GĐ | Yêu cầu | Màn hình |
+|---|---|---|---|---|---|
+| VH-US-201 | Là đội app, tôi muốn token có bộ claim chuẩn theo giai đoạn (định danh ở A, hồ sơ ở B, vai trò app kèm đơn vị ở C) để app không phải gọi thêm lúc đăng nhập | M | A, B, C | VH-INT-01 | — |
+| VH-US-202 | Là đội app, tôi muốn gọi API danh bạ và cơ cấu (nhân viên, chuỗi quản lý, cây đơn vị, danh mục) để bỏ cây tổ chức riêng của app | M | B | VH-INT-02 | — |
+| VH-US-203 | Là quản trị hệ thống, tôi muốn cấp token máy cho từng app để app gọi API VC Home an toàn và thu hồi được | M | B | VH-INT-06 | VH-MH-15 |
+| VH-US-204 | Là đội app, tôi muốn nhận sự kiện thay đổi (vào làm, chuyển, nghỉ, quyền, đơn vị) có chữ ký và được gửi lại khi lỗi để app tự cập nhật | M | C | VH-INT-03 | VH-MH-15 |
+| VH-US-205 | Là đội app, tôi muốn kéo sự kiện từ một mốc khi bị gián đoạn để không mất thay đổi nào | S | C | VH-INT-05 | — |
+| VH-US-206 | Là đội app, tôi muốn nhận thông báo đăng xuất phía máy chủ để thu hồi phiên của app khi người dùng đăng xuất hay bị khoá | M | A | VH-INT-04 | — |
+| VH-US-207 | Là quản trị hệ thống, tôi muốn ghi lại nhu cầu cấp tài khoản theo chuẩn SCIM cho app mua ngoài để xét ở lần sau | W | — | VH-INT-08 | — |
+
+**VH-US-201 — Tiêu chí nghiệm thu**
+- Cho trước GĐ A / Khi đăng nhập / Thì `id_token` có `sub`, `email`, `name`, `picture`, `hd`, `groups`, `sid`.
+- Cho trước GĐ B / Khi đăng nhập / Thì token có thêm mã nhân viên, đơn vị, chức danh, chức năng của vị trí chính và không có thông tin ngoài công việc (VH-BR-19).
+- Cho trước GĐ C, token không có vai trò nào của app / Khi người đó mở app / Thì app từ chối (mặc định chặn, VH-BR-20); vai trò lạ bị bỏ qua và ghi log.
+
+**VH-US-202 — Tiêu chí nghiệm thu**
+- Cho trước app có token máy hợp lệ / Khi gọi VH-API-02 lọc theo một đơn vị có cây con / Thì nhận danh sách nhân viên phân trang của đơn vị đó và các đơn vị con.
+- Cho trước gọi VH-API-03 cho một nhân viên / Khi có kết quả / Thì nhận chuỗi quản lý từ quản lý trực tiếp tới người đứng đầu tập đoàn.
+- Cho trước gọi không kèm token / Khi gửi yêu cầu / Thì nhận mã 401.
+
+**VH-US-203 — Tiêu chí nghiệm thu**
+- Cho trước tôi bấm "Tạo token máy" cho VClinks / Khi token hiện / Thì có nút "Sao chép" và dòng "Lưu token này ngay. Bạn sẽ không xem lại được."; đóng hộp thoại thì không xem lại được.
+- Cho trước token đã thu hồi / Khi app gọi API bằng token đó / Thì nhận 401 trong ≤ 1 phút sau khi thu hồi.
+
+**VH-US-204 — Tiêu chí nghiệm thu**
+- Cho trước một người nghỉ việc có hiệu lực / Khi VC Home gửi `vh.person.left` / Thì app nhận trong ≤ 1 phút và kiểm được chữ ký.
+- Cho trước app trả lỗi 500 / Khi VC Home gửi sự kiện / Thì sự kiện được gửi lại theo nhịp giãn dần và hiện ở mục "sự kiện gửi lỗi 24 giờ qua" trên VH-MH-15.
+- Cho trước sự kiện `vh.grant.added` cho một vai trò VCwiki / Khi gửi / Thì chỉ VCwiki nhận, VClinks không nhận.
+
+**VH-US-205 — Tiêu chí nghiệm thu**
+- Cho trước app ngừng nhận sự kiện 2 giờ / Khi gọi VH-API-07 với mốc cuối đã nhận / Thì nhận đủ sự kiện trong 2 giờ đó, đúng thứ tự.
+- Cho trước app gọi lại với cùng mốc / Khi xử lý / Thì nhận lại đúng các sự kiện đó, mỗi sự kiện có mã riêng để app bỏ qua bản trùng.
+
+**VH-US-206 — Tiêu chí nghiệm thu**
+- Cho trước người dùng đăng xuất ở VC Home / Khi VC ID gửi `logout_token` tới `POST /api/auth/backchannel-logout` của app / Thì app thu hồi phiên theo `sid` và trả 200.
+- Cho trước `logout_token` bị gửi lại với cùng `jti` / Khi app nhận / Thì app trả 400 và không làm gì thêm.
+
+**VH-US-207 — Tiêu chí nghiệm thu**
+- Cho trước giai đoạn A–E / Khi lập kế hoạch / Thì không làm SCIM; yêu cầu VH-INT-08 giữ trạng thái W.
+- Cho trước có app mua ngoài cần cấp tài khoản tự động / Khi chủ dự án quyết làm / Thì lập yêu cầu và câu chuyện mới, không dùng lại mã này.
+
+## 14. VH-E-12 Quản trị, nhật ký, báo cáo
+
+**Mục tiêu:** mọi thay đổi có dấu vết không sửa được; lãnh đạo và kiểm soát có báo cáo; vai trò quản trị của chính VC Home có tách nhiệm; con số vận hành đặt trên màn; sự cố được báo sớm. **GĐ:** A–D. **Thước đo:** xem mục 2.
+
+| Mã | Là … tôi muốn … để … | Ưu tiên | GĐ | Yêu cầu | Màn hình |
+|---|---|---|---|---|---|
+| VH-US-221 | Là kiểm soát, tôi muốn lọc và xuất nhật ký thao tác theo người, đối tượng, thời gian để trả lời kiểm toán | M | A, B | VH-ADM-01 | VH-MH-19, VH-MH-03, VH-MH-04 |
+| VH-US-222 | Là Ban giám đốc, tôi muốn xem báo cáo tổng hợp số người, quyền theo app và kết quả rà soát để nắm tình hình mà không cần nhờ IT | S | C | VH-ADM-02 | VH-MH-17 (tab "Báo cáo tổng hợp") |
+| VH-US-223 | Là quản trị hệ thống, tôi muốn gán vai trò quản trị của VC Home (HC-NS, quản trị hệ thống, kiểm soát, Ban giám đốc) như vai trò app và được chặn các cặp xung đột để tách nhiệm | M | B | VH-ADM-03 | VH-MH-15, VH-MH-17 |
+| VH-US-224 | Là quản trị hệ thống, tôi muốn bật ngoại lệ tách nhiệm có thời hạn khi thiếu người để vẫn vận hành mà kiểm soát được biết | M | D | VH-ADM-03 | VH-MH-20 |
+| VH-US-225 | Là nhóm vận hành, tôi muốn nhận cảnh báo khi VC ID lỗi, đăng nhập lỗi nhiều, gửi sự kiện lỗi hay đồng bộ Google không chạy để xử lý trước khi người dùng phải báo | S | A | VH-ADM-04 | VH-MH-20 |
+| VH-US-226 | Là quản trị hệ thống, tôi muốn đặt thời hạn yêu cầu, lịch nhắc, lịch rà soát trên màn Cài đặt để đổi con số mà không cần sửa code | S | D | VH-ADM-05 | VH-MH-20 |
+
+**VH-US-221 — Tiêu chí nghiệm thu**
+- Cho trước tôi lọc 30 ngày gần nhất, loại đối tượng "Quyền" / Khi xem bảng / Thì mỗi dòng có người làm, thời điểm, giá trị trước, giá trị sau, lý do; không có nút sửa hay xoá.
+- Cho trước tôi bấm "Xuất" / Khi tải xong / Thì nhật ký có thêm một dòng ghi lần xuất của tôi.
+- Cho trước tôi là nhân viên thường / Khi mở "Hồ sơ của tôi" tab "Lịch sử thay đổi" / Thì chỉ thấy nhật ký về chính mình; không vào được `/quan-tri/nhat-ky`.
+- Cho trước tôi chọn ngày bắt đầu cách hôm nay hơn 24 tháng / Khi lọc / Thì báo "Nhật ký chỉ giữ 24 tháng."
+
+**VH-US-222 — Tiêu chí nghiệm thu**
+- Cho trước tôi có vai trò `vchome:bgd` / Khi bấm menu "Báo cáo" / Thì thấy thẻ số và bảng tổng hợp, chỉ xem; không có tab "Theo người", "Theo app".
+- Cho trước tôi là trưởng đơn vị / Khi xem báo cáo / Thì số liệu chỉ tính trong đơn vị mình và đơn vị con.
+
+**VH-US-223 — Tiêu chí nghiệm thu**
+- Cho trước VC Home có trong danh mục app với các vai trò `hcns`, `qtht`, `kiem_soat`, `bgd` / Khi một người được cấp `vchome:hcns` / Thì menu có nhóm "QUẢN TRỊ" với Nhân sự, Cơ cấu tổ chức, Danh mục, Nhập dữ liệu.
+- Cho trước một người đã có `vchome:hcns` / Khi cấp thêm `vchome:qtht` / Thì hệ thống chặn và báo xung đột tách nhiệm (02 mục 6).
+- Cho trước HC-NS được giới hạn pháp nhân VCparts / Khi mở màn Nhân sự / Thì chỉ thấy người của VCparts và nhãn "Phạm vi: VCparts".
+
+**VH-US-224 — Tiêu chí nghiệm thu**
+- Cho trước một người buộc phải giữ cả HC-NS và quản trị hệ thống / Khi quản trị tạo ngoại lệ 60 ngày có lý do ≥ 10 ký tự / Thì người đó giữ được hai vai trò và kiểm soát nhận thông báo.
+- Cho trước ngoại lệ dài hơn 90 ngày / Khi lưu / Thì báo "Ngoại lệ tối đa 90 ngày."
+- Cho trước ngoại lệ hết hạn / Khi hệ thống chạy / Thì vai trò được cấp theo ngoại lệ bị gỡ và nhật ký ghi lại.
+
+**VH-US-225 — Tiêu chí nghiệm thu**
+- Cho trước VC ID không trả lời 2 lần kiểm liên tiếp (kiểm mỗi phút) / Khi hệ thống giám sát chạy / Thì nhóm vận hành nhận cảnh báo trong ≤ 5 phút.
+- Cho trước job đồng bộ Google không chạy quá 2 giờ / Khi kiểm / Thì có cảnh báo.
+- Cho trước GĐ D, quản trị bấm "Gửi cảnh báo thử" / Khi gửi / Thì mọi người nhận đã khai trong tab "Thông báo" nhận được.
+
+**VH-US-226 — Tiêu chí nghiệm thu**
+- Cho trước tôi đổi thời hạn mặc định từ 90 thành 180 ngày / Khi lưu / Thì ngăn xin quyền mặc định chọn 180 và nhật ký ghi trước 90, sau 180.
+- Cho trước tôi nhập thời hạn 400 ngày / Khi lưu / Thì báo "Thời hạn tối đa 365 ngày (VH-BR-09)."
+- Cho trước tôi mở tab "Phiên" / Khi xem / Thì thấy 12 giờ và 7 ngày ở chế độ chỉ xem.
+
+## 15. Độ phủ yêu cầu
+
+Bảng dưới liệt kê **mọi** yêu cầu ở README mục 5 (78 mã) và các câu chuyện phủ yêu cầu đó. Bảng sinh từ cột "Yêu cầu" của các bảng câu chuyện ở mục 3–14; sửa câu chuyện thì sinh lại bảng.
+
+| Mã yêu cầu | Tên | Ưu tiên | GĐ | Câu chuyện |
+|---|---|---|---|---|
+| VH-AUT-01 | Đăng nhập bằng tài khoản Google công ty qua VC ID | M | A | VH-US-001 |
+| VH-AUT-02 | Chặn tài khoản ngoài hai domain công ty | M | A | VH-US-002 |
+| VH-AUT-03 | Đăng nhập một lần giữa các app | M | A | VH-US-003 |
+| VH-AUT-04 | Đăng xuất một nơi là đăng xuất mọi app | M | A | VH-US-004 |
+| VH-AUT-05 | Thời hạn phiên: 12 giờ không dùng, tối đa 7 ngày | M | A | VH-US-003 |
+| VH-AUT-06 | Khoá tài khoản khẩn cấp | M | A | VH-US-005 |
+| VH-AUT-07 | Đồng bộ trạng thái tài khoản Google (bị khoá, bị xoá → khoá) | M | A | VH-US-006 |
+| VH-AUT-08 | Gắn tài khoản đăng nhập với hồ sơ nhân sự | M | B | VH-US-007 |
+| VH-AUT-09 | Đường đăng nhập khẩn cấp khi VC ID hoặc Google không dùng được | S | A | VH-US-008 |
+| VH-AUT-10 | Xem và đăng xuất các phiên của chính mình | C | D | VH-US-009 |
+| VH-HOM-01 | Lưới app theo quyền | M | A | VH-US-021 |
+| VH-HOM-02 | Thẻ hồ sơ ngắn trên trang chủ | M | B | VH-US-022 |
+| VH-HOM-03 | Hiện vai trò trên ô app | S | C | VH-US-023, VH-US-130 |
+| VH-HOM-04 | Ô "Có thể xin quyền" | S | D | VH-US-024 |
+| VH-HOM-05 | Thanh chuyển app trong từng app | S | A | VH-US-025 |
+| VH-HOM-06 | Ô app "Sắp có" và ô liên kết ngoài | C | A | VH-US-026 |
+| VH-HOM-07 | Số việc chờ trên ô app | C | E | VH-US-027 |
+| VH-HOM-08 | Thông báo trong VC Home | S | D | VH-US-028 |
+| VH-NSU-01 | Hồ sơ nhân sự | M | B | VH-US-041 |
+| VH-NSU-02 | Vị trí công tác chính và kiêm nhiệm | M | B | VH-US-042 |
+| VH-NSU-03 | Quản lý trực tiếp và cây quản lý | M | B | VH-US-043, VH-US-145 |
+| VH-NSU-04 | Trạng thái làm việc có ngày hiệu lực | M | B | VH-US-044 |
+| VH-NSU-05 | Lịch sử thay đổi hồ sơ | M | B | VH-US-045 |
+| VH-NSU-06 | Hồ sơ của tôi và đề nghị sửa | M | B | VH-US-046, VH-US-047 |
+| VH-NSU-07 | Danh bạ công ty | S | B | VH-US-048 |
+| VH-NSU-08 | Che thông tin theo người xem | M | B | VH-US-049 |
+| VH-ORG-01 | Cây đơn vị nhiều cấp | M | B | VH-US-061 |
+| VH-ORG-02 | Danh mục chức danh | M | B | VH-US-062 |
+| VH-ORG-03 | Danh mục chức năng | M | B | VH-US-062 |
+| VH-ORG-04 | Trưởng đơn vị | M | B | VH-US-064 |
+| VH-ORG-05 | Đổi cơ cấu có ngày hiệu lực (đổi tên, chuyển, gộp, ngừng) | S | C | VH-US-065, VH-US-066 |
+| VH-ORG-06 | Sơ đồ tổ chức | S | B | VH-US-067 |
+| VH-ORG-07 | Danh mục pháp nhân và nơi làm việc | S | B | VH-US-063 |
+| VH-APP-01 | Danh mục app | M | A (tệp tĩnh), B (quản trị trên màn) | VH-US-101 |
+| VH-APP-02 | Vai trò của từng app | M | C | VH-US-102 |
+| VH-APP-03 | Chủ app | M | C | VH-US-103 |
+| VH-APP-04 | Đưa app mới vào theo hợp đồng tích hợp | S | E | VH-US-106 |
+| VH-APP-05 | Vai trò nhạy cảm | M | C | VH-US-104, VH-US-163 |
+| VH-APP-06 | Thời gian chuyển tiếp khi chuyển vị trí, đặt riêng từng app | S | C | VH-US-105, VH-US-143 |
+| VH-ACC-01 | Luật cấp quyền mặc định theo hồ sơ | M | C | VH-US-121, VH-US-123 |
+| VH-ACC-02 | Tính lại quyền khi hồ sơ, cơ cấu hoặc luật đổi | M | C | VH-US-124 |
+| VH-ACC-03 | Xem trước tác động của luật | M | C | VH-US-122, VH-US-123 |
+| VH-ACC-04 | Cấp quyền khẩn cấp có lý do và hạn tối đa 7 ngày | S | C | VH-US-125 |
+| VH-ACC-05 | Quyền có hạn dùng, tự gỡ khi hết hạn | M | D | VH-US-126 |
+| VH-ACC-06 | Gỡ quyền | M | C | VH-US-127 |
+| VH-ACC-07 | Đẩy quyền sang VC ID (nhóm, vai trò app) | M | C | VH-US-128 |
+| VH-ACC-08 | Tra cứu "ai có quyền gì", "người này có quyền gì" | M | C | VH-US-129, VH-US-130 |
+| VH-REQ-01 | Gửi yêu cầu quyền | M | D | VH-US-161 |
+| VH-REQ-02 | Luồng duyệt: quản lý trực tiếp, thêm chủ app nếu vai trò nhạy cảm | M | D | VH-US-162, VH-US-163, VH-US-164, VH-US-165 |
+| VH-REQ-03 | Uỷ quyền duyệt khi vắng | S | D | VH-US-166 |
+| VH-REQ-04 | Nhắc duyệt và tự huỷ yêu cầu quá hạn | S | D | VH-US-167 |
+| VH-REQ-05 | Quản lý xin quyền thay cho người dưới quyền | C | D | VH-US-168 |
+| VH-REQ-06 | Gia hạn quyền sắp hết hạn | S | D | VH-US-169 |
+| VH-REV-01 | Mở đợt rà soát định kỳ | S | D | VH-US-181, VH-US-185 |
+| VH-REV-02 | Trưởng đơn vị xác nhận hoặc gỡ | S | D | VH-US-182, VH-US-183 |
+| VH-REV-03 | Tự gỡ quyền không được xác nhận và báo cáo kết quả | S | D | VH-US-184, VH-US-185 |
+| VH-LCM-01 | Vào làm | M | C | VH-US-141 |
+| VH-LCM-02 | Chuyển vị trí | M | C | VH-US-142, VH-US-143 |
+| VH-LCM-03 | Nghỉ việc theo ngày hiệu lực | M | C | VH-US-144, VH-US-145 |
+| VH-LCM-04 | Nghỉ dài ngày và quay lại | S | D | VH-US-146 |
+| VH-LCM-05 | Quay lại làm sau khi đã nghỉ | C | D | VH-US-147 |
+| VH-INT-01 | Bộ claim chuẩn trong token theo giai đoạn | M | A, B, C | VH-US-201 |
+| VH-INT-02 | API danh bạ và cơ cấu cho app | M | B | VH-US-202 |
+| VH-INT-03 | Sự kiện thay đổi gửi app (có chữ ký, gửi lại) | M | C | VH-US-204 |
+| VH-INT-04 | Đăng xuất phía máy chủ (back-channel) | M | A | VH-US-206 |
+| VH-INT-05 | Kéo sự kiện dự phòng | S | C | VH-US-205 |
+| VH-INT-06 | Token máy cho app gọi API VC Home | M | B | VH-US-203 |
+| VH-INT-07 | API trạng thái app cho ô app | C | E | VH-US-027 |
+| VH-INT-08 | Cấp tài khoản theo chuẩn SCIM cho app mua ngoài | W | — | VH-US-207 |
+| VH-ADM-01 | Nhật ký thao tác | M | A trở đi | VH-US-221 |
+| VH-ADM-02 | Báo cáo truy cập | S | C | VH-US-222 |
+| VH-ADM-03 | Vai trò quản trị của chính VC Home | M | B | VH-US-223, VH-US-224 |
+| VH-ADM-04 | Cảnh báo vận hành | S | A | VH-US-225 |
+| VH-ADM-05 | Cài đặt hệ thống (thời hạn, nhắc, lịch rà soát) | S | D | VH-US-226 |
+| VH-IMP-01 | Nhập nhân sự và cơ cấu từ Excel | M | B | VH-US-081, VH-US-082 |
+| VH-IMP-02 | Đối chiếu với Google Workspace | M | B | VH-US-083 |
+| VH-IMP-03 | Lấy dữ liệu khởi đầu từ cây tổ chức của VClinks và VCwiki | S | B | VH-US-084 |
+| VH-IMP-04 | Đồng bộ tự động từ phần mềm nhân sự | C | E | VH-US-085 |
+
+**Kết quả kiểm:**
+- 78 / 78 yêu cầu có ít nhất một câu chuyện. **Không có yêu cầu nào thiếu câu chuyện.**
+- 88 câu chuyện, mỗi câu chuyện có 2–4 tiêu chí nghiệm thu; không trùng mã; mọi mã nằm đúng dải của nhóm.
+- Mọi mã yêu cầu dùng trong câu chuyện đều có trong README mục 5.
+- Ghi chú: README mục 5 ghi "Tổng: 75 yêu cầu (M: 44 · S: 25 · C: 5 · W: 1)" nhưng bảng thực có 78 dòng (M 45 · S 25 · C 7 · W 1). Bảng trên theo 78 dòng thực. Xem [06](06-man-hinh.md) mục 9.
+
+**Yêu cầu có nhiều câu chuyện** (vì có nhiều vai trò hoặc nhiều tình huống): .
+
+## 16. Đề xuất bổ sung (chưa cấp mã)
+
+Các câu chuyện dưới đây **chưa có mã yêu cầu** ở README mục 5 nên chưa cấp mã VH-US. Nếu người duyệt đồng ý, cấp mã yêu cầu trước rồi đưa câu chuyện vào dải của nhóm tương ứng.
+
+| # | Nhóm gợi ý | Câu chuyện đề xuất | Căn cứ |
+|---|---|---|---|
+| 1 | VH-E-10 | Là quản trị hệ thống, tôi muốn mở đợt rà soát luật mỗi nửa năm để chủ app xác nhận luật còn đúng | VH-BR-16 nói "rà soát luật mỗi nửa năm" nhưng chưa có yêu cầu, màn |
+| 2 | VH-E-12 | Là Ban giám đốc, tôi muốn có trang "Báo cáo" riêng ngoài nhóm Quản trị để xem nhanh trên điện thoại | Báo cáo tổng hợp đang ghép tạm vào VH-MH-17 (06 mục 9 điểm 2) |
+| 3 | VH-E-07 | Là kiểm soát, tôi muốn xem danh sách luật và điều kiện (chỉ đọc) để kiểm vì sao một người có quyền | Ma trận 02 chưa cho kiểm soát xem luật |
+| 4 | VH-E-10 | Là trưởng đơn vị, tôi muốn thấy lần dùng app gần nhất của từng quyền khi rà soát để quyết giữ hay gỡ chính xác | Cần app gửi dữ liệu lần dùng gần nhất |
+| 5 | VH-E-02 | Là quản lý, tôi muốn nhận thông báo duyệt qua email để không bỏ lỡ khi ít mở VC Home | Giảm yêu cầu tự huỷ (VH-BR-13) |
+| 6 | VH-E-03 | Là nhân viên, tôi muốn báo HC-NS khi thấy thông tin của đồng nghiệp trên danh bạ bị sai | Mở rộng VH-NSU-06 cho người khác đề nghị |
+| 7 | VH-E-12 | Là quản trị hệ thống, tôi muốn nhận cảnh báo người không đăng nhập 90 ngày mà còn quyền để dọn tài khoản bỏ quên | Đã có chỉ số trong báo cáo VH-MH-17; chưa có cảnh báo chủ động |
+
+## Lịch sử cập nhật
+
+| Phiên bản | Ngày | Người / phiên | Thay đổi | Căn cứ |
+|---|---|---|---|---|
+| 0.1 | 08/10/2026 10:31 | Claude Code (vai BA) | Tạo tài liệu: cách đọc, 12 nhóm câu chuyện có mục tiêu, giai đoạn, thước đo; 88 câu chuyện VH-US kèm tiêu chí "Cho trước / Khi / Thì"; bảng độ phủ 78/78 yêu cầu; 7 đề xuất chưa cấp mã | README bộ tài liệu 0.1 |
