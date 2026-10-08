@@ -1,30 +1,11 @@
 /**
  * vc-provisioner chạy thật với Keycloak local và Directory giả: UAT-SSO-09, 10, 21, 22, 23 (thiết kế SSO mục 9.2).
  */
-import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
 import { expect, test, type Page } from '@playwright/test';
-import { APP, appState, deleteUserIfAny, findUser, loginFakeGoogle } from './helpers';
+import { APP, appState, deleteUserIfAny, findUser, loginFakeGoogle, provisioner, setDirectory } from './helpers';
 
 test.describe.configure({ mode: 'serial' });
 
-const PROV = resolve(__dirname, '../../../provisioner');
-const tmp = mkdtempSync(join(tmpdir(), 'vc-prov-'));
-const directoryFile = join(tmp, 'directory.json');
-const baseDirectory = JSON.parse(readFileSync(join(PROV, 'fixtures/directory.dev.json'), 'utf8')) as any[];
-
-function provisioner(...args: string[]): string {
-  return execFileSync('npx', ['tsx', 'src/cli.ts', ...args], {
-    cwd: PROV,
-    env: { ...process.env, DIRECTORY_FILE: directoryFile, PROVISIONER_STATE_FILE: join(tmp, 'state.json') },
-    encoding: 'utf8',
-  });
-}
-function setDirectory(change: (rows: any[]) => any[] = (r) => r): void {
-  writeFileSync(directoryFile, JSON.stringify(change(structuredClone(baseDirectory))));
-}
 async function openApp(page: Page, email: string): Promise<void> {
   await page.goto(APP);
   await loginFakeGoogle(page, email);

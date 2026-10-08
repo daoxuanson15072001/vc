@@ -1,0 +1,30 @@
+# Danh mục app của VC Home (VH-API-08, thiết kế SSO mục 5.2). `pnpm catalog` kiểm schema rồi sinh public/catalog.json.
+# key: khoá app, trùng client_id trên VC ID. group: nhóm VC ID cho phép vào app (GĐ A, B).
+# status: live · beta (nhãn "Thử nghiệm") · coming_soon (ô mờ "Sắp có") · paused · retired.
+# URL đọc biến môi trường để dev trỏ localhost; production dùng giá trị sau dấu :-
+version: 1
+apps:
+  - key: vclinks
+    name: VClinks
+    description: Chăm sóc khách hàng đa kênh
+    url: ${VCLINKS_URL:-https://vclink.tramaphutung.com}/
+    icon: /icons/vclinks.svg
+    group: app-vclinks
+    status: live
+    order: 10
+  - key: vcwiki
+    name: VCwiki
+    description: Kho tri thức, học tập, Content Engine
+    url: ${VCWIKI_URL:-https://vcwiki.tramaphutung.com}/
+    icon: /icons/vcwiki.svg
+    group: app-vcwiki
+    status: live
+    order: 20
+  - key: vcsale
+    name: VCsale
+    description: Bán hàng, kho, công nợ
+    url: null
+    icon: /icons/vcsale.svg
+    group: app-vcsale
+    status: coming_soon
+    order: 30

@@ -20,10 +20,15 @@ identityProviders:
       pkceEnabled: "true"
       pkceMethod: S256
       hostedDomain: ""
+      # Google giả là Keycloak, không có select_account; để trống thì VC ID chuyển tiếp prompt của app (prompt=login)
+      prompt: ""
     mappers:
       - name: hd
         identityProviderMapper: oidc-user-attribute-idp-mapper
         config: { claim: hd, user.attribute: hd, syncMode: INHERIT }
+      - name: picture
+        identityProviderMapper: oidc-user-attribute-idp-mapper
+        config: { claim: picture, user.attribute: picture, syncMode: INHERIT }
 
 clients:
   # App mẫu làm đúng hợp đồng tích hợp mục 5.2; dùng cho test tự động và làm mẫu cho đội app.

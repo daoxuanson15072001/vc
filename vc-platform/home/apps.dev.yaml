@@ -1,0 +1,11 @@
+# Chỉ dev và e2e: thêm app mẫu (tools/app-mau) để thử bấm ô app rồi vào thẳng, không hỏi đăng nhập.
+version: 1
+apps:
+  - key: app_mau
+    name: App mẫu
+    description: App làm đúng hợp đồng tích hợp, chỉ có ở dev
+    url: ${APP_MAU_URL:-http://localhost:4400}/
+    icon: /icons/app-mau.svg
+    group: app-app-mau
+    status: beta
+    order: 90

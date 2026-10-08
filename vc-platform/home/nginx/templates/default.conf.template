@@ -1,0 +1,57 @@
+# VC Home: trang tĩnh (thiết kế SSO mục 5.3). Ảnh nginx chính thức thay ${VC_ID_ORIGIN} lúc khởi động
+# (15-vc-env.envsh tính từ VC_ID_ISSUER). TLS kết thúc ở cloudflared, máy này chỉ nghe http nội bộ.
+server {
+    listen 8080;
+    server_name _;
+    root /usr/share/nginx/html;
+    server_tokens off;
+    charset utf-8;
+    gzip on;
+    gzip_comp_level 5;
+    gzip_min_length 1024;
+    gzip_vary on;
+    gzip_types text/css application/javascript application/json image/svg+xml;
+
+    # Trang VC Home không được nhúng vào khung của trang khác; riêng /silent nằm trong iframe của chính VC Home
+    # (đăng nhập im lặng khi tải lại trang).
+    set $vc_frame_ancestors "'none'";
+    set $vc_xfo "DENY";
+
+    location = /catalog.json {
+        include /etc/nginx/conf.d/vc-headers.inc;
+        # VH-API-08: công khai, app khác đọc qua máy chủ của mình; không có dữ liệu cá nhân.
+        add_header Access-Control-Allow-Origin "*" always;
+        add_header Cache-Control "public, max-age=300" always;
+    }
+
+    location = /config.json {
+        include /etc/nginx/conf.d/vc-headers.inc;
+        add_header Cache-Control "no-cache" always;
+    }
+
+    location /assets/ {
+        include /etc/nginx/conf.d/vc-headers.inc;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        try_files $uri =404;
+    }
+
+    location /icons/ {
+        include /etc/nginx/conf.d/vc-headers.inc;
+        add_header Cache-Control "public, max-age=86400" always;
+        try_files $uri =404;
+    }
+
+    location = /silent {
+        set $vc_frame_ancestors "'self'";
+        set $vc_xfo "SAMEORIGIN";
+        include /etc/nginx/conf.d/vc-headers.inc;
+        add_header Cache-Control "no-store" always;
+        try_files /index.html =404;
+    }
+
+    location / {
+        include /etc/nginx/conf.d/vc-headers.inc;
+        add_header Cache-Control "no-cache" always;
+        try_files $uri /index.html;
+    }
+}

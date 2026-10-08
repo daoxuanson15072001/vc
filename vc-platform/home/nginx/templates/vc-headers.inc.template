@@ -1,0 +1,9 @@
+# Header bảo mật cho mọi đường dẫn của VC Home (thiết kế SSO mục 5.3, 5.7).
+# style-src cần 'unsafe-inline' vì antd chèn CSS lúc chạy; script chỉ từ chính VC Home.
+# connect-src, frame-src: VC ID (đổi code lấy token, iframe kiểm phiên, đăng nhập im lặng).
+add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.googleusercontent.com; font-src 'self'; connect-src 'self' ${VC_ID_ORIGIN}; frame-src 'self' ${VC_ID_ORIGIN}; frame-ancestors $vc_frame_ancestors; base-uri 'self'; form-action 'self'; object-src 'none'" always;
+add_header X-Frame-Options $vc_xfo always;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "same-origin" always;
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;

@@ -1,0 +1,6 @@
+{
+  "authority": "http://localhost:8180/realms/vc",
+  "clientId": "vchome",
+  "supportEmail": "it@vcprosperous.com",
+  "companyDomains": ["vcprosperous.com", "vcpart.vn"]
+}

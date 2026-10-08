@@ -1,0 +1,35 @@
+{
+  "name": "@vc/home",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "VC Home: trang tĩnh đăng nhập qua VC ID, lưới app theo nhóm, hồ sơ, đăng xuất (thiết kế SSO mục 5.3)",
+  "scripts": {
+    "catalog": "tsx scripts/build-catalog.ts",
+    "dev": "pnpm catalog && vite --port 5173 --strictPort",
+    "build": "pnpm catalog && tsc --noEmit && vite build",
+    "preview": "vite preview --port 5173 --strictPort",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@fontsource/be-vietnam-pro": "^5.3.0",
+    "antd": "^5.29.3",
+    "oidc-client-ts": "^3.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vc/realm-apply": "workspace:*",
+    "@vitejs/plugin-react": "^4.7.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vite": "^6.4.4",
+    "yaml": "^2.6.0",
+    "zod": "^3.25.76"
+  }
+}

@@ -5,7 +5,9 @@ import { KcAdmin, kcAuthFromEnv } from './kc.js';
 
 const LABEL = { tao: 'Tạo', sua: 'Sửa', giu: 'Giữ', xoa: 'Xoá', bao: 'Báo' } as const;
 
+// pnpm passes `--` through (`pnpm realm:apply -- --file …`); drop it so the flags are still read as flags.
 const { values } = parseArgs({
+  args: process.argv.slice(2).filter((a) => a !== '--'),
   options: {
     file: { type: 'string', multiple: true },
     'dry-run': { type: 'boolean', default: false },

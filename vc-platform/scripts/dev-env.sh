@@ -21,3 +21,5 @@ export DIRECTORY_FILE=${DIRECTORY_FILE:-fixtures/directory.dev.json}
 export EXCLUSIONS_FILE=${EXCLUSIONS_FILE:-fixtures/loai-tru.dev.yaml}
 export DEFAULT_APP_GROUPS=app-vclinks,app-vcwiki,app-app-mau
 export PROVISIONER_STATE_FILE=${PROVISIONER_STATE_FILE:-/tmp/vc-provisioner-state.dev.json}
+# VC Home ở dev: thêm ô App mẫu vào catalog.json
+export CATALOG_EXTRA_FILES=${CATALOG_EXTRA_FILES:-apps.dev.yaml}

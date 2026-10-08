@@ -14,6 +14,8 @@
     "ci:local": "pnpm typecheck && pnpm test",
     "e2e": "pnpm --filter @vc/e2e test:e2e",
     "app-mau": "pnpm --filter @vc/app-mau start",
-    "provisioner": "pnpm --filter @vc/provisioner start --"
+    "provisioner": "pnpm --filter @vc/provisioner start --",
+    "home": "pnpm --filter @vc/home dev",
+    "home:nginx": "pnpm --filter @vc/home build && home/scripts/nginx-local.sh"
   }
 }

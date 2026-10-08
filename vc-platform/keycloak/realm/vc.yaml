@@ -74,12 +74,18 @@ identityProviders:
       claimFilterName: hd
       claimFilterValue: ^(vcprosperous\.com|vcpart\.vn)$
       defaultScope: openid profile email
+      # Google luôn hiện danh sách tài khoản: người có cả tài khoản cá nhân chọn đúng tài khoản công ty
+      prompt: select_account
       syncMode: FORCE
       guiOrder: "1"
     mappers:
       - name: hd
         identityProviderMapper: google-user-attribute-mapper
         config: { jsonField: hd, userAttribute: hd, syncMode: INHERIT }
+      # Ảnh Google cho VC Home (claim picture của scope profile đọc thuộc tính này)
+      - name: picture
+        identityProviderMapper: google-user-attribute-mapper
+        config: { jsonField: picture, userAttribute: picture, syncMode: INHERIT }
 
 authenticatorConfigs:
   # Bỏ bước "Review profile" ở lần đăng nhập đầu (chỉ hiện khi thiếu dữ liệu bắt buộc)

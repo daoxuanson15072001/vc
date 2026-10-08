@@ -173,6 +173,7 @@ async function findUserId(email: string): Promise<string> {
 }
 
 const { positionals, values } = parseArgs({
+  args: process.argv.slice(2).filter((a) => a !== '--'),
   allowPositionals: true,
   options: {
     apply: { type: 'boolean', default: false },

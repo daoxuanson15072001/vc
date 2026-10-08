@@ -1,7 +1,12 @@
+import { execFileSync } from 'node:child_process';
+import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
 import { expect, type Page } from '@playwright/test';
 
 export const KC = process.env.KC_URL ?? 'http://localhost:8180';
 export const APP = process.env.APP_MAU_URL ?? 'http://localhost:4400';
+export const HOME = process.env.VCHOME_URL ?? 'http://localhost:5173';
 export const PASSWORD = process.env.GIA_GOOGLE_PASSWORD ?? 'Thu@123456';
 
 type Rep = Record<string, any>;
@@ -65,4 +70,23 @@ export async function loginFakeGoogle(page: Page, email: string): Promise<void> 
   await page.locator('#username').fill(email);
   await page.locator('#password').fill(PASSWORD);
   await page.locator('#kc-login').click();
+}
+
+// vc-provisioner with a fake Directory per test run (tệp gốc: provisioner/fixtures/directory.dev.json).
+const PROV = resolve(__dirname, '../../../provisioner');
+const tmp = mkdtempSync(join(tmpdir(), 'vc-prov-'));
+const directoryFile = join(tmp, 'directory.json');
+const baseDirectory = JSON.parse(readFileSync(join(PROV, 'fixtures/directory.dev.json'), 'utf8')) as Rep[];
+
+export function provisioner(...args: string[]): string {
+  return execFileSync('npx', ['tsx', 'src/cli.ts', ...args], {
+    cwd: PROV,
+    env: { ...process.env, DIRECTORY_MODE: 'file', DIRECTORY_FILE: directoryFile, PROVISIONER_STATE_FILE: join(tmp, 'state.json') },
+    encoding: 'utf8',
+  });
+}
+
+/** Writes the fake Directory, optionally changed (for example someone turns on 2-step verification). */
+export function setDirectory(change: (rows: Rep[]) => Rep[] = (r) => r): void {
+  writeFileSync(directoryFile, JSON.stringify(change(structuredClone(baseDirectory))));
 }

@@ -1,0 +1,5 @@
+#!/bin/sh
+# Chạy trước bước thay biến trong templates (20-envsubst-on-templates.sh): lấy origin của VC ID từ issuer.
+: "${VC_ID_ISSUER:?Thiếu VC_ID_ISSUER, ví dụ https://id.vcprosperous.com/realms/vc}"
+VC_ID_ORIGIN=$(printf '%s' "$VC_ID_ISSUER" | sed -E 's#^(https?://[^/]+).*#\1#')
+export VC_ID_ORIGIN
