@@ -1,0 +1,10 @@
+/* VC Phồn Vinh: chữ và màu theo canvas thiết kế (xanh than #0B1B33, xanh #0A57D0, font Be Vietnam Pro). */
+:root {
+  --pf-v5-global--primary-color--100: #0a57d0;
+  --pf-v5-global--primary-color--200: #0846a8;
+  --pf-v5-global--link--Color: #0a57d0;
+  --pf-v5-global--FontFamily--text: 'Be Vietnam Pro', system-ui, sans-serif;
+  --pf-v5-global--FontFamily--heading: 'Be Vietnam Pro', system-ui, sans-serif;
+}
+.login-pf body, body { background: #f4f6f9; }
+.pf-v5-c-login__main { border-radius: 16px; }

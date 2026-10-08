@@ -1,0 +1,5 @@
+packages:
+  - keycloak/apply
+  - tools/*
+  - home
+  - provisioner

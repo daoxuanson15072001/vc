@@ -1,0 +1,49 @@
+# Phần riêng của máy dev và CI: nối realm "vc" với Google giả (realm gia-google) thay cho Google thật.
+# Alias vẫn là "google" để app gửi kc_idp_hint=google như production.
+realm: vc
+identityProviders:
+  - alias: google
+    providerId: oidc
+    displayName: Google (giả lập)
+    config:
+      clientId: vc-id-broker
+      clientSecret: ${GIA_GOOGLE_SECRET:-dev-gia-google-secret}
+      clientAuthMethod: client_secret_post
+      issuer: ${KC_URL:-http://localhost:8180}/realms/gia-google
+      authorizationUrl: ${KC_URL:-http://localhost:8180}/realms/gia-google/protocol/openid-connect/auth
+      tokenUrl: ${KC_URL:-http://localhost:8180}/realms/gia-google/protocol/openid-connect/token
+      userInfoUrl: ${KC_URL:-http://localhost:8180}/realms/gia-google/protocol/openid-connect/userinfo
+      jwksUrl: ${KC_URL:-http://localhost:8180}/realms/gia-google/protocol/openid-connect/certs
+      logoutUrl: ""
+      validateSignature: "true"
+      useJwksUrl: "true"
+      pkceEnabled: "true"
+      pkceMethod: S256
+      hostedDomain: ""
+    mappers:
+      - name: hd
+        identityProviderMapper: oidc-user-attribute-idp-mapper
+        config: { claim: hd, user.attribute: hd, syncMode: INHERIT }
+
+clients:
+  # App mẫu làm đúng hợp đồng tích hợp mục 5.2; dùng cho test tự động và làm mẫu cho đội app.
+  - clientId: app-mau
+    name: App mẫu (dev)
+    publicClient: false
+    secret: ${APP_MAU_CLIENT_SECRET:-dev-app-mau-secret}
+    standardFlowEnabled: true
+    rootUrl: http://localhost:4400
+    redirectUris: ["http://localhost:4400/api/auth/oidc/callback"]
+    attributes:
+      pkce.code.challenge.method: S256
+      backchannel.logout.url: http://localhost:4400/api/auth/backchannel-logout
+      backchannel.logout.session.required: "true"
+      post.logout.redirect.uris: "${VCHOME_URL:-http://localhost:5173}/da-dang-xuat"
+    frontchannelLogout: false
+    defaultClientScopes: [basic, profile, email, vc-basic]
+    protocolMappers:
+      # Mẫu mapper vai trò của GĐ C (07 mục 2): thuộc tính nhiều giá trị vh_roles_<khoá app>, mỗi giá trị một JSON {role, unit}
+      - name: vh_roles
+        protocolMapper: oidc-usermodel-attribute-mapper
+        config: { user.attribute: vh_roles_app-mau, claim.name: vh_roles, jsonType.label: JSON, multivalued: "true", aggregate.attrs: "false", id.token.claim: "true", access.token.claim: "true", userinfo.token.claim: "false", introspection.token.claim: "true" }
+groups: [app-vclinks, app-vcwiki, vc-id-admin, app-app-mau]

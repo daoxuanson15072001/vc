@@ -1,0 +1,36 @@
+# Google giả: realm đóng vai Google Workspace cho máy dev và CI. KHÔNG BAO GIỜ áp lên production.
+# Tài khoản thử dùng chung mật khẩu ${GIA_GOOGLE_PASSWORD:-Thu@123456}.
+# Trạng thái Google (bị khoá, đã bật 2 bước) nằm ở tệp Directory giả của vc-provisioner, không ở đây.
+realm: gia-google
+settings:
+  displayName: Google (giả lập)
+  enabled: true
+  sslRequired: none
+  registrationAllowed: false
+  loginWithEmailAllowed: true
+userProfile:
+  unmanagedAttributePolicy: ENABLED
+clientScopes:
+  - name: gia-google-hd
+    protocol: openid-connect
+    protocolMappers:
+      - name: hd
+        protocolMapper: oidc-usermodel-attribute-mapper
+        config: { user.attribute: hd, claim.name: hd, jsonType.label: String, id.token.claim: "true", access.token.claim: "false", userinfo.token.claim: "true", introspection.token.claim: "true" }
+clients:
+  - clientId: vc-id-broker
+    name: VC ID (đăng nhập qua Google giả)
+    publicClient: false
+    secret: ${GIA_GOOGLE_SECRET:-dev-gia-google-secret}
+    standardFlowEnabled: true
+    redirectUris: ["${KC_URL:-http://localhost:8180}/realms/vc/broker/google/endpoint"]
+    defaultClientScopes: [basic, profile, email, gia-google-hd]
+users:
+  - { username: lan.nguyen@vcprosperous.com, email: lan.nguyen@vcprosperous.com, firstName: Lan, lastName: Nguyễn Thị, password: "${GIA_GOOGLE_PASSWORD:-Thu@123456}", attributes: { hd: [vcprosperous.com] } }
+  - { username: binh.tran@vcpart.vn, email: binh.tran@vcpart.vn, firstName: Bình, lastName: Trần Văn, password: "${GIA_GOOGLE_PASSWORD:-Thu@123456}", attributes: { hd: [vcpart.vn] } }
+  - { username: hung.qtht@vcprosperous.com, email: hung.qtht@vcprosperous.com, firstName: Hùng, lastName: Nguyễn, password: "${GIA_GOOGLE_PASSWORD:-Thu@123456}", attributes: { hd: [vcprosperous.com] } }
+  - { username: cskh.test@vcpart.vn, email: cskh.test@vcpart.vn, firstName: CSKH, lastName: Hộp thư chung, password: "${GIA_GOOGLE_PASSWORD:-Thu@123456}", attributes: { hd: [vcpart.vn] } }
+  - { username: moi.chua2buoc@vcprosperous.com, email: moi.chua2buoc@vcprosperous.com, firstName: Mới, lastName: Chưa bật 2 bước, password: "${GIA_GOOGLE_PASSWORD:-Thu@123456}", attributes: { hd: [vcprosperous.com] } }
+  - { username: da.nghi@vcprosperous.com, email: da.nghi@vcprosperous.com, firstName: Đã, lastName: Nghỉ, password: "${GIA_GOOGLE_PASSWORD:-Thu@123456}", attributes: { hd: [vcprosperous.com] } }
+  - { username: nguoi.moi@vcpart.vn, email: nguoi.moi@vcpart.vn, firstName: Người, lastName: Mới, password: "${GIA_GOOGLE_PASSWORD:-Thu@123456}", attributes: { hd: [vcpart.vn] } }
+  - { username: an.canhan@gmail.com, email: an.canhan@gmail.com, firstName: An, lastName: Cá nhân, password: "${GIA_GOOGLE_PASSWORD:-Thu@123456}" }

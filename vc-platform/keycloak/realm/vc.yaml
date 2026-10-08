@@ -1,0 +1,145 @@
+# Realm "vc" — VC ID của VC Phồn Vinh. Cấu hình dạng code (thiết kế SSO mục 5.1).
+# Áp bằng: pnpm realm:apply --file ../realm/vc.yaml   (biến môi trường: xem .env.example)
+# Không ghi bí mật vào tệp này: mọi bí mật lấy từ biến môi trường ${…}.
+realm: vc
+settings:
+  displayName: VC Phồn Vinh
+  enabled: true
+  loginTheme: vc
+  internationalizationEnabled: true
+  supportedLocales: [vi, en]
+  defaultLocale: vi
+  sslRequired: ${KC_SSL_REQUIRED:-external}
+  registrationAllowed: false
+  resetPasswordAllowed: false
+  rememberMe: false
+  loginWithEmailAllowed: true
+  duplicateEmailsAllowed: false
+  editUsernameAllowed: false
+  bruteForceProtected: true
+  # Phiên chung: hết sau 12 giờ không dùng, tối đa 7 ngày (Q5, VH-AUT-05)
+  ssoSessionIdleTimeout: 43200
+  ssoSessionMaxLifespan: 604800
+  accessTokenLifespan: 300
+  # Nhật ký đăng nhập giữ 24 tháng (VH-ADM-01, Q-10)
+  eventsEnabled: true
+  eventsExpiration: 63072000
+  enabledEventTypes: [LOGIN, LOGIN_ERROR, LOGOUT, LOGOUT_ERROR, CODE_TO_TOKEN, CODE_TO_TOKEN_ERROR, REFRESH_TOKEN_ERROR,
+    IDENTITY_PROVIDER_LOGIN, IDENTITY_PROVIDER_LOGIN_ERROR, IDENTITY_PROVIDER_FIRST_LOGIN, IDENTITY_PROVIDER_LINK_ACCOUNT,
+    FEDERATED_IDENTITY_LINK, REMOVE_FEDERATED_IDENTITY, UPDATE_PROFILE, UPDATE_PROFILE_ERROR]
+  adminEventsEnabled: true
+  adminEventsDetailsEnabled: true
+
+userProfile:
+  # Thuộc tính ngoài khai báo (hd, vc_trang_thai, employee_code…) chỉ quản trị xem và sửa; mapper vẫn đưa vào token.
+  # Không dùng kiểm email bằng user profile: SSO-00 thấy nó không chặn được user từ Google (xem docs/thu-nghiem-sso-00.md).
+  unmanagedAttributePolicy: ADMIN_EDIT
+
+clientScopes:
+  - name: vc-basic
+    protocol: openid-connect
+    attributes:
+      include.in.token.scope: "false"
+      display.on.consent.screen: "false"
+    protocolMappers:
+      - name: hd
+        protocolMapper: oidc-usermodel-attribute-mapper
+        config: { user.attribute: hd, claim.name: hd, jsonType.label: String, id.token.claim: "true", access.token.claim: "true", userinfo.token.claim: "true", introspection.token.claim: "true" }
+      - name: groups
+        protocolMapper: oidc-group-membership-mapper
+        config: { claim.name: groups, full.path: "false", id.token.claim: "true", access.token.claim: "true", userinfo.token.claim: "true", introspection.token.claim: "true" }
+      # Lý do không có ô app (D-BA-37): du_dieu_kien · chua_bat_2_buoc · loai_tru; trống là chưa xét
+      - name: vc_trang_thai
+        protocolMapper: oidc-usermodel-attribute-mapper
+        config: { user.attribute: vc_trang_thai, claim.name: vc_trang_thai, jsonType.label: String, id.token.claim: "true", access.token.claim: "true", userinfo.token.claim: "true", introspection.token.claim: "true" }
+
+defaultClientScopes: [basic, profile, email, vc-basic]
+
+# Không có nhóm mặc định (D-BA-37): vc-provisioner cấp nhóm app theo điều kiện vào app.
+groups: [app-vclinks, app-vcwiki, vc-id-admin]
+
+identityProviders:
+  - alias: google
+    providerId: google
+    displayName: Google Workspace
+    trustEmail: true
+    storeToken: false
+    firstBrokerLoginFlowAlias: first broker login
+    config:
+      clientId: ${GOOGLE_CLIENT_ID}
+      clientSecret: ${GOOGLE_CLIENT_SECRET}
+      hostedDomain: vcprosperous.com,vcpart.vn
+      # Lớp chặn thứ hai ở VC ID: chỉ nhận token có hd thuộc 2 domain công ty (VH-AUT-02)
+      filteredByClaim: "true"
+      claimFilterName: hd
+      claimFilterValue: ^(vcprosperous\.com|vcpart\.vn)$
+      defaultScope: openid profile email
+      syncMode: FORCE
+      guiOrder: "1"
+    mappers:
+      - name: hd
+        identityProviderMapper: google-user-attribute-mapper
+        config: { jsonField: hd, userAttribute: hd, syncMode: INHERIT }
+
+authenticatorConfigs:
+  # Bỏ bước "Review profile" ở lần đăng nhập đầu (chỉ hiện khi thiếu dữ liệu bắt buộc)
+  - flow: first broker login
+    provider: idp-review-profile
+    alias: review profile config
+    config: { update.profile.on.first.login: missing }
+
+clients:
+  - clientId: vchome
+    name: VC Home
+    publicClient: true
+    standardFlowEnabled: true
+    rootUrl: ${VCHOME_URL:-https://home.vcprosperous.com}
+    baseUrl: /
+    redirectUris: ["${VCHOME_URL:-https://home.vcprosperous.com}/callback", "${VCHOME_URL:-https://home.vcprosperous.com}/silent"]
+    webOrigins: ["${VCHOME_URL:-https://home.vcprosperous.com}"]
+    attributes:
+      pkce.code.challenge.method: S256
+      post.logout.redirect.uris: "${VCHOME_URL:-https://home.vcprosperous.com}/da-dang-xuat"
+    defaultClientScopes: [basic, profile, email, vc-basic, web-origins]
+
+  - clientId: vclinks
+    name: VClinks
+    publicClient: false
+    secret: ${VCLINKS_CLIENT_SECRET}
+    standardFlowEnabled: true
+    rootUrl: ${VCLINKS_URL:-https://vclink.tramaphutung.com}
+    redirectUris: ["${VCLINKS_URL:-https://vclink.tramaphutung.com}/api/auth/oidc/callback"]
+    attributes:
+      pkce.code.challenge.method: S256
+      backchannel.logout.url: "${VCLINKS_URL:-https://vclink.tramaphutung.com}/api/auth/backchannel-logout"
+      backchannel.logout.session.required: "true"
+      backchannel.logout.revoke.offline.tokens: "false"
+      post.logout.redirect.uris: "${VCHOME_URL:-https://home.vcprosperous.com}/da-dang-xuat"
+    frontchannelLogout: false
+    defaultClientScopes: [basic, profile, email, vc-basic]
+
+  - clientId: vcwiki
+    name: VCwiki
+    publicClient: false
+    secret: ${VCWIKI_CLIENT_SECRET}
+    standardFlowEnabled: true
+    rootUrl: ${VCWIKI_URL:-https://vcwiki.tramaphutung.com}
+    redirectUris: ["${VCWIKI_URL:-https://vcwiki.tramaphutung.com}/api/auth/oidc/callback"]
+    attributes:
+      pkce.code.challenge.method: S256
+      backchannel.logout.url: "${VCWIKI_URL:-https://vcwiki.tramaphutung.com}/api/auth/backchannel-logout"
+      backchannel.logout.session.required: "true"
+      backchannel.logout.revoke.offline.tokens: "false"
+      post.logout.redirect.uris: "${VCHOME_URL:-https://home.vcprosperous.com}/da-dang-xuat"
+    frontchannelLogout: false
+    defaultClientScopes: [basic, profile, email, vc-basic]
+
+  - clientId: vc-provisioner
+    name: vc-provisioner (máy)
+    publicClient: false
+    secret: ${PROVISIONER_CLIENT_SECRET}
+    standardFlowEnabled: false
+    serviceAccountsEnabled: true
+    defaultClientScopes: [basic]
+    serviceAccountRoles:
+      realm-management: [view-users, manage-users, query-groups, view-events]
