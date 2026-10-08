@@ -225,9 +225,9 @@ describe('Pháp nhân, nơi làm việc (VH-ORG-07)', () => {
 
   test('Ngừng pháp nhân còn nhân viên chưa nghỉ hoặc đơn vị đang hoạt động: bị chặn, câu nêu đúng số', async () => {
     await db.collection(C.people).insertMany([
-      { legal_entity_code: 'VCPARTS', status: 'dang_lam' },
-      { legal_entity_code: 'VCPARTS', status: 'nghi_dai_ngay' },
-      { legal_entity_code: 'VCPARTS', status: 'da_nghi' },
+      { employee_code: 'T-LE-1', legal_entity_code: 'VCPARTS', status: 'dang_lam' },
+      { employee_code: 'T-LE-2', legal_entity_code: 'VCPARTS', status: 'nghi_dai_ngay' },
+      { employee_code: 'T-LE-3', legal_entity_code: 'VCPARTS', status: 'da_nghi' },
     ]);
     await db.collection(C.orgUnits).insertMany([
       { _id: 'U1', legal_entity_code: 'VCPARTS', status: 'hoat_dong' },
@@ -255,10 +255,10 @@ describe('Pháp nhân, nơi làm việc (VH-ORG-07)', () => {
 
   test('Tiêu chí 2: ngừng nơi làm việc còn 3 người bị chặn, câu nêu đúng số', async () => {
     await db.collection(C.people).insertMany([
-      { work_location_code: 'KHO_TONG', status: 'dang_lam' },
-      { work_location_code: 'KHO_TONG', status: 'tam_khoa' },
-      { work_location_code: 'KHO_TONG', status: 'chua_vao_lam' },
-      { work_location_code: 'KHO_TONG', status: 'da_nghi' },
+      { employee_code: 'T-WL-1', work_location_code: 'KHO_TONG', status: 'dang_lam' },
+      { employee_code: 'T-WL-2', work_location_code: 'KHO_TONG', status: 'tam_khoa' },
+      { employee_code: 'T-WL-3', work_location_code: 'KHO_TONG', status: 'chua_vao_lam' },
+      { employee_code: 'T-WL-4', work_location_code: 'KHO_TONG', status: 'da_nghi' },
     ]);
     expect((await post('work-locations/KHO_TONG/deactivate', { rev: 1 }).expect(422)).body.message).toBe('Nơi làm việc còn 3 nhân viên. Chuyển trước khi ngừng.');
     expect((await post('work-locations/VP_CHUNG/deactivate', { rev: 1 }).expect(200)).body.status).toBe('ngung');

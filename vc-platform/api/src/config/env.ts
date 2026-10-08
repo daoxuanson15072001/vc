@@ -20,6 +20,8 @@ export const EnvSchema = z
     /** Root unit of type tap_doan created by migration B0005 (kế hoạch GĐ B mục 4.3). */
     ROOT_UNIT_CODE: z.string().regex(/^[A-Z0-9][A-Z0-9_-]{1,29}$/).default('VCPV'),
     ROOT_UNIT_NAME: z.string().min(2).default('Tập đoàn VC Phồn Vinh'),
+    /** Profile photos (400 × 400, no EXIF), served by nginx at /media/photos/ (kế hoạch GĐ B mục 4.4). */
+    MEDIA_DIR: z.string().default('./data/media'),
     KC_ADMIN_CLIENT_ID: z.string().default('vc-home-api'),
     KC_ADMIN_CLIENT_SECRET: z.string().optional(),
     ALERT_WEBHOOK_URL: z.string().url().optional(),

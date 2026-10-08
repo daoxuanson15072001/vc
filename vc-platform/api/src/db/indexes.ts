@@ -44,6 +44,28 @@ export const INDEXES: Partial<Record<CollectionName, IndexDescription[]>> = {
     { key: { status: 1 }, name: 'status' },
     { key: { type: 1 }, name: 'type' },
   ],
+  // 05 mục 3.1 plus kế hoạch GĐ B mục 4.1 (secondary_email, updated_at).
+  [C.people]: [
+    { key: { employee_code: 1 }, name: 'employee_code', unique: true },
+    { key: { work_email: 1 }, name: 'work_email', unique: true, partialFilterExpression: { work_email: { $type: 'string' } } },
+    { key: { secondary_email: 1 }, name: 'secondary_email', unique: true, partialFilterExpression: { secondary_email: { $type: 'string' } } },
+    { key: { previous_emails: 1 }, name: 'previous_emails' },
+    { key: { status: 1 }, name: 'status' },
+    { key: { 'primary.unit_code': 1 }, name: 'primary_unit' },
+    { key: { 'primary.manager_person_id': 1 }, name: 'primary_manager' },
+    { key: { name_folded: 1, _id: 1 }, name: 'name_folded' },
+    { key: { legal_entity_code: 1, status: 1 }, name: 'legal_entity_status' },
+    { key: { updated_at: 1 }, name: 'updated_at' },
+  ],
+  // 05 mục 3.3: one active main position per person.
+  [C.positions]: [
+    { key: { person_id: 1, active: 1 }, name: 'person_active' },
+    { key: { person_id: 1 }, name: 'one_active_primary', unique: true, partialFilterExpression: { kind: 'chinh', active: true } },
+    { key: { unit_code: 1, active: 1 }, name: 'unit_active' },
+    { key: { manager_person_id: 1, active: 1 }, name: 'manager_active' },
+    { key: { start_at: 1 }, name: 'start_at' },
+    { key: { end_at: 1 }, name: 'end_at' },
+  ],
   [C.workLocations]: [{ key: { legal_entity_code: 1, status: 1 }, name: 'legal_entity_status' }, { key: { kind: 1 }, name: 'kind' }, uniqueName],
 };
 

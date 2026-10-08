@@ -398,6 +398,20 @@ export class ChangeService {
     });
   }
 
+  /** Pending changes (waiting or queued) on one object, in the caller's transaction. */
+  pendingFor(session: ClientSession, target: ChangeItem['target'], kinds?: string[]): Promise<ChangeDoc[]> {
+    return this.col
+      .find({ 'target.type': target.type, 'target.id': target.id, status: { $in: PENDING }, ...(kinds ? { kind: { $in: kinds } } : {}) }, { session })
+      .sort({ effective_at: 1, seq: 1 })
+      .toArray();
+  }
+
+  /** Cancels whole groups in the caller's transaction (no show, a new start date…). */
+  async cancelGroupsInTx(session: ClientSession, groupIds: ObjectId[], reason: string, req: Requester): Promise<void> {
+    const unique = [...new Map(groupIds.map((g) => [String(g), g])).values()];
+    for (const g of unique) await this.cancelGroupInTx(session, g, reason, req);
+  }
+
   /** "Huỷ hẹn" (VH-BR-07): before the effective date; needs the permission of every kind in the group. */
   async cancel(groupId: string, reason: string, req: Requester): Promise<GroupSummary> {
     if (!reason || reason.trim().length < 5) throw new ApiError('rule_violation', { message: 'Nhập lý do huỷ hẹn (ít nhất 5 ký tự).' });
